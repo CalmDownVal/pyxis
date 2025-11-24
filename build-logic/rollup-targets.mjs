@@ -30,17 +30,18 @@ const TypeScriptLibrary = declareTarget("TypeScriptLibrary", target => target
 					declarationDir: "./dist/types",
 				},
 			}))
+		.plugin(Plugin.Externals)
 		.output("Main", out => out
 			.configure({
 				format: "es",
-				entryFileNames: "[name].mjs",
+				entryFileNames: "[name].js",
 			})
 		)
 		.output("Minified", out => out
 			.enable(inEnv("prod"))
 			.configure({
 				format: "es",
-				entryFileNames: "[name].min.mjs",
+				entryFileNames: "[name].min.js",
 			})
 			.plugin(Plugin.Terser
 				.configure({

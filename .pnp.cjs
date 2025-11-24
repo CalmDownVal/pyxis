@@ -23,8 +23,8 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/pyxis"\
     },\
     {\
-      "name": "@calmdown/pyxis-compiler",\
-      "reference": "workspace:packages/pyxis-compiler"\
+      "name": "@calmdown/pyxis-transpiler",\
+      "reference": "workspace:packages/pyxis-transpiler"\
     }\
   ],\
   "enableTopLevelFallback": true,\
@@ -32,8 +32,8 @@ const RAW_RUNTIME_STATE =
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
     ["@calmdown/pyxis", ["workspace:packages/pyxis"]],\
-    ["@calmdown/pyxis-compiler", ["workspace:packages/pyxis-compiler"]],\
     ["@calmdown/pyxis-monorepo", ["workspace:."]],\
+    ["@calmdown/pyxis-transpiler", ["workspace:packages/pyxis-transpiler"]],\
     ["build-logic", ["workspace:build-logic"]]\
   ],\
   "fallbackPool": [\
@@ -72,23 +72,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@calmdown/pyxis-compiler", [\
-      ["workspace:packages/pyxis-compiler", {\
-        "packageLocation": "./packages/pyxis-compiler/",\
-        "packageDependencies": [\
-          ["@calmdown/pyxis-compiler", "workspace:packages/pyxis-compiler"],\
-          ["build-logic", "workspace:build-logic"],\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@calmdown/pyxis-monorepo", [\
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@calmdown/pyxis-monorepo", "workspace:."],\
           ["svelte-language-server", "npm:0.17.22"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@calmdown/pyxis-transpiler", [\
+      ["workspace:packages/pyxis-transpiler", {\
+        "packageLocation": "./packages/pyxis-transpiler/",\
+        "packageDependencies": [\
+          ["@calmdown/pyxis-transpiler", "workspace:packages/pyxis-transpiler"],\
+          ["@types/node", "npm:24.10.1"],\
+          ["build-logic", "workspace:build-logic"],\
+          ["ts-morph", "npm:27.0.2"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -154,6 +156,25 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@emmetio-scanner-npm-1.0.4-3feb65886b-96d970d1dc.zip/node_modules/@emmetio/scanner/",\
         "packageDependencies": [\
           ["@emmetio/scanner", "npm:1.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@isaacs/balanced-match", [\
+      ["npm:4.0.1", {\
+        "packageLocation": "./.yarn/cache/@isaacs-balanced-match-npm-4.0.1-8965afafe6-102fbc6d2c.zip/node_modules/@isaacs/balanced-match/",\
+        "packageDependencies": [\
+          ["@isaacs/balanced-match", "npm:4.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@isaacs/brace-expansion", [\
+      ["npm:5.0.0", {\
+        "packageLocation": "./.yarn/cache/@isaacs-brace-expansion-npm-5.0.0-754d3cb3f5-cf3b7f206a.zip/node_modules/@isaacs/brace-expansion/",\
+        "packageDependencies": [\
+          ["@isaacs/balanced-match", "npm:4.0.1"],\
+          ["@isaacs/brace-expansion", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -582,6 +603,18 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@ts-morph/common", [\
+      ["npm:0.28.1", {\
+        "packageLocation": "./.yarn/cache/@ts-morph-common-npm-0.28.1-48cadd11c4-d5c6ed11cf.zip/node_modules/@ts-morph/common/",\
+        "packageDependencies": [\
+          ["@ts-morph/common", "npm:0.28.1"],\
+          ["minimatch", "npm:10.1.1"],\
+          ["path-browserify", "npm:1.0.1"],\
+          ["tinyglobby", "npm:0.2.15"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/estree", [\
       ["npm:1.0.7", {\
         "packageLocation": "./.yarn/cache/@types-estree-npm-1.0.7-692605611f-419c845ece.zip/node_modules/@types/estree/",\
@@ -594,6 +627,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-estree-npm-1.0.8-2195bac6d6-25a4c16a67.zip/node_modules/@types/estree/",\
         "packageDependencies": [\
           ["@types/estree", "npm:1.0.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/node", [\
+      ["npm:24.10.1", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-24.10.1-d514f50dfd-ddac8c97be.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:24.10.1"],\
+          ["undici-types", "npm:7.16.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -801,6 +844,15 @@ const RAW_RUNTIME_STATE =
           ["string-width", "npm:4.2.3"],\
           ["strip-ansi", "npm:6.0.1"],\
           ["wrap-ansi", "npm:7.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["code-block-writer", [\
+      ["npm:13.0.3", {\
+        "packageLocation": "./.yarn/cache/code-block-writer-npm-13.0.3-b20050e785-771546224f.zip/node_modules/code-block-writer/",\
+        "packageDependencies": [\
+          ["code-block-writer", "npm:13.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1026,6 +1078,19 @@ const RAW_RUNTIME_STATE =
           ["fdir", "npm:6.5.0"]\
         ],\
         "linkType": "SOFT"\
+      }],\
+      ["virtual:0e783aadbd2b4b8e6f6056033c0b290501892d23bc7c5dad5477e00e48ad8bd3e4434c3962a52dd75a58e06dbb7218094a494bac954ef2f7f6fdb65d9717e5f4#npm:6.5.0", {\
+        "packageLocation": "./.yarn/__virtual__/fdir-virtual-abd4ab2082/0/cache/fdir-npm-6.5.0-8814a0dec7-14ca1c9f0a.zip/node_modules/fdir/",\
+        "packageDependencies": [\
+          ["@types/picomatch", null],\
+          ["fdir", "virtual:0e783aadbd2b4b8e6f6056033c0b290501892d23bc7c5dad5477e00e48ad8bd3e4434c3962a52dd75a58e06dbb7218094a494bac954ef2f7f6fdb65d9717e5f4#npm:6.5.0"],\
+          ["picomatch", "npm:4.0.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/picomatch",\
+          "picomatch"\
+        ],\
+        "linkType": "HARD"\
       }],\
       ["virtual:92ae1621f50224e22c3a851f797e37f96859158a029033c68e86673c23c0b92c5bbe895e8a6c63c84a04a50693133b7398eed43cd98197e2004d5816ced15d98#npm:6.5.0", {\
         "packageLocation": "./.yarn/__virtual__/fdir-virtual-e056879bd4/0/cache/fdir-npm-6.5.0-8814a0dec7-14ca1c9f0a.zip/node_modules/fdir/",\
@@ -1348,6 +1413,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["minimatch", [\
+      ["npm:10.1.1", {\
+        "packageLocation": "./.yarn/cache/minimatch-npm-10.1.1-453db4ee1a-110f38921e.zip/node_modules/minimatch/",\
+        "packageDependencies": [\
+          ["@isaacs/brace-expansion", "npm:5.0.0"],\
+          ["minimatch", "npm:10.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:9.0.5", {\
         "packageLocation": "./.yarn/cache/minimatch-npm-9.0.5-9aa93d97fa-dd6a8927b0.zip/node_modules/minimatch/",\
         "packageDependencies": [\
@@ -1511,6 +1584,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["path-browserify", [\
+      ["npm:1.0.1", {\
+        "packageLocation": "./.yarn/cache/path-browserify-npm-1.0.1-f975d99a99-7e7368a520.zip/node_modules/path-browserify/",\
+        "packageDependencies": [\
+          ["path-browserify", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["path-key", [\
       ["npm:3.1.1", {\
         "packageLocation": "./.yarn/cache/path-key-npm-3.1.1-0e66ea8321-55cd7a9dd4.zip/node_modules/path-key/",\
@@ -1557,6 +1639,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/picomatch-npm-4.0.2-e93516ddf2-ce617b8da3.zip/node_modules/picomatch/",\
         "packageDependencies": [\
           ["picomatch", "npm:4.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:4.0.3", {\
+        "packageLocation": "./.yarn/cache/picomatch-npm-4.0.3-0a647b87cc-57b99055f4.zip/node_modules/picomatch/",\
+        "packageDependencies": [\
+          ["picomatch", "npm:4.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2055,6 +2144,26 @@ const RAW_RUNTIME_STATE =
           ["tinyglobby", "npm:0.2.12"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:0.2.15", {\
+        "packageLocation": "./.yarn/cache/tinyglobby-npm-0.2.15-0e783aadbd-d72bd826a8.zip/node_modules/tinyglobby/",\
+        "packageDependencies": [\
+          ["fdir", "virtual:0e783aadbd2b4b8e6f6056033c0b290501892d23bc7c5dad5477e00e48ad8bd3e4434c3962a52dd75a58e06dbb7218094a494bac954ef2f7f6fdb65d9717e5f4#npm:6.5.0"],\
+          ["picomatch", "npm:4.0.3"],\
+          ["tinyglobby", "npm:0.2.15"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["ts-morph", [\
+      ["npm:27.0.2", {\
+        "packageLocation": "./.yarn/cache/ts-morph-npm-27.0.2-9217ac03ef-b9bd8ed86d.zip/node_modules/ts-morph/",\
+        "packageDependencies": [\
+          ["@ts-morph/common", "npm:0.28.1"],\
+          ["code-block-writer", "npm:13.0.3"],\
+          ["ts-morph", "npm:27.0.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["tslib", [\
@@ -2088,6 +2197,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["semver", "npm:7.7.2"],\
           ["typescript-auto-import-cache", "npm:0.3.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["undici-types", [\
+      ["npm:7.16.0", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-7.16.0-0e23b08124-db43439f69.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:7.16.0"]\
         ],\
         "linkType": "HARD"\
       }]\

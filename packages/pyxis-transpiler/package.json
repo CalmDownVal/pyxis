@@ -1,0 +1,20 @@
+{
+	"name": "@calmdown/pyxis-transpiler",
+	"version": "1.0.0",
+	"license": "ISC",
+	"type": "module",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"dependencies": {
+		"ts-morph": "27.0.2"
+	},
+	"devDependencies": {
+		"@types/node": "24.10.1",
+		"build-logic": "workspace:*",
+		"typescript": "5.9.3"
+	}
+}
