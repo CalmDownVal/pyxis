@@ -13,8 +13,8 @@
 		"build": "./rollup-build.mjs"
 	},
 	"devDependencies": {
-		"@calmdownval/rollup-util": "file:/Users/cdv/Projects/monorepo-utils/packages/rollup-util",
-		"@calmdownval/workspaces-util": "1.0.0-alpha.16",
+		"@calmdownval/rollup-util": "1.0.0-alpha.17",
+		"@calmdownval/workspaces-util": "1.0.0-alpha.17",
 		"@microsoft/api-extractor": "7.55.2",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-replace": "6.0.3",

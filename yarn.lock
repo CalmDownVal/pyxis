@@ -45,20 +45,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@calmdownval/rollup-util@file:/Users/cdv/Projects/monorepo-utils/packages/rollup-util::locator=build-logic%40workspace%3Abuild-logic":
-  version: 1.0.0-alpha.16
-  resolution: "@calmdownval/rollup-util@file:/Users/cdv/Projects/monorepo-utils/packages/rollup-util#/Users/cdv/Projects/monorepo-utils/packages/rollup-util::hash=6eb4f1&locator=build-logic%40workspace%3Abuild-logic"
+"@calmdownval/rollup-util@npm:1.0.0-alpha.17":
+  version: 1.0.0-alpha.17
+  resolution: "@calmdownval/rollup-util@npm:1.0.0-alpha.17"
   peerDependencies:
-    "@calmdownval/workspaces-util": 1.0.0-alpha.16
+    "@calmdownval/workspaces-util": 1.0.0-alpha.17
     rollup: ">=4.53.2"
-  checksum: 10/a2ed9f9d9b715b4a9d9f569fdf4d8922f6222de0e4bcf7f1156a12284579087e2b7c502567a20c8dfd67793be3f59701a8e9bd80c994d18f5cf82adf7771ad3c
+  checksum: 10/51cd4e8c972641f3d7b5dd4f7ae41858dea817a0bce98aef888e30c03e8c8d1d2f1af993beea607b9f7e3280376890ead5ade19fe684f7da2a84ee909db479fe
   languageName: node
   linkType: hard
 
-"@calmdownval/workspaces-util@npm:1.0.0-alpha.16":
-  version: 1.0.0-alpha.16
-  resolution: "@calmdownval/workspaces-util@npm:1.0.0-alpha.16"
-  checksum: 10/897d7c0c42beff8e52ef8ee101f954cccfb16b036a42c69289e1a65ab1a2b2c747700a1fd94cc5e1eb82bf101b4db5829fc4e6feb871ca38e59a8173e1d5782b
+"@calmdownval/workspaces-util@npm:1.0.0-alpha.17":
+  version: 1.0.0-alpha.17
+  resolution: "@calmdownval/workspaces-util@npm:1.0.0-alpha.17"
+  checksum: 10/7d3c811311b03888f464a1157b4f726af2433f9837599ad67c6228ff3274ff702644a88587cde27d4ab1c3c46b4e3cdfe738287578218f2b4fab766211b1ffac
   languageName: node
   linkType: hard
 
@@ -747,8 +747,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "build-logic@workspace:build-logic"
   dependencies:
-    "@calmdownval/rollup-util": "file:/Users/cdv/Projects/monorepo-utils/packages/rollup-util"
-    "@calmdownval/workspaces-util": "npm:1.0.0-alpha.16"
+    "@calmdownval/rollup-util": "npm:1.0.0-alpha.17"
+    "@calmdownval/workspaces-util": "npm:1.0.0-alpha.17"
     "@microsoft/api-extractor": "npm:7.55.2"
     "@rollup/plugin-node-resolve": "npm:16.0.3"
     "@rollup/plugin-replace": "npm:6.0.3"
