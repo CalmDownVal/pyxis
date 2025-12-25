@@ -22,34 +22,36 @@ const TypeScriptLibrary = declareTarget("TypeScriptLibrary", target => target
 			.configure({
 				baseDir: "./src",
 				declarationDir: "./dist/types",
-			}))
+			})
+			.suppress("console-writing-dts-rollup")
+			.suppress("console-preamble")
+			.suppress("ae-missing-release-tag"))
+		.plugin(Plugin.Externals)
 		.plugin(Plugin.TypeScript
 			.configure({
 				compilerOptions: {
 					declaration: true,
+					declarationMap: true,
 					declarationDir: "./dist/types",
 				},
 			}))
-		.plugin(Plugin.Externals)
+		.plugin(Plugin.Replace
+			.configure((_, context) => ({
+				__DEV__: JSON.stringify(context.targetEnv === "dev"),
+				preventAssignment: true,
+			})))
+		.plugin(Plugin.Terser
+			.enable(inEnv("prod"))
+			.configure({
+				output: {
+					comments: false,
+				},
+			}))
 		.output("Main", out => out
 			.configure({
 				format: "es",
 				entryFileNames: "[name].js",
-			})
-		)
-		.output("Minified", out => out
-			.enable(inEnv("prod"))
-			.configure({
-				format: "es",
-				entryFileNames: "[name].min.js",
-			})
-			.plugin(Plugin.Terser
-				.configure({
-					output: {
-						comments: false,
-					},
-				}))
-		)
+			}))
 	)
 );
 
@@ -65,28 +67,20 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 					},
 				],
 			}))
-		.plugin(Plugin.PyxisTranspiler)
 		.plugin(Plugin.TypeScript)
-		.plugin(Plugin.Externals)
-		.output("Main", out => out
-			.configure({
-				format: "es",
-				entryFileNames: "[name].js",
-			})
-		)
-		.output("Minified", out => out
+		.plugin(Plugin.NodeResolve)
+		.plugin(Plugin.Terser
 			.enable(inEnv("prod"))
 			.configure({
-				format: "es",
-				entryFileNames: "[name].min.js",
-			})
-			.plugin(Plugin.Terser
-				.configure({
-					output: {
-						comments: false,
-					},
-				}))
-		)
+				output: {
+					comments: false,
+				},
+			}))
+		.output("Main", out => out
+			.configure({
+				format: "iife",
+				entryFileNames: "[name].js",
+			}))
 	)
 );
 

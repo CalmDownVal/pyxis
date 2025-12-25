@@ -1,6 +1,7 @@
-import { join, parse, relative } from "node:path";
+import * as path from "node:path";
 
-import { generateDtsBundle } from "dts-bundle-generator";
+import { Extractor, ExtractorConfig } from "@microsoft/api-extractor";
+import { parseConfigFileTextToJson } from "typescript";
 
 const PLUGIN_NAME = "BundleDts";
 
@@ -10,10 +11,11 @@ const PLUGIN_NAME = "BundleDts";
  * @property {string} baseDir - The base directory of the typescript module aka baseUrl in tsconfig (optional)
  * @property {string} declarationDir - Where to look for .d.ts files (optional)
  * @property {string} [tsconfig="./tsconfig.json"] - Path to tsconfig (defaults to "./tsconfig.json")
+ * @property {Object} [compilerOptions] - Custom TypeScript compiler options overrides (optional)
  */
 
 /**
- * @param {BundleDtsOptions} options
+ * @param {BundleDtsOptions} pluginOptions
  */
 export default function BundleDtsPlugin(pluginOptions) {
 	let cwd = undefined;
@@ -43,7 +45,7 @@ export default function BundleDtsPlugin(pluginOptions) {
 					}
 
 					entries.push({
-						dtsEntryPath: join(cwd, getDeclarationPath(entriesMap[entryId])),
+						dtsEntryPath: path.join(cwd, getDeclarationPath(entriesMap[entryId])),
 						fileName: getDeclarationPath(entryId),
 					});
 				}
@@ -59,16 +61,14 @@ export default function BundleDtsPlugin(pluginOptions) {
 					return;
 				}
 
-				const baseDir = join(cwd, pluginOptions.baseDir);
-				const declDir = join(cwd, pluginOptions.declarationDir);
+				const baseDir = path.join(cwd, pluginOptions.baseDir);
+				const declDir = path.join(cwd, pluginOptions.declarationDir);
 
-				const inputs = getInputs(rollupOptions.input);
+				const inputs = getRollupInputs(cwd, baseDir, rollupOptions.input);
 				for (const input of inputs) {
-					const parsed = parse(input);
-					const entryDir = relative(baseDir, join(cwd, parsed.dir));
 					entries.push({
-						dtsEntryPath: join(declDir, entryDir, `${parsed.name}.d.ts`),
-						fileName: getDeclarationPath(entryId),
+						dtsEntryPath: path.join(declDir, input.dir, `${input.id}.d.ts`),
+						fileName: getDeclarationPath(input.id),
 					});
 				}
 			}
@@ -86,25 +86,82 @@ export default function BundleDtsPlugin(pluginOptions) {
 				});
 			}
 		},
-		writeBundle(outputOptions) {
+		async writeBundle(outputOptions) {
 			if (hasRun) {
 				return;
 			}
 
 			hasRun = true;
 
-			const dtsEntries = entries.map(it => ({ filePath: it.dtsEntryPath }));
-			const compilerOptions = {
-				preferredConfigPath: join(cwd, pluginOptions?.tsconfig ?? "./tsconfig.json"),
+			// load actual tsconfig
+			// FUTURE: this doesn't resolve `extends` (!!!)
+			const tsconfigPath = path.join(cwd, pluginOptions.tsconfig ?? "./tsconfig.json");
+			const tsconfigRaw = await this.fs.readFile(tsconfigPath, "utf8");
+			const tsconfigActual = parseConfigFileTextToJson(tsconfigPath, tsconfigRaw);
+
+			// fake package info
+			const declarationDir = path.join(cwd, pluginOptions.declarationDir);
+			const fakePackageJsonPath = path.join(declarationDir, "package.json");
+			const fakeTsconfigJsonPath = path.join(declarationDir, "tsconfig.json");
+			const packageJson = {
+				name: "dts",
 			};
 
-			const results = generateDtsBundle(dtsEntries, compilerOptions);
-			return Promise.all(
-				entries.map((entry, index) => {
-					const path = join(cwd, outputOptions.dir, this.getFileName(entry.assetId));
-					return this.fs.writeFile(path, results[index], "utf8");
-				}),
-			);
+			// build a fake config
+			const tsconfigOverride = {
+				...tsconfigActual,
+				compilerOptions: {
+					...tsconfigActual.compilerOptions,
+					// override baseUrl to correctly resolve TS' paths mappings
+					baseUrl: declarationDir,
+					skipLibCheck: true,
+					// apply user overrides
+					...pluginOptions.compilerOptions,
+				},
+			};
+
+			for (const entry of entries) {
+				const outputPath = path.join(cwd, outputOptions.dir, this.getFileName(entry.assetId));
+				const extractorConfig = ExtractorConfig.prepare({
+					packageJsonFullPath: fakePackageJsonPath,
+					packageJson,
+					configObject: {
+						mainEntryPointFilePath: entry.dtsEntryPath,
+						projectFolder: declarationDir,
+						compiler: {
+							overrideTsconfig: tsconfigOverride,
+							tsconfigFilePath: fakeTsconfigJsonPath,
+							// skipLibCheck: true,
+						},
+						dtsRollup: {
+							enabled: true,
+							omitTrimmingComments: true,
+							publicTrimmedFilePath: outputPath,
+						},
+					},
+				});
+
+				const result = Extractor.invoke(extractorConfig, {
+					localBuild: true,
+					showVerboseMessages: false,
+					messageCallback: message => {
+						message.handled = true;
+						this.warn({
+							code: message.messageId,
+							message: message.text,
+							loc: {
+								column: message.sourceFileColumn,
+								line: message.sourceFileLine,
+								file: message.sourceFilePath,
+							},
+						});
+					},
+				});
+
+				if (!result.succeeded) {
+					throw new Error(`failed to bundle types for ${entry.dtsEntryPath}`);
+				}
+			}
 		},
 	};
 }
@@ -136,12 +193,22 @@ function getDeclarationPath(path) {
 	return `${ts.base}${EXT_MAP[ts.ext]}`;
 }
 
-function getInputs(input) {
+function getRollupInputs(cwd, baseDir, input) {
 	switch (typeof input) {
 		case "string":
-			return input;
+			return [ getRollupInput(cwd, baseDir, input) ];
 
 		case "object":
-			return Array.isArray(input) ? input : Object.values(input);
+			return Array.isArray(input)
+				? input.map(file => getRollupInput(cwd, baseDir, file))
+				: Object.keys(input).map(name => getRollupInput(cwd, baseDir, input[name], name));
 	}
+}
+
+function getRollupInput(cwd, baseDir, file, name) {
+	const parsed = path.parse(file);
+	return {
+		id: name ?? parsed.name,
+		dir: path.relative(baseDir, path.join(cwd, parsed.dir)),
+	};
 }

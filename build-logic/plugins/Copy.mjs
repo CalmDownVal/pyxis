@@ -105,15 +105,15 @@ export default function CopyPlugin(options) {
 		async buildStart() {
 			cwd = process.cwd();
 			for (const target of targets) {
-				const { trigger } = target;
-				if (trigger === "before") {
+				if (target.trigger === "before") {
 					await execTarget(this, cwd, target);
 				}
 			}
 		},
 		async closeBundle() {
 			for (const target of targets) {
-				if (target.trigger === "after" || trigger === undefined) {
+				const { trigger } = target;
+				if (trigger === "after" || trigger === undefined) {
 					await execTarget(this, cwd, target);
 				}
 			}

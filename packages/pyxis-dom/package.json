@@ -7,12 +7,16 @@
 		".": {
 			"import": "./dist/index.js",
 			"types": "./dist/index.d.ts"
+		},
+		"./jsx": {
+			"types": "./dist/jsx.d.ts"
 		}
 	},
 	"peerDependencies": {
-		"pyxis": "1.0.0"
+		"@calmdown/pyxis": "1.0.0"
 	},
 	"devDependencies": {
+		"@calmdown/pyxis": "workspace:*",
 		"build-logic": "workspace:*",
 		"typescript": "5.9.3"
 	}

@@ -13,13 +13,13 @@
 		"build": "./rollup-build.mjs"
 	},
 	"devDependencies": {
-		"@calmdown/pyxis-transpiler": "workspace:*",
-		"@calmdown/rollup-plugin-pyxis-transpiler": "workspace:*",
-		"@calmdownval/rollup-util": "file:../../monorepo-utils/packages/rollup-util",
-		"@calmdownval/workspaces-util": "file:../../monorepo-utils/packages/workspaces-util",
+		"@calmdownval/rollup-util": "file:/Users/cdv/Projects/monorepo-utils/packages/rollup-util",
+		"@calmdownval/workspaces-util": "1.0.0-alpha.16",
+		"@microsoft/api-extractor": "7.55.2",
+		"@rollup/plugin-node-resolve": "16.0.3",
+		"@rollup/plugin-replace": "6.0.3",
 		"@rollup/plugin-terser": "0.4.4",
 		"@rollup/plugin-typescript": "12.3.0",
-		"dts-bundle-generator": "9.5.1",
 		"rollup": "4.53.2",
 		"rollup-plugin-node-externals": "8.1.2",
 		"tslib": "2.8.1",

@@ -3,11 +3,31 @@ import type { Nil } from "~/support/types";
 
 import { unmounted } from "./Context";
 
+/**
+ * Pyxis Slot type guard marker.
+ */
+export const S_SLOT = Symbol.for("pyxis:slot");
+
 export interface Slot<TArgs extends ArgsMax5 = []> {
+	/**
+	 * Pyxis Slot type guard marker.
+	 */
+	readonly [S_SLOT]: true;
+
+	/**
+	 * The head of the listeners linked list.
+	 * @internal
+	 */
 	lh?: Nil<Listener<TArgs>>;
+
+	/**
+	 * The tail of the listeners linked list.
+	 * @internal
+	 */
 	lt?: Nil<Listener<TArgs>>;
 }
 
+/** @internal */
 export interface Listener<TArgs extends ArgsMax5 = []> {
 	readonly fn: (...args: TArgs) => void;
 	lp?: Nil<Listener<TArgs>>;
@@ -15,7 +35,7 @@ export interface Listener<TArgs extends ArgsMax5 = []> {
 }
 
 export function slot<TArgs extends ArgsMax5>(): Slot<TArgs> {
-	return {};
+	return { [S_SLOT]: true };
 }
 
 export function trigger<TArgs extends ArgsMax5>(slot: Slot<TArgs>, ...args: TArgs): void;

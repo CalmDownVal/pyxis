@@ -10,7 +10,8 @@
 		}
 	},
 	"dependencies": {
-		"@calmdown/pyxis": "workspace:*"
+		"@calmdown/pyxis": "workspace:*",
+		"@calmdown/pyxis-dom": "workspace:*"
 	},
 	"devDependencies": {
 		"build-logic": "workspace:*",

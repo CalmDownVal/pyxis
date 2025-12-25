@@ -10,9 +10,8 @@
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"paths": {
-			"~/*": [
-				"*"
-			]
+			"~/*": [ "*" ],
+			"@calmdown/pyxis-dom": [ "index.ts" ]
 		},
 		"skipLibCheck": true,
 		"stripInternal": true,

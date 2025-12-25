@@ -23,9 +23,7 @@ export interface Atom<T = unknown> {
 	 */
 	readonly [S_ATOM]: true;
 
-	/**
-	 * @internal
-	 */
+	/** @internal */
 	readonly context: Context;
 
 	/**
@@ -191,6 +189,7 @@ export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T, force
 
 /**
  * Notifies the dependencies of an Atom.
+ * @internal
  */
 export function notify(input: Atom) {
 	let current = input.dh;

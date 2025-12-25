@@ -4,49 +4,32 @@ import type { Nil } from "~/support/types";
 import type { Dependency } from "./Dependency";
 import type { Scheduler } from "./Scheduler";
 
+/** @internal */
 export interface Context {
-	/** @internal */
 	readonly scheduler: Scheduler;
 
-	/**
-	 * The head of the dependencies linked list.
-	 * @internal
-	 */
+	/** The head of the dependencies linked list. */
 	dh?: Nil<Dependency>;
 
-	/**
-	 * The tail of the dependencies linked list.
-	 * @internal
-	 */
+	/** The tail of the dependencies linked list. */
 	dt?: Nil<Dependency>;
 
-	/**
-	 * The head of the mount callback linked list.
-	 * @internal
-	 */
+	/** The head of the mount callback linked list. */
 	mh?: Nil<MountCallback>;
 
-	/**
-	 * The tail of the mount callback linked list.
-	 * @internal
-	 */
+	/** The tail of the mount callback linked list. */
 	mt?: Nil<MountCallback>;
 
-	/**
-	 * The head of the unmount callback linked list.
-	 * @internal
-	 */
+	/** The head of the unmount callback linked list. */
 	uh?: Nil<UnmountCallback>;
 
-	/**
-	 * The tail of the unmount callback linked list.
-	 * @internal
-	 */
+	/** The tail of the unmount callback linked list. */
 	ut?: Nil<UnmountCallback>;
 }
 
 /**
  * A mount callback running setup logic for contextual resources.
+ * @internal
  */
 export interface MountCallback<TArgs extends ArgsMax5 = ArgsMax5> extends Callback<TArgs> {
 	mn?: Nil<MountCallback>;
@@ -54,6 +37,7 @@ export interface MountCallback<TArgs extends ArgsMax5 = ArgsMax5> extends Callba
 
 /**
  * An unmount callback running teardown logic for contextual resources.
+ * @internal
  */
 export interface UnmountCallback<TArgs extends ArgsMax5 = ArgsMax5> extends Callback<TArgs> {
 	un?: Nil<UnmountCallback>;
@@ -63,13 +47,13 @@ export interface UnmountCallback<TArgs extends ArgsMax5 = ArgsMax5> extends Call
 /**
  * Registers a callback to run when the current Component mounts.
  */
-export function mounted(callback: MountCallback): void;
+export function mounted(callback: () => void): void;
 
 /**
  * Registers a callback to invoke when the given Context is being cleared.
  * @internal
  */
-export function mounted(callback: () => void, context: Context): void;
+export function mounted(callback: MountCallback, context: Context): void;
 
 export function mounted(callback: MountCallback | (() => void), context: Context = getContext()) {
 	const obj = typeof callback === "function" ? { fn: callback } : callback;
@@ -112,6 +96,7 @@ export function unmounted(callback: UnmountCallback | (() => void), context: Con
 
 let currentContext: Context | null = null;
 
+/** @internal */
 export function getContext(): Context {
 	if (__DEV__ && !currentContext) {
 		throw new Error('Cannot get current context.');
@@ -120,6 +105,7 @@ export function getContext(): Context {
 	return currentContext!;
 }
 
+/** @internal */
 export function withContext<TArgs extends ArgsMax5, TReturn>(
 	context: Context,
 	block: (...args: TArgs) => void,
@@ -144,6 +130,7 @@ export function withContext(
 	}
 }
 
+/** @internal */
 export function runMountCallbacks(context: Context) {
 	try {
 		let callback = context.mh;
@@ -161,6 +148,7 @@ export function runMountCallbacks(context: Context) {
 	}
 }
 
+/** @internal */
 export function runUnmountCallbacks(context: Context) {
 	try {
 		let callback = context.uh;
@@ -178,6 +166,7 @@ export function runUnmountCallbacks(context: Context) {
 	}
 }
 
+/** @internal */
 export function destroyContext(context: Context) {
 	// unlink all contextual dependencies
 	let dep = context.dh;

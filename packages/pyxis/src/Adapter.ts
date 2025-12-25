@@ -1,9 +1,13 @@
+import type { Intersection } from "./support/types";
+
 export interface Adapter<TNode> extends Extension<TNode> {
 	/**
 	 * Creates a dummy node occupying a place within the document hierarchy, but is not visually
 	 * presented to the user in any way. E.g. a comment node.
+	 *
+	 * Optionally a hint can be attached to convey the purpose of the anchor.
 	 */
-	readonly createAnchorNode: () => TNode;
+	readonly createAnchorNode: (hint?: string) => TNode;
 
 	/**
 	 * Creates a native element node by its tag name.
@@ -31,15 +35,37 @@ export interface Adapter<TNode> extends Extension<TNode> {
 	) => void;
 }
 
-export interface Extension<TNode, TProps extends { [_ in string]?: any } = { [_ in string]?: any }> {
+export interface Extension<TNode> {
 	// readonly init?: () => void;
 
 	/**
 	 * Sets a named property of the given node.
 	 */
-	readonly setProp: <TProp extends keyof TProps>(
+	readonly setProp: (
 		node: TNode,
-		prop: TProp,
-		value: TProps[TProp],
+		prop: any,
+		value: any,
 	) => void;
 }
+
+export type ExtensionMap = { [E in string]: Extension<any> };
+
+export type ExtensionProps<TNode, TExtensions extends ExtensionMap> = Intersection<{
+	[E in keyof TExtensions]: E extends string
+		? SingleExtensionProps<TNode, TExtensions[E], E>
+		: {};
+}[keyof TExtensions]>;
+
+export type SingleExtensionProps<TNode, TExtension, TPrefix extends string> = Intersection<
+	TExtension extends Extension<TNode>
+		? {
+			[P in SingleExtensionPropNames<TExtension>]: {
+				[_ in `${TPrefix}:${P}`]?: TExtension extends { setProp(node: TNode, prop: P, value: infer V): void } ? V : never
+			};
+		}[SingleExtensionPropNames<TExtension>]
+		: {}
+>;
+
+export type SingleExtensionPropNames<TExtension> = TExtension extends {
+	setProp(node: any, prop: infer TAllProps extends string, value: any): void;
+} ? TAllProps : never;
