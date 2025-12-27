@@ -1,9 +1,11 @@
+import { reaction, read, type MaybeAtom } from "@calmdown/pyxis";
+
 export type EventExtensionType = {
 	[TType in keyof GlobalEventHandlersEventMap]: {
 		setProp<TNode extends HTMLElement>(
 			node: TNode,
 			type: TType,
-			listener: (e: ExtendedEvent<GlobalEventHandlersEventMap[TType], TType, TNode>) => any,
+			listener: MaybeAtom<(e: ExtendedEvent<GlobalEventHandlersEventMap[TType], TType, TNode>) => any>,
 		): void;
 	};
 }[keyof GlobalEventHandlersEventMap];
@@ -18,9 +20,15 @@ export type ExtendedEvent<TEvent, TType, TNode> =
 export const EventExtension: EventExtensionType = {
 	setProp: (
 		node: HTMLElement,
-		prop: string,
-		value: (e: any) => any,
+		type: string,
+		listenerAtom: MaybeAtom<(e: any) => any>,
 	) => {
-		node.addEventListener(prop, value);
+		reaction(() => {
+			const listener = read(listenerAtom);
+			node.addEventListener(type, listener);
+			return () => {
+				node.removeEventListener(type, listener);
+			};
+		});
 	},
 };
