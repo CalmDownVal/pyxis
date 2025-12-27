@@ -77,18 +77,10 @@ export function render(
 	let match;
 	let value;
 	for (name in props) {
-		value = props[name];
 		match = RE_EXT.exec(name);
+		value = props[name];
 		if (match) {
-			const extension = extensions[match[1]];
-			if (extension && isAtom(value)) {
-				const prop = match[2];
-				const atom = value;
-				reaction(() => extension.setProp(node, prop, read(atom)), context);
-			}
-			else {
-				extension?.setProp(node, match[2], value);
-			}
+			extensions[match[1]]?.setProp(node, match[2], value);
 		}
 		else if (name !== "children") {
 			if (isAtom(value)) {
