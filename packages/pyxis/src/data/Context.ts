@@ -47,50 +47,40 @@ export interface UnmountCallback<TArgs extends ArgsMax5 = ArgsMax5> extends Call
 /**
  * Registers a callback to run when the current Component mounts.
  */
-export function mounted(callback: () => void): void;
+export function mounted(callback: () => void) {
+	onMounted(getContext(), { fn: callback });
+}
 
-/**
- * Registers a callback to invoke when the given Context is being cleared.
- * @internal
- */
-export function mounted(callback: MountCallback, context: Context): void;
-
-export function mounted(callback: MountCallback | (() => void), context: Context = getContext()) {
-	const obj = typeof callback === "function" ? { fn: callback } : callback;
-
+/** @internal */
+export function onMounted(context: Context, callback: MountCallback) {
 	if (context.mt) {
-		context.mt.mn = obj;
+		context.mt.mn = callback;
 	}
 	else {
-		context.mh = obj;
+		context.mh = callback;
 	}
 
-	context.mt = obj;
+	context.mt = callback;
 }
 
 
 /**
  * Registers a callback to run once the current Component unmounts.
  */
-export function unmounted(callback: () => void): void;
+export function unmounted(callback: () => void) {
+	onUnmounted(getContext(), { fn: callback });
+}
 
-/**
- * Registers a callback to invoke when the given Context is being cleared.
- * @internal
- */
-export function unmounted(callback: UnmountCallback, context: Context): void;
-
-export function unmounted(callback: UnmountCallback | (() => void), context: Context = getContext()) {
-	const obj = typeof callback === "function" ? { fn: callback } : callback;
-
+/** @internal */
+export function onUnmounted(context: Context, callback: UnmountCallback) {
 	if (context.ut) {
-		context.ut.un = obj;
+		context.ut.un = callback;
 	}
 	else {
-		context.uh = obj;
+		context.uh = callback;
 	}
 
-	context.ut = obj;
+	context.ut = callback;
 }
 
 
@@ -99,7 +89,7 @@ let currentContext: Context | null = null;
 /** @internal */
 export function getContext(): Context {
 	if (__DEV__ && !currentContext) {
-		throw new Error('Cannot get current context.');
+		throw new Error("Cannot get current context. Are you creating an Atom outside of a Component?");
 	}
 
 	return currentContext!;
@@ -131,7 +121,8 @@ export function withContext(
 }
 
 /** @internal */
-export function runMountCallbacks(context: Context) {
+export function contextMounted(context: Context) {
+	// run registered mount callbacks
 	try {
 		let callback = context.mh;
 		let tmp;
@@ -149,25 +140,7 @@ export function runMountCallbacks(context: Context) {
 }
 
 /** @internal */
-export function runUnmountCallbacks(context: Context) {
-	try {
-		let callback = context.uh;
-		let tmp;
-		while (callback) {
-			tmp = callback.un;
-			invoke(callback);
-			callback.un = null;
-			callback = tmp;
-		}
-	}
-	finally {
-		context.uh = null;
-		context.ut = null;
-	}
-}
-
-/** @internal */
-export function destroyContext(context: Context) {
+export function contextUnmounted(context: Context) {
 	// unlink all contextual dependencies
 	let dep = context.dh;
 	let tmp;
@@ -204,4 +177,20 @@ export function destroyContext(context: Context) {
 
 	context.dh = null;
 	context.dt = null;
+
+	// run registered unmount callbacks
+	try {
+		let callback = context.uh;
+		let tmp;
+		while (callback) {
+			tmp = callback.un;
+			invoke(callback);
+			callback.un = null;
+			callback = tmp;
+		}
+	}
+	finally {
+		context.uh = null;
+		context.ut = null;
+	}
 }

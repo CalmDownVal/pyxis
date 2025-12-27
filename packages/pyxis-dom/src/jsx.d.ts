@@ -1,8 +1,9 @@
+import type { Nil } from "@calmdown/pyxis";
 import type { ExtendedIntrinsicElements } from "@calmdown/pyxis-dom";
 
 declare global {
 	namespace JSX {
-		export type Element = Node;
-		export type IntrinsicElements = ExtendedIntrinsicElements<{}>;
+		type Element = Nil<Node>;
+		type IntrinsicElements = ExtendedIntrinsicElements<{}>;
 	}
 }

@@ -11,6 +11,11 @@ export const Plugin = {
 		async () => (await import("./plugins/Copy.mjs")).default,
 	),
 
+	Css: declarePlugin(
+		"Css",
+		async () => (await import("rollup-plugin-postcss")).default,
+	),
+
 	Delete: declarePlugin(
 		"Delete",
 		async () => (await import("./plugins/Delete.mjs")).default,
@@ -21,6 +26,16 @@ export const Plugin = {
 		async () => (await import("rollup-plugin-node-externals")).default,
 	),
 
+	ImportFile: declarePlugin(
+		"importFile",
+		async () => (await import("rollup-plugin-import-file")).default,
+	),
+
+	LiveReload: declarePlugin(
+		"liveReload",
+		async () => (await import("rollup-plugin-livereload")).default,
+	),
+
 	NodeResolve: declarePlugin(
 		"NodeResolve",
 		async () => (await import("@rollup/plugin-node-resolve")).default,
@@ -29,6 +44,16 @@ export const Plugin = {
 	Replace: declarePlugin(
 		"Replace",
 		async () => (await import("@rollup/plugin-replace")).default,
+	),
+
+	Serve: declarePlugin(
+		"serve",
+		async () => (await import("rollup-plugin-serve")).default,
+	),
+
+	SourceMaps: declarePlugin(
+		"SourceMaps",
+		async () => (await import("rollup-plugin-sourcemaps2")).default,
 	),
 
 	Terser: declarePlugin(

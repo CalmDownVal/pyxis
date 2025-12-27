@@ -51,6 +51,7 @@ const TypeScriptLibrary = declareTarget("TypeScriptLibrary", target => target
 			.configure({
 				format: "es",
 				entryFileNames: "[name].js",
+				sourcemap: true,
 			}))
 	)
 );
@@ -68,7 +69,14 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 				],
 			}))
 		.plugin(Plugin.TypeScript)
+		.plugin(Plugin.Css)
 		.plugin(Plugin.NodeResolve)
+		.plugin(Plugin.ImportFile
+			.configure({
+				output: "./dist/assets",
+				extensions: /\.(svg|web[pma]|wasm)$/,
+			}))
+		.plugin(Plugin.SourceMaps)
 		.plugin(Plugin.Terser
 			.enable(inEnv("prod"))
 			.configure({
@@ -76,11 +84,27 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 					comments: false,
 				},
 			}))
-		.output("Main", out => out
+		.plugin(Plugin.LiveReload
+			.enable((_, context) => context.targetEnv === "dev" && context.isWatching)
 			.configure({
+				delay: 300,
+				verbose: false,
+			}))
+		.plugin(Plugin.Serve
+			.enable((_, context) => context.targetEnv === "dev" && context.isWatching)
+			.configure({
+				contentBase: "./dist",
+				host: "localhost",
+				port: 8080,
+				verbose: false,
+			}))
+		.output("Main", out => out
+			.configure((config, context) => ({
+				...config,
 				format: "iife",
 				entryFileNames: "[name].js",
-			}))
+				sourcemap: context.targetEnv === "dev",
+			})))
 	)
 );
 

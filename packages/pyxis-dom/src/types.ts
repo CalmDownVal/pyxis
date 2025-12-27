@@ -6,25 +6,32 @@ import type { PROP_MAP } from "./props";
 // TODO: MathML support
 // ...or maybe a generic xmlns support?
 
-export type ExtendedIntrinsicElements<TExtensions extends ExtensionMap> = {
-	[N in keyof Elements]: BasePropsOf<Elements[N]> & ExtensionProps<Elements[N], TExtensions>;
-};
+/** extends the IntrinsicElements interface with additional extension props */
+export type ExtendedIntrinsicElements<E extends ExtensionMap> =
+	{ [K in keyof IntrinsicElements]: BasePropsOf<IntrinsicElements[K]> & ExtensionProps<IntrinsicElements[K], E> };
 
+/** infers the usable props of a DOM element from its native typings */
 export type BasePropsOf<T> = Partial<
-	& { children: Node | readonly Node[] }
 	& MapProps<WrapProps<OmitBanned<OmitFunctions<OmitReadonly<T>>>>, typeof PROP_MAP>
+	& { children: Nil<Node> | readonly Nil<Node>[] }
 >;
 
+/** omits any readonly properties from an object type */
 export type OmitReadonly<T> = Pick<T, { [K in keyof T] -?: Equals<{ -readonly [_ in K]: T[K] }, { [_ in K]: T[K] }, K, never> }[keyof T]>;
 
+/** checks whether types A and B are equal - resolves to type Y if they are, otherwise resolves to N - this is a utility type used by OmitReadonly */
 export type Equals<A, B, Y, N> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X extends B ? 1 : 2) ? Y : N;
 
+/** omits any functions from an object type */
 export type OmitFunctions<T> = Pick<T, { [K in keyof T] -?: T[K] extends Nil<(...args: any) => any> ? never : K }[keyof T]>;
 
-export type OmitBanned<T> = Omit<T, "children" | "innerHTML" | "outerHTML" | "innerText" | "outerText" | "textContent" | "nodeValue">;
+/** omits a select set of "banned" properties, mainly direct HTML or text manipulation as that should be done via Pyxis' own mechanics */
+export type OmitBanned<T> = Omit<T, "children" | "classList" | "innerHTML" | "outerHTML" | "innerText" | "outerText" | "textContent" | "nodeValue">;
 
+/** wraps each property type in MaybeAtom to allow the use of atoms on properties of native elements */
 export type WrapProps<T> = { [K in keyof T]: MaybeAtom<T[K]> };
 
+/** renames props according to the given mapping */
 export type MapProps<T, M extends { [K in string]: string }> = {
 	[K in MappedPropKeys<T, M>]: K extends keyof M
 		? M[K] extends keyof T
@@ -35,10 +42,12 @@ export type MapProps<T, M extends { [K in string]: string }> = {
 			: never;
 };
 
+/** infers the new keys of an object afte remapping properties - this is a utility type used by MapProps */
 export type MappedPropKeys<T, M extends { [K in string]: string }> =
 	Exclude<keyof T, M[keyof M]> | { [K in keyof M]: M[K] extends keyof T ? K : never }[keyof M];
 
-export interface Elements {
+/** describes the props of all usable DOM elements */
+export interface IntrinsicElements {
 	a: HTMLAnchorElement;
 	abbr: HTMLElement;
 	address: HTMLElement;

@@ -1,10 +1,16 @@
-import { atom, createRenderer, update } from "@calmdown/pyxis";
+import { atom, component, createRenderer, derivation, read, Show, update } from "@calmdown/pyxis";
 import { DomAdapter, EventExtension, Text, type EventExtensionType, type ExtendedIntrinsicElements } from "@calmdown/pyxis-dom";
+
+import { Button } from "~/components/Button";
+import { CheckBox } from "~/components/CheckBox";
+import { TextInput } from "~/components/TextInput";
+import { RadioGroup, RadioItem } from "~/components/RadioGroup";
 
 declare global {
 	namespace JSX {
-		export type Element = Node;
-		export type IntrinsicElements = ExtendedIntrinsicElements<{ on: EventExtensionType }>;
+		type Child = Node;
+		// type Element = Node;
+		type IntrinsicElements = ExtendedIntrinsicElements<{ on: EventExtensionType }>;
 	}
 }
 
@@ -19,19 +25,53 @@ const renderer = createRenderer({
 const inc = (value: number) => value + 1;
 const dec = (value: number) => value - 1;
 
-renderer.mount(document.body, () => {
-	const count = atom(0);
+const TestApp = () => {
+	const a = atom(0);
+	const b = atom(0);
+	const sum = derivation(() => read(a) + read(b));
+
+	const text = atom("");
+	const showDetails = atom(false);
+	const choice = atom<"a" | "b" | "c">("a");
+
 	return (
 		<>
+			<Button onclick={() => update(a, dec)}>
+				<Text>a -= 1</Text>
+			</Button>
+			<Button onclick={() => update(a, inc)}>
+				<Text>a += 1</Text>
+			</Button>
+			<Button onclick={() => update(b, dec)}>
+				<Text>b -= 1</Text>
+			</Button>
+			<Button onclick={() => update(b, inc)}>
+				<Text>b += 1</Text>
+			</Button>
 			<span>
-				<Text>{count}</Text>
+				<Text>a + b = {sum}</Text>
 			</span>
-			<button type="button" on:click={() => update(count, inc)}>
-				<Text>+1</Text>
-			</button>
-			<button type="button" on:click={() => update(count, dec)}>
-				<Text>-1</Text>
-			</button>
+
+			<TextInput value={text} masked />
+			<Text>written: "{text}"</Text>
+
+			<CheckBox checked={showDetails}>
+				Show Details
+			</CheckBox>
+			<Show when={showDetails}>
+				{() => (
+					<Text>This some crazy detail right here!</Text>
+				)}
+			</Show>
+
+			<RadioGroup value={choice}>
+				<RadioItem value="a">A</RadioItem>
+				<RadioItem value="b">B</RadioItem>
+				<RadioItem value="c">C</RadioItem>
+			</RadioGroup>
+			<Text>Choice: "{choice}"</Text>
 		</>
 	);
-});
+};
+
+renderer.mount(document.body, TestApp);

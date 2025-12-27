@@ -1,8 +1,19 @@
 export type EventExtensionType = {
-	[E in keyof GlobalEventHandlersEventMap]: {
-		setProp(node: HTMLElement, type: E, listener: (e: GlobalEventHandlersEventMap[E]) => any): void;
+	[TType in keyof GlobalEventHandlersEventMap]: {
+		setProp<TNode extends HTMLElement>(
+			node: TNode,
+			type: TType,
+			listener: (e: ExtendedEvent<GlobalEventHandlersEventMap[TType], TType, TNode>) => any,
+		): void;
 	};
 }[keyof GlobalEventHandlersEventMap];
+
+export type ExtendedEvent<TEvent, TType, TNode> =
+	& Omit<TEvent, "type" | "currentTarget">
+	& {
+		readonly type: TType;
+		readonly currentTarget: TNode;
+	};
 
 export const EventExtension: EventExtensionType = {
 	setProp: (

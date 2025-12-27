@@ -78,7 +78,7 @@ export function schedule(context: Context, callback: UpdateCallback): void;
 export function schedule({ scheduler }: Context, callback: UpdateCallback) {
 	if (callback.epoch === scheduler.epoch) {
 		if (__DEV__ && scheduler.isUpdating) {
-			throw new Error("Attempt to reschedule a callback during an update - Are you setting an atom inside a reaction?");
+			throw new Error("Refusing to reschedule an update as it may cause an infinite loop. Are you mutating an Atom inside a reaction that depends on it?");
 		}
 
 		return;

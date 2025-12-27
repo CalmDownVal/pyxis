@@ -10,7 +10,7 @@ export interface Reaction<T = void> {
 	readonly react: (reaction: this, epoch: number) => void;
 	epoch: number;
 	deps?: WeakMap<Atom, ReactionDependency>;
-	resolve?: UpdateCallback<[ reaction: Reaction ]>;
+	resolve?: UpdateCallback<[ reaction: Reaction ]>; // & MountCallback<[ reaction: Reaction ]>;
 }
 
 /** @internal */
@@ -20,16 +20,36 @@ export type ReactionDependency = Dependency<[ reaction: Reaction, epoch: number 
  * Creates a Reaction - a block of logic executed each time any of the Atoms accessed within it
  * change. The block is initially executed when the Reaction is created.
  */
-export function reaction(block: () => void) {
+export function reaction(block: () => void): void;
+
+/** @internal */
+export function reaction(block: () => void, context: Context): void;
+
+export function reaction(block: () => void, context = getContext()) {
 	resolve({
 		context: getContext(),
 		block,
 		react: scheduleReaction,
 		epoch: 1,
 	});
+
+	// version that runs the initial reaction on mount instead of immediately
+	// const reaction: Reaction = {
+	// 	context,
+	// 	block,
+	// 	react: scheduleReaction,
+	// 	epoch: 0,
+	// };
+
+	// onMounted(context, reaction.resolve = {
+	// 	fn: resolve,
+	// 	a0: reaction,
+	// });
 }
 
 function scheduleReaction(this: ReactionDependency, reaction: Reaction, epoch: number) {
+	// lazy cleanup: when we get an update from a stale dependency, the reported epoch will be lower
+	// than our current one (see the reportAccess function). We can unlink and skip any reaction.
 	if (reaction.epoch > epoch) {
 		unlink(this);
 		return;
@@ -72,6 +92,7 @@ export function reportAccess(atom: Atom) {
 
 	let dep = currentReaction.deps!.get(atom);
 	if (dep) {
+		// refresh dependency to the current epoch
 		dep.a1 = currentReaction.epoch;
 	}
 	else {

@@ -1,5 +1,12 @@
+import type { Nil } from "./support/types";
+import "./jsx";
+
 export interface Component<TProps extends AnyProps = {}> {
 	(props: TProps): any;
+}
+
+export interface Template {
+	(): JsxChildren<Nil<JSX.Child>>;
 }
 
 export type AnyProps = { [_ in string]?: any };
@@ -10,19 +17,17 @@ export function component<TPropsArg extends [ {} ], TReturn>(
 	return body as any;
 }
 
-export type JsxProps<T> = { [K in keyof T]: K extends "children" ? JsxChildren<T[K]> : T[K] };
+export type JsxProps<T> = { readonly [K in keyof T]: K extends "children" ? JsxChildren<T[K]> : T[K] };
 
 /**
  * When typing children as a single value tuple, it becomes unusable in 'react-jsx' mode. TS rejects
- * valid uses of such components with the error:
- *
- * \> This JSX tag's children prop expects type '[T]' which requires multiple children, but only a
- * \> single child was provided.
+ * valid uses of such components with the error: "This JSX tag's children prop expects type '[T]'
+ * which requires multiple children, but only a single child was provided."
  *
  * Likely related to the fact that single children are passed to jsx() factory without wrapping
  * arrays.
  *
- * This utility type unwraps single value tuples, avoiding this problem.
+ * This utility type unwraps single value tuples, avoiding the problem.
  */
 export type JsxChildren<T> = T extends readonly [ any, any, ...any[] ]
 	// component requires 2+ children, safe to pass the type as-is

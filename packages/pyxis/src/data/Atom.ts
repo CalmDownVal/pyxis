@@ -23,6 +23,11 @@ export interface Atom<T = unknown> {
 	 */
 	readonly [S_ATOM]: true;
 
+	/**
+	 * @deprecated Not to be used! Only holds the value type and does not actually exist at runtime.
+	 */
+	_?: T;
+
 	/** @internal */
 	readonly context: Context;
 
@@ -78,12 +83,16 @@ export function atom<T>(): Atom<T | undefined>;
  * @see {@link isAtom}
  */
 export function atom<T>(initialValue: MaybeAtom<T>): Atom<T>;
-export function atom<T>(initialValue?: MaybeAtom<T>) {
+
+/** @internal */
+export function atom<T>(initialValue: MaybeAtom<T>, context: Context): Atom<T>;
+
+export function atom<T>(initialValue?: MaybeAtom<T>, context = getContext()) {
 	return isAtom(initialValue)
 		? initialValue
 		: {
 			[S_ATOM]: true,
-			context: getContext(),
+			context,
 			value: initialValue,
 			get: getValue,
 			set: setValue,

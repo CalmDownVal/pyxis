@@ -1,3 +1,6 @@
+export * from "./component/Fragment";
+export * from "./component/Show";
+
 export * from "./data/Atom";
 export * from "./data/Context";
 export * from "./data/Derivation";
@@ -11,5 +14,4 @@ export type * from "./support/types";
 
 export type * from "./Adapter";
 export * from "./Component";
-export * from "./Fragment";
 export * from "./Renderer";

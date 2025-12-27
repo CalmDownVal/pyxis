@@ -1,21 +1,21 @@
 import type { Adapter, ExtensionMap } from "./Adapter";
-import type { Component } from "./Component";
-import { getContext, withContext, type Context } from "./data/Context";
+import type { Component, Template } from "./Component";
+import { isAtom, read } from "./data/Atom";
+import { contextMounted, contextUnmounted, getContext, withContext, type Context } from "./data/Context";
+import { reaction } from "./data/Reaction";
 import { createScheduler, type TickFn } from "./data/Scheduler";
-import { EMPTY_OBJECT } from "./support/common";
+import { EMPTY_ARRAY, EMPTY_OBJECT } from "./support/common";
 
 export interface Renderer<TNode> {
-	mount(root: TNode, component: Component): void;
+	mount(root: TNode, template: Template): void;
 	unmount(): void;
 }
 
 /** @internal */
-export interface RendererContext<TNode = any, TExtensions extends ExtensionMap = ExtensionMap> extends Context, Renderer<TNode> {
-	/** @internal */
+export interface RendererContext<TNode = any, TExtensions extends ExtensionMap = ExtensionMap> extends Context {
 	readonly adapter: Adapter<TNode>;
-
-	/** @internal */
 	readonly extensions: TExtensions;
+	topNodes: readonly TNode[];
 }
 
 export interface RendererOptions<TNode, TExtensions extends ExtensionMap = {}> {
@@ -27,26 +27,25 @@ export interface RendererOptions<TNode, TExtensions extends ExtensionMap = {}> {
 export function createRenderer<TNode, TExtensions extends ExtensionMap>(
 	options: RendererOptions<TNode, TExtensions>,
 ): Renderer<TNode> {
-	const renderer: RendererContext<TNode, TExtensions> = {
+	const context: RendererContext<TNode, TExtensions> & Renderer<TNode> = {
 		scheduler: createScheduler(options.tick),
 		adapter: options.adapter,
 		extensions: options.extensions ?? (EMPTY_OBJECT as TExtensions),
-		mount,
-		unmount,
+		topNodes: EMPTY_ARRAY,
+		unmount: () => unmount(context),
+		mount: (root, template) => {
+			withContext(context, () => {
+				const jsx = template();
+				const nodes = Array.isArray(jsx) ? jsx : [ jsx ];
+				appendChildren(options.adapter, root, nodes);
+				context.topNodes = nodes;
+			});
+
+			contextMounted(context);
+		},
 	};
 
-	return renderer;
-}
-
-function mount<TNode>(this: RendererContext<TNode>, root: TNode, component: Component) {
-	withContext(this, () => {
-		const jsx = component(EMPTY_OBJECT);
-		insertChildren(this.adapter, root, [ jsx ]);
-	});
-}
-
-function unmount(this: RendererContext) {
-
+	return context;
 }
 
 const RE_EXT = /^([^:]+):([^:]+)$/;
@@ -76,35 +75,112 @@ export function render(
 
 	let name;
 	let match;
+	let value;
 	for (name in props) {
+		value = props[name];
 		match = RE_EXT.exec(name);
 		if (match) {
-			extensions[match[1]]?.setProp(node, match[2], props[name]);
+			const extension = extensions[match[1]];
+			if (extension && isAtom(value)) {
+				const prop = match[2];
+				const atom = value;
+				reaction(() => extension.setProp(node, prop, read(atom)), context);
+			}
+			else {
+				extension?.setProp(node, match[2], value);
+			}
 		}
 		else if (name !== "children") {
-			adapter.setProp(node, name, props[name]);
+			if (isAtom(value)) {
+				const prop = name;
+				const atom = value;
+				reaction(() => adapter.setProp(node, prop, read(atom)), context);
+			}
+			else {
+				adapter.setProp(node, name, value);
+			}
 		}
 	}
 
-	insertChildren(adapter, node, props.children);
+	appendChildren(adapter, node, props.children);
 	return node;
 }
 
-function insertChildren<TNode>(adapter: Adapter<TNode>, root: TNode, children: readonly TNode[]) {
-	const list = children.slice();
-	let count = list.length;
+/**
+ * Creates a sub-context of the provided RendererContext. Needed whenever a subtree may need to
+ * dynamically re-render or unmount entirely.
+ * @internal
+ */
+export function fork<TNode, TExtensions extends ExtensionMap>(
+	context: RendererContext<TNode, TExtensions> = (getContext() as RendererContext<TNode, TExtensions>),
+): RendererContext<TNode, TExtensions> {
+	return {
+		scheduler: context.scheduler,
+		adapter: context.adapter,
+		extensions: context.extensions,
+		topNodes: [],
+	};
+}
+
+/** @internal */
+export function mount<TNode>(context: RendererContext<TNode>, template: Template, before: TNode) {
+	withContext(context, () => {
+		const jsx = template();
+		const nodes = Array.isArray(jsx) ? jsx : [ jsx ];
+		insertChildren(context.adapter, before, nodes);
+		context.topNodes = nodes;
+	});
+
+	contextMounted(context);
+}
+
+/** @internal */
+export function unmount(context: RendererContext) {
+	contextUnmounted(context);
+
+	const { adapter, topNodes } = context;
+	const { length } = topNodes;
+
+	let i = 0;
+	for (; i < length; i += 1) {
+		adapter.removeNode(topNodes[i]);
+	}
+
+	context.topNodes = EMPTY_ARRAY;
+}
+
+function appendChildren<TNode>(adapter: Adapter<TNode>, root: TNode, children: readonly TNode[]) {
+	const { length } = children;
 	let child;
 	let i = 0;
 
-	while (i < count) {
-		child = list[i];
-		if (Array.isArray(child)) {
-			list.splice(i, 1, ...child);
-			count += child.length - 1;
-			continue;
+	for (; i < length; i += 1) {
+		child = children[i];
+		if (child !== null && child !== undefined) {
+			if (Array.isArray(child)) {
+				appendChildren(adapter, root, child);
+			}
+			else {
+				adapter.appendNode(child, root);
+			}
 		}
+	}
+}
 
-		adapter.insertNode(root, child, null);
-		i += 1;
+function insertChildren<TNode>(adapter: Adapter<TNode>, before: TNode, children: readonly TNode[]) {
+	const { length } = children;
+	let child;
+	let i = 0;
+
+	for (; i < length; i += 1) {
+		child = children[i];
+		if (child !== null && child !== undefined) {
+			if (Array.isArray(child)) {
+				insertChildren(adapter, before, child);
+			}
+			else if (child) {
+				adapter.insertNode(child, before);
+			}
+		}
 	}
 }
