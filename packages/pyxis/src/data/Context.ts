@@ -44,11 +44,29 @@ export interface UnmountCallback<TArgs extends ArgsMax5 = ArgsMax5> extends Call
 }
 
 
+export interface MountBlock {
+	(): (() => void) | void;
+}
+
 /**
  * Registers a callback to run when the current Component mounts.
+ *
+ * If a teardown callback is returned, it will be run when the Component unmounts.
  */
-export function mounted(callback: () => void) {
-	onMounted(getContext(), { fn: callback });
+export function mounted(block: MountBlock) {
+	const context = getContext();
+	onMounted(context, {
+		fn: runMountedCallback,
+		a0: context,
+		a1: block,
+	});
+}
+
+function runMountedCallback(context: Context, block: MountBlock) {
+	const dispose = block();
+	if (dispose) {
+		onUnmounted(context, { fn: dispose });
+	}
 }
 
 /** @internal */
@@ -63,12 +81,15 @@ export function onMounted(context: Context, callback: MountCallback) {
 	context.mt = callback;
 }
 
+export interface UnmountBlock {
+	(): void;
+}
 
 /**
  * Registers a callback to run once the current Component unmounts.
  */
-export function unmounted(callback: () => void) {
-	onUnmounted(getContext(), { fn: callback });
+export function unmounted(block: UnmountBlock) {
+	onUnmounted(getContext(), { fn: block });
 }
 
 /** @internal */

@@ -40,6 +40,24 @@ interface DerivationAtom extends Derivation<any>, Reaction<any> {
 	value?: unknown;
 }
 
+function scheduleNotify(this: ReactionDependency, derivation: DerivationAtom, epoch: number) {
+	// lazy cleanup: when we get an update from a stale dependency, the reported epoch will be lower
+	// than our current one (see the reportAccess function). We can unlink and skip the reaction.
+	if (derivation.epoch > epoch) {
+		unlink(this);
+		return;
+	}
+
+	// we're already within a scheduler tick; the reaction will therefore run synchronously despite
+	// being "scheduled" - this also gives priority to already scheduled updates and prevents
+	// infinite loops when dependency cycles exist
+	derivation.dirty = true;
+	schedule(derivation.context, derivation.notify ??= {
+		fn: notify,
+		a0: derivation,
+	});
+}
+
 function getValue(this: DerivationAtom): any {
 	if (this.dirty) {
 		this.value = resolve(this);
@@ -51,17 +69,4 @@ function getValue(this: DerivationAtom): any {
 
 function setValue() {
 	return false;
-}
-
-function scheduleNotify(this: ReactionDependency, derivation: DerivationAtom, epoch: number) {
-	if (derivation.epoch > epoch) {
-		unlink(this);
-		return;
-	}
-
-	derivation.dirty = true;
-	schedule(derivation.context, derivation.notify ??= {
-		fn: notify,
-		a0: derivation,
-	});
 }

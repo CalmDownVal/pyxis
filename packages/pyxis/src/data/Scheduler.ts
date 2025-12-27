@@ -81,6 +81,8 @@ export function schedule({ scheduler }: Context, callback: UpdateCallback) {
 			throw new Error("Refusing to reschedule an update as it may cause an infinite loop. Are you mutating an Atom inside a reaction that depends on it?");
 		}
 
+		// if the epoch matches but scheduler is not yet updating, it simply means the same update
+		// was requested multiple times, e.g. an Atom being set twice, this is OK
 		return;
 	}
 

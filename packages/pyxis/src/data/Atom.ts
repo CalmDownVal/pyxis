@@ -24,12 +24,19 @@ export interface Atom<T = unknown> {
 	readonly [S_ATOM]: true;
 
 	/**
+	 * A fake property kept for TypeScript to properly type-check Atom compatibility.
 	 * @deprecated Not to be used! Only holds the value type and does not actually exist at runtime.
 	 */
-	_?: T;
+	__valueType?: T;
 
 	/** @internal */
 	readonly context: Context;
+
+	/** @internal */
+	readonly tracksValue?: boolean;
+
+	/** @internal */
+	lastValue?: T;
 
 	/**
 	 * The head of the dependencies linked list.
@@ -92,15 +99,17 @@ export function atom<T>(initialValue?: MaybeAtom<T>, context = getContext()) {
 		? initialValue
 		: {
 			[S_ATOM]: true,
+			tracksValue: true,
 			context,
 			value: initialValue,
+			lastValue: initialValue,
 			get: getValue,
 			set: setValue,
 		} satisfies DirectAtom;
 }
 
 interface DirectAtom extends Atom<any> {
-	value?: any;
+	value: any;
 }
 
 function getValue(this: DirectAtom) {
@@ -147,16 +156,13 @@ export function read<T>(input: MaybeAtom<T>): T {
  *
  * Non-atom inputs are never modified in any way. Instead the provided new value is discarded and
  * the input is returned as-is.
- *
- * By default, dependencies of an Atom are only notified if the new value differs from the previous.
- * To override this check, set `forceNotify` to true.
  * @see {@link isAtom}
  * @see {@link read}
  * @see {@link update}
  */
-export function write<T>(input: MaybeAtom<T>, value: T, forceNotify = false): T {
+export function write<T>(input: MaybeAtom<T>, value: T): T {
 	if (isAtom(input)) {
-		if (input.set(value) || forceNotify) {
+		if (input.set(value)) {
 			schedule(input.context, input.notify ??= {
 				fn: notify,
 				a0: input,
@@ -174,16 +180,13 @@ export function write<T>(input: MaybeAtom<T>, value: T, forceNotify = false): T 
  * and returns the new value.
  *
  * Non-atom inputs are never modified in any way and the input is returned as-is.
- *
- * By default, dependencies of an Atom are only notified if the new value differs from the previous.
- * To override this check, set `forceNotify` to true.
  * @see {@link isAtom}
  * @see {@link read}
  * @see {@link write}
  */
-export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T, forceNotify = false): T {
+export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T {
 	if (isAtom(input)) {
-		if (input.set(transform(input.get())) || forceNotify) {
+		if (input.set(transform(input.get()))) {
 			schedule(input.context, input.notify ??= {
 				fn: notify,
 				a0: input,
@@ -201,6 +204,17 @@ export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T, force
  * @internal
  */
 export function notify(input: Atom) {
+	// optimization: when Atom changes multiple times within a single update and ends up with the
+	// same value it started with, the notification is skipped
+	if (input.tracksValue) {
+		const newValue = input.get();
+		if (input.lastValue === newValue) {
+			return;
+		}
+
+		input.lastValue = newValue;
+	}
+
 	let current = input.dh;
 	while (current) {
 		invoke(current);
