@@ -17,7 +17,7 @@ export type ExtendedEvent<TEvent, TType, TNode> =
 
 export const EventExtension: EventExtensionType = {
 	setProp: (
-		node: EventTarget,
+		node: HTMLElement,
 		prop: string,
 		value: (e: any) => any,
 	) => {

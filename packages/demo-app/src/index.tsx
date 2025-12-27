@@ -1,26 +1,31 @@
-import { atom, component, createRenderer, derivation, read, Show, update } from "@calmdown/pyxis";
-import { DomAdapter, EventExtension, Text, type EventExtensionType, type ExtendedIntrinsicElements } from "@calmdown/pyxis-dom";
+import { atom, createRenderer, derivation, read, Show, update } from "@calmdown/pyxis";
+import { BemBlockExtension, BemElementExtension, BemModifierExtension, ClassListExtension, DomAdapter, EventExtension, Text, type EventExtensionType, type ExtendedIntrinsicElements } from "@calmdown/pyxis-dom";
 
 import { Button } from "~/components/Button";
 import { CheckBox } from "~/components/CheckBox";
 import { TextInput } from "~/components/TextInput";
 import { RadioGroup, RadioItem } from "~/components/RadioGroup";
 
-declare global {
-	namespace JSX {
-		type Child = Node;
-		// type Element = Node;
-		type IntrinsicElements = ExtendedIntrinsicElements<{ on: EventExtensionType }>;
-	}
-}
+const extensions = {
+	on: EventExtension,
+	cl: ClassListExtension,
+	blk: BemBlockExtension,
+	elm: BemElementExtension,
+	mod: BemModifierExtension,
+};
 
 const renderer = createRenderer({
 	adapter: DomAdapter,
 	tick: queueMicrotask,
-	extensions: {
-		on: EventExtension,
-	},
+	extensions,
 });
+
+declare global {
+	namespace JSX {
+		type Child = Node;
+		type IntrinsicElements = ExtendedIntrinsicElements<typeof extensions>;
+	}
+}
 
 const inc = (value: number) => value + 1;
 const dec = (value: number) => value - 1;

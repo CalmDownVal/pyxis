@@ -14,7 +14,7 @@ export const CheckBox = component((props: CheckBoxProps) => (
 			name={props.name ?? ""}
 			checked={props.checked}
 			on:input={(e) => {
-				write(props.checked, (e.target as HTMLInputElement).checked === true);
+				write(props.checked, (e.currentTarget as HTMLInputElement).checked === true);
 			}}
 		/>
 		<Text>{props.children}</Text>

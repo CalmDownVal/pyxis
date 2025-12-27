@@ -12,7 +12,7 @@ export const TextInput = component((props: TextInputProps) => (
 		name={props.name ?? ""}
 		value={props.value}
 		on:input={(e) => {
-			write(props.value, (e.target as HTMLInputElement).value);
+			write(props.value, (e.currentTarget as HTMLInputElement).value);
 		}}
 	/>
 ));

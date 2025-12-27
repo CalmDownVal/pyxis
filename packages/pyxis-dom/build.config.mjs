@@ -13,4 +13,22 @@ Target.TypeScriptLibrary.build(target => {
 				},
 			],
 		}));
+
+	// remove the "@calmdown/pyxis-dom" path resolution to preserve imports
+	const compilerOptions = {
+		paths: {
+			"~/*": [ "*" ],
+		},
+	};
+
+	target.pipelines.Code.plugins.BundleDts
+		.configure({ compilerOptions });
+
+	target.pipelines.Code.plugins.TypeScript
+		.configure({ compilerOptions });
+
+	target.pipelines.Code.plugins.Externals
+		.configure({
+			include: [ "@calmdown/pyxis-dom" ],
+		});
 });
