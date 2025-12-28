@@ -29,10 +29,6 @@ export type ReactionDependency = Dependency<[ reaction: Reaction<any>, epoch: nu
  *
  * If a teardown callback is returned, it will be run before the next reaction.
  */
-export function reaction(block: ReactionBlock): void;
-
-export function reaction(block: ReactionBlock, context: Context): void;
-
 export function reaction(block: ReactionBlock, context = getContext()) {
 	runReaction({
 		context,

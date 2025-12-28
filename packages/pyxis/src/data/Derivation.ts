@@ -1,5 +1,5 @@
 import { notify, S_ATOM, type Atom } from "./Atom";
-import { getContext, type Context } from "./Context";
+import { getContext } from "./Context";
 import { unlink } from "./Dependency";
 import { resolve, type Reaction, type ReactionDependency } from "./Reaction";
 import { schedule } from "./Scheduler";
@@ -15,10 +15,6 @@ export interface Derivation<T = unknown> extends Atom<T> {}
  * Creates a Derivation - an Atom with a value computed from other Atoms. Derivations are updated
  * lazily, i.e. only when they're accessed and at least one of its source Atoms changed.
  */
-export function derivation<T>(block: () => T): Derivation<T>;
-
-export function derivation<T>(block: () => T, context: Context): Derivation<T>;
-
 export function derivation<T>(block: () => T, context = getContext()): Derivation<T> {
 	const atom: DerivationAtom = {
 		[S_ATOM]: true,

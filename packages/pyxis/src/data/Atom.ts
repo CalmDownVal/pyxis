@@ -76,9 +76,7 @@ export function atom<T>(): Atom<T | undefined>;
  * is returned as-is.
  * @see {@link isAtom}
  */
-export function atom<T>(initialValue: MaybeAtom<T>): Atom<T>;
-
-export function atom<T>(initialValue: MaybeAtom<T>, context: Context): Atom<T>;
+export function atom<T>(initialValue: MaybeAtom<T>, context?: Context): Atom<T>;
 
 export function atom<T>(initialValue?: MaybeAtom<T>, context = getContext()) {
 	return isAtom(initialValue)
@@ -87,22 +85,22 @@ export function atom<T>(initialValue?: MaybeAtom<T>, context = getContext()) {
 			[S_ATOM]: true,
 			tracksValue: true,
 			context,
-			value: initialValue,
+			value: initialValue!,
 			lastValue: initialValue,
 			get: getValue,
 			set: setValue,
-		} satisfies DirectAtom;
+		} satisfies DirectAtom<T>;
 }
 
-interface DirectAtom extends Atom<any> {
-	value: any;
+interface DirectAtom<T> extends Atom<any> {
+	value: T;
 }
 
-function getValue(this: DirectAtom) {
+function getValue<T>(this: DirectAtom<T>) {
 	return this.value;
 }
 
-function setValue(this: DirectAtom, value: any) {
+function setValue<T>(this: DirectAtom<T>, value: T) {
 	if (this.value === value) {
 		return false;
 	}

@@ -43,10 +43,27 @@ const TestApp = () => {
 		write(todoText, "");
 	};
 
+	const swapRandom = () => {
+		if (todos.size < 2) {
+			return;
+		}
+
+		const i0 = Math.trunc(Math.random() * todos.size);
+		const t0 = todos.removeAt(i0);
+
+		const i1 = Math.trunc(Math.random() * todos.size);
+		const t1 = todos.removeAt(i1);
+
+		todos.insertAt(i0 <= i1 ? i0 : i0 - 1, t1);
+		todos.insertAt(i1 <= i0 ? i1 : i1 - 1, t0);
+
+		console.log((todos as any).items.map((it: any) => it.text));
+	};
+
 	return (
 		<>
 			<label>
-				<Text>What needs to be done?</Text>
+				<Text>What needs to be done ({todos.sizeAtom})?</Text>
 				<TextInput value={todoText} />
 			</label>
 			<Button
@@ -55,14 +72,20 @@ const TestApp = () => {
 			>
 				<Text>Add</Text>
 			</Button>
+			<Button
+				disabled={derivation(() => read(todos.sizeAtom) < 2)}
+				onclick={swapRandom}
+			>
+				<Text>Swap</Text>
+			</Button>
 			<ul>
-				<Iterator source={todos}>
+				<Iterator source={todos} proxy={[ "done", "text" ] as const}>
 					{todo => (
 						<li>
 							<CheckBox checked={todo.done}>
 								{todo.text}
 							</CheckBox>
-							<Button onclick={() => todos.remove(todo)}>
+							<Button onclick={() => todos.remove(todo.original)}>
 								<Text>Remove</Text>
 							</Button>
 						</li>

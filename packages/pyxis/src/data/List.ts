@@ -1,5 +1,6 @@
 import type { Nil } from "~/support/types";
 
+import { atom, write, type Atom } from "./Atom";
 import { getContext, type Context } from "./Context";
 import type { DependencyList } from "./Dependency";
 import { createDelta, itemChanged, itemInserted, itemRemoved, listCleared, listSynced, type Equals, type ListDelta } from "./ListDelta";
@@ -21,7 +22,9 @@ export interface List<T> extends DependencyList<[ delta: ListDelta<T> ]> {
 	/** @internal */
 	notify?: UpdateCallback<[ self: List<T> ]>;
 
-	size(): number;
+	readonly size: number;
+	readonly sizeAtom: Atom<number>;
+
 	get(index: number): T;
 	set(index: number, item: T): void;
 	clear(): void;
@@ -53,10 +56,12 @@ export function list<T>(source?: Iterable<T>): List<T>;
 export function list<T>(source: Iterable<T> | undefined, context: Context): List<T>;
 
 export function list<T>(source?: Iterable<T> | undefined, context = getContext()): List<T> {
+	const items = source ? Array.from(source) : [];
 	return {
 		context,
-		items: source ? Array.from(source) : [],
-		size,
+		items,
+		size: items.length,
+		sizeAtom: atom(items.length, context),
 		get,
 		set,
 		clear,
@@ -69,10 +74,6 @@ export function list<T>(source?: Iterable<T> | undefined, context = getContext()
 		removeFirst,
 		removeLast,
 	};
-}
-
-function size(this: List<any>) {
-	return this.items.length;
 }
 
 function get(this: List<any>, index: number) {
@@ -88,21 +89,21 @@ function set<T>(this: List<T>, index: number, item: T) {
 
 	this.items[index] = item;
 	itemChanged(this.delta ??= createDelta(), index, item);
-	scheduleNotify(this);
+	listMutated(this);
 }
 
 function clear(this: List<any>) {
 	const count = this.items.length;
 	this.items.length = 0;
 	listCleared(this.delta ??= createDelta(), count);
-	scheduleNotify(this);
+	listMutated(this);
 }
 
 function sync<T>(this: List<T>, source: readonly T[], eq: Equals<T> = defaultEquals) {
 	const oldState = this.items;
 	this.items = source.slice();
 	listSynced(this.delta ??= createDelta(), oldState, source, eq);
-	scheduleNotify(this);
+	listMutated(this);
 }
 
 function insertAt<T>(this: List<T>, index: number, item: T) {
@@ -116,7 +117,7 @@ function insertAt<T>(this: List<T>, index: number, item: T) {
 	}
 
 	itemInserted(this.delta ??= createDelta(), index, item);
-	scheduleNotify(this);
+	listMutated(this);
 }
 
 function insertFirst<T>(this: List<T>, item: T) {
@@ -141,7 +142,7 @@ function removeAt<T>(this: List<T>, index: number) {
 	assertIndex(this, index);
 	const removed = this.items.splice(index, 1)[0];
 	itemRemoved(this.delta ??= createDelta(), index);
-	scheduleNotify(this);
+	listMutated(this);
 	return removed;
 }
 
@@ -163,7 +164,9 @@ function defaultEquals<T>(item0: T, item1: T) {
 	return item0 === item1;
 }
 
-function scheduleNotify(list: List<any>) {
+function listMutated(list: List<any>) {
+	(list as any).size = list.items.length;
+	write(list.sizeAtom, list.items.length);
 	schedule(list.context, list.notify ??= {
 		fn: notify,
 		a0: list,

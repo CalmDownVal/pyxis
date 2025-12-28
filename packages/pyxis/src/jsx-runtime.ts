@@ -23,9 +23,13 @@ export function jsx(
 	key?: any,
 ) {
 	const { children } = props;
-	props.children = children === undefined ? EMPTY_ARRAY : [ children ];
-	props.key ??= key;
+	props.children = children === undefined
+		? EMPTY_ARRAY
+		: Array.isArray(children)
+			? children
+			: [ children ];
 
+	props.key ??= key;
 	return render(componentOrTagName as any, props);
 }
 
