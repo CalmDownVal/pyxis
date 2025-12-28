@@ -132,12 +132,13 @@ export function withContext(
 	a3: any,
 	a4: any,
 ) {
+	const previousContext = currentContext;
 	try {
 		currentContext = context;
 		return block(a0, a1, a2, a3, a4);
 	}
 	finally {
-		currentContext = null;
+		currentContext = previousContext;
 	}
 }
 

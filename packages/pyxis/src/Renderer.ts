@@ -4,7 +4,7 @@ import { isAtom, read } from "./data/Atom";
 import { contextMounted, contextUnmounted, getContext, withContext, type Context } from "./data/Context";
 import { reaction } from "./data/Reaction";
 import { createScheduler, type TickFn } from "./data/Scheduler";
-import { EMPTY_ARRAY, EMPTY_OBJECT } from "./support/common";
+import { EMPTY_ARRAY, EMPTY_OBJECT, wrap } from "./support/common";
 
 export interface Renderer<TNode> {
 	mount(root: TNode, template: Template): void;
@@ -35,8 +35,7 @@ export function createRenderer<TNode, TExtensions extends ExtensionMap>(
 		unmount: () => unmount(context),
 		mount: (root, template) => {
 			withContext(context, () => {
-				const jsx = template();
-				const nodes = Array.isArray(jsx) ? jsx : [ jsx ];
+				const nodes = wrap(template());
 				appendChildren(options.adapter, root, nodes);
 				context.topNodes = nodes;
 			});
@@ -117,8 +116,7 @@ export function fork<TNode, TExtensions extends ExtensionMap>(
 /** @internal */
 export function mount<TNode>(context: RendererContext<TNode>, template: Template, before: TNode) {
 	withContext(context, () => {
-		const jsx = template();
-		const nodes = Array.isArray(jsx) ? jsx : [ jsx ];
+		const nodes = wrap(template());
 		insertChildren(context.adapter, before, nodes);
 		context.topNodes = nodes;
 	});

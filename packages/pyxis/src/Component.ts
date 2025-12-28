@@ -1,3 +1,4 @@
+import type { Atom } from "./data/Atom";
 import type { Nil } from "./support/types";
 import "./jsx";
 
@@ -7,6 +8,10 @@ export interface Component<TProps extends AnyProps = {}> {
 
 export interface Template {
 	(): JsxChildren<Nil<JSX.Child>>;
+}
+
+export interface DataTemplate<T> {
+	(data: Atom<T>): JsxChildren<Nil<JSX.Child>>;
 }
 
 export type AnyProps = { [_ in string]?: any };
