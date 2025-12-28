@@ -10,22 +10,17 @@ export interface IteratorProps<T> {
 	children: [ DataTemplate<T> ];
 }
 
-interface RenderedItem<T> {
-	readonly context: RendererContext;
-	data: T;
-}
-
 export const Iterator = component(<T>({ source, children: [ template ] }: IteratorProps<T>) => {
 	const parentContext = getContext() as RendererContext;
 	const fallbackAnchor = parentContext.adapter.createAnchorNode("/Iterator");
 
 	// render initial items
 	const nodes: JSX.Node[] = [];
-	let items: RenderedItem<T>[] = source.items.map(data => {
+	let items: RendererContext[] = source.items.map(data => {
 		const context = fork(parentContext);
 		mount(context, template, data);
 		nodes.push(...context.topNodes);
-		return { context, data };
+		return context;
 	});
 
 	// setup list reactions
@@ -33,7 +28,7 @@ export const Iterator = component(<T>({ source, children: [ template ] }: Iterat
 		const { changes } = delta;
 		const cMax = changes.length;
 		const iMax = items.length + delta.lengthDelta;
-		const newItems = new Array<RenderedItem<T>>(iMax);
+		const newItems = new Array<RendererContext>(iMax);
 
 		let ci = 0;
 		let oi = 0;
@@ -55,23 +50,18 @@ export const Iterator = component(<T>({ source, children: [ template ] }: Iterat
 					item = (newItems[ni++] = items[oi++]);
 					// re-mount the item to refresh the supplied data value
 					// FUTURE: could this be handled by reactions? ... this would also enable recycling removed items
-					unmount(item.context);
-					item.data = change.item;
-					mount(item.context, template, item.data, getAnchor(items, oi, fallbackAnchor));
+					unmount(item);
+					mount(item, template, change.item, getAnchor(items, oi, fallbackAnchor));
 					break;
 
 				case K_INSERT: {
-					item = (newItems[ni++] = {
-						context: fork(parentContext),
-						data: change.item,
-					});
-
-					mount(item.context, template, item.data, getAnchor(items, oi, fallbackAnchor));
+					item = (newItems[ni++] = fork(parentContext));
+					mount(item, template, change.item, getAnchor(items, oi, fallbackAnchor));
 					break;
 				}
 
 				case K_REMOVE:
-					unmount(items[oi++].context);
+					unmount(items[oi++]);
 					break;
 
 				case K_CLEAR:
@@ -94,14 +84,14 @@ export const Iterator = component(<T>({ source, children: [ template ] }: Iterat
 	return nodes;
 });
 
-function getAnchor(items: readonly RenderedItem<any>[], startIndex: number, fallbackAnchor: JSX.Node): JSX.Node {
+function getAnchor(items: readonly RendererContext[], startIndex: number, fallbackAnchor: JSX.Node): JSX.Node {
 	const { length } = items;
 	let i = startIndex;
 	let item;
 	while (i < length) {
 		item = items[i];
-		if (item.context.topNodes.length > 0) {
-			return item.context.topNodes[0];
+		if (item.topNodes.length > 0) {
+			return item.topNodes[0];
 		}
 
 		i += 1;
