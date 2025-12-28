@@ -43,8 +43,16 @@ const TypeScriptLibrary = declareTarget("TypeScriptLibrary", target => target
 		.plugin(Plugin.Terser
 			.enable(inEnv("prod"))
 			.configure({
-				output: {
+				compress: {
+					ecma: 2020,
+					module: true,
+					passes: 3,
+				},
+				format: {
 					comments: false,
+				},
+				mangle: {
+					toplevel: true,
 				},
 			}))
 		.output("Main", out => out
@@ -80,8 +88,15 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 		.plugin(Plugin.Terser
 			.enable(inEnv("prod"))
 			.configure({
-				output: {
+				compress: {
+					ecma: 2020,
+					passes: 3,
+				},
+				format: {
 					comments: false,
+				},
+				mangle: {
+					toplevel: true,
 				},
 			}))
 		.plugin(Plugin.LiveReload
