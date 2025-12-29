@@ -15,8 +15,8 @@ export const ClassListExtension: ClassListExtensionType = {
 				node.classList.toggle(className, read(toggle));
 			});
 		}
-		else {
-			node.classList.toggle(className, toggle);
+		else if (toggle) {
+			node.classList.add(className);
 		}
 	},
 };
