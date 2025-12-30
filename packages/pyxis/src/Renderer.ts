@@ -4,7 +4,7 @@ import { isAtom, read } from "./data/Atom";
 import { contextMounted, contextUnmounted, getContext, onMounted, onUnmounted, withContext, type ContextInternal } from "./data/Context";
 import { reaction } from "./data/Reaction";
 import { createScheduler, type TickFn } from "./data/Scheduler";
-import { EMPTY_ARRAY, EMPTY_OBJECT, wrap } from "./support/common";
+import { EMPTY_ARRAY, EMPTY_OBJECT, isNil, wrap } from "./support/common";
 
 export interface Renderer<TNode> {
 	mount(root: TNode, template: Template): void;
@@ -176,7 +176,7 @@ function appendChildren<TNode>(adapter: Adapter<TNode>, root: TNode, children: r
 
 	for (; i < length; i += 1) {
 		child = children[i];
-		if (child !== null && child !== undefined) {
+		if (!isNil(child)) {
 			if (Array.isArray(child)) {
 				appendChildren(adapter, root, child);
 			}
@@ -194,7 +194,7 @@ function insertChildren<TNode>(adapter: Adapter<TNode>, before: TNode, children:
 
 	for (; i < length; i += 1) {
 		child = children[i];
-		if (child !== null && child !== undefined) {
+		if (!isNil(child)) {
 			if (Array.isArray(child)) {
 				insertChildren(adapter, before, child);
 			}
