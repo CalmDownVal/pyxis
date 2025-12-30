@@ -16,7 +16,9 @@ export const Show = component(({ when, children: [ template ] }: ShowProps) => {
 	}
 
 	const context = fork();
-	const anchor = context.$adapter.anchor("/Show");
+	const anchor = __DEV__
+		? context.$adapter.anchor("/Show")
+		: context.$adapter.anchor();
 
 	let isShown = (when as AtomInternal<boolean>).$get();
 	reaction(() => {

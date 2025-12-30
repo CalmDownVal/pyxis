@@ -6,7 +6,7 @@ import { unmounted } from "./Context";
 /**
  * Pyxis Slot type guard marker.
  */
-export const S_SLOT = Symbol.for("pyxis:slot");
+export const S_SLOT = __DEV__ ? Symbol.for("pyxis:slot") : Symbol();
 
 export interface Slot<TArgs extends ArgsMax5 = []> {
 	/**

@@ -35,10 +35,11 @@ export function Iterator<T>(props: any) {
 	const source: ListInternal<T> = props.source;
 	const proxy: readonly PropertyKey[] | undefined = props.proxy;
 	const template: DataTemplate<T> = props.children[0];
-
-	const parentContext = getContext() as RendererContext;
-	const fallbackAnchor = parentContext.$adapter.anchor("/Iterator");
 	const isProxy = proxy !== undefined;
+	const parentContext = getContext() as RendererContext;
+	const fallbackAnchor = __DEV__
+		? parentContext.$adapter.anchor("/Iterator")
+		: parentContext.$adapter.anchor();
 
 	// list change reactions
 	let items: IteratorItemContext[];
@@ -204,7 +205,7 @@ function updateProxy(obj: ProxyObject, data: any, keys: readonly PropertyKey[]) 
 	let key;
 	for (; i < length; i += 1) {
 		key = keys[i];
-		obj[key]!.bind(data[key]);
+		obj[key]!.use(data[key]);
 	}
 
 	obj.original = data;

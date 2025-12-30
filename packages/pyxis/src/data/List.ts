@@ -155,7 +155,12 @@ function removeLast<T>(this: ListInternal<T>) {
 
 function assertIndex(list: ListInternal<any>, index: number) {
 	if (index >= list.$items.length || index < 0) {
-		throw new RangeError("index out of bounds");
+		if (__DEV__) {
+			throw new RangeError("list index out of bounds");
+		}
+		else {
+			throw new RangeError();
+		}
 	}
 }
 

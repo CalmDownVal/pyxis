@@ -10,7 +10,7 @@ export interface ProxyAtom<T> extends Atom<T> {
 	 * Binds this ProxyAtom to a new value. If it is an Atom, the proxy will mirror it, otherwise it
 	 * will be a read-only atom with a static value until rebound.
 	 */
-	bind(value: MaybeAtom<T>): void;
+	use(value: MaybeAtom<T>): void;
 }
 
 interface ProxyAtomInternal<T> extends ProxyAtom<T>, AtomInternal<T> {
@@ -27,15 +27,15 @@ export function proxy<T>(initialValue: MaybeAtom<T>, context = getContext()) {
 	const self = {
 		[S_ATOM]: true,
 		$context: context,
-		bind,
+		use,
 		$get: getStaticValue,
 	} as ProxyAtom<T>;
 
-	self.bind(initialValue);
+	self.use(initialValue);
 	return self;
 }
 
-function bind<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
+function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
 	if (this.$dep) {
 		unlink(this.$dep);
 	}

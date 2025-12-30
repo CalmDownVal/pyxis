@@ -8,7 +8,7 @@ import { schedule, type UpdateCallback } from "./Scheduler";
 /**
  * Pyxis Atom type guard marker.
  */
-export const S_ATOM = Symbol.for("pyxis:atom");
+export const S_ATOM = __DEV__ ? Symbol.for("pyxis:atom") : Symbol();
 
 /**
  * Holds any single value, managing reactions to its changes. Use the `read`, `write` functions to
