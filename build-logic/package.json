@@ -10,7 +10,8 @@
 		}
 	},
 	"bin": {
-		"build": "./rollup-build.mjs"
+		"bake-types": "./command/bake-types.mjs",
+		"build": "./command/build.mjs"
 	},
 	"devDependencies": {
 		"@calmdownval/rollup-util": "1.0.0-alpha.17",

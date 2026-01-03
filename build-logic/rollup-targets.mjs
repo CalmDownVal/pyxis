@@ -78,7 +78,12 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 				],
 			}))
 		.plugin(Plugin.TypeScript)
-		.plugin(Plugin.Css)
+		.plugin(Plugin.Css
+			.configure((config, context) => ({
+				...config,
+				minimize: context.targetEnv === "prod",
+				extract: true,
+			})))
 		.plugin(Plugin.NodeResolve)
 		.plugin(Plugin.ImportFile
 			.configure({

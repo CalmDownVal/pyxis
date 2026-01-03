@@ -51,9 +51,10 @@ export interface UnmountBlock {
 
 
 /**
- * Registers a callback to run when the current Component mounts.
+ * Registers a callback to run just after the current Component has mounted.
  *
- * If a teardown callback is returned, it will be run when the Component unmounts.
+ * If a teardown callback is returned, it will be run just before the Component unmounts.
+ * @see {@link unmounted}
  */
 export function mounted(block: MountBlock, context = getContext()) {
 	onMounted(context as ContextInternal, {
@@ -84,7 +85,8 @@ export function onMounted(context: ContextInternal, callback: MountCallback) {
 
 
 /**
- * Registers a callback to run once the current Component unmounts.
+ * Registers a callback to run once the current Component is just about to unmount.
+ * @see {@link mounted}
  */
 export function unmounted(block: UnmountBlock, context = getContext()) {
 	onUnmounted(context as ContextInternal, { $fn: block });

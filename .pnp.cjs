@@ -23,6 +23,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/demo-app"\
     },\
     {\
+      "name": "@calmdown/graph-editor",\
+      "reference": "workspace:packages/graph-editor"\
+    },\
+    {\
       "name": "@calmdown/pyxis",\
       "reference": "workspace:packages/pyxis"\
     },\
@@ -35,6 +39,7 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
+    ["@calmdown/graph-editor", ["workspace:packages/graph-editor"]],\
     ["@calmdown/pyxis", ["workspace:packages/pyxis"]],\
     ["@calmdown/pyxis-demo-app", ["workspace:packages/demo-app"]],\
     ["@calmdown/pyxis-dom", ["virtual:1f62ac333ea38288ad7bfdc4001d7c2d19c462e86d2ec656a9b444e944a05ac2982619007938f2a67c26c0409c529d60b54870ac795802beb97264d96db63ed5#workspace:packages/pyxis-dom", "workspace:packages/pyxis-dom"]],\
@@ -49,6 +54,19 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@calmdown/pyxis-monorepo", "workspace:."],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@calmdown/graph-editor", [\
+      ["workspace:packages/graph-editor", {\
+        "packageLocation": "./packages/graph-editor/",\
+        "packageDependencies": [\
+          ["@calmdown/graph-editor", "workspace:packages/graph-editor"],\
+          ["@calmdown/pyxis", "workspace:packages/pyxis"],\
+          ["@calmdown/pyxis-dom", "virtual:1f62ac333ea38288ad7bfdc4001d7c2d19c462e86d2ec656a9b444e944a05ac2982619007938f2a67c26c0409c529d60b54870ac795802beb97264d96db63ed5#workspace:packages/pyxis-dom"],\
+          ["build-logic", "workspace:build-logic"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

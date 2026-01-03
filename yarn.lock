@@ -5,6 +5,17 @@ __metadata:
   version: 8
   cacheKey: 10
 
+"@calmdown/graph-editor@workspace:packages/graph-editor":
+  version: 0.0.0-use.local
+  resolution: "@calmdown/graph-editor@workspace:packages/graph-editor"
+  dependencies:
+    "@calmdown/pyxis": "workspace:*"
+    "@calmdown/pyxis-dom": "workspace:*"
+    build-logic: "workspace:*"
+    typescript: "npm:5.9.3"
+  languageName: unknown
+  linkType: soft
+
 "@calmdown/pyxis-demo-app@workspace:packages/demo-app":
   version: 0.0.0-use.local
   resolution: "@calmdown/pyxis-demo-app@workspace:packages/demo-app"
@@ -845,7 +856,8 @@ __metadata:
     tslib: "npm:2.8.1"
     typescript: "npm:5.9.3"
   bin:
-    build: ./rollup-build.mjs
+    bake-types: ./command/bake-types.mjs
+    build: ./command/build.mjs
   languageName: unknown
   linkType: soft
 

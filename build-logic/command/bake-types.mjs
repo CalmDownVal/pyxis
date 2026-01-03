@@ -1,5 +1,5 @@
 // A TypeScript "bake" script capable of materializing complex types into flat interfaces.
-// Usage: node bake.js <input> <output>
+// Usage: yarn bake-types <input> <output>
 //
 // Only types tagged with the @bake JSDoc tag will be baked.
 // Any node tagged with the @preserve JSDoc tag will be preserved as-is into the output.
