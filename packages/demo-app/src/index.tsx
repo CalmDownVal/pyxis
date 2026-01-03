@@ -78,7 +78,7 @@ const TestApp = () => {
 							<CheckBox checked={todo.done}>
 								{todo.text}
 							</CheckBox>
-							<Button onclick={() => todos.remove(todo.original)}>
+							<Button onclick={() => todos.remove(todo.proxied)}>
 								<Text>Remove</Text>
 							</Button>
 						</li>

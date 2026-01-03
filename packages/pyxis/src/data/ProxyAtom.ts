@@ -10,7 +10,7 @@ export interface ProxyAtom<T> extends Atom<T> {
 	 * Binds this ProxyAtom to a new value. If it is an Atom, the proxy will mirror it, otherwise it
 	 * will be a read-only atom with a static value until rebound.
 	 */
-	use(value: MaybeAtom<T>): void;
+	use: (value: MaybeAtom<T>) => void;
 }
 
 interface ProxyAtomInternal<T> extends ProxyAtom<T>, AtomInternal<T> {

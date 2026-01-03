@@ -17,7 +17,7 @@ export interface RemountIteratorProps<T> {
 export interface ProxyIteratorProps<T, P extends readonly (keyof T)[]> {
 	source: List<T>;
 	proxy?: P;
-	children: JsxChildren<[ DataTemplate<{ [K in P[number]]: ProxyAtom<T[K] extends MaybeAtom<infer V> ? V : T[K]> } & { readonly original: T }> ]>;
+	children: JsxChildren<[ DataTemplate<{ [K in P[number]]: ProxyAtom<T[K] extends MaybeAtom<infer V> ? V : T[K]> } & { readonly proxied: T }> ]>;
 }
 
 interface IteratorItemContext extends RendererContext {
@@ -187,7 +187,7 @@ function getAnchor(items: readonly RendererContext[], startIndex: number, fallba
 type ProxyObject = { [_ in PropertyKey]?: ProxyAtom<any> };
 
 function createProxy(context: Context, data: any, keys: readonly PropertyKey[]) {
-	const obj: ProxyObject = { original: data };
+	const obj: ProxyObject = { proxied: data };
 	const { length } = keys;
 	let i = 0;
 	let key;
@@ -208,5 +208,5 @@ function updateProxy(obj: ProxyObject, data: any, keys: readonly PropertyKey[]) 
 		obj[key]!.use(data[key]);
 	}
 
-	obj.original = data;
+	obj.proxied = data;
 }

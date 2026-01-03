@@ -14,8 +14,8 @@ export interface Renderer<TNode, TIntrinsicElements extends ElementsType = Eleme
 	 */
 	readonly __elements?: TIntrinsicElements;
 
-	mount(root: TNode, template: Template): void;
-	unmount(): void;
+	mount: (root: TNode, template: Template) => void;
+	unmount: () => void;
 }
 
 export type ElementsOf<TRenderer> = TRenderer extends { readonly __elements?: infer TElements }

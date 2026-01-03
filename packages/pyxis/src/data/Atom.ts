@@ -43,13 +43,13 @@ export interface AtomInternal<T> extends Atom<T>, DependencyList {
 	/**
 	 * Gets the value of this Atom.
 	 */
-	$get(): T;
+	$get: () => T;
 
 	/**
 	 * Sets the value of this Atom. Does nothing if this Atom is readonly.
 	 * @returns Boolean indicating whether the value of this Atom changed.
 	 */
-	$set(value: T): boolean;
+	$set: (value: T) => boolean;
 }
 
 interface DirectAtom<T> extends AtomInternal<any> {
