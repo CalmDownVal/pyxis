@@ -36,6 +36,11 @@ export const Plugin = {
 		async () => (await import("rollup-plugin-livereload")).default,
 	),
 
+	LoadText: declarePlugin(
+		"loadText",
+		async () => (await import("./plugins/TextLoader.mjs")).default,
+	),
+
 	NodeResolve: declarePlugin(
 		"NodeResolve",
 		async () => (await import("@rollup/plugin-node-resolve")).default,

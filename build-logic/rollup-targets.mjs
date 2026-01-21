@@ -90,6 +90,10 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 				output: "./dist/assets",
 				extensions: /\.(svg|web[pma]|wasm)$/,
 			}))
+		.plugin(Plugin.LoadText
+			.configure({
+				include: "*.glsl",
+			}))
 		.plugin(Plugin.SourceMaps)
 		.plugin(Plugin.Terser
 			.enable(inEnv("prod"))
