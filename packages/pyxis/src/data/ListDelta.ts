@@ -97,11 +97,11 @@ export function createDelta<T>(): ListDelta<T> {
 }
 
 /** @internal */
-export function itemChanged<T>({ $changes: changes }: ListDelta<T>, at: number, item: T) {
-	const ci = binarySearch(changes, at);
+export function itemChanged<T>({ $changes }: ListDelta<T>, at: number, item: T) {
+	const ci = binarySearch($changes, at);
 	if (ci < 0) {
 		// nothing at this index, add new delta
-		changes.splice(~ci, 0, {
+		$changes.splice(~ci, 0, {
 			$kind: K_CHANGE,
 			$index: at,
 			$item: item,
@@ -112,7 +112,7 @@ export function itemChanged<T>({ $changes: changes }: ListDelta<T>, at: number, 
 		// - change -> change item
 		// - insert -> change item
 		// - remove -> append change
-		const current = changes[ci];
+		const current = $changes[ci];
 		switch (current.$kind) {
 			case K_CHANGE:
 			case K_INSERT:
@@ -120,7 +120,7 @@ export function itemChanged<T>({ $changes: changes }: ListDelta<T>, at: number, 
 				break;
 
 			case K_REMOVE:
-				changes.splice(ci + 1, 0, {
+				$changes.splice(ci + 1, 0, {
 					$kind: K_CHANGE,
 					$index: at,
 					$item: item,
@@ -133,13 +133,13 @@ export function itemChanged<T>({ $changes: changes }: ListDelta<T>, at: number, 
 
 /** @internal */
 export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
-	const { $changes: changes } = delta;
+	const { $changes } = delta;
 
-	let ci = binarySearch(changes, at);
+	let ci = binarySearch($changes, at);
 	if (ci < 0) {
 		// nothing at this index, add new delta
 		ci = ~ci;
-		changes.splice(ci, 0, {
+		$changes.splice(ci, 0, {
 			$kind: K_INSERT,
 			$index: at,
 			$item: item,
@@ -150,10 +150,10 @@ export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
 		// - change -> prepend with insert
 		// - insert -> append another
 		// - remove -> replace with change
-		const current = changes[ci];
+		const current = $changes[ci];
 		switch (current.$kind) {
 			case K_CHANGE:
-				changes.splice(ci, 0, {
+				$changes.splice(ci, 0, {
 					$kind: K_INSERT,
 					$index: at,
 					$item: item,
@@ -162,7 +162,7 @@ export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
 				break;
 
 			case K_INSERT:
-				changes.splice(ci + 1, 0, {
+				$changes.splice(ci + 1, 0, {
 					$kind: K_INSERT,
 					$index: at,
 					$item: item,
@@ -178,9 +178,9 @@ export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
 	}
 
 	// shift the indices of later changes
-	const { length } = changes;
+	const { length } = $changes;
 	while (++ci < length) {
-		changes[ci].$index += 1;
+		$changes[ci].$index += 1;
 	}
 
 	// update the overall change in list length
@@ -189,13 +189,13 @@ export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
 
 /** @internal */
 export function itemRemoved<T>(delta: ListDelta<T>, at: number) {
-	const { $changes: changes } = delta;
+	const { $changes } = delta;
 
-	let ci = binarySearch(changes, at);
+	let ci = binarySearch($changes, at);
 	if (ci < 0) {
 		// nothing at this index, add new delta
 		ci = ~ci;
-		changes.splice(ci, 0, {
+		$changes.splice(ci, 0, {
 			$kind: K_REMOVE,
 			$index: at,
 		});
@@ -205,7 +205,7 @@ export function itemRemoved<T>(delta: ListDelta<T>, at: number) {
 		// - change -> replace with removal
 		// - insert -> remove it
 		// - remove -> append another
-		const current = changes[ci];
+		const current = $changes[ci];
 		switch (current.$kind) {
 			case K_CHANGE:
 				(current as any).$kind = K_REMOVE;
@@ -213,11 +213,11 @@ export function itemRemoved<T>(delta: ListDelta<T>, at: number) {
 				break;
 
 			case K_INSERT:
-				changes.splice(ci, 1);
+				$changes.splice(ci, 1);
 				break;
 
 			case K_REMOVE:
-				changes.splice(++ci, 0, {
+				$changes.splice(++ci, 0, {
 					$kind: K_REMOVE,
 					$index: at,
 				});
@@ -227,9 +227,9 @@ export function itemRemoved<T>(delta: ListDelta<T>, at: number) {
 	}
 
 	// shift the indices of later changes
-	const { length } = changes;
+	const { length } = $changes;
 	while (++ci < length) {
-		changes[ci].$index -= 1;
+		$changes[ci].$index -= 1;
 	}
 
 	// update the overall change in list length
@@ -238,9 +238,9 @@ export function itemRemoved<T>(delta: ListDelta<T>, at: number) {
 
 /** @internal */
 export function listCleared<T>(delta: ListDelta<T>, count: number) {
-	const { $changes: changes } = delta;
-	changes.length = 0;
-	changes.push({
+	const { $changes } = delta;
+	$changes.length = 0;
+	$changes.push({
 		$kind: K_CLEAR,
 		$index: -1,
 	});

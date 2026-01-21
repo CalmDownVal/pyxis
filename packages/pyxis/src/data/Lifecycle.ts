@@ -4,12 +4,13 @@ import type { Nil } from "~/support/types";
 import type { DependencyList } from "./Dependency";
 import type { Scheduler } from "./Scheduler";
 
-export interface Context {
+export interface Lifecycle {
+	/** whether this Lifecycle is currently mounted or not */
 	mounted: boolean;
 }
 
 /** @internal */
-export interface ContextInternal extends Context, DependencyList {
+export interface LifecycleInternal extends Lifecycle, DependencyList {
 	readonly $scheduler: Scheduler;
 
 	/** The head of the mount callback linked list. */
@@ -56,31 +57,31 @@ export interface UnmountBlock {
  * If a teardown callback is returned, it will be run just before the Component unmounts.
  * @see {@link unmounted}
  */
-export function mounted(block: MountBlock, context = getContext()) {
-	onMounted(context as ContextInternal, {
-		$fn: runMountedCallback,
-		$a0: context,
+export function mounted(block: MountBlock, lifecycle = getLifecycle()) {
+	onMounted(lifecycle as LifecycleInternal, {
+		$fn: invokeMountedCallback,
+		$a0: lifecycle,
 		$a1: block,
 	});
 }
 
-function runMountedCallback(context: ContextInternal, block: MountBlock) {
+function invokeMountedCallback(lifecycle: LifecycleInternal, block: MountBlock) {
 	const dispose = block();
 	if (dispose) {
-		onUnmounted(context, { $fn: dispose });
+		onUnmounted(lifecycle, { $fn: dispose });
 	}
 }
 
 /** @internal */
-export function onMounted(context: ContextInternal, callback: MountCallback) {
-	if (context.$mt) {
-		context.$mt.$mn = callback;
+export function onMounted(lifecycle: LifecycleInternal, callback: MountCallback) {
+	if (lifecycle.$mt) {
+		lifecycle.$mt.$mn = callback;
 	}
 	else {
-		context.$mh = callback;
+		lifecycle.$mh = callback;
 	}
 
-	context.$mt = callback;
+	lifecycle.$mt = callback;
 }
 
 
@@ -88,41 +89,41 @@ export function onMounted(context: ContextInternal, callback: MountCallback) {
  * Registers a callback to run once the current Component is just about to unmount.
  * @see {@link mounted}
  */
-export function unmounted(block: UnmountBlock, context = getContext()) {
-	onUnmounted(context as ContextInternal, { $fn: block });
+export function unmounted(block: UnmountBlock, lifecycle = getLifecycle()) {
+	onUnmounted(lifecycle as LifecycleInternal, { $fn: block });
 }
 
 /** @internal */
-export function onUnmounted(context: ContextInternal, callback: UnmountCallback) {
-	if (context.$ut) {
-		context.$ut.$un = callback;
+export function onUnmounted(lifecycle: LifecycleInternal, callback: UnmountCallback) {
+	if (lifecycle.$ut) {
+		lifecycle.$ut.$un = callback;
 	}
 	else {
-		context.$uh = callback;
+		lifecycle.$uh = callback;
 	}
 
-	context.$ut = callback;
+	lifecycle.$ut = callback;
 }
 
 
-let currentContext: Context | null = null;
+let currentLifecycle: Lifecycle | null = null;
 
-export function getContext(): Context {
-	if (__DEV__ && !currentContext) {
-		throw new Error("Cannot get current context. Are you creating an Atom outside of a Component?");
+export function getLifecycle(): Lifecycle {
+	if (__DEV__ && !currentLifecycle) {
+		throw new Error("Cannot get current lifecycle. Are you creating an Atom outside of a Component?");
 	}
 
-	return currentContext!;
+	return currentLifecycle!;
 }
 
-export function withContext<TArgs extends ArgsMax5, TReturn>(
-	context: Context,
+export function withLifecycle<TArgs extends ArgsMax5, TReturn>(
+	lifecycle: Lifecycle,
 	block: (...args: TArgs) => TReturn,
 	...args: TArgs
 ): TReturn;
 
-export function withContext(
-	context: Context,
+export function withLifecycle(
+	lifecycle: Lifecycle,
 	block: (...args: ArgsMax5) => any,
 	a0: any,
 	a1: any,
@@ -130,23 +131,23 @@ export function withContext(
 	a3: any,
 	a4: any,
 ) {
-	const previousContext = currentContext;
+	const previousLifecycle = currentLifecycle;
 	try {
-		currentContext = context;
+		currentLifecycle = lifecycle;
 		return block(a0, a1, a2, a3, a4);
 	}
 	finally {
-		currentContext = previousContext;
+		currentLifecycle = previousLifecycle;
 	}
 }
 
 /** @internal */
-export function contextMounted(context: ContextInternal) {
-	context.mounted = true;
+export function notifyMounted(lifecycle: LifecycleInternal) {
+	lifecycle.mounted = true;
 
 	// run registered mount callbacks
 	try {
-		let callback = context.$mh;
+		let callback = lifecycle.$mh;
 		let tmp;
 		while (callback) {
 			tmp = callback.$mn;
@@ -156,22 +157,22 @@ export function contextMounted(context: ContextInternal) {
 		}
 	}
 	finally {
-		context.$mh = null;
-		context.$mt = null;
+		lifecycle.$mh = null;
+		lifecycle.$mt = null;
 	}
 }
 
 /** @internal */
-export function contextUnmounted(context: ContextInternal) {
-	context.mounted = false;
+export function notifyUnmounted(lifecycle: LifecycleInternal) {
+	lifecycle.mounted = false;
 
 	// unlink all contextual dependencies
-	let dep = context.$dh;
+	let dep = lifecycle.$dh;
 	let tmp;
 	let atom;
 
 	while (dep) {
-		tmp = dep.$cn;
+		tmp = dep.$ln;
 		atom = dep.$target!;
 
 		if (dep.$ap) {
@@ -192,19 +193,19 @@ export function contextUnmounted(context: ContextInternal) {
 		dep.$ap = null;
 		dep.$an = null;
 
-		dep.$context = null;
-		dep.$cp = null;
-		dep.$cn = null;
+		dep.$lifecycle = null;
+		dep.$lp = null;
+		dep.$ln = null;
 
 		dep = tmp;
 	}
 
-	context.$dh = null;
-	context.$dt = null;
+	lifecycle.$dh = null;
+	lifecycle.$dt = null;
 
 	// run registered unmount callbacks
 	try {
-		let callback = context.$uh;
+		let callback = lifecycle.$uh;
 		let tmp;
 		while (callback) {
 			tmp = callback.$un;
@@ -214,7 +215,7 @@ export function contextUnmounted(context: ContextInternal) {
 		}
 	}
 	finally {
-		context.$uh = null;
-		context.$ut = null;
+		lifecycle.$uh = null;
+		lifecycle.$ut = null;
 	}
 }

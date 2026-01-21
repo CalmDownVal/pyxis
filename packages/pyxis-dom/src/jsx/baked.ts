@@ -1,7 +1,7 @@
 // baked types, do not modify as changes will be lost
 // source file: inferred.ts
 
-import type { MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
+import type { JsxResult, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
 
 export interface HTMLAnchorElementProps {
 	readonly class?: MaybeAtom<string>;
@@ -106,7 +106,7 @@ export interface HTMLAnchorElementProps {
 	readonly protocol?: MaybeAtom<string>;
 	readonly search?: MaybeAtom<string>;
 	readonly username?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLAnchorElement;
 }
 
@@ -189,7 +189,7 @@ export interface HTMLElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLElement;
 }
 
@@ -292,7 +292,7 @@ export interface HTMLAreaElementProps {
 	readonly username?: MaybeAtom<string>;
 	readonly alt?: MaybeAtom<string>;
 	readonly noHref?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLAreaElement;
 }
 
@@ -390,7 +390,7 @@ export interface HTMLAudioElementProps {
 	readonly src?: MaybeAtom<string>;
 	readonly srcObject?: MaybeAtom<MediaProvider | null>;
 	readonly volume?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLAudioElement;
 }
 
@@ -475,7 +475,7 @@ export interface HTMLBaseElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly href?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLBaseElement;
 }
 
@@ -559,7 +559,7 @@ export interface HTMLQuoteElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly cite?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLQuoteElement;
 }
 
@@ -643,7 +643,7 @@ export interface HTMLBRElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly clear?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLBRElement;
 }
 
@@ -737,7 +737,7 @@ export interface HTMLButtonElementProps {
 	readonly value?: MaybeAtom<string>;
 	readonly popoverTargetAction?: MaybeAtom<string>;
 	readonly popoverTargetElement?: MaybeAtom<Element | null>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLButtonElement;
 }
 
@@ -822,7 +822,7 @@ export interface HTMLCanvasElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLCanvasElement;
 }
 
@@ -906,7 +906,7 @@ export interface HTMLTableCaptionElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTableCaptionElement;
 }
 
@@ -995,7 +995,7 @@ export interface HTMLTableColElementProps {
 	readonly chOff?: MaybeAtom<string>;
 	readonly span?: MaybeAtom<number>;
 	readonly vAlign?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTableColElement;
 }
 
@@ -1079,7 +1079,7 @@ export interface HTMLDataElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLDataElement;
 }
 
@@ -1162,7 +1162,7 @@ export interface HTMLDataListElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLDataListElement;
 }
 
@@ -1247,7 +1247,7 @@ export interface HTMLModElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly cite?: MaybeAtom<string>;
 	readonly dateTime?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLModElement;
 }
 
@@ -1332,7 +1332,7 @@ export interface HTMLDetailsElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly open?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLDetailsElement;
 }
 
@@ -1417,7 +1417,7 @@ export interface HTMLDialogElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly open?: MaybeAtom<boolean>;
 	readonly returnValue?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLDialogElement;
 }
 
@@ -1501,7 +1501,7 @@ export interface HTMLDivElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLDivElement;
 }
 
@@ -1585,7 +1585,7 @@ export interface HTMLDListElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly compact?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLDListElement;
 }
 
@@ -1674,7 +1674,7 @@ export interface HTMLEmbedElementProps {
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLEmbedElement;
 }
 
@@ -1759,7 +1759,7 @@ export interface HTMLFieldSetElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly disabled?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLFieldSetElement;
 }
 
@@ -1853,7 +1853,7 @@ export interface HTMLFormElementProps {
 	readonly enctype?: MaybeAtom<string>;
 	readonly method?: MaybeAtom<string>;
 	readonly noValidate?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLFormElement;
 }
 
@@ -1937,7 +1937,7 @@ export interface HTMLHeadingElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLHeadingElement;
 }
 
@@ -2025,7 +2025,7 @@ export interface HTMLHRElementProps {
 	readonly color?: MaybeAtom<string>;
 	readonly noShade?: MaybeAtom<boolean>;
 	readonly size?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLHRElement;
 }
 
@@ -2124,7 +2124,7 @@ export interface HTMLIFrameElementProps {
 	readonly sandbox?: MaybeAtom<DOMTokenList>;
 	readonly scrolling?: MaybeAtom<string>;
 	readonly srcdoc?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLIFrameElement;
 }
 
@@ -2227,7 +2227,7 @@ export interface HTMLImageElementProps {
 	readonly srcset?: MaybeAtom<string>;
 	readonly useMap?: MaybeAtom<string>;
 	readonly vspace?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLImageElement;
 }
 
@@ -2353,7 +2353,7 @@ export interface HTMLInputElementProps {
 	readonly valueAsDate?: MaybeAtom<Date | null>;
 	readonly valueAsNumber?: MaybeAtom<number>;
 	readonly webkitdirectory?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLInputElement;
 }
 
@@ -2437,7 +2437,7 @@ export interface HTMLLabelElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLLabelElement;
 }
 
@@ -2521,7 +2521,7 @@ export interface HTMLLegendElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLLegendElement;
 }
 
@@ -2606,7 +2606,7 @@ export interface HTMLLIElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLLIElement;
 }
 
@@ -2690,7 +2690,7 @@ export interface HTMLMapElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLMapElement;
 }
 
@@ -2774,7 +2774,7 @@ export interface HTMLMenuElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly compact?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLMenuElement;
 }
 
@@ -2863,7 +2863,7 @@ export interface HTMLMeterElementProps {
 	readonly max?: MaybeAtom<number>;
 	readonly min?: MaybeAtom<number>;
 	readonly optimum?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLMeterElement;
 }
 
@@ -2962,7 +2962,7 @@ export interface HTMLObjectElementProps {
 	readonly data?: MaybeAtom<string>;
 	readonly declare?: MaybeAtom<boolean>;
 	readonly standby?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLObjectElement;
 }
 
@@ -3049,7 +3049,7 @@ export interface HTMLOListElementProps {
 	readonly compact?: MaybeAtom<boolean>;
 	readonly reversed?: MaybeAtom<boolean>;
 	readonly start?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLOListElement;
 }
 
@@ -3134,7 +3134,7 @@ export interface HTMLOptGroupElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly label?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLOptGroupElement;
 }
 
@@ -3223,7 +3223,7 @@ export interface HTMLOptionElementProps {
 	readonly label?: MaybeAtom<string>;
 	readonly defaultSelected?: MaybeAtom<boolean>;
 	readonly selected?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLOptionElement;
 }
 
@@ -3310,7 +3310,7 @@ export interface HTMLOutputElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<string>;
 	readonly defaultValue?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLOutputElement;
 }
 
@@ -3394,7 +3394,7 @@ export interface HTMLParagraphElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLParagraphElement;
 }
 
@@ -3477,7 +3477,7 @@ export interface HTMLPictureElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLPictureElement;
 }
 
@@ -3561,7 +3561,7 @@ export interface HTMLPreElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLPreElement;
 }
 
@@ -3646,7 +3646,7 @@ export interface HTMLProgressElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<number>;
 	readonly max?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLProgressElement;
 }
 
@@ -3738,7 +3738,7 @@ export interface HTMLSelectElementProps {
 	readonly multiple?: MaybeAtom<boolean>;
 	readonly required?: MaybeAtom<boolean>;
 	readonly selectedIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLSelectElement;
 }
 
@@ -3822,7 +3822,7 @@ export interface HTMLSlotElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLSlotElement;
 }
 
@@ -3912,7 +3912,7 @@ export interface HTMLSourceElementProps {
 	readonly sizes?: MaybeAtom<string>;
 	readonly srcset?: MaybeAtom<string>;
 	readonly media?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLSourceElement;
 }
 
@@ -3995,7 +3995,7 @@ export interface HTMLSpanElementProps {
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLSpanElement;
 }
 
@@ -4090,7 +4090,7 @@ export interface HTMLTableElementProps {
 	readonly summary?: MaybeAtom<string>;
 	readonly tFoot?: MaybeAtom<HTMLTableSectionElement | null>;
 	readonly tHead?: MaybeAtom<HTMLTableSectionElement | null>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTableElement;
 }
 
@@ -4177,7 +4177,7 @@ export interface HTMLTableSectionElementProps {
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
 	readonly vAlign?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTableSectionElement;
 }
 
@@ -4274,7 +4274,7 @@ export interface HTMLTableCellElementProps {
 	readonly noWrap?: MaybeAtom<boolean>;
 	readonly rowSpan?: MaybeAtom<number>;
 	readonly scope?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTableCellElement;
 }
 
@@ -4361,7 +4361,7 @@ export interface HTMLTemplateElementProps {
 	readonly shadowRootDelegatesFocus?: MaybeAtom<boolean>;
 	readonly shadowRootMode?: MaybeAtom<string>;
 	readonly shadowRootSerializable?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTemplateElement;
 }
 
@@ -4461,7 +4461,7 @@ export interface HTMLTextAreaElementProps {
 	readonly rows?: MaybeAtom<number>;
 	readonly cols?: MaybeAtom<number>;
 	readonly wrap?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTextAreaElement;
 }
 
@@ -4545,7 +4545,7 @@ export interface HTMLTimeElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly dateTime?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTimeElement;
 }
 
@@ -4633,7 +4633,7 @@ export interface HTMLTableRowElementProps {
 	readonly chOff?: MaybeAtom<string>;
 	readonly vAlign?: MaybeAtom<string>;
 	readonly bgColor?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTableRowElement;
 }
 
@@ -4721,7 +4721,7 @@ export interface HTMLTrackElementProps {
 	readonly default?: MaybeAtom<boolean>;
 	readonly kind?: MaybeAtom<string>;
 	readonly srclang?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLTrackElement;
 }
 
@@ -4806,7 +4806,7 @@ export interface HTMLUListElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly compact?: MaybeAtom<boolean>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLUListElement;
 }
 
@@ -4909,7 +4909,7 @@ export interface HTMLVideoElementProps {
 	readonly disablePictureInPicture?: MaybeAtom<boolean>;
 	readonly playsInline?: MaybeAtom<boolean>;
 	readonly poster?: MaybeAtom<string>;
-	readonly children?: Nil<Node> | readonly Nil<Node>[];
+	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	readonly [S_NODE_TYPE]?: HTMLVideoElement;
 }
 

@@ -6,21 +6,21 @@ export interface RefExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
 		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
 			readonly atom?: Atom<NodeType<TElements[TElementName]>>;
-			readonly fn?: (node: NodeType<TElements[TElementName]>) => void;
+			readonly call?: (node: NodeType<TElements[TElementName]>) => void;
 		}>;
 	};
 
-	set: (node: JSX.Node, prop: string, value: any) => void;
+	set: (node: any, prop: string, value: any) => void;
 }
 
 export const RefExtension = {
-	set: (node: JSX.Node, kind: string, value: any) => {
+	set: (node: any, kind: string, value: any) => {
 		switch (kind) {
 			case "atom":
 				write(value, node);
 				break;
 
-			case "fn":
+			case "call":
 				value(node);
 				break;
 		}

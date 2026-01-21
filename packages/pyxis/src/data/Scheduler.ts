@@ -1,7 +1,7 @@
 import { invoke, type ArgsMax2, type Callback } from "~/support/Callback";
 import type { Nil } from "~/support/types";
 
-import type { ContextInternal } from "./Context";
+import type { LifecycleInternal } from "./Lifecycle";
 
 /**
  * Manages a queue of scheduled updates.
@@ -78,7 +78,7 @@ export interface UpdateCallback<TArgs extends ArgsMax2 = ArgsMax2> extends Callb
  * Adds the provided callback to the update queue. Does nothing if already queued.
  * @internal
  */
-export function schedule({ $scheduler }: ContextInternal, callback: UpdateCallback) {
+export function schedule({ $scheduler }: LifecycleInternal, callback: UpdateCallback) {
 	if (callback.$epoch === $scheduler.$epoch) {
 		if (__DEV__ && $scheduler.$isUpdating) {
 			throw new Error("Refusing to reschedule an update as it may cause an infinite loop. Are you mutating an Atom inside a reaction that depends on it?");

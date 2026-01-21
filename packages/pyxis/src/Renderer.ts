@@ -1,11 +1,12 @@
 import type { Adapter, ExtensionsType } from "./Adapter";
-import type { Component, DataTemplate, Template } from "./Component";
-import { isAtom, read } from "./data/Atom";
-import { contextMounted, contextUnmounted, getContext, onMounted, onUnmounted, withContext, type ContextInternal } from "./data/Context";
-import { reaction } from "./data/Reaction";
+import type { DataTemplate, JsxResult, Template } from "./Component";
+import { notifyMounted, notifyUnmounted, getLifecycle, onMounted, onUnmounted, withLifecycle, type LifecycleInternal, type Lifecycle } from "./data/Lifecycle";
 import { createScheduler } from "./data/Scheduler";
-import { EMPTY_ARRAY, isNil, wrap } from "./support/common";
 import type { ElementsType } from "./support/types";
+
+/** @internal */
+// @ts-expect-error this is a unique symbol at runtime
+export const S_COMPONENT: unique symbol = __DEV__ ? Symbol.for("pyxis:component") : Symbol();
 
 export interface Renderer<TNode, TIntrinsicElements extends ElementsType = ElementsType> {
 	/**
@@ -22,12 +23,17 @@ export type ElementsOf<TRenderer> = TRenderer extends { readonly __elements?: in
 	? TElements
 	: {};
 
+export interface MountingGroup<TNode = any> extends Lifecycle {
+	/** the Adapter usable with this MountingGroup */
+	readonly adapter: Adapter<TNode>;
+	/** the top-level nodes of this MountingGroup */
+	top: TNode[];
+}
+
 /** @internal */
-export interface RendererContext<TNode = any> extends ContextInternal {
-	readonly $adapter: Adapter<TNode>;
+export interface MountingGroupInternal<TNode = any> extends MountingGroup<TNode>, LifecycleInternal {
 	readonly $extensions: ExtensionsType<TNode>;
-	readonly $parent?: RendererContext<TNode>;
-	$topNodes: readonly TNode[];
+	readonly $parent?: MountingGroupInternal<TNode>;
 }
 
 /** @internal */
@@ -35,179 +41,184 @@ export function createRenderer<TNode, TIntrinsicElements extends ElementsType>(
 	adapter: Adapter<TNode>,
 	extensions: ExtensionsType<TNode>,
 ): Renderer<TNode, TIntrinsicElements> {
-	const context: RendererContext<TNode> & Renderer<TNode, TIntrinsicElements> = {
-		$scheduler: createScheduler(adapter.tick),
-		$adapter: adapter,
-		$extensions: extensions,
-		$topNodes: EMPTY_ARRAY,
+	const group: MountingGroupInternal<TNode> & Renderer<TNode, TIntrinsicElements> = {
 		mounted: false,
-		unmount: () => unmount(context),
+		adapter: adapter,
+		top: [],
+		$scheduler: createScheduler(adapter.tick),
+		$extensions: extensions,
+		unmount: () => unmount(group),
 		mount: (root, template) => {
-			const nodes = withContext(context, () => (
-				context.$topNodes = wrap(template())
-			));
-
-			appendChildren(adapter, root, nodes);
-			contextMounted(context);
+			const jsx = template();
+			withLifecycle(group, mountJsx, group, jsx, root, null, 0);
+			insertNodes(group, root, null);
+			notifyMounted(group);
 		},
 	};
 
-	return context;
+	return group;
 }
 
-const RE_EXT = /^([^:]+):([^:]+)$/;
-
-export function render(
-	tagName: string,
-	props: { readonly [_ in string]?: unknown },
-): JSX.Node;
-
-export function render<TProps extends {}, TReturn>(
-	component: Component<TProps, TReturn>,
-	props: TProps,
-): TReturn;
-
-export function render(
-	componentOrTagName: Component<any> | string,
-	props: any,
-) {
-	if (typeof componentOrTagName !== "string") {
-		return componentOrTagName(props);
-	}
-
-	const context = getContext() as RendererContext;
-	const { $adapter: adapter, $extensions: extensions } = context;
-
-	const node = adapter.native(componentOrTagName);
-
-	let name;
-	let match;
-	let value;
-	for (name in props) {
-		match = RE_EXT.exec(name);
-		value = props[name];
-		if (match) {
-			extensions[match[1]]?.set(node, match[2], value);
-		}
-		else if (name !== "children") {
-			if (isAtom(value)) {
-				const prop = name;
-				const atom = value;
-				reaction(() => adapter.set(node, prop, read(atom)), context);
-			}
-			else {
-				adapter.set(node, name, value);
-			}
-		}
-	}
-
-	appendChildren(adapter, node, props.children);
-	return node;
-}
 
 /**
- * Creates a sub-context of the provided RendererContext. Needed whenever a subtree may need to
- * dynamically re-render or unmount entirely.
- * @internal
+ * Creates a sub-group of the provided MountingGroup. Needed whenever a subtree
+ * may need to dynamically re-render or unmount entirely.
  */
-export function fork<TNode>(
-	context: RendererContext<TNode> = (getContext() as RendererContext<TNode>),
-): RendererContext<TNode> {
-	const subContext = {
-		$scheduler: context.$scheduler,
-		$adapter: context.$adapter,
-		$extensions: context.$extensions,
-		$parent: context,
-		$topNodes: [],
+// @ts-expect-error public API hides internals
+export function split<TNode>(
+	parentGroup?: MountingGroup<TNode>,
+): MountingGroup<TNode>;
+
+export function split<TNode>(
+	parentGroup: MountingGroupInternal<TNode> = (getLifecycle() as MountingGroupInternal<TNode>),
+): MountingGroup<TNode> {
+	const subGroup = {
 		mounted: false,
+		adapter: parentGroup.adapter,
+		top: [],
+		$scheduler: parentGroup.$scheduler,
+		$extensions: parentGroup.$extensions,
+		$parent: parentGroup,
 	};
 
-	onUnmounted(context, {
+	onUnmounted(parentGroup, {
 		$fn: unmount,
-		$a0: subContext,
+		$a0: subGroup,
 	});
 
-	return subContext;
+	return subGroup;
 }
 
-/** @internal */
-export function mount<TNode>(context: RendererContext<TNode>, template: Template, data?: undefined, before?: TNode): void;
+
+/**
+ * Mounts a MountingGroup to the specified location in the node tree. If the
+ * group is already mounted, it is moved to the new location without re-mounting
+ * its components.
+ */
+// @ts-expect-error public API hides internals
+export function mount<TNode>(
+	group: MountingGroup<TNode>,
+	template: Template,
+	data: undefined,
+	parent: TNode,
+	before: TNode | null,
+): void;
+
+export function mount<TNode, TData>(
+	group: MountingGroup<TNode>,
+	template: DataTemplate<TData>,
+	data: TData,
+	parent: TNode,
+	before: TNode | null,
+): void;
 
 /** @internal */
-export function mount<TNode, TData>(context: RendererContext<TNode>, template: DataTemplate<TData>, data: TData, before?: TNode): void;
+export function mount<TNode>(
+	group: MountingGroupInternal<TNode>,
+	template: Template,
+	data: undefined,
+	parent: TNode,
+	before: TNode | null,
+): void;
 
-export function mount<TNode>(context: RendererContext<TNode>, template: Template | DataTemplate<any>, data?: any, before?: TNode) {
-	if (context.mounted) {
-		insertChildren(context.$adapter, before!, context.$topNodes);
+/** @internal */
+export function mount<TNode, TData>(
+	group: MountingGroupInternal<TNode>,
+	template: DataTemplate<TData>,
+	data: TData,
+	parent: TNode,
+	before: TNode | null,
+): void;
+
+export function mount<TNode>(
+	group: MountingGroupInternal<TNode>,
+	template: Template | DataTemplate<any>,
+	data: any,
+	parent: TNode,
+	before: TNode | null,
+) {
+	if (group.mounted) {
+		if (before !== null) {
+			// already mounted, but before specified -> move nodes
+			insertNodes(group, parent, before);
+		}
+
 		return;
 	}
 
-	withContext(context, () => {
-		context.$topNodes = wrap(template(data))
-	});
+	// new render
+	const jsx = template(data);
+	withLifecycle(group, mountJsx, group, jsx, parent, before, 0);
 
-	if (before && context.$parent!.mounted === true) {
-		insertChildren(context.$adapter, before, context.$topNodes);
-		contextMounted(context);
-	}
-	else {
-		onMounted(context.$parent!, {
-			$fn: contextMounted,
-			$a0: context,
+	if (group.$parent?.mounted === false) {
+		onMounted(group.$parent, {
+			$fn: notifyMounted,
+			$a0: group,
 		});
 	}
-}
-
-/** @internal */
-export function unmount(context: RendererContext) {
-	contextUnmounted(context);
-	if (context.$parent?.mounted !== false) {
-		// only remove nodes if the parent context is still mounted, otherwise this context's nodes
-		// will be removed as part of the tree
-		const { $adapter: adapter, $topNodes: topNodes } = context;
-		const { length } = topNodes;
-
-		let i = 0;
-		for (; i < length; i += 1) {
-			adapter.remove(topNodes[i]);
-		}
-	}
-
-	context.$topNodes = EMPTY_ARRAY;
-}
-
-function appendChildren<TNode>(adapter: Adapter<TNode>, root: TNode, children: readonly TNode[]) {
-	const { length } = children;
-	let child;
-	let i = 0;
-
-	for (; i < length; i += 1) {
-		child = children[i];
-		if (!isNil(child)) {
-			if (Array.isArray(child)) {
-				appendChildren(adapter, root, child);
-			}
-			else {
-				adapter.append(child, root);
-			}
-		}
+	else {
+		insertNodes(group, parent, before);
+		notifyMounted(group);
 	}
 }
 
-function insertChildren<TNode>(adapter: Adapter<TNode>, before: TNode, children: readonly TNode[]) {
-	const { length } = children;
-	let child;
-	let i = 0;
 
-	for (; i < length; i += 1) {
-		child = children[i];
-		if (!isNil(child)) {
-			if (Array.isArray(child)) {
-				insertChildren(adapter, before, child);
-			}
-			else {
-				adapter.insert(child, before);
+/**
+ * Unmounts a MountingGroup from the node tree.
+ */
+// @ts-expect-error public API hides internals
+export function unmount(group: MountingGroup): void;
+
+export function unmount(group: MountingGroupInternal) {
+	notifyUnmounted(group);
+	if (group.$parent?.mounted !== false) {
+		// only remove nodes if the parent group is still mounted, otherwise it
+		// is safe to assume this group's nodes were already removed with it
+		const { adapter, top } = group;
+		const { length } = top;
+		let index = 0;
+		for (; index < length; index += 1) {
+			adapter.remove(top[index]);
+		}
+	}
+
+	group.top = [];
+}
+
+
+/**
+ * Mounts components described by the JsxResult to the specified location in the
+ * node tree.
+ */
+export function mountJsx<TNode>(
+	group: MountingGroup<TNode>,
+	jsx: unknown,
+	parent: TNode,
+	before: TNode | null,
+	level: number,
+) {
+	if (Array.isArray(jsx)) {
+		const { length } = jsx;
+		let index = 0;
+		let tmp;
+		for (; index < length; index += 1) {
+			tmp = jsx[index];
+			if (tmp !== null && typeof tmp === "object") {
+				(tmp as Partial<JsxResult>)[S_COMPONENT]?.(group, tmp as JsxResult, parent, before, level);
 			}
 		}
 	}
+	else if (jsx !== null && typeof jsx === "object") {
+		(jsx as Partial<JsxResult>)[S_COMPONENT]?.(group, jsx as JsxResult, parent, before, level);
+	}
 }
+
+function insertNodes<TNode>(group: MountingGroup<TNode>, parent: TNode, before: TNode | null) {
+	const { adapter, top } = group;
+	const { length } = top;
+	let index = 0;
+	for (; index < length; index += 1) {
+		adapter.insert(top[index], parent, before);
+	}
+}
+

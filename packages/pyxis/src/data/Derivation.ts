@@ -1,5 +1,5 @@
 import { notify, S_ATOM, type Atom, type AtomInternal } from "./Atom";
-import { getContext, type Context, type ContextInternal } from "./Context";
+import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
 import { unlink } from "./Dependency";
 import { resolve, type Reaction, type ReactionDependency } from "./Reaction";
 import { schedule } from "./Scheduler";
@@ -20,11 +20,11 @@ interface DerivationAtomInternal<T> extends Derivation<T>, Reaction<T>, AtomInte
  * Creates a Derivation - an Atom with a value computed from other Atoms. Derivations are updated
  * lazily, i.e. only when they're accessed and at least one of its source Atoms changed.
  */
-export function derivation<T>(block: () => T, context?: Context): Derivation<T>;
-export function derivation<T>(block: () => T, context = getContext()): DerivationAtomInternal<T> {
+export function derivation<T>(block: () => T, lifecycle?: Lifecycle): Derivation<T>;
+export function derivation<T>(block: () => T, lifecycle = getLifecycle()): DerivationAtomInternal<T> {
 	return {
 		[S_ATOM]: true,
-		$context: context as ContextInternal,
+		$lifecycle: lifecycle as LifecycleInternal,
 		$dirty: true,
 		$epoch: 0,
 		$block: block,
@@ -46,7 +46,7 @@ function scheduleNotify(this: ReactionDependency, derivation: DerivationAtomInte
 	// being "scheduled" - this also gives priority to already scheduled updates and prevents
 	// infinite loops when dependency cycles exist
 	derivation.$dirty = true;
-	schedule(derivation.$context, derivation.$notify ??= {
+	schedule(derivation.$lifecycle, derivation.$notify ??= {
 		$fn: notify,
 		$a0: derivation,
 	});

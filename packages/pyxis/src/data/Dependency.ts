@@ -1,14 +1,14 @@
 import type { ArgsMax2, Callback } from "~/support/Callback";
 import type { Nil } from "~/support/types";
 
-import type { ContextInternal } from "./Context";
+import type { LifecycleInternal } from "./Lifecycle";
 
 /**
  * A dependency callback of an Atom. The callback will be run whenever the relevant Atom changes.
  * @internal
  */
 export interface Dependency<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<TArgs> {
-	$context?: Nil<DependencyList>;
+	$lifecycle?: Nil<DependencyList>;
 	$target?: Nil<DependencyList<TArgs>>;
 
 	/** Previous Dependency within an Atom's dependency list. */
@@ -17,11 +17,11 @@ export interface Dependency<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<
 	/** Next Dependency within an Atom's dependency list. */
 	$an?: Nil<Dependency<TArgs>>;
 
-	/** Previous Dependency within a Context's dependency list. */
-	$cp?: Nil<Dependency>;
+	/** Previous Dependency within a Lifecycle's dependency list. */
+	$lp?: Nil<Dependency>;
 
-	/** Next Dependency within an Context's dependency list. */
-	$cn?: Nil<Dependency>;
+	/** Next Dependency within an Lifecycle's dependency list. */
+	$ln?: Nil<Dependency>;
 }
 
 /** @internal */
@@ -34,10 +34,10 @@ export interface DependencyList<TArgs extends ArgsMax2 = ArgsMax2> {
 }
 
 /**
- * Links a Dependency to an Atom.
+ * Links a Dependency to an Atom and Lifecycle.
  * @internal
  */
-export function link<TArgs extends ArgsMax2>(context: ContextInternal, target: DependencyList<TArgs>, dep: Dependency<TArgs>) {
+export function link<TArgs extends ArgsMax2>(lifecycle: LifecycleInternal, target: DependencyList<TArgs>, dep: Dependency<TArgs>) {
 	// link to target
 	if (target.$dt) {
 		target.$dt.$an = dep;
@@ -50,21 +50,21 @@ export function link<TArgs extends ArgsMax2>(context: ContextInternal, target: D
 	dep.$target = target;
 	target.$dt = dep;
 
-	// link to context
-	if (context.$dt) {
-		context.$dt.$cn = dep as Dependency;
-		dep.$cp = context.$dt;
+	// link to lifecycle
+	if (lifecycle.$dt) {
+		lifecycle.$dt.$ln = dep as Dependency;
+		dep.$lp = lifecycle.$dt;
 	}
 	else {
-		context.$dh = dep as Dependency;
+		lifecycle.$dh = dep as Dependency;
 	}
 
-	dep.$context = context;
-	context.$dt = dep as Dependency;
+	dep.$lifecycle = lifecycle;
+	lifecycle.$dt = dep as Dependency;
 }
 
 /**
- * Unlinks a Dependency from the Atom and Context it has been linked to.
+ * Unlinks a Dependency from the Atom and Lifecycle it has been linked to.
  * @internal
  */
 export function unlink(dep: Dependency) {
@@ -88,23 +88,23 @@ export function unlink(dep: Dependency) {
 	dep.$ap = null;
 	dep.$an = null;
 
-	// unlink from context
-	const context = dep.$context!;
-	if (dep.$cp) {
-		dep.$cp.$cn = dep.$cn;
+	// unlink from lifecycle
+	const lifecycle = dep.$lifecycle!;
+	if (dep.$lp) {
+		dep.$lp.$ln = dep.$ln;
 	}
-	else if (context.$dh === dep) {
-		context.$dh = dep.$cn;
-	}
-
-	if (dep.$cn) {
-		dep.$cn.$cp = dep.$cp;
-	}
-	else if (context.$dt === dep) {
-		context.$dt = dep.$cp;
+	else if (lifecycle.$dh === dep) {
+		lifecycle.$dh = dep.$ln;
 	}
 
-	dep.$context = null;
-	dep.$cp = null;
-	dep.$cn = null;
+	if (dep.$ln) {
+		dep.$ln.$lp = dep.$lp;
+	}
+	else if (lifecycle.$dt === dep) {
+		lifecycle.$dt = dep.$lp;
+	}
+
+	dep.$lifecycle = null;
+	dep.$lp = null;
+	dep.$ln = null;
 }

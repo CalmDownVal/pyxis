@@ -1,5 +1,5 @@
-import { glob, rmdir, unlink } from "node:fs/promises";
-import { join } from "node:path";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 
 const PLUGIN_NAME = "Delete";
 
@@ -46,23 +46,23 @@ export default function DeletePlugin(options) {
 
 		const entries = [];
 		for (const includePattern of include) {
-			for await (const entry of glob(includePattern, globOptions)) {
+			for await (const entry of fs.glob(includePattern, globOptions)) {
 				entries.push(entry);
 			}
 		}
 
 		entries.sort(directoriesLast);
 		for (const entry of entries) {
-			const path = join(entry.parentPath, entry.name);
+			const entryPath = path.join(entry.parentPath, entry.name);
 			if (entry.isFile()) {
-				await exec(context, `Would delete file "${path}".`, () => unlink(path));
+				await exec(context, `Would delete file "${entryPath}".`, () => fs.unlink(entryPath));
 			}
 			else if (entry.isSymbolicLink()) {
-				await exec(context, `Would delete symlink "${path}".`, () => unlink(path));
+				await exec(context, `Would delete symlink "${entryPath}".`, () => fs.unlink(entryPath));
 			}
 			else if (entry.isDirectory()) {
 				try {
-					await exec(context, `Would delete directory "${path}".`, () => rmdir(path));
+					await exec(context, `Would delete directory "${entryPath}".`, () => fs.rmdir(entryPath));
 				}
 				catch (ex) {
 					// ignore errors when directory is not empty

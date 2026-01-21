@@ -1,6 +1,6 @@
 import { invoke } from "~/support/Callback";
 
-import { getContext, type Context, type ContextInternal } from "./Context";
+import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
 import { reportAccess } from "./Reaction";
 import { schedule, type UpdateCallback } from "./Scheduler";
@@ -8,7 +8,8 @@ import { schedule, type UpdateCallback } from "./Scheduler";
 /**
  * Pyxis Atom type guard marker.
  */
-export const S_ATOM = __DEV__ ? Symbol.for("pyxis:atom") : Symbol();
+// @ts-expect-error this is a unique symbol at runtime
+export const S_ATOM: unique symbol = __DEV__ ? Symbol.for("pyxis:atom") : Symbol();
 
 /**
  * Holds any single value, managing reactions to its changes. Use the `read`, `write` functions to
@@ -31,7 +32,7 @@ export interface Atom<T = unknown> {
 
 /** @internal */
 export interface AtomInternal<T> extends Atom<T>, DependencyList {
-	readonly $context: ContextInternal;
+	readonly $lifecycle: LifecycleInternal;
 	readonly $tracksValue?: boolean;
 	$lastValue?: T;
 
@@ -78,16 +79,16 @@ export function atom<T>(): Atom<T | undefined>;
  * is returned as-is.
  * @see {@link isAtom}
  */
-export function atom<T>(initialValue: MaybeAtom<T>, context?: Context): Atom<T>;
+export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T>;
 
-export function atom<T>(initialValue?: MaybeAtomInternal<T>, context = getContext()) {
+export function atom<T>(initialValue?: MaybeAtomInternal<T>, lifecycle = getLifecycle()) {
 	return isAtom(initialValue)
 		? initialValue
 		: {
 			[S_ATOM]: true,
 			$value: initialValue!,
 			$tracksValue: true,
-			$context: context as ContextInternal,
+			$lifecycle: lifecycle as LifecycleInternal,
 			$lastValue: initialValue,
 			$get: getValue,
 			$set: setValue,
@@ -147,7 +148,7 @@ export function write<T>(input: MaybeAtom<T>, value: T): T
 export function write<T>(input: MaybeAtomInternal<T>, value: T): T {
 	if (isAtom(input)) {
 		if (input.$set(value)) {
-			schedule(input.$context, input.$notify ??= {
+			schedule(input.$lifecycle, input.$notify ??= {
 				$fn: notify,
 				$a0: input,
 			});
@@ -172,7 +173,7 @@ export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T
 export function update<T>(input: MaybeAtomInternal<T>, transform: (value: T) => T): T {
 	if (isAtom(input)) {
 		if (input.$set(transform(input.$get()))) {
-			schedule(input.$context, input.$notify ??= {
+			schedule(input.$lifecycle, input.$notify ??= {
 				$fn: notify,
 				$a0: input,
 			});

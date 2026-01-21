@@ -86,13 +86,13 @@ function getState(node: HTMLElement) {
 }
 
 function onMounted() {
-	let i = pendingNodes.length - 1;
+	let index = pendingNodes.length - 1;
 	let state;
 	let bemBase;
 
 	// render runs bottom-up, so we iterate in reverse to start from topmost nodes
-	for (; i >= 0; i -= 1) {
-		state = pendingNodes[i];
+	for (; index >= 0; index -= 1) {
+		state = pendingNodes[index];
 		if (!state.$bemBase && state.$bemElementName && (bemBase = findBemBase(state.$node))) {
 			bemBase += `__${state.$bemElementName}`;
 			state.$bemBase = bemBase;
@@ -121,17 +121,17 @@ function findBemBase(node: HTMLElement) {
 }
 
 function applyBemClasses(state: BemState) {
-	const { $node: node, $bemBase: bemBase, $bemModifiers: bemModifiers } = state;
-	node.classList.add(bemBase!);
+	const { $node, $bemBase, $bemModifiers } = state;
+	$node.classList.add($bemBase!);
 
-	if (!bemModifiers) {
+	if (!$bemModifiers) {
 		return;
 	}
 
-	const { length } = bemModifiers;
-	let i = 0;
-	for (; i < length; i += 1) {
-		node.classList.add(`${bemBase}--${bemModifiers[i]}`);
+	const { length } = $bemModifiers;
+	let index = 0;
+	for (; index < length; index += 1) {
+		$node.classList.add(`${$bemBase}--${$bemModifiers[index]}`);
 	}
 
 	state.$bemModifiers = undefined;

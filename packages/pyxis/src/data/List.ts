@@ -1,7 +1,7 @@
 import type { Nil } from "~/support/types";
 
 import { atom, write, type Atom } from "./Atom";
-import { getContext, type Context, type ContextInternal } from "./Context";
+import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
 import { createDelta, itemChanged, itemInserted, itemRemoved, listCleared, listSynced, type Equals, type ListDelta } from "./ListDelta";
 import { schedule, type UpdateCallback } from "./Scheduler";
@@ -26,7 +26,7 @@ export interface List<T> {
 
 /** @internal */
 export interface ListInternal<T> extends List<T>, DependencyList<[ delta: ListDelta<T> ]> {
-	readonly $context: ContextInternal;
+	readonly lifecycle: LifecycleInternal;
 	$items: T[];
 	$delta?: Nil<ListDelta<T>>;
 	$notify?: UpdateCallback<[ self: ListInternal<T> ]>;
@@ -45,15 +45,15 @@ export function list<T>(): List<T>;
 export function list<T>(source?: Iterable<T>): List<T>;
 
 /** @internal */
-export function list<T>(source: Iterable<T> | undefined, context: Context): List<T>;
+export function list<T>(source: Iterable<T> | undefined, lifecycle: Lifecycle): List<T>;
 
-export function list<T>(source?: Iterable<T> | undefined, context = getContext()): ListInternal<T> {
+export function list<T>(source?: Iterable<T> | undefined, lifecycle = getLifecycle()): ListInternal<T> {
 	const items = source ? Array.from(source) : [];
 	return {
-		$context: context as ContextInternal,
+		lifecycle: lifecycle as LifecycleInternal,
 		$items: items,
 		size: items.length,
-		sizeAtom: atom(items.length, context),
+		sizeAtom: atom(items.length, lifecycle),
 		get,
 		set,
 		clear,
@@ -106,9 +106,9 @@ function clear(this: ListInternal<any>) {
 }
 
 function insertAt<T>(this: ListInternal<T>, index: number, item: T) {
-	const { $items: items } = this;
-	if (index === items.length) {
-		items.push(item);
+	const { $items } = this;
+	if (index === $items.length) {
+		$items.push(item);
 	}
 	else {
 		assertIndex(this, index);
@@ -171,19 +171,19 @@ function defaultEquals<T>(item0: T, item1: T) {
 function listMutated(list: ListInternal<any>) {
 	(list as any).size = list.$items.length;
 	write(list.sizeAtom, list.$items.length);
-	schedule(list.$context, list.$notify ??= {
+	schedule(list.lifecycle, list.$notify ??= {
 		$fn: notify,
 		$a0: list,
 	});
 }
 
 function notify(list: ListInternal<any>) {
-	const { $delta: delta } = list;
+	const { $delta } = list;
 	list.$delta = null;
 
 	let current = list.$dh;
 	while (current) {
-		current.$fn(delta!);
+		current.$fn($delta!);
 		current = current.$an;
 	}
 }

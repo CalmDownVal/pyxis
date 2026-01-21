@@ -6,7 +6,6 @@ import type { IntrinsicElements } from "./jsx/baked";
 export const DomAdapter: Adapter<Node, IntrinsicElements> = {
 	anchor,
 	native,
-	append,
 	insert,
 	remove,
 	set,
@@ -21,12 +20,8 @@ function native(tagName: string) {
 	return document.createElement(tagName);
 }
 
-function append(node: Node, parent: Node) {
-	parent.appendChild(node);
-}
-
-function insert(node: Node, before: Node) {
-	before.parentNode?.insertBefore(node, before);
+function insert(node: Node, parent: Node, before: Node | null) {
+	parent.insertBefore(node, before);
 }
 
 function remove(node: Node) {

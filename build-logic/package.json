@@ -14,8 +14,8 @@
 		"build": "./command/build.mjs"
 	},
 	"devDependencies": {
-		"@calmdownval/rollup-util": "1.0.0-alpha.17",
-		"@calmdownval/workspaces-util": "1.0.0-alpha.17",
+		"@calmdownval/rollup-util": "1.0.0-alpha.18",
+		"@calmdownval/workspaces-util": "1.0.0-alpha.18",
 		"@microsoft/api-extractor": "7.55.2",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-replace": "6.0.3",

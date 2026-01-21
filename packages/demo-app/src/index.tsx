@@ -1,4 +1,4 @@
-import { atom, derivation, Iterator, list, pyxis, read, RefExtension, write, type Atom, type ElementsOf } from "@calmdown/pyxis";
+import { atom, component, derivation, Iterator, list, pyxis, read, RefExtension, write, type Atom, type ElementsOf, type JsxResult } from "@calmdown/pyxis";
 import { BemBlockExtension, BemElementExtension, BemModifierExtension, ClassListExtension, DomAdapter, EventExtension, Text } from "@calmdown/pyxis-dom";
 
 import { Button } from "~/components/Button";
@@ -16,7 +16,7 @@ const renderer = pyxis(DomAdapter)
 
 declare global {
 	namespace JSX {
-		type Node = globalThis.Node;
+		type Element = JsxResult;
 		type IntrinsicElements = ElementsOf<typeof renderer>;
 	}
 }
@@ -26,7 +26,7 @@ interface TodoItem {
 	text: string;
 }
 
-const TestApp = () => {
+const TestApp = component(() => {
 	const todos = list<TodoItem>();
 	const todoText = atom("");
 	const addTodoItem = () => {
@@ -87,6 +87,6 @@ const TestApp = () => {
 			</ul>
 		</>
 	);
-};
+});
 
-renderer.mount(document.body, TestApp);
+renderer.mount(document.body, () => <TestApp />);

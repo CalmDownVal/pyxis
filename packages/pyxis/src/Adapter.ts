@@ -32,19 +32,13 @@ export interface Adapter<TNode, TIntrinsicElements extends ElementsType = Elemen
 	) => TNode;
 
 	/**
-	 * Appends a node as the last child of the parent.
-	 */
-	readonly append: (
-		node: TNode,
-		parent: TNode,
-	) => void;
-
-	/**
-	 * Inserts a node before the referenced child.
+	 * If provided, inserts the given node before the referenced existing child.
+	 * Otherwise appends the node as the last child of the parent.
 	 */
 	readonly insert: (
 		node: TNode,
-		before: TNode,
+		parent: TNode,
+		before: TNode | null,
 	) => void;
 
 	/**
@@ -81,7 +75,6 @@ export interface Extension<TNode, TExtensionKey extends string = string, TIntrin
 	) => void;
 }
 
-/** @internal */
 export type ExtensionsType<TNode> = { [_ in string]?: Extension<TNode> };
 
 export type ExtensionProps<TExtensionKey extends string, TProps extends PropsType> = Intersection<{

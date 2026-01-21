@@ -29,4 +29,4 @@ export declare const S_NODE_TYPE: unique symbol;
 /**
  * Infers the specific Node type from its props typings.
  */
-export type NodeType<P> = P extends { readonly [S_NODE_TYPE]?: infer N } ? N : JSX.Node;
+export type NodeType<P> = P extends { readonly [S_NODE_TYPE]?: infer N } ? N : unknown;

@@ -56,20 +56,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@calmdownval/rollup-util@npm:1.0.0-alpha.17":
-  version: 1.0.0-alpha.17
-  resolution: "@calmdownval/rollup-util@npm:1.0.0-alpha.17"
+"@calmdownval/rollup-util@npm:1.0.0-alpha.18":
+  version: 1.0.0-alpha.18
+  resolution: "@calmdownval/rollup-util@npm:1.0.0-alpha.18"
   peerDependencies:
-    "@calmdownval/workspaces-util": 1.0.0-alpha.17
+    "@calmdownval/workspaces-util": 1.0.0-alpha.18
     rollup: ">=4.53.2"
-  checksum: 10/51cd4e8c972641f3d7b5dd4f7ae41858dea817a0bce98aef888e30c03e8c8d1d2f1af993beea607b9f7e3280376890ead5ade19fe684f7da2a84ee909db479fe
+  checksum: 10/81550de0768ae44c2b702de9874acb2b69da7fd08970ef9851ca6e41c0a686a415660bf021d0610693a9177272c76f2ea7af54d2c440df2f55d19ed4afe502cc
   languageName: node
   linkType: hard
 
-"@calmdownval/workspaces-util@npm:1.0.0-alpha.17":
-  version: 1.0.0-alpha.17
-  resolution: "@calmdownval/workspaces-util@npm:1.0.0-alpha.17"
-  checksum: 10/7d3c811311b03888f464a1157b4f726af2433f9837599ad67c6228ff3274ff702644a88587cde27d4ab1c3c46b4e3cdfe738287578218f2b4fab766211b1ffac
+"@calmdownval/workspaces-util@npm:1.0.0-alpha.18":
+  version: 1.0.0-alpha.18
+  resolution: "@calmdownval/workspaces-util@npm:1.0.0-alpha.18"
+  checksum: 10/4001afac182ba04151e9293745f299845f0d47d4b045f37f9e1083548ec38f3d7156b871199e1dcfe9e0a4aa5e23bdd503ea6b64cc3aabda043c3689a429362a
   languageName: node
   linkType: hard
 
@@ -838,8 +838,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "build-logic@workspace:build-logic"
   dependencies:
-    "@calmdownval/rollup-util": "npm:1.0.0-alpha.17"
-    "@calmdownval/workspaces-util": "npm:1.0.0-alpha.17"
+    "@calmdownval/rollup-util": "npm:1.0.0-alpha.18"
+    "@calmdownval/workspaces-util": "npm:1.0.0-alpha.18"
     "@microsoft/api-extractor": "npm:7.55.2"
     "@rollup/plugin-node-resolve": "npm:16.0.3"
     "@rollup/plugin-replace": "npm:6.0.3"

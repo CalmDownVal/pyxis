@@ -1,5 +1,5 @@
 /** @preserve */
-import type { MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
+import type { JsxResult, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
 
 import type { PROP_MAP } from "./mapping";
 
@@ -12,7 +12,7 @@ type BasePropsOf<T> = Finalize<
 	& MapProps<WrapProps<OmitBanned<OmitFunctions<OmitReadonly<OmitIndex<T>>>>>, typeof PROP_MAP>
 	& {
 		readonly [S_NODE_TYPE]?: T;
-		children: Nil<Node> | readonly Nil<Node>[];
+		children: Nil<JsxResult> | readonly Nil<JsxResult>[];
 	}
 >;
 

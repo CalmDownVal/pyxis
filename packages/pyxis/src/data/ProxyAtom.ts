@@ -2,7 +2,7 @@ import { invoke } from "~/support/Callback";
 import type { Nil } from "~/support/types";
 
 import { isAtom, S_ATOM, type Atom, type AtomInternal, type MaybeAtom, type MaybeAtomInternal } from "./Atom";
-import { getContext } from "./Context";
+import { getLifecycle, type LifecycleInternal } from "./Lifecycle";
 import { link, unlink, type Dependency } from "./Dependency";
 
 export interface ProxyAtom<T> extends Atom<T> {
@@ -23,18 +23,20 @@ interface ProxyAtomInternal<T> extends ProxyAtom<T>, AtomInternal<T> {
  * Creates a ProxyAtom bound to the provided initial value. If it is an Atom, the proxy will mirror
  * it, otherwise it will be a read-only atom with a static value until rebound.
  */
-export function proxy<T>(initialValue: MaybeAtom<T>, context = getContext()) {
-	const self = {
+export function proxy<T>(initialValue: MaybeAtom<T>, lifecycle = getLifecycle()): ProxyAtom<T> {
+	// $set is assigned by the use call below
+	const self: Omit<ProxyAtomInternal<T>, "$set"> = {
 		[S_ATOM]: true,
-		$context: context,
+		$lifecycle: lifecycle as LifecycleInternal,
 		use,
 		$get: getStaticValue,
-	} as ProxyAtom<T>;
+	};
 
 	self.use(initialValue);
 	return self;
 }
 
+function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtom<T>): void;
 function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
 	if (this.$dep) {
 		unlink(this.$dep);
@@ -46,7 +48,7 @@ function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
 		this.$value = null;
 		this.$get = getBoundValue;
 		this.$set = setBoundValue;
-		link(this.$context, value, this.$dep ??= {
+		link(this.$lifecycle, value, this.$dep ??= {
 			$fn: notify,
 			$a0: this,
 		});

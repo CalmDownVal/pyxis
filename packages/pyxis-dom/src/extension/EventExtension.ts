@@ -1,4 +1,4 @@
-import { getContext, reaction, read, unmounted, withContext, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis";
+import { getLifecycle, reaction, read, unmounted, withLifecycle, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis";
 
 export interface EventExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -7,7 +7,7 @@ export interface EventExtensionType {
 		}>;
 	};
 
-	set: (node: HTMLElement, className: string, toggle: MaybeAtom<boolean>) => void;
+	set: (node: HTMLElement, className: string, toggle: MaybeAtom<(e: unknown) => unknown>) => void;
 }
 
 export type ExtendedEvent<TEvent, TEventName, TNode> =
@@ -21,22 +21,22 @@ export const EventExtension = {
 	set: (
 		node: HTMLElement,
 		type: string,
-		listener: MaybeAtom<(e: any) => any>,
+		listener: MaybeAtom<(e: unknown) => unknown>,
 	) => {
-		let callback: (e: any) => any;
+		let callback: (e: unknown) => unknown;
 
-		const context = getContext();
-		const listenerWithContext = (e: any) => {
-			withContext(context, callback!, e);
+		const lifecycle = getLifecycle();
+		const listenerWithLifecycle = (e: unknown) => {
+			withLifecycle(lifecycle, callback!, e);
 		};
 
 		reaction(() => {
 			callback = read(listener);
-		}, context);
+		}, lifecycle);
 
-		node.addEventListener(type, listenerWithContext);
+		node.addEventListener(type, listenerWithLifecycle);
 		unmounted(() => {
-			node.removeEventListener(type, listenerWithContext);
-		}, context);
+			node.removeEventListener(type, listenerWithLifecycle);
+		}, lifecycle);
 	},
 } as EventExtensionType;

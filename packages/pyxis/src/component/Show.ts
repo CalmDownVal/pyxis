@@ -1,36 +1,60 @@
-import { component, type Template } from "~/Component";
-import { fork, mount, unmount } from "~/Renderer";
-import { isAtom, read, type Atom, type MaybeAtom } from "~/data/Atom";
+import type { JsxProps, JsxResult, Template } from "~/Component";
+import { split, mount, unmount, type MountingGroup } from "~/Renderer";
+import { isAtom, read, type MaybeAtom } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
 import { EMPTY_TEMPLATE, isNil } from "~/support/common";
 import type { Nil } from "~/support/types";
 
 export interface ShowProps {
 	when?: MaybeAtom<boolean>;
-	children: [ Atom<Nil<Template>> | Template ];
+	children: [ MaybeAtom<Nil<Template>> ];
 }
 
-export const Show = component(({ when = true, children: [ template ] }: ShowProps) => {
+/**
+ * The built-in Show Component dynamically mounting and unmounting a Template
+ * based on a reactive condition result.
+ */
+// @ts-expect-error fake overload to allow use with JSX
+export function Show(props: JsxProps<ShowProps>): JsxResult;
+
+/** @internal */
+export function Show<TNode>(
+	group: MountingGroup,
+	jsx: JsxResult,
+	parent: TNode,
+	before: TNode | null,
+	level: number,
+): void;
+
+export function Show<TNode>(
+	group: MountingGroup,
+	jsx: JsxResult,
+	parent: TNode,
+	before: TNode | null,
+	// level: number,
+) {
+	const when = jsx.when as MaybeAtom<boolean>;
+	const template = jsx.children[0] as MaybeAtom<Nil<Template>>;
 	if (!isAtom(when) && !isAtom(template)) {
 		// static values were given and thus we have nothing to react to
-		// -> render synchronously without forking context
-		return when ? template() : null;
+		// -> render synchronously without a sub-group
+		return when ? template?.() : null;
 	}
 
-	const context = fork();
+	const subGroup = split(group);
 	const anchor = __DEV__
-		? context.$adapter.anchor("/Show")
-		: context.$adapter.anchor();
+		? subGroup.adapter.anchor("/Show")
+		: subGroup.adapter.anchor();
 
 	let isShown = read(when);
 	reaction(() => {
 		const shouldShow = read(when) && !isNil(read(template));
 		if (shouldShow && !isShown) {
-			mount(context, read(template)!, undefined, anchor);
+			mount(subGroup, read(template)!, undefined, parent, anchor);
 			isShown = true;
 		}
 		else if (!shouldShow && isShown) {
-			unmount(context);
+			unmount(subGroup);
 			isShown = false;
 		}
 	});
@@ -41,7 +65,7 @@ export const Show = component(({ when = true, children: [ template ] }: ShowProp
 	}
 
 	// content should be shown but we're still mounting, i.e. anchor is not yet placed anywhere
-	// -> render synchronously within the forked sub-context
-	mount(context, read(template) ?? EMPTY_TEMPLATE);
-	return context.$topNodes.concat(anchor);
-});
+	// -> render synchronously within the sub-group
+	mount(subGroup, read(template) ?? EMPTY_TEMPLATE, undefined, parent, before);
+	subGroup.adapter.insert(anchor, parent, before);
+}

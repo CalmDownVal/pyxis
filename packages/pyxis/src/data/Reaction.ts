@@ -1,6 +1,6 @@
 import type { Nil } from "~/support/types";
 import type { Atom, AtomInternal } from "./Atom";
-import { getContext, onUnmounted, type ContextInternal } from "./Context";
+import { getLifecycle, onUnmounted, type LifecycleInternal } from "./Lifecycle";
 import { link, unlink, type Dependency } from "./Dependency";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
@@ -10,7 +10,7 @@ export interface ReactionBlock {
 
 /** @internal */
 export interface Reaction<T> {
-	readonly $context: ContextInternal;
+	readonly $lifecycle: LifecycleInternal;
 	readonly $block: () => T;
 	readonly $react: (reaction: this, epoch: number) => void;
 	$epoch: number;
@@ -29,9 +29,9 @@ export type ReactionDependency = Dependency<[ reaction: Reaction<any>, epoch: nu
  *
  * If a teardown callback is returned, it will be run before the next reaction.
  */
-export function reaction(block: ReactionBlock, context = getContext()) {
+export function reaction(block: ReactionBlock, lifecycle = getLifecycle()) {
 	runReaction({
-		$context: context as ContextInternal,
+		$lifecycle: lifecycle as LifecycleInternal,
 		$block: block,
 		$react: scheduleReaction,
 		$epoch: 1,
@@ -50,7 +50,7 @@ function scheduleReaction(this: ReactionDependency, reaction: Reaction<ReturnTyp
 	// we're already within a scheduler tick; the reaction will therefore run synchronously despite
 	// being "scheduled" - this also gives priority to already scheduled updates and prevents
 	// infinite loops when dependency cycles exist
-	schedule(reaction.$context, reaction.$resolve ??= {
+	schedule(reaction.$lifecycle, reaction.$resolve ??= {
 		$fn: runReaction,
 		$a0: reaction,
 	});
@@ -62,7 +62,7 @@ function runReaction(reaction: Reaction<ReturnType<ReactionBlock>>) {
 
 	if (reaction.$dispose && !reaction.$willUnmount) {
 		reaction.$willUnmount = true;
-		onUnmounted(reaction.$context, {
+		onUnmounted(reaction.$lifecycle, {
 			$fn: disposeReaction,
 			$a0: reaction,
 		});
@@ -109,7 +109,7 @@ export function reportAccess(atom: AtomInternal<any>) {
 		dep.$a1 = $currentReaction.$epoch;
 	}
 	else {
-		link($currentReaction.$context, atom, dep = {
+		link($currentReaction.$lifecycle, atom, dep = {
 			$fn: $currentReaction.$react,
 			$a0: $currentReaction,
 			$a1: $currentReaction.$epoch,
