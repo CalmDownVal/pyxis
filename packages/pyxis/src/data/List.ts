@@ -10,18 +10,18 @@ export interface List<T> {
 	readonly size: number;
 	readonly sizeAtom: Atom<number>;
 
-	get: (index: number) => T;
-	set: (index: number, item: T) => void;
-	clear: () => void;
+	readonly get: (index: number) => T;
+	readonly set: (index: number, item: T) => void;
+	readonly clear: () => void;
 
-	insertAt: (index: number, item: T) => void;
-	insertFirst: (item: T) => void;
-	insertLast: (item: T) => void;
+	readonly insertAt: (index: number, item: T) => void;
+	readonly insertFirst: (item: T) => void;
+	readonly insertLast: (item: T) => void;
 
-	remove: (item: T) => boolean;
-	removeAt: (index: number) => T;
-	removeFirst: () => T;
-	removeLast: () => T;
+	readonly remove: (item: T) => boolean;
+	readonly removeAt: (index: number) => T;
+	readonly removeFirst: () => T;
+	readonly removeLast: () => T;
 }
 
 /** @internal */

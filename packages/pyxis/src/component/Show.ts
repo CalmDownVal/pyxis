@@ -1,14 +1,15 @@
-import type { JsxProps, JsxResult, Template } from "~/Component";
-import { split, mount, unmount, type MountingGroup } from "~/Renderer";
 import { isAtom, read, type MaybeAtom } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
-import { EMPTY_TEMPLATE, isNil } from "~/support/common";
 import type { Nil } from "~/support/types";
+import type { JsxProps, JsxResult, Template } from "~/Component";
+import { split, mount, unmount, type MountingGroup } from "~/Renderer";
 
 export interface ShowProps {
 	when?: MaybeAtom<boolean>;
 	children: [ MaybeAtom<Nil<Template>> ];
 }
+
+const EMPTY_TEMPLATE: Template = () => null;
 
 /**
  * The built-in Show Component dynamically mounting and unmounting a Template
@@ -48,9 +49,9 @@ export function Show<TNode>(
 
 	let isShown = read(when);
 	reaction(() => {
-		const shouldShow = read(when) && !isNil(read(template));
+		const shouldShow = read(when);
 		if (shouldShow && !isShown) {
-			mount(subGroup, read(template)!, undefined, parent, anchor);
+			mount(subGroup, read(template) ?? EMPTY_TEMPLATE, undefined, parent, anchor);
 			isShown = true;
 		}
 		else if (!shouldShow && isShown) {

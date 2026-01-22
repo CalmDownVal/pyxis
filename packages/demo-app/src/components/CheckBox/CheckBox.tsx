@@ -8,9 +8,8 @@ export interface CheckBoxProps {
 }
 
 export const CheckBox = component((props: CheckBoxProps) => (
-	<label blk:checkbox mod:checked={props.checked}>
+	<label>
 		<input
-			elm:input
 			type="checkbox"
 			name={props.name ?? ""}
 			checked={props.checked}

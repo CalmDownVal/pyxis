@@ -1,11 +1,11 @@
-import type { DataTemplate, JsxProps, JsxResult } from "~/Component";
-import { split, mount, unmount, type MountingGroup, type MountingGroupInternal } from "~/Renderer";
 import type { MaybeAtom } from "~/data/Atom";
 import { getLifecycle, type Lifecycle } from "~/data/Lifecycle";
 import { link } from "~/data/Dependency";
 import type { List, ListInternal } from "~/data/List";
 import { K_CHANGE, K_CLEAR, K_INSERT, K_REMOVE, type ListDelta } from "~/data/ListDelta";
 import { proxy, type ProxyAtom } from "~/data/ProxyAtom";
+import type { DataTemplate, JsxProps, JsxResult } from "~/Component";
+import { split, mount, unmount, type MountingGroup, type MountingGroupInternal } from "~/Renderer";
 
 export interface RemountIteratorProps<T> {
 	source: List<T>;

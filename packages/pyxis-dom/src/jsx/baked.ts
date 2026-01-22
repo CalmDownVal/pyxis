@@ -1,9 +1,521 @@
 // baked types, do not modify as changes will be lost
 // source file: inferred.ts
 
-import type { JsxResult, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
+import type { JsxChildren, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
+
+export interface CSSStyleDeclarationProps {
+	readonly [x: `--${string}`]: string | undefined;
+	readonly accentColor?: MaybeAtom<string>;
+	readonly alignContent?: MaybeAtom<string>;
+	readonly alignItems?: MaybeAtom<string>;
+	readonly alignSelf?: MaybeAtom<string>;
+	readonly alignmentBaseline?: MaybeAtom<string>;
+	readonly all?: MaybeAtom<string>;
+	readonly animation?: MaybeAtom<string>;
+	readonly animationComposition?: MaybeAtom<string>;
+	readonly animationDelay?: MaybeAtom<string>;
+	readonly animationDirection?: MaybeAtom<string>;
+	readonly animationDuration?: MaybeAtom<string>;
+	readonly animationFillMode?: MaybeAtom<string>;
+	readonly animationIterationCount?: MaybeAtom<string>;
+	readonly animationName?: MaybeAtom<string>;
+	readonly animationPlayState?: MaybeAtom<string>;
+	readonly animationTimingFunction?: MaybeAtom<string>;
+	readonly appearance?: MaybeAtom<string>;
+	readonly aspectRatio?: MaybeAtom<string>;
+	readonly backdropFilter?: MaybeAtom<string>;
+	readonly backfaceVisibility?: MaybeAtom<string>;
+	readonly background?: MaybeAtom<string>;
+	readonly backgroundAttachment?: MaybeAtom<string>;
+	readonly backgroundBlendMode?: MaybeAtom<string>;
+	readonly backgroundClip?: MaybeAtom<string>;
+	readonly backgroundColor?: MaybeAtom<string>;
+	readonly backgroundImage?: MaybeAtom<string>;
+	readonly backgroundOrigin?: MaybeAtom<string>;
+	readonly backgroundPosition?: MaybeAtom<string>;
+	readonly backgroundPositionX?: MaybeAtom<string>;
+	readonly backgroundPositionY?: MaybeAtom<string>;
+	readonly backgroundRepeat?: MaybeAtom<string>;
+	readonly backgroundSize?: MaybeAtom<string>;
+	readonly baselineShift?: MaybeAtom<string>;
+	readonly baselineSource?: MaybeAtom<string>;
+	readonly blockSize?: MaybeAtom<string>;
+	readonly border?: MaybeAtom<string>;
+	readonly borderBlock?: MaybeAtom<string>;
+	readonly borderBlockColor?: MaybeAtom<string>;
+	readonly borderBlockEnd?: MaybeAtom<string>;
+	readonly borderBlockEndColor?: MaybeAtom<string>;
+	readonly borderBlockEndStyle?: MaybeAtom<string>;
+	readonly borderBlockEndWidth?: MaybeAtom<string>;
+	readonly borderBlockStart?: MaybeAtom<string>;
+	readonly borderBlockStartColor?: MaybeAtom<string>;
+	readonly borderBlockStartStyle?: MaybeAtom<string>;
+	readonly borderBlockStartWidth?: MaybeAtom<string>;
+	readonly borderBlockStyle?: MaybeAtom<string>;
+	readonly borderBlockWidth?: MaybeAtom<string>;
+	readonly borderBottom?: MaybeAtom<string>;
+	readonly borderBottomColor?: MaybeAtom<string>;
+	readonly borderBottomLeftRadius?: MaybeAtom<string>;
+	readonly borderBottomRightRadius?: MaybeAtom<string>;
+	readonly borderBottomStyle?: MaybeAtom<string>;
+	readonly borderBottomWidth?: MaybeAtom<string>;
+	readonly borderCollapse?: MaybeAtom<string>;
+	readonly borderColor?: MaybeAtom<string>;
+	readonly borderEndEndRadius?: MaybeAtom<string>;
+	readonly borderEndStartRadius?: MaybeAtom<string>;
+	readonly borderImage?: MaybeAtom<string>;
+	readonly borderImageOutset?: MaybeAtom<string>;
+	readonly borderImageRepeat?: MaybeAtom<string>;
+	readonly borderImageSlice?: MaybeAtom<string>;
+	readonly borderImageSource?: MaybeAtom<string>;
+	readonly borderImageWidth?: MaybeAtom<string>;
+	readonly borderInline?: MaybeAtom<string>;
+	readonly borderInlineColor?: MaybeAtom<string>;
+	readonly borderInlineEnd?: MaybeAtom<string>;
+	readonly borderInlineEndColor?: MaybeAtom<string>;
+	readonly borderInlineEndStyle?: MaybeAtom<string>;
+	readonly borderInlineEndWidth?: MaybeAtom<string>;
+	readonly borderInlineStart?: MaybeAtom<string>;
+	readonly borderInlineStartColor?: MaybeAtom<string>;
+	readonly borderInlineStartStyle?: MaybeAtom<string>;
+	readonly borderInlineStartWidth?: MaybeAtom<string>;
+	readonly borderInlineStyle?: MaybeAtom<string>;
+	readonly borderInlineWidth?: MaybeAtom<string>;
+	readonly borderLeft?: MaybeAtom<string>;
+	readonly borderLeftColor?: MaybeAtom<string>;
+	readonly borderLeftStyle?: MaybeAtom<string>;
+	readonly borderLeftWidth?: MaybeAtom<string>;
+	readonly borderRadius?: MaybeAtom<string>;
+	readonly borderRight?: MaybeAtom<string>;
+	readonly borderRightColor?: MaybeAtom<string>;
+	readonly borderRightStyle?: MaybeAtom<string>;
+	readonly borderRightWidth?: MaybeAtom<string>;
+	readonly borderSpacing?: MaybeAtom<string>;
+	readonly borderStartEndRadius?: MaybeAtom<string>;
+	readonly borderStartStartRadius?: MaybeAtom<string>;
+	readonly borderStyle?: MaybeAtom<string>;
+	readonly borderTop?: MaybeAtom<string>;
+	readonly borderTopColor?: MaybeAtom<string>;
+	readonly borderTopLeftRadius?: MaybeAtom<string>;
+	readonly borderTopRightRadius?: MaybeAtom<string>;
+	readonly borderTopStyle?: MaybeAtom<string>;
+	readonly borderTopWidth?: MaybeAtom<string>;
+	readonly borderWidth?: MaybeAtom<string>;
+	readonly bottom?: MaybeAtom<string>;
+	readonly boxDecorationBreak?: MaybeAtom<string>;
+	readonly boxShadow?: MaybeAtom<string>;
+	readonly boxSizing?: MaybeAtom<string>;
+	readonly breakAfter?: MaybeAtom<string>;
+	readonly breakBefore?: MaybeAtom<string>;
+	readonly breakInside?: MaybeAtom<string>;
+	readonly captionSide?: MaybeAtom<string>;
+	readonly caretColor?: MaybeAtom<string>;
+	readonly clear?: MaybeAtom<string>;
+	readonly clip?: MaybeAtom<string>;
+	readonly clipPath?: MaybeAtom<string>;
+	readonly clipRule?: MaybeAtom<string>;
+	readonly color?: MaybeAtom<string>;
+	readonly colorInterpolation?: MaybeAtom<string>;
+	readonly colorInterpolationFilters?: MaybeAtom<string>;
+	readonly colorScheme?: MaybeAtom<string>;
+	readonly columnCount?: MaybeAtom<string>;
+	readonly columnFill?: MaybeAtom<string>;
+	readonly columnGap?: MaybeAtom<string>;
+	readonly columnRule?: MaybeAtom<string>;
+	readonly columnRuleColor?: MaybeAtom<string>;
+	readonly columnRuleStyle?: MaybeAtom<string>;
+	readonly columnRuleWidth?: MaybeAtom<string>;
+	readonly columnSpan?: MaybeAtom<string>;
+	readonly columnWidth?: MaybeAtom<string>;
+	readonly columns?: MaybeAtom<string>;
+	readonly contain?: MaybeAtom<string>;
+	readonly containIntrinsicBlockSize?: MaybeAtom<string>;
+	readonly containIntrinsicHeight?: MaybeAtom<string>;
+	readonly containIntrinsicInlineSize?: MaybeAtom<string>;
+	readonly containIntrinsicSize?: MaybeAtom<string>;
+	readonly containIntrinsicWidth?: MaybeAtom<string>;
+	readonly container?: MaybeAtom<string>;
+	readonly containerName?: MaybeAtom<string>;
+	readonly containerType?: MaybeAtom<string>;
+	readonly content?: MaybeAtom<string>;
+	readonly contentVisibility?: MaybeAtom<string>;
+	readonly counterIncrement?: MaybeAtom<string>;
+	readonly counterReset?: MaybeAtom<string>;
+	readonly counterSet?: MaybeAtom<string>;
+	readonly cssFloat?: MaybeAtom<string>;
+	readonly cssText?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly cx?: MaybeAtom<string>;
+	readonly cy?: MaybeAtom<string>;
+	readonly d?: MaybeAtom<string>;
+	readonly direction?: MaybeAtom<string>;
+	readonly display?: MaybeAtom<string>;
+	readonly dominantBaseline?: MaybeAtom<string>;
+	readonly emptyCells?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<string>;
+	readonly fillOpacity?: MaybeAtom<string>;
+	readonly fillRule?: MaybeAtom<string>;
+	readonly filter?: MaybeAtom<string>;
+	readonly flex?: MaybeAtom<string>;
+	readonly flexBasis?: MaybeAtom<string>;
+	readonly flexDirection?: MaybeAtom<string>;
+	readonly flexFlow?: MaybeAtom<string>;
+	readonly flexGrow?: MaybeAtom<string>;
+	readonly flexShrink?: MaybeAtom<string>;
+	readonly flexWrap?: MaybeAtom<string>;
+	readonly float?: MaybeAtom<string>;
+	readonly floodColor?: MaybeAtom<string>;
+	readonly floodOpacity?: MaybeAtom<string>;
+	readonly font?: MaybeAtom<string>;
+	readonly fontFamily?: MaybeAtom<string>;
+	readonly fontFeatureSettings?: MaybeAtom<string>;
+	readonly fontKerning?: MaybeAtom<string>;
+	readonly fontOpticalSizing?: MaybeAtom<string>;
+	readonly fontPalette?: MaybeAtom<string>;
+	readonly fontSize?: MaybeAtom<string>;
+	readonly fontSizeAdjust?: MaybeAtom<string>;
+	readonly fontStretch?: MaybeAtom<string>;
+	readonly fontStyle?: MaybeAtom<string>;
+	readonly fontSynthesis?: MaybeAtom<string>;
+	readonly fontSynthesisSmallCaps?: MaybeAtom<string>;
+	readonly fontSynthesisStyle?: MaybeAtom<string>;
+	readonly fontSynthesisWeight?: MaybeAtom<string>;
+	readonly fontVariant?: MaybeAtom<string>;
+	readonly fontVariantAlternates?: MaybeAtom<string>;
+	readonly fontVariantCaps?: MaybeAtom<string>;
+	readonly fontVariantEastAsian?: MaybeAtom<string>;
+	readonly fontVariantLigatures?: MaybeAtom<string>;
+	readonly fontVariantNumeric?: MaybeAtom<string>;
+	readonly fontVariantPosition?: MaybeAtom<string>;
+	readonly fontVariationSettings?: MaybeAtom<string>;
+	readonly fontWeight?: MaybeAtom<string>;
+	readonly forcedColorAdjust?: MaybeAtom<string>;
+	readonly gap?: MaybeAtom<string>;
+	readonly grid?: MaybeAtom<string>;
+	readonly gridArea?: MaybeAtom<string>;
+	readonly gridAutoColumns?: MaybeAtom<string>;
+	readonly gridAutoFlow?: MaybeAtom<string>;
+	readonly gridAutoRows?: MaybeAtom<string>;
+	readonly gridColumn?: MaybeAtom<string>;
+	readonly gridColumnEnd?: MaybeAtom<string>;
+	readonly gridColumnGap?: MaybeAtom<string>;
+	readonly gridColumnStart?: MaybeAtom<string>;
+	readonly gridGap?: MaybeAtom<string>;
+	readonly gridRow?: MaybeAtom<string>;
+	readonly gridRowEnd?: MaybeAtom<string>;
+	readonly gridRowGap?: MaybeAtom<string>;
+	readonly gridRowStart?: MaybeAtom<string>;
+	readonly gridTemplate?: MaybeAtom<string>;
+	readonly gridTemplateAreas?: MaybeAtom<string>;
+	readonly gridTemplateColumns?: MaybeAtom<string>;
+	readonly gridTemplateRows?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string>;
+	readonly hyphenateCharacter?: MaybeAtom<string>;
+	readonly hyphenateLimitChars?: MaybeAtom<string>;
+	readonly hyphens?: MaybeAtom<string>;
+	readonly imageOrientation?: MaybeAtom<string>;
+	readonly imageRendering?: MaybeAtom<string>;
+	readonly inlineSize?: MaybeAtom<string>;
+	readonly inset?: MaybeAtom<string>;
+	readonly insetBlock?: MaybeAtom<string>;
+	readonly insetBlockEnd?: MaybeAtom<string>;
+	readonly insetBlockStart?: MaybeAtom<string>;
+	readonly insetInline?: MaybeAtom<string>;
+	readonly insetInlineEnd?: MaybeAtom<string>;
+	readonly insetInlineStart?: MaybeAtom<string>;
+	readonly isolation?: MaybeAtom<string>;
+	readonly justifyContent?: MaybeAtom<string>;
+	readonly justifyItems?: MaybeAtom<string>;
+	readonly justifySelf?: MaybeAtom<string>;
+	readonly left?: MaybeAtom<string>;
+	readonly letterSpacing?: MaybeAtom<string>;
+	readonly lightingColor?: MaybeAtom<string>;
+	readonly lineBreak?: MaybeAtom<string>;
+	readonly lineHeight?: MaybeAtom<string>;
+	readonly listStyle?: MaybeAtom<string>;
+	readonly listStyleImage?: MaybeAtom<string>;
+	readonly listStylePosition?: MaybeAtom<string>;
+	readonly listStyleType?: MaybeAtom<string>;
+	readonly margin?: MaybeAtom<string>;
+	readonly marginBlock?: MaybeAtom<string>;
+	readonly marginBlockEnd?: MaybeAtom<string>;
+	readonly marginBlockStart?: MaybeAtom<string>;
+	readonly marginBottom?: MaybeAtom<string>;
+	readonly marginInline?: MaybeAtom<string>;
+	readonly marginInlineEnd?: MaybeAtom<string>;
+	readonly marginInlineStart?: MaybeAtom<string>;
+	readonly marginLeft?: MaybeAtom<string>;
+	readonly marginRight?: MaybeAtom<string>;
+	readonly marginTop?: MaybeAtom<string>;
+	readonly marker?: MaybeAtom<string>;
+	readonly markerEnd?: MaybeAtom<string>;
+	readonly markerMid?: MaybeAtom<string>;
+	readonly markerStart?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly maskClip?: MaybeAtom<string>;
+	readonly maskComposite?: MaybeAtom<string>;
+	readonly maskImage?: MaybeAtom<string>;
+	readonly maskMode?: MaybeAtom<string>;
+	readonly maskOrigin?: MaybeAtom<string>;
+	readonly maskPosition?: MaybeAtom<string>;
+	readonly maskRepeat?: MaybeAtom<string>;
+	readonly maskSize?: MaybeAtom<string>;
+	readonly maskType?: MaybeAtom<string>;
+	readonly mathDepth?: MaybeAtom<string>;
+	readonly mathStyle?: MaybeAtom<string>;
+	readonly maxBlockSize?: MaybeAtom<string>;
+	readonly maxHeight?: MaybeAtom<string>;
+	readonly maxInlineSize?: MaybeAtom<string>;
+	readonly maxWidth?: MaybeAtom<string>;
+	readonly minBlockSize?: MaybeAtom<string>;
+	readonly minHeight?: MaybeAtom<string>;
+	readonly minInlineSize?: MaybeAtom<string>;
+	readonly minWidth?: MaybeAtom<string>;
+	readonly mixBlendMode?: MaybeAtom<string>;
+	readonly objectFit?: MaybeAtom<string>;
+	readonly objectPosition?: MaybeAtom<string>;
+	readonly offset?: MaybeAtom<string>;
+	readonly offsetAnchor?: MaybeAtom<string>;
+	readonly offsetDistance?: MaybeAtom<string>;
+	readonly offsetPath?: MaybeAtom<string>;
+	readonly offsetPosition?: MaybeAtom<string>;
+	readonly offsetRotate?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string>;
+	readonly order?: MaybeAtom<string>;
+	readonly orphans?: MaybeAtom<string>;
+	readonly outline?: MaybeAtom<string>;
+	readonly outlineColor?: MaybeAtom<string>;
+	readonly outlineOffset?: MaybeAtom<string>;
+	readonly outlineStyle?: MaybeAtom<string>;
+	readonly outlineWidth?: MaybeAtom<string>;
+	readonly overflow?: MaybeAtom<string>;
+	readonly overflowAnchor?: MaybeAtom<string>;
+	readonly overflowBlock?: MaybeAtom<string>;
+	readonly overflowClipMargin?: MaybeAtom<string>;
+	readonly overflowInline?: MaybeAtom<string>;
+	readonly overflowWrap?: MaybeAtom<string>;
+	readonly overflowX?: MaybeAtom<string>;
+	readonly overflowY?: MaybeAtom<string>;
+	readonly overscrollBehavior?: MaybeAtom<string>;
+	readonly overscrollBehaviorBlock?: MaybeAtom<string>;
+	readonly overscrollBehaviorInline?: MaybeAtom<string>;
+	readonly overscrollBehaviorX?: MaybeAtom<string>;
+	readonly overscrollBehaviorY?: MaybeAtom<string>;
+	readonly padding?: MaybeAtom<string>;
+	readonly paddingBlock?: MaybeAtom<string>;
+	readonly paddingBlockEnd?: MaybeAtom<string>;
+	readonly paddingBlockStart?: MaybeAtom<string>;
+	readonly paddingBottom?: MaybeAtom<string>;
+	readonly paddingInline?: MaybeAtom<string>;
+	readonly paddingInlineEnd?: MaybeAtom<string>;
+	readonly paddingInlineStart?: MaybeAtom<string>;
+	readonly paddingLeft?: MaybeAtom<string>;
+	readonly paddingRight?: MaybeAtom<string>;
+	readonly paddingTop?: MaybeAtom<string>;
+	readonly page?: MaybeAtom<string>;
+	readonly pageBreakAfter?: MaybeAtom<string>;
+	readonly pageBreakBefore?: MaybeAtom<string>;
+	readonly pageBreakInside?: MaybeAtom<string>;
+	readonly paintOrder?: MaybeAtom<string>;
+	readonly perspective?: MaybeAtom<string>;
+	readonly perspectiveOrigin?: MaybeAtom<string>;
+	readonly placeContent?: MaybeAtom<string>;
+	readonly placeItems?: MaybeAtom<string>;
+	readonly placeSelf?: MaybeAtom<string>;
+	readonly pointerEvents?: MaybeAtom<string>;
+	readonly position?: MaybeAtom<string>;
+	readonly printColorAdjust?: MaybeAtom<string>;
+	readonly quotes?: MaybeAtom<string>;
+	readonly r?: MaybeAtom<string>;
+	readonly resize?: MaybeAtom<string>;
+	readonly right?: MaybeAtom<string>;
+	readonly rotate?: MaybeAtom<string>;
+	readonly rowGap?: MaybeAtom<string>;
+	readonly rubyAlign?: MaybeAtom<string>;
+	readonly rubyPosition?: MaybeAtom<string>;
+	readonly rx?: MaybeAtom<string>;
+	readonly ry?: MaybeAtom<string>;
+	readonly scale?: MaybeAtom<string>;
+	readonly scrollBehavior?: MaybeAtom<string>;
+	readonly scrollMargin?: MaybeAtom<string>;
+	readonly scrollMarginBlock?: MaybeAtom<string>;
+	readonly scrollMarginBlockEnd?: MaybeAtom<string>;
+	readonly scrollMarginBlockStart?: MaybeAtom<string>;
+	readonly scrollMarginBottom?: MaybeAtom<string>;
+	readonly scrollMarginInline?: MaybeAtom<string>;
+	readonly scrollMarginInlineEnd?: MaybeAtom<string>;
+	readonly scrollMarginInlineStart?: MaybeAtom<string>;
+	readonly scrollMarginLeft?: MaybeAtom<string>;
+	readonly scrollMarginRight?: MaybeAtom<string>;
+	readonly scrollMarginTop?: MaybeAtom<string>;
+	readonly scrollPadding?: MaybeAtom<string>;
+	readonly scrollPaddingBlock?: MaybeAtom<string>;
+	readonly scrollPaddingBlockEnd?: MaybeAtom<string>;
+	readonly scrollPaddingBlockStart?: MaybeAtom<string>;
+	readonly scrollPaddingBottom?: MaybeAtom<string>;
+	readonly scrollPaddingInline?: MaybeAtom<string>;
+	readonly scrollPaddingInlineEnd?: MaybeAtom<string>;
+	readonly scrollPaddingInlineStart?: MaybeAtom<string>;
+	readonly scrollPaddingLeft?: MaybeAtom<string>;
+	readonly scrollPaddingRight?: MaybeAtom<string>;
+	readonly scrollPaddingTop?: MaybeAtom<string>;
+	readonly scrollSnapAlign?: MaybeAtom<string>;
+	readonly scrollSnapStop?: MaybeAtom<string>;
+	readonly scrollSnapType?: MaybeAtom<string>;
+	readonly scrollbarColor?: MaybeAtom<string>;
+	readonly scrollbarGutter?: MaybeAtom<string>;
+	readonly scrollbarWidth?: MaybeAtom<string>;
+	readonly shapeImageThreshold?: MaybeAtom<string>;
+	readonly shapeMargin?: MaybeAtom<string>;
+	readonly shapeOutside?: MaybeAtom<string>;
+	readonly shapeRendering?: MaybeAtom<string>;
+	readonly stopColor?: MaybeAtom<string>;
+	readonly stopOpacity?: MaybeAtom<string>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly strokeDasharray?: MaybeAtom<string>;
+	readonly strokeDashoffset?: MaybeAtom<string>;
+	readonly strokeLinecap?: MaybeAtom<string>;
+	readonly strokeLinejoin?: MaybeAtom<string>;
+	readonly strokeMiterlimit?: MaybeAtom<string>;
+	readonly strokeOpacity?: MaybeAtom<string>;
+	readonly strokeWidth?: MaybeAtom<string>;
+	readonly tabSize?: MaybeAtom<string>;
+	readonly tableLayout?: MaybeAtom<string>;
+	readonly textAlign?: MaybeAtom<string>;
+	readonly textAlignLast?: MaybeAtom<string>;
+	readonly textAnchor?: MaybeAtom<string>;
+	readonly textBox?: MaybeAtom<string>;
+	readonly textBoxEdge?: MaybeAtom<string>;
+	readonly textBoxTrim?: MaybeAtom<string>;
+	readonly textCombineUpright?: MaybeAtom<string>;
+	readonly textDecoration?: MaybeAtom<string>;
+	readonly textDecorationColor?: MaybeAtom<string>;
+	readonly textDecorationLine?: MaybeAtom<string>;
+	readonly textDecorationSkipInk?: MaybeAtom<string>;
+	readonly textDecorationStyle?: MaybeAtom<string>;
+	readonly textDecorationThickness?: MaybeAtom<string>;
+	readonly textEmphasis?: MaybeAtom<string>;
+	readonly textEmphasisColor?: MaybeAtom<string>;
+	readonly textEmphasisPosition?: MaybeAtom<string>;
+	readonly textEmphasisStyle?: MaybeAtom<string>;
+	readonly textIndent?: MaybeAtom<string>;
+	readonly textOrientation?: MaybeAtom<string>;
+	readonly textOverflow?: MaybeAtom<string>;
+	readonly textRendering?: MaybeAtom<string>;
+	readonly textShadow?: MaybeAtom<string>;
+	readonly textTransform?: MaybeAtom<string>;
+	readonly textUnderlineOffset?: MaybeAtom<string>;
+	readonly textUnderlinePosition?: MaybeAtom<string>;
+	readonly textWrap?: MaybeAtom<string>;
+	readonly textWrapMode?: MaybeAtom<string>;
+	readonly textWrapStyle?: MaybeAtom<string>;
+	readonly top?: MaybeAtom<string>;
+	readonly touchAction?: MaybeAtom<string>;
+	readonly transform?: MaybeAtom<string>;
+	readonly transformBox?: MaybeAtom<string>;
+	readonly transformOrigin?: MaybeAtom<string>;
+	readonly transformStyle?: MaybeAtom<string>;
+	readonly transition?: MaybeAtom<string>;
+	readonly transitionBehavior?: MaybeAtom<string>;
+	readonly transitionDelay?: MaybeAtom<string>;
+	readonly transitionDuration?: MaybeAtom<string>;
+	readonly transitionProperty?: MaybeAtom<string>;
+	readonly transitionTimingFunction?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<string>;
+	readonly unicodeBidi?: MaybeAtom<string>;
+	readonly userSelect?: MaybeAtom<string>;
+	readonly vectorEffect?: MaybeAtom<string>;
+	readonly verticalAlign?: MaybeAtom<string>;
+	readonly viewTransitionClass?: MaybeAtom<string>;
+	readonly viewTransitionName?: MaybeAtom<string>;
+	readonly visibility?: MaybeAtom<string>;
+	readonly webkitAlignContent?: MaybeAtom<string>;
+	readonly webkitAlignItems?: MaybeAtom<string>;
+	readonly webkitAlignSelf?: MaybeAtom<string>;
+	readonly webkitAnimation?: MaybeAtom<string>;
+	readonly webkitAnimationDelay?: MaybeAtom<string>;
+	readonly webkitAnimationDirection?: MaybeAtom<string>;
+	readonly webkitAnimationDuration?: MaybeAtom<string>;
+	readonly webkitAnimationFillMode?: MaybeAtom<string>;
+	readonly webkitAnimationIterationCount?: MaybeAtom<string>;
+	readonly webkitAnimationName?: MaybeAtom<string>;
+	readonly webkitAnimationPlayState?: MaybeAtom<string>;
+	readonly webkitAnimationTimingFunction?: MaybeAtom<string>;
+	readonly webkitAppearance?: MaybeAtom<string>;
+	readonly webkitBackfaceVisibility?: MaybeAtom<string>;
+	readonly webkitBackgroundClip?: MaybeAtom<string>;
+	readonly webkitBackgroundOrigin?: MaybeAtom<string>;
+	readonly webkitBackgroundSize?: MaybeAtom<string>;
+	readonly webkitBorderBottomLeftRadius?: MaybeAtom<string>;
+	readonly webkitBorderBottomRightRadius?: MaybeAtom<string>;
+	readonly webkitBorderRadius?: MaybeAtom<string>;
+	readonly webkitBorderTopLeftRadius?: MaybeAtom<string>;
+	readonly webkitBorderTopRightRadius?: MaybeAtom<string>;
+	readonly webkitBoxAlign?: MaybeAtom<string>;
+	readonly webkitBoxFlex?: MaybeAtom<string>;
+	readonly webkitBoxOrdinalGroup?: MaybeAtom<string>;
+	readonly webkitBoxOrient?: MaybeAtom<string>;
+	readonly webkitBoxPack?: MaybeAtom<string>;
+	readonly webkitBoxShadow?: MaybeAtom<string>;
+	readonly webkitBoxSizing?: MaybeAtom<string>;
+	readonly webkitFilter?: MaybeAtom<string>;
+	readonly webkitFlex?: MaybeAtom<string>;
+	readonly webkitFlexBasis?: MaybeAtom<string>;
+	readonly webkitFlexDirection?: MaybeAtom<string>;
+	readonly webkitFlexFlow?: MaybeAtom<string>;
+	readonly webkitFlexGrow?: MaybeAtom<string>;
+	readonly webkitFlexShrink?: MaybeAtom<string>;
+	readonly webkitFlexWrap?: MaybeAtom<string>;
+	readonly webkitJustifyContent?: MaybeAtom<string>;
+	readonly webkitLineClamp?: MaybeAtom<string>;
+	readonly webkitMask?: MaybeAtom<string>;
+	readonly webkitMaskBoxImage?: MaybeAtom<string>;
+	readonly webkitMaskBoxImageOutset?: MaybeAtom<string>;
+	readonly webkitMaskBoxImageRepeat?: MaybeAtom<string>;
+	readonly webkitMaskBoxImageSlice?: MaybeAtom<string>;
+	readonly webkitMaskBoxImageSource?: MaybeAtom<string>;
+	readonly webkitMaskBoxImageWidth?: MaybeAtom<string>;
+	readonly webkitMaskClip?: MaybeAtom<string>;
+	readonly webkitMaskComposite?: MaybeAtom<string>;
+	readonly webkitMaskImage?: MaybeAtom<string>;
+	readonly webkitMaskOrigin?: MaybeAtom<string>;
+	readonly webkitMaskPosition?: MaybeAtom<string>;
+	readonly webkitMaskRepeat?: MaybeAtom<string>;
+	readonly webkitMaskSize?: MaybeAtom<string>;
+	readonly webkitOrder?: MaybeAtom<string>;
+	readonly webkitPerspective?: MaybeAtom<string>;
+	readonly webkitPerspectiveOrigin?: MaybeAtom<string>;
+	readonly webkitTextFillColor?: MaybeAtom<string>;
+	readonly webkitTextSizeAdjust?: MaybeAtom<string>;
+	readonly webkitTextStroke?: MaybeAtom<string>;
+	readonly webkitTextStrokeColor?: MaybeAtom<string>;
+	readonly webkitTextStrokeWidth?: MaybeAtom<string>;
+	readonly webkitTransform?: MaybeAtom<string>;
+	readonly webkitTransformOrigin?: MaybeAtom<string>;
+	readonly webkitTransformStyle?: MaybeAtom<string>;
+	readonly webkitTransition?: MaybeAtom<string>;
+	readonly webkitTransitionDelay?: MaybeAtom<string>;
+	readonly webkitTransitionDuration?: MaybeAtom<string>;
+	readonly webkitTransitionProperty?: MaybeAtom<string>;
+	readonly webkitTransitionTimingFunction?: MaybeAtom<string>;
+	readonly webkitUserSelect?: MaybeAtom<string>;
+	readonly whiteSpace?: MaybeAtom<string>;
+	readonly whiteSpaceCollapse?: MaybeAtom<string>;
+	readonly widows?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string>;
+	readonly willChange?: MaybeAtom<string>;
+	readonly wordBreak?: MaybeAtom<string>;
+	readonly wordSpacing?: MaybeAtom<string>;
+	readonly wordWrap?: MaybeAtom<string>;
+	readonly writingMode?: MaybeAtom<string>;
+	readonly x?: MaybeAtom<string>;
+	readonly y?: MaybeAtom<string>;
+	readonly zIndex?: MaybeAtom<string>;
+	readonly zoom?: MaybeAtom<string>;
+}
 
 export interface HTMLAnchorElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly charset?: MaybeAtom<string>;
 	readonly coords?: MaybeAtom<string>;
@@ -30,7 +542,6 @@ export interface HTMLAnchorElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -89,7 +600,6 @@ export interface HTMLAnchorElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -106,11 +616,12 @@ export interface HTMLAnchorElementProps {
 	readonly protocol?: MaybeAtom<string>;
 	readonly search?: MaybeAtom<string>;
 	readonly username?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLAnchorElement;
 }
 
 export interface HTMLElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -123,7 +634,6 @@ export interface HTMLElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -182,18 +692,18 @@ export interface HTMLElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLElement;
 }
 
 export interface HTMLAreaElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly coords?: MaybeAtom<string>;
 	readonly download?: MaybeAtom<string>;
@@ -214,7 +724,6 @@ export interface HTMLAreaElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -273,7 +782,6 @@ export interface HTMLAreaElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -292,11 +800,12 @@ export interface HTMLAreaElementProps {
 	readonly username?: MaybeAtom<string>;
 	readonly alt?: MaybeAtom<string>;
 	readonly noHref?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLAreaElement;
 }
 
 export interface HTMLAudioElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -309,7 +818,6 @@ export interface HTMLAudioElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -368,7 +876,6 @@ export interface HTMLAudioElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -390,11 +897,12 @@ export interface HTMLAudioElementProps {
 	readonly src?: MaybeAtom<string>;
 	readonly srcObject?: MaybeAtom<MediaProvider | null>;
 	readonly volume?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLAudioElement;
 }
 
 export interface HTMLBaseElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly target?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -408,7 +916,6 @@ export interface HTMLBaseElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -467,7 +974,6 @@ export interface HTMLBaseElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -475,11 +981,12 @@ export interface HTMLBaseElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly href?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLBaseElement;
 }
 
 export interface HTMLQuoteElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -492,7 +999,6 @@ export interface HTMLQuoteElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -551,7 +1057,6 @@ export interface HTMLQuoteElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -559,11 +1064,13 @@ export interface HTMLQuoteElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly cite?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLQuoteElement;
 }
 
 export interface HTMLBRElementProps {
+	readonly clear?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -576,7 +1083,6 @@ export interface HTMLBRElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -635,19 +1141,18 @@ export interface HTMLBRElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly clear?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLBRElement;
 }
 
 export interface HTMLButtonElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<"submit" | "reset" | "button">;
@@ -662,7 +1167,6 @@ export interface HTMLButtonElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -721,7 +1225,6 @@ export interface HTMLButtonElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -737,11 +1240,14 @@ export interface HTMLButtonElementProps {
 	readonly value?: MaybeAtom<string>;
 	readonly popoverTargetAction?: MaybeAtom<string>;
 	readonly popoverTargetElement?: MaybeAtom<Element | null>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLButtonElement;
 }
 
 export interface HTMLCanvasElementProps {
+	readonly height?: MaybeAtom<number>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<number>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -754,7 +1260,6 @@ export interface HTMLCanvasElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -813,20 +1318,18 @@ export interface HTMLCanvasElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly height?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLCanvasElement;
 }
 
 export interface HTMLTableCaptionElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -839,7 +1342,6 @@ export interface HTMLTableCaptionElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -898,7 +1400,6 @@ export interface HTMLTableCaptionElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -906,11 +1407,13 @@ export interface HTMLTableCaptionElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTableCaptionElement;
 }
 
 export interface HTMLTableColElementProps {
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -923,7 +1426,6 @@ export interface HTMLTableColElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -982,24 +1484,23 @@ export interface HTMLTableColElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
 	readonly span?: MaybeAtom<number>;
 	readonly vAlign?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTableColElement;
 }
 
 export interface HTMLDataElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1012,7 +1513,6 @@ export interface HTMLDataElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1071,7 +1571,6 @@ export interface HTMLDataElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1079,11 +1578,12 @@ export interface HTMLDataElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLDataElement;
 }
 
 export interface HTMLDataListElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1096,7 +1596,6 @@ export interface HTMLDataListElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1155,18 +1654,18 @@ export interface HTMLDataListElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLDataListElement;
 }
 
 export interface HTMLModElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1179,7 +1678,6 @@ export interface HTMLModElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1238,7 +1736,6 @@ export interface HTMLModElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1247,11 +1744,12 @@ export interface HTMLModElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly cite?: MaybeAtom<string>;
 	readonly dateTime?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLModElement;
 }
 
 export interface HTMLDetailsElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -1265,7 +1763,6 @@ export interface HTMLDetailsElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1324,7 +1821,6 @@ export interface HTMLDetailsElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1332,11 +1828,12 @@ export interface HTMLDetailsElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly open?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLDetailsElement;
 }
 
 export interface HTMLDialogElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1349,7 +1846,6 @@ export interface HTMLDialogElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1408,7 +1904,6 @@ export interface HTMLDialogElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1417,11 +1912,12 @@ export interface HTMLDialogElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly open?: MaybeAtom<boolean>;
 	readonly returnValue?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLDialogElement;
 }
 
 export interface HTMLDivElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1434,7 +1930,6 @@ export interface HTMLDivElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1493,7 +1988,6 @@ export interface HTMLDivElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1501,11 +1995,12 @@ export interface HTMLDivElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLDivElement;
 }
 
 export interface HTMLDListElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1518,7 +2013,6 @@ export interface HTMLDListElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1577,7 +2071,6 @@ export interface HTMLDListElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1585,11 +2078,14 @@ export interface HTMLDListElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly compact?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLDListElement;
 }
 
 export interface HTMLEmbedElementProps {
+	readonly height?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
@@ -1604,7 +2100,6 @@ export interface HTMLEmbedElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1663,7 +2158,6 @@ export interface HTMLEmbedElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1671,14 +2165,13 @@ export interface HTMLEmbedElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly src?: MaybeAtom<string>;
-	readonly height?: MaybeAtom<string>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLEmbedElement;
 }
 
 export interface HTMLFieldSetElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -1692,7 +2185,6 @@ export interface HTMLFieldSetElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1751,7 +2243,6 @@ export interface HTMLFieldSetElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1759,11 +2250,12 @@ export interface HTMLFieldSetElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly disabled?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLFieldSetElement;
 }
 
 export interface HTMLFormElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly rel?: MaybeAtom<string>;
@@ -1780,7 +2272,6 @@ export interface HTMLFormElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1839,7 +2330,6 @@ export interface HTMLFormElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1853,11 +2343,12 @@ export interface HTMLFormElementProps {
 	readonly enctype?: MaybeAtom<string>;
 	readonly method?: MaybeAtom<string>;
 	readonly noValidate?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLFormElement;
 }
 
 export interface HTMLHeadingElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1870,7 +2361,6 @@ export interface HTMLHeadingElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -1929,7 +2419,6 @@ export interface HTMLHeadingElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -1937,11 +2426,14 @@ export interface HTMLHeadingElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLHeadingElement;
 }
 
 export interface HTMLHRElementProps {
+	readonly color?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -1954,7 +2446,6 @@ export interface HTMLHRElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2013,23 +2504,23 @@ export interface HTMLHRElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
-	readonly color?: MaybeAtom<string>;
 	readonly noShade?: MaybeAtom<boolean>;
 	readonly size?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLHRElement;
 }
 
 export interface HTMLIFrameElementProps {
+	readonly height?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly referrerPolicy?: MaybeAtom<ReferrerPolicy>;
@@ -2044,7 +2535,6 @@ export interface HTMLIFrameElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2103,7 +2593,6 @@ export interface HTMLIFrameElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2111,8 +2600,6 @@ export interface HTMLIFrameElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly src?: MaybeAtom<string>;
-	readonly height?: MaybeAtom<string>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
 	readonly allow?: MaybeAtom<string>;
 	readonly allowFullscreen?: MaybeAtom<boolean>;
@@ -2124,11 +2611,15 @@ export interface HTMLIFrameElementProps {
 	readonly sandbox?: MaybeAtom<DOMTokenList>;
 	readonly scrolling?: MaybeAtom<string>;
 	readonly srcdoc?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLIFrameElement;
 }
 
 export interface HTMLImageElementProps {
+	readonly border?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<number>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<number>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly referrerPolicy?: MaybeAtom<string>;
@@ -2143,7 +2634,6 @@ export interface HTMLImageElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2202,7 +2692,6 @@ export interface HTMLImageElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2212,12 +2701,9 @@ export interface HTMLImageElementProps {
 	readonly alt?: MaybeAtom<string>;
 	readonly crossOrigin?: MaybeAtom<string | null>;
 	readonly src?: MaybeAtom<string>;
-	readonly height?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
 	readonly loading?: MaybeAtom<"eager" | "lazy">;
 	readonly longDesc?: MaybeAtom<string>;
-	readonly border?: MaybeAtom<string>;
 	readonly decoding?: MaybeAtom<"auto" | "async" | "sync">;
 	readonly fetchPriority?: MaybeAtom<"auto" | "high" | "low">;
 	readonly hspace?: MaybeAtom<number>;
@@ -2227,11 +2713,14 @@ export interface HTMLImageElementProps {
 	readonly srcset?: MaybeAtom<string>;
 	readonly useMap?: MaybeAtom<string>;
 	readonly vspace?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLImageElement;
 }
 
 export interface HTMLInputElementProps {
+	readonly height?: MaybeAtom<number>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<number>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
@@ -2246,7 +2735,6 @@ export interface HTMLInputElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2305,7 +2793,6 @@ export interface HTMLInputElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2323,8 +2810,6 @@ export interface HTMLInputElementProps {
 	readonly value?: MaybeAtom<string>;
 	readonly popoverTargetAction?: MaybeAtom<string>;
 	readonly popoverTargetElement?: MaybeAtom<Element | null>;
-	readonly height?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
 	readonly autocomplete?: MaybeAtom<AutoFill>;
 	readonly size?: MaybeAtom<number>;
@@ -2353,11 +2838,12 @@ export interface HTMLInputElementProps {
 	readonly valueAsDate?: MaybeAtom<Date | null>;
 	readonly valueAsNumber?: MaybeAtom<number>;
 	readonly webkitdirectory?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLInputElement;
 }
 
 export interface HTMLLabelElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly for?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -2371,7 +2857,6 @@ export interface HTMLLabelElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2430,18 +2915,18 @@ export interface HTMLLabelElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLLabelElement;
 }
 
 export interface HTMLLegendElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -2454,7 +2939,6 @@ export interface HTMLLegendElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2513,7 +2997,6 @@ export interface HTMLLegendElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2521,11 +3004,12 @@ export interface HTMLLegendElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLLegendElement;
 }
 
 export interface HTMLLIElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -2539,7 +3023,6 @@ export interface HTMLLIElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2598,7 +3081,6 @@ export interface HTMLLIElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2606,11 +3088,12 @@ export interface HTMLLIElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLLIElement;
 }
 
 export interface HTMLMapElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -2624,7 +3107,6 @@ export interface HTMLMapElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2683,18 +3165,18 @@ export interface HTMLMapElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLMapElement;
 }
 
 export interface HTMLMenuElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -2707,7 +3189,6 @@ export interface HTMLMenuElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2766,7 +3247,6 @@ export interface HTMLMenuElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2774,11 +3254,12 @@ export interface HTMLMenuElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly compact?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLMenuElement;
 }
 
 export interface HTMLMeterElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -2791,7 +3272,6 @@ export interface HTMLMeterElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2850,7 +3330,6 @@ export interface HTMLMeterElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -2863,11 +3342,15 @@ export interface HTMLMeterElementProps {
 	readonly max?: MaybeAtom<number>;
 	readonly min?: MaybeAtom<number>;
 	readonly optimum?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLMeterElement;
 }
 
 export interface HTMLObjectElementProps {
+	readonly border?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
@@ -2882,7 +3365,6 @@ export interface HTMLObjectElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -2941,17 +3423,13 @@ export interface HTMLObjectElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly height?: MaybeAtom<string>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
-	readonly border?: MaybeAtom<string>;
 	readonly hspace?: MaybeAtom<number>;
 	readonly useMap?: MaybeAtom<string>;
 	readonly vspace?: MaybeAtom<number>;
@@ -2962,11 +3440,12 @@ export interface HTMLObjectElementProps {
 	readonly data?: MaybeAtom<string>;
 	readonly declare?: MaybeAtom<boolean>;
 	readonly standby?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLObjectElement;
 }
 
 export interface HTMLOListElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -2980,7 +3459,6 @@ export interface HTMLOListElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3039,7 +3517,6 @@ export interface HTMLOListElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3049,11 +3526,12 @@ export interface HTMLOListElementProps {
 	readonly compact?: MaybeAtom<boolean>;
 	readonly reversed?: MaybeAtom<boolean>;
 	readonly start?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLOListElement;
 }
 
 export interface HTMLOptGroupElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -3066,7 +3544,6 @@ export interface HTMLOptGroupElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3125,7 +3602,6 @@ export interface HTMLOptGroupElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3134,11 +3610,12 @@ export interface HTMLOptGroupElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly label?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLOptGroupElement;
 }
 
 export interface HTMLOptionElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly text?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -3152,7 +3629,6 @@ export interface HTMLOptionElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3211,7 +3687,6 @@ export interface HTMLOptionElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3223,11 +3698,12 @@ export interface HTMLOptionElementProps {
 	readonly label?: MaybeAtom<string>;
 	readonly defaultSelected?: MaybeAtom<boolean>;
 	readonly selected?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLOptionElement;
 }
 
 export interface HTMLOutputElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly for?: MaybeAtom<DOMTokenList>;
 	readonly name?: MaybeAtom<string>;
@@ -3242,7 +3718,6 @@ export interface HTMLOutputElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3301,7 +3776,6 @@ export interface HTMLOutputElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3310,11 +3784,12 @@ export interface HTMLOutputElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<string>;
 	readonly defaultValue?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLOutputElement;
 }
 
 export interface HTMLParagraphElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -3327,7 +3802,6 @@ export interface HTMLParagraphElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3386,7 +3860,6 @@ export interface HTMLParagraphElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3394,11 +3867,12 @@ export interface HTMLParagraphElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly align?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLParagraphElement;
 }
 
 export interface HTMLPictureElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -3411,7 +3885,6 @@ export interface HTMLPictureElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3470,18 +3943,19 @@ export interface HTMLPictureElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLPictureElement;
 }
 
 export interface HTMLPreElementProps {
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<number>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -3494,7 +3968,6 @@ export interface HTMLPreElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3553,19 +4026,18 @@ export interface HTMLPreElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLPreElement;
 }
 
 export interface HTMLProgressElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -3578,7 +4050,6 @@ export interface HTMLProgressElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3637,7 +4108,6 @@ export interface HTMLProgressElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3646,11 +4116,13 @@ export interface HTMLProgressElementProps {
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly value?: MaybeAtom<number>;
 	readonly max?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLProgressElement;
 }
 
 export interface HTMLSelectElementProps {
+	readonly length?: MaybeAtom<number>;
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -3664,7 +4136,6 @@ export interface HTMLSelectElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3723,7 +4194,6 @@ export interface HTMLSelectElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3733,16 +4203,16 @@ export interface HTMLSelectElementProps {
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly value?: MaybeAtom<string>;
 	readonly autocomplete?: MaybeAtom<AutoFill>;
-	readonly length?: MaybeAtom<number>;
 	readonly size?: MaybeAtom<number>;
 	readonly multiple?: MaybeAtom<boolean>;
 	readonly required?: MaybeAtom<boolean>;
 	readonly selectedIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLSelectElement;
 }
 
 export interface HTMLSlotElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -3756,7 +4226,6 @@ export interface HTMLSlotElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3815,18 +4284,20 @@ export interface HTMLSlotElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLSlotElement;
 }
 
 export interface HTMLSourceElementProps {
+	readonly height?: MaybeAtom<number>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<number>;
 	readonly class?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -3840,7 +4311,6 @@ export interface HTMLSourceElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3899,7 +4369,6 @@ export interface HTMLSourceElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -3907,16 +4376,15 @@ export interface HTMLSourceElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly src?: MaybeAtom<string>;
-	readonly height?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<number>;
 	readonly sizes?: MaybeAtom<string>;
 	readonly srcset?: MaybeAtom<string>;
 	readonly media?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLSourceElement;
 }
 
 export interface HTMLSpanElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -3929,7 +4397,6 @@ export interface HTMLSpanElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -3988,18 +4455,20 @@ export interface HTMLSpanElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLSpanElement;
 }
 
 export interface HTMLTableElementProps {
+	readonly border?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4012,7 +4481,6 @@ export interface HTMLTableElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4071,16 +4539,13 @@ export interface HTMLTableElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
-	readonly border?: MaybeAtom<string>;
 	readonly bgColor?: MaybeAtom<string>;
 	readonly caption?: MaybeAtom<HTMLTableCaptionElement | null>;
 	readonly cellPadding?: MaybeAtom<string>;
@@ -4090,11 +4555,12 @@ export interface HTMLTableElementProps {
 	readonly summary?: MaybeAtom<string>;
 	readonly tFoot?: MaybeAtom<HTMLTableSectionElement | null>;
 	readonly tHead?: MaybeAtom<HTMLTableSectionElement | null>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTableElement;
 }
 
 export interface HTMLTableSectionElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4107,7 +4573,6 @@ export interface HTMLTableSectionElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4166,7 +4631,6 @@ export interface HTMLTableSectionElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4177,11 +4641,14 @@ export interface HTMLTableSectionElementProps {
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
 	readonly vAlign?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTableSectionElement;
 }
 
 export interface HTMLTableCellElementProps {
+	readonly height?: MaybeAtom<string>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4194,7 +4661,6 @@ export interface HTMLTableCellElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4253,15 +4719,12 @@ export interface HTMLTableCellElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
 	readonly autofocus?: MaybeAtom<boolean>;
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
-	readonly height?: MaybeAtom<string>;
-	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
@@ -4274,11 +4737,12 @@ export interface HTMLTableCellElementProps {
 	readonly noWrap?: MaybeAtom<boolean>;
 	readonly rowSpan?: MaybeAtom<number>;
 	readonly scope?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTableCellElement;
 }
 
 export interface HTMLTemplateElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4291,7 +4755,6 @@ export interface HTMLTemplateElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4350,7 +4813,6 @@ export interface HTMLTemplateElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4361,11 +4823,12 @@ export interface HTMLTemplateElementProps {
 	readonly shadowRootDelegatesFocus?: MaybeAtom<boolean>;
 	readonly shadowRootMode?: MaybeAtom<string>;
 	readonly shadowRootSerializable?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTemplateElement;
 }
 
 export interface HTMLTextAreaElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -4379,7 +4842,6 @@ export interface HTMLTextAreaElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4438,7 +4900,6 @@ export interface HTMLTextAreaElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4461,11 +4922,12 @@ export interface HTMLTextAreaElementProps {
 	readonly rows?: MaybeAtom<number>;
 	readonly cols?: MaybeAtom<number>;
 	readonly wrap?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTextAreaElement;
 }
 
 export interface HTMLTimeElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4478,7 +4940,6 @@ export interface HTMLTimeElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4537,7 +4998,6 @@ export interface HTMLTimeElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4545,11 +5005,12 @@ export interface HTMLTimeElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly dateTime?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTimeElement;
 }
 
 export interface HTMLTableRowElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4562,7 +5023,6 @@ export interface HTMLTableRowElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4621,7 +5081,6 @@ export interface HTMLTableRowElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4633,11 +5092,12 @@ export interface HTMLTableRowElementProps {
 	readonly chOff?: MaybeAtom<string>;
 	readonly vAlign?: MaybeAtom<string>;
 	readonly bgColor?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTableRowElement;
 }
 
 export interface HTMLTrackElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4650,7 +5110,6 @@ export interface HTMLTrackElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4709,7 +5168,6 @@ export interface HTMLTrackElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4721,11 +5179,12 @@ export interface HTMLTrackElementProps {
 	readonly default?: MaybeAtom<boolean>;
 	readonly kind?: MaybeAtom<string>;
 	readonly srclang?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLTrackElement;
 }
 
 export interface HTMLUListElementProps {
+	readonly translate?: MaybeAtom<boolean>;
 	readonly class?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -4739,7 +5198,6 @@ export interface HTMLUListElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4798,7 +5256,6 @@ export interface HTMLUListElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4806,11 +5263,14 @@ export interface HTMLUListElementProps {
 	readonly nonce?: MaybeAtom<string | undefined>;
 	readonly tabIndex?: MaybeAtom<number>;
 	readonly compact?: MaybeAtom<boolean>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLUListElement;
 }
 
 export interface HTMLVideoElementProps {
+	readonly height?: MaybeAtom<number>;
+	readonly translate?: MaybeAtom<boolean>;
+	readonly width?: MaybeAtom<number>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
 	readonly autocapitalize?: MaybeAtom<string>;
@@ -4823,7 +5283,6 @@ export interface HTMLVideoElementProps {
 	readonly popover?: MaybeAtom<string | null>;
 	readonly spellcheck?: MaybeAtom<boolean>;
 	readonly title?: MaybeAtom<string>;
-	readonly translate?: MaybeAtom<boolean>;
 	readonly writingSuggestions?: MaybeAtom<string>;
 	readonly id?: MaybeAtom<string>;
 	readonly part?: MaybeAtom<DOMTokenList>;
@@ -4882,7 +5341,6 @@ export interface HTMLVideoElementProps {
 	readonly ariaValueNow?: MaybeAtom<string | null>;
 	readonly ariaValueText?: MaybeAtom<string | null>;
 	readonly role?: MaybeAtom<string | null>;
-	readonly style?: MaybeAtom<CSSStyleDeclaration>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -4904,12 +5362,10 @@ export interface HTMLVideoElementProps {
 	readonly src?: MaybeAtom<string>;
 	readonly srcObject?: MaybeAtom<MediaProvider | null>;
 	readonly volume?: MaybeAtom<number>;
-	readonly height?: MaybeAtom<number>;
-	readonly width?: MaybeAtom<number>;
 	readonly disablePictureInPicture?: MaybeAtom<boolean>;
 	readonly playsInline?: MaybeAtom<boolean>;
 	readonly poster?: MaybeAtom<string>;
-	readonly children?: Nil<JsxResult> | readonly Nil<JsxResult>[];
+	readonly children?: JsxChildren;
 	readonly [S_NODE_TYPE]?: HTMLVideoElement;
 }
 

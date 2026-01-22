@@ -1,19 +1,34 @@
-import { mountJsx, S_COMPONENT, type MountingGroup } from "./Renderer";
 import type { S_TAG_NAME } from "~/component/Native";
+import { getCurrentContainer, setCurrentContainer } from "~/data/Context";
 import type { Nil, PropsType } from "~/support/types";
 
+import { mountJsx, S_COMPONENT, type MountingGroup } from "./Renderer";
+
+/**
+ * Represents a Pyxis Component function responsible for setting up a view model and returning a
+ * chunk of JSX to be rendered.
+ */
 export interface Component<TProps extends PropsType = {}> {
 	(props: TProps): JsxResult;
 }
 
 export type PropsOf<T> = T extends Component<infer TProps> ? TProps : unknown;
 
+/**
+ * Represents a Template function returning a chunk of JSX to be rendered. Templates receive no
+ * props and have no lifecycle. As such Templates cannot create any atoms, reactions etc.
+ */
 export interface Template {
-	(): JsxChildrenProp<Nil<JsxResult>>;
+	(): JsxChildren;
 }
 
+/**
+ * Represents a DataTemplate function returning a chunk of JSX to be rendered with specific input
+ * data. DataTemplates only receive the data, but no props and have no lifecycle. As such
+ * DataTemplates cannot create any atoms, reactions etc.
+ */
 export interface DataTemplate<TData> {
-	(data: TData): JsxChildrenProp<Nil<JsxResult>>;
+	(data: TData): JsxChildren;
 }
 
 export function component<TPropsArg extends [ {} ]>(
@@ -24,7 +39,9 @@ export function component(
 	block: (props: PropsType) => JsxResult,
 ): ComponentHandler {
 	return (group, jsx, parent, before, level) => {
+		const context = getCurrentContainer();
 		mountJsx(group, block(jsx), parent, before, level);
+		setCurrentContainer(context);
 	};
 }
 
@@ -85,6 +102,11 @@ export interface JsxResult {
 	/** @internal */
 	readonly [S_TAG_NAME]?: string;
 }
+
+/**
+ * The type of JSX elements accepted as individual children by common components.
+ */
+export type JsxChildren = Nil<JsxResult> | readonly JsxChildren[];
 
 /** @internal */
 export interface ComponentHandler {

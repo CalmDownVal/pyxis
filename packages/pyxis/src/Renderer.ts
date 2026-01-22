@@ -1,8 +1,10 @@
+import { notifyMounted, notifyUnmounted, getLifecycle, onMounted, onUnmounted, withLifecycle, type LifecycleInternal, type Lifecycle } from "~/data/Lifecycle";
+import { createScheduler } from "~/data/Scheduler";
+import type { ElementsType } from "~/support/types";
+
 import type { Adapter, ExtensionsType } from "./Adapter";
 import type { DataTemplate, JsxResult, Template } from "./Component";
-import { notifyMounted, notifyUnmounted, getLifecycle, onMounted, onUnmounted, withLifecycle, type LifecycleInternal, type Lifecycle } from "./data/Lifecycle";
-import { createScheduler } from "./data/Scheduler";
-import type { ElementsType } from "./support/types";
+import { getCurrentContainer, setCurrentContainer, type ContextContainer } from "./data/Context";
 
 /** @internal */
 // @ts-expect-error this is a unique symbol at runtime
@@ -33,6 +35,7 @@ export interface MountingGroup<TNode = any> extends Lifecycle {
 /** @internal */
 export interface MountingGroupInternal<TNode = any> extends MountingGroup<TNode>, LifecycleInternal {
 	readonly $extensions: ExtensionsType<TNode>;
+	readonly $context?: ContextContainer;
 	readonly $parent?: MountingGroupInternal<TNode>;
 }
 
@@ -71,13 +74,14 @@ export function split<TNode>(
 
 export function split<TNode>(
 	parentGroup: MountingGroupInternal<TNode> = (getLifecycle() as MountingGroupInternal<TNode>),
-): MountingGroup<TNode> {
+): MountingGroupInternal<TNode> {
 	const subGroup = {
 		mounted: false,
 		adapter: parentGroup.adapter,
 		top: [],
 		$scheduler: parentGroup.$scheduler,
 		$extensions: parentGroup.$extensions,
+		$context: getCurrentContainer(),
 		$parent: parentGroup,
 	};
 
@@ -148,6 +152,7 @@ export function mount<TNode>(
 
 	// new render
 	const jsx = template(data);
+	setCurrentContainer(group.$context);
 	withLifecycle(group, mountJsx, group, jsx, parent, before, 0);
 
 	if (group.$parent?.mounted === false) {
@@ -197,15 +202,15 @@ export function mountJsx<TNode>(
 	before: TNode | null,
 	level: number,
 ) {
+	if (jsx === null || jsx === undefined) {
+		return;
+	}
+
 	if (Array.isArray(jsx)) {
 		const { length } = jsx;
 		let index = 0;
-		let tmp;
 		for (; index < length; index += 1) {
-			tmp = jsx[index];
-			if (tmp !== null && typeof tmp === "object") {
-				(tmp as Partial<JsxResult>)[S_COMPONENT]?.(group, tmp as JsxResult, parent, before, level);
-			}
+			mountJsx(group, jsx[index], parent, before, level);
 		}
 	}
 	else if (jsx !== null && typeof jsx === "object") {
@@ -221,4 +226,3 @@ function insertNodes<TNode>(group: MountingGroup<TNode>, parent: TNode, before: 
 		adapter.insert(top[index], parent, before);
 	}
 }
-

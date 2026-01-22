@@ -1,17 +1,16 @@
 import { atom, component, derivation, Iterator, list, pyxis, read, RefExtension, write, type Atom, type ElementsOf, type JsxResult } from "@calmdown/pyxis";
-import { BemBlockExtension, BemElementExtension, BemModifierExtension, ClassListExtension, DomAdapter, EventExtension, Text } from "@calmdown/pyxis-dom";
+import { ClassListExtension, DomAdapter, EventExtension, StyleExtension, Text } from "@calmdown/pyxis-dom";
 
 import { Button } from "~/components/Button";
 import { CheckBox } from "~/components/CheckBox";
 import { TextInput } from "~/components/TextInput";
+import { ContextTest } from "./ctx";
 
 const renderer = pyxis(DomAdapter)
-	.extend("on", EventExtension)
 	.extend("cl", ClassListExtension)
-	.extend("blk", BemBlockExtension)
-	.extend("elm", BemElementExtension)
-	.extend("mod", BemModifierExtension)
+	.extend("on", EventExtension)
 	.extend("ref", RefExtension)
+	.extend("css", StyleExtension)
 	.build();
 
 declare global {
@@ -85,6 +84,7 @@ const TestApp = component(() => {
 					)}
 				</Iterator>
 			</ul>
+			<ContextTest />
 		</>
 	);
 });

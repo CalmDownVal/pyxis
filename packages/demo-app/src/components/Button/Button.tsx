@@ -1,8 +1,8 @@
-import { component, type JsxResult, type MaybeAtom } from "@calmdown/pyxis";
+import { component, type JsxChildren, type MaybeAtom } from "@calmdown/pyxis";
 
 export interface ButtonProps {
 	type?: "button" | "submit" | "reset";
-	children?: JsxResult[];
+	children?: JsxChildren;
 	disabled?: MaybeAtom<boolean>;
 	onclick: () => void;
 }

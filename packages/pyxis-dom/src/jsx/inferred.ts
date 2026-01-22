@@ -1,5 +1,5 @@
 /** @preserve */
-import type { JsxResult, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
+import type { JsxChildren, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
 
 import type { PROP_MAP } from "./mapping";
 
@@ -12,7 +12,7 @@ type BasePropsOf<T> = Finalize<
 	& MapProps<WrapProps<OmitBanned<OmitFunctions<OmitReadonly<OmitIndex<T>>>>>, typeof PROP_MAP>
 	& {
 		readonly [S_NODE_TYPE]?: T;
-		children: Nil<JsxResult> | readonly Nil<JsxResult>[];
+		children: JsxChildren;
 	}
 >;
 
@@ -39,7 +39,7 @@ type Equals<A, B, Y, N> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X ext
 type OmitFunctions<T> = Pick<T, { [K in keyof T] -?: T[K] extends Nil<(...args: any) => any> ? never : K }[keyof T]>;
 
 /** omits a select set of "banned" properties, mainly direct HTML or text manipulation as that should be done via Pyxis' own mechanics */
-type OmitBanned<T> = Omit<T, "children" | "classList" | "innerHTML" | "outerHTML" | "innerText" | "outerText" | "textContent" | "nodeValue">;
+type OmitBanned<T> = Omit<T, "children" | "classList" | "style" | "innerHTML" | "outerHTML" | "innerText" | "outerText" | "textContent" | "nodeValue">;
 
 /** wraps each property type in MaybeAtom to allow the use of atoms on properties of intrinsic elements */
 type WrapProps<T> = { [K in keyof T]: MaybeAtom<T[K]> };
@@ -61,6 +61,13 @@ type MappedPropKeys<T, M extends { [K in string]: string }> =
 
 /** makes all props optional and readonly */
 type Finalize<T> = { readonly [K in keyof T]?: T[K] };
+
+
+/** @bake */
+export type CSSStyleDeclarationProps = Finalize<
+	& WrapProps<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration>>>>
+	& { [varName: `--${string}`]: string }
+>;
 
 
 /** @bake */

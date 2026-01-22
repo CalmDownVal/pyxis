@@ -1,7 +1,7 @@
-import type { JsxResult } from "~/Component";
-import { mountJsx, type MountingGroupInternal } from "~/Renderer";
 import { isAtom, read } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
+import type { JsxResult } from "~/Component";
+import { mountJsx, type MountingGroupInternal } from "~/Renderer";
 
 const RE_EXT = /^([^:]+?):(.+)$/;
 

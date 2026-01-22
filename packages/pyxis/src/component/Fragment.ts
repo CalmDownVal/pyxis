@@ -1,6 +1,6 @@
+import type { Nil } from "~/support/types";
 import type { JsxProps, JsxResult } from "~/Component";
 import { mountJsx, type MountingGroup } from "~/Renderer";
-import type { Nil } from "~/support/types";
 
 // FUTURE: currently TypeScript has a bug causing it to skip checking fragment props in "react-jsx" mode
 //         allowing users to supply fragment with invalid children

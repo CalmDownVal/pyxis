@@ -1,4 +1,5 @@
 import type { Nil } from "~/support/types";
+
 import type { Atom, AtomInternal } from "./Atom";
 import { getLifecycle, onUnmounted, type LifecycleInternal } from "./Lifecycle";
 import { link, unlink, type Dependency } from "./Dependency";
@@ -35,7 +36,6 @@ export function reaction(block: ReactionBlock, lifecycle = getLifecycle()) {
 		$block: block,
 		$react: scheduleReaction,
 		$epoch: 1,
-		$willUnmount: false,
 	});
 }
 

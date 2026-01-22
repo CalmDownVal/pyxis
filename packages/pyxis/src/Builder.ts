@@ -1,6 +1,7 @@
+import type { ElementsType } from "~/support/types";
+
 import type { Adapter, Extension, ExtensionsType } from "./Adapter";
 import { createRenderer, type Renderer } from "./Renderer";
-import type { ElementsType } from "./support/types";
 
 export interface PyxisBuilder<TNode, TIntrinsicElements extends ElementsType> {
 	build: () => Renderer<TNode, TIntrinsicElements>;

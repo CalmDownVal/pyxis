@@ -1,7 +1,7 @@
-import type { Component, JsxResult } from "~/Component";
-import { S_COMPONENT } from "~/Renderer";
 import { Native, S_TAG_NAME } from "~/component/Native";
 import { EMPTY_ARRAY } from "~/support/common";
+import type { Component, JsxResult } from "~/Component";
+import { S_COMPONENT } from "~/Renderer";
 
 export function jsx(
 	tagName: string,

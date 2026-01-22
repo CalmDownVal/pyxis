@@ -13,6 +13,7 @@ export function Text(
 	jsx: JsxResult,
 	parent: Node,
 	before: Node | null,
+	depth: number,
 ): void;
 
 export function Text(
@@ -20,6 +21,7 @@ export function Text(
 	{ children }: JsxResult,
 	parent: Node,
 	before: Node | null,
+	depth: number,
 ) {
 	const length = children?.length ?? 0;
 	if (length === 0) {
@@ -37,6 +39,10 @@ export function Text(
 
 		node.textContent = text;
 	});
+
+	if (depth === 0) {
+		group.top.push(node);
+	}
 
 	group.adapter.insert(node, parent, before);
 }

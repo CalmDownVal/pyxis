@@ -1,5 +1,5 @@
-import type { TickFn } from "./data/Scheduler";
-import type { ElementsType, Intersection, PropsType } from "./support/types";
+import type { TickFn } from "~/data/Scheduler";
+import type { ElementsType, Intersection, PropsType } from "~/support/types";
 
 export interface Adapter<TNode, TIntrinsicElements extends ElementsType = ElementsType> {
 	/**

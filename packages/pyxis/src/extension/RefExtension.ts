@@ -1,6 +1,6 @@
-import type { ExtensionProps } from "~/Adapter";
 import { write, type Atom } from "~/data/Atom";
 import type { ElementsType, NodeType } from "~/support/types";
+import type { ExtensionProps } from "~/Adapter";
 
 export interface RefExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {

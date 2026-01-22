@@ -121,8 +121,10 @@ export function isAtom<T = unknown>(input: MaybeAtom<T>): input is Atom<T> {
 
 /**
  * Checks if the provided input is an Atom and reads its value. Non-atom inputs are returned as-is.
+ * Reports read access when inside a reaction.
  * @see {@link isAtom}
  * @see {@link write}
+ * @see {@link peek}
  * @see {@link update}
  */
 export function read<T>(input: MaybeAtom<T>): T
@@ -136,12 +138,30 @@ export function read<T>(input: MaybeAtomInternal<T>): T {
 }
 
 /**
+ * Checks if the provided input is an Atom and reads its value. Non-atom inputs are returned as-is.
+ * Does NOT report read access when inside a reaction.
+ * @see {@link isAtom}
+ * @see {@link read}
+ * @see {@link write}
+ * @see {@link update}
+ */
+export function peek<T>(input: MaybeAtom<T>): T
+export function peek<T>(input: MaybeAtomInternal<T>): T {
+	if (isAtom<T>(input)) {
+		return input.$get();
+	}
+
+	return input;
+}
+
+/**
  * Checks if the provided input is an Atom, writes its value and returns the new value.
  *
  * Non-atom inputs are never modified in any way. Instead the provided new value is discarded and
  * the input is returned as-is.
  * @see {@link isAtom}
  * @see {@link read}
+ * @see {@link write}
  * @see {@link update}
  */
 export function write<T>(input: MaybeAtom<T>, value: T): T
@@ -167,6 +187,7 @@ export function write<T>(input: MaybeAtomInternal<T>, value: T): T {
  * Non-atom inputs are never modified in any way and the input is returned as-is.
  * @see {@link isAtom}
  * @see {@link read}
+ * @see {@link peek}
  * @see {@link write}
  */
 export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T

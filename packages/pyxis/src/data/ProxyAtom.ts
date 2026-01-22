@@ -1,7 +1,6 @@
-import { invoke } from "~/support/Callback";
 import type { Nil } from "~/support/types";
 
-import { isAtom, S_ATOM, type Atom, type AtomInternal, type MaybeAtom, type MaybeAtomInternal } from "./Atom";
+import { isAtom, notify, S_ATOM, type Atom, type AtomInternal, type MaybeAtom, type MaybeAtomInternal } from "./Atom";
 import { getLifecycle, type LifecycleInternal } from "./Lifecycle";
 import { link, unlink, type Dependency } from "./Dependency";
 
@@ -49,7 +48,7 @@ function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
 		this.$get = getBoundValue;
 		this.$set = setBoundValue;
 		link(this.$lifecycle, value, this.$dep ??= {
-			$fn: notify,
+			$fn: notify<T>,
 			$a0: this,
 		});
 	}
@@ -79,12 +78,4 @@ function getStaticValue<T>(this: ProxyAtomInternal<T>) {
 
 function setStaticValue(this: ProxyAtomInternal<any>) {
 	return false;
-}
-
-function notify(input: ProxyAtomInternal<any>) {
-	let current = input.$dh;
-	while (current) {
-		invoke(current);
-		current = current.$an;
-	}
 }
