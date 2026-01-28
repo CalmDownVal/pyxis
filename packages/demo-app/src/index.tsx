@@ -1,9 +1,9 @@
 import { atom, component, derivation, Iterator, list, pyxis, read, RefExtension, write, type Atom, type ElementsOf, type JsxResult } from "@calmdown/pyxis";
 import { ClassListExtension, DomAdapter, EventExtension, StyleExtension, Text } from "@calmdown/pyxis-dom";
 
-import { Button } from "~/components/Button";
-import { CheckBox } from "~/components/CheckBox";
-import { TextInput } from "~/components/TextInput";
+import { Button } from "~/component/Button";
+import { CheckBox } from "~/component/CheckBox";
+import { TextInput } from "~/component/TextInput";
 import { ContextTest } from "./ctx";
 
 const renderer = pyxis(DomAdapter)

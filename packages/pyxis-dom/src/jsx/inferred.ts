@@ -64,10 +64,7 @@ type Finalize<T> = { readonly [K in keyof T]?: T[K] };
 
 
 /** @bake */
-export type CSSStyleDeclarationProps = Finalize<
-	& WrapProps<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration>>>>
-	& { [varName: `--${string}`]: string }
->;
+export type CSSStyleDeclarationProps = Finalize<WrapProps<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration>>>>>;
 
 
 /** @bake */

@@ -92,7 +92,7 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 			}))
 		.plugin(Plugin.LoadText
 			.configure({
-				include: "*.glsl",
+				include: "**/*.glsl",
 			}))
 		.plugin(Plugin.SourceMaps)
 		.plugin(Plugin.Terser
@@ -119,7 +119,7 @@ const PyxisApplication = declareTarget("PyxisApplication", target => target
 			.enable((_, context) => context.targetEnv === "dev" && context.isWatching)
 			.configure({
 				contentBase: "./dist",
-				host: "localhost",
+				host: "0.0.0.0",
 				port: 8080,
 				verbose: false,
 			}))

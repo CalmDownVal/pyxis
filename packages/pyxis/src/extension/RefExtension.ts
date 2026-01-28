@@ -1,11 +1,11 @@
 import { write, type Atom } from "~/data/Atom";
-import type { ElementsType, NodeType } from "~/support/types";
+import type { ElementsType, Nil, NodeType } from "~/support/types";
 import type { ExtensionProps } from "~/Adapter";
 
 export interface RefExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
 		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
-			readonly atom?: Atom<NodeType<TElements[TElementName]>>;
+			readonly atom?: Atom<Nil<NodeType<TElements[TElementName]>>>;
 			readonly call?: (node: NodeType<TElements[TElementName]>) => void;
 		}>;
 	};

@@ -1,18 +1,18 @@
-export interface Vector2 {
-	x: number;
-	y: number;
+export interface Point {
+	readonly x: number;
+	readonly y: number;
 }
 
 export interface Size {
-	width: number;
-	height: number;
+	readonly width: number;
+	readonly height: number;
 }
 
 export interface Rect {
-	top: number;
-	bottom: number;
-	left: number;
-	right: number;
+	readonly top: number;
+	readonly bottom: number;
+	readonly left: number;
+	readonly right: number;
 }
 
 export const PHI = 1.618034;
@@ -25,6 +25,10 @@ export function clamp(value: number, min = 0.0, max = 1.0) {
 	return value < min ? min : value > max ? max : value;
 }
 
+export function lerp(a: number, b: number, t: number) {
+	return a + t * (b - a);
+}
+
 export function width(rect: Rect) {
 	return rect.right - rect.left;
 }
@@ -33,15 +37,19 @@ export function height(rect: Rect) {
 	return rect.bottom - rect.top;
 }
 
-export function project(point: Vector2, sourceSpace: Rect, targetSpace: Rect): Vector2 {
+export function midpoint(rect: Rect): Point {
 	return {
-		x: targetSpace.left + width(targetSpace) * (point.x - sourceSpace.left) / width(sourceSpace),
-		y: targetSpace.top + height(targetSpace) * (point.y - sourceSpace.top) / height(sourceSpace),
+		x: (rect.left + rect.right) * 0.5,
+		y: (rect.top + rect.bottom) * 0.5,
 	};
 }
 
-export function distance(point0: Vector2, point1: Vector2) {
+export function distanceSqr(point0: Point, point1: Point) {
 	const dx = point0.x - point1.x;
 	const dy = point0.y - point1.y;
-	return Math.sqrt(dx * dx + dy * dy);
+	return dx * dx + dy * dy;
+}
+
+export function distance(point0: Point, point1: Point) {
+	return Math.sqrt(distanceSqr(point0, point1));
 }

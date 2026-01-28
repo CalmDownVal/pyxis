@@ -1,4 +1,4 @@
-import { component, Show, type Atom, type MaybeAtom, type Nil, type Template } from "@calmdown/pyxis";
+import { component, Show, type MaybeAtom, type Nil, type Template } from "@calmdown/pyxis";
 
 import "./EditorLayout.css";
 

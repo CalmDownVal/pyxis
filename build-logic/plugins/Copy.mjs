@@ -72,6 +72,7 @@ export default function CopyPlugin(options) {
 			if (entry.isFile()) {
 				await exec(context, null, () => fs.mkdir(dstDir, { recursive: true }));
 				await exec(context, `Would copy file "${srcPath}" to "${dstPath}".`, () => fs.copyFile(srcPath, dstPath));
+				context.addWatchFile(srcPath);
 			}
 			else if (entry.isSymbolicLink() && symLinks !== SL_IGNORE) {
 				const linkedPath = await resolveSymLink(srcPath);
@@ -95,6 +96,8 @@ export default function CopyPlugin(options) {
 						break;
 					}
 				}
+
+				context.addWatchFile(linkedPath);
 			}
 		}
 	};

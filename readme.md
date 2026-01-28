@@ -111,6 +111,40 @@ mounted(() => {
 });
 ```
 
+### Contexts
+
+To propagate contextual data from ancestors to descendants without "prop
+drilling," contexts can be used. This is especially useful when descendants need
+a contextual value while nested in other components oblivious to it. Using
+contexts avoids polluting the intermediate components with data they don't need.
+
+```ts
+const CounterContext = createContext<number>();
+```
+
+With the context object ready, it can now be used in components. By requesting
+mutable access to a context, the enclosing component automatically becomes a
+provider of that context. All children and their descendants rendered by the
+enclosing component will gain access to this data. A single component can be a
+provider of multiple contexts.
+
+```ts
+// request a mutable (provider) atom for the given context
+const counter = context.mutable(CounterContext, 0);
+
+// freely write the context atom as needed
+write(counter, 1);
+```
+
+Accessing contextual data is done very similarly, only omitting the `mutable`
+modifier and the initial value. This returns a read-only Atom that can be used
+in the view model like any other atom.
+
+```ts
+// get a read-only (consumer) atom for the given context
+const counter = context(CounterContext);
+```
+
 ### Rendering Text
 
 Pyxis is a platform agnostic framework and uses external adapters to enable
@@ -211,11 +245,11 @@ const renderer = pyxis(DomAdapter)
   .extend("cl", ClassListExtension) // "cl" will be the extension's namespace
   .build();
 
-// when using extensions and TypeScript, it is necessary to re-declare JSX types
-// instead of using the defaults provided by adapters
+// when using extensions and TypeScript, it is necessary to declare JSX types
+// manually instead of the defaults provided by adapters
 declare global {
   namespace JSX {
-    type Node = globalThis.Node;
+    type Element = JsxResult;
     type IntrinsicElements = ElementsOf<typeof renderer>;
   }
 }

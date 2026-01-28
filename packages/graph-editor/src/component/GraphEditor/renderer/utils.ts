@@ -9,7 +9,6 @@ export interface ProgramArgs {
 	readonly uniforms: readonly string[];
 }
 
-type KeysOf<T> = T extends readonly (infer TKey)[] ? TKey : PropertyKey;
 type ReadonlyRecord<K extends PropertyKey, T> = { readonly [P in K]: T };
 
 export function createProgram<TArgs extends ProgramArgs>(gl: WebGL2RenderingContext, args: TArgs) {

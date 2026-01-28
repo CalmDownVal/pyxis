@@ -1,8 +1,8 @@
 import { atom, component, context, createContext, Show, type Context, type JsxChildren } from "@calmdown/pyxis";
 import { Text } from "@calmdown/pyxis-dom";
 
-import { TextInput } from "./components/TextInput";
-import { CheckBox } from "./components/CheckBox";
+import { TextInput } from "./component/TextInput";
+import { CheckBox } from "./component/CheckBox";
 
 const c1 = createContext<string>("C1");
 const c2 = createContext<string>("C2");

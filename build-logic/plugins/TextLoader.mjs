@@ -31,6 +31,7 @@ export default function TextLoaderPlugin(pluginOptions) {
 				code: `export default ${quoteText(code)};`,
 				moduleSideEffects: false,
 				syntheticNamedExports: false,
+				map: { mappings: "" },
 			};
 		},
 	};
@@ -53,5 +54,5 @@ function quoteText(text) {
 		}
 	}
 
-	return result + text.slice(anchor);
+	return "`\\" + result + text.slice(anchor) + "`";
 }

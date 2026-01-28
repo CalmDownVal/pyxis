@@ -4,7 +4,6 @@
 import type { JsxChildren, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
 
 export interface CSSStyleDeclarationProps {
-	readonly [x: `--${string}`]: string | undefined;
 	readonly accentColor?: MaybeAtom<string>;
 	readonly alignContent?: MaybeAtom<string>;
 	readonly alignItems?: MaybeAtom<string>;

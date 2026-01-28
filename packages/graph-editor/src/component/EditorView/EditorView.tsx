@@ -1,7 +1,7 @@
 import { component, unmounted } from "@calmdown/pyxis";
 
-import type { Size } from "~/support/math";
-import { P_MOUSE, P_PEN, P_TOUCH, type Editor, type Gesture, type Pointer, type PointerType } from "./types";
+import type { Size, Point } from "~/support/math";
+import { PointerType, type Editor, type Gesture, type Pointer } from "./types";
 
 export interface EditorViewProps {
 	class?: string;
@@ -9,15 +9,15 @@ export interface EditorViewProps {
 }
 
 export const EditorView = component((props: EditorViewProps) => {
-	const pointers = new Map<number, Pointer>();
-	const logicalSize: Size = {
-		width: 0.0,
-		height: 0.0,
-	};
+	const allPointers: Pointer[] = [];
 
 	let canvas: HTMLCanvasElement | null = null;
 	let editor: Editor | null = null;
 	let gesture: Gesture | null = null;
+	let clientSize: Size = {
+		width: 0.0,
+		height: 0.0,
+	};
 
 	const onCanvasRef = (node: HTMLCanvasElement) => {
 		canvas = node;
@@ -29,8 +29,10 @@ export const EditorView = component((props: EditorViewProps) => {
 
 		const observer = new ResizeObserver(entries => {
 			const lp = entries[0].contentBoxSize[0];
-			logicalSize.width = lp.inlineSize;
-			logicalSize.height = lp.blockSize;
+			clientSize = {
+				width: lp.inlineSize,
+				height: lp.blockSize,
+			};
 
 			const dp = entries[0].devicePixelContentBoxSize?.[0];
 			if (dp) {
@@ -45,7 +47,7 @@ export const EditorView = component((props: EditorViewProps) => {
 			// even if canvas never resizes, its size is always reported
 			// at least once, so we can safely initialize here
 			editor ??= props.factory(canvas!);
-			editor.resize(pixelSize, logicalSize);
+			editor.onResize({ clientSize, pixelSize });
 		});
 
 		try {
@@ -61,7 +63,6 @@ export const EditorView = component((props: EditorViewProps) => {
 
 	const onPointerStart = (e: PointerEvent) => {
 		// ignore pointer events originating from elsewhere
-		// also ignore the event if editor hasn't been initialized yet
 		if (e.target !== canvas || !editor) {
 			return;
 		}
@@ -69,57 +70,72 @@ export const EditorView = component((props: EditorViewProps) => {
 		let type: PointerType;
 		switch (e.pointerType) {
 			case "mouse":
-				type = P_MOUSE;
+				type = PointerType.MOUSE;
 				break;
 
 			case "touch":
-				type = P_TOUCH;
+				type = PointerType.TOUCH;
 				break;
 
 			case "pen":
-				type = P_PEN;
+				type = PointerType.PEN;
 				break;
 
 			default:
 				return;
 		}
 
-		const pointer: Pointer = {
-			type,
-			id: e.pointerId,
+		const point: Point = {
 			x: e.offsetX,
 			y: e.offsetY,
-			start: {
-				x: e.offsetX,
-				y: e.offsetY,
-			},
-			delta: {
-				x: 0.0,
-				y: 0.0,
-			},
 		};
 
-		gesture ??= editor.beginGesture(pointer);
-		if (gesture?.start(pointer) === true) {
-			canvas!.setPointerCapture(pointer.id);
-			pointers.set(pointer.id, pointer);
+		gesture ??= editor.onGesture({ clientSize, point });
+		if (!gesture) {
+			return;
+		}
+
+		const current: Pointer = {
+			type,
+			id: e.pointerId,
+			start: point,
+			x: e.offsetX,
+			y: e.offsetY,
+			dx: 0.0,
+			dy: 0.0,
+		};
+
+		// optimistically pre-push the pointer
+		allPointers.push(current);
+		if (gesture.offer({ clientSize, allPointers, current }) === true) {
+			canvas!.setPointerCapture(current.id);
+		}
+		else {
+			// rejected, remove the pointer
+			allPointers.pop();
 		}
 	};
 
 	const onPointerStop = (e: PointerEvent) => {
-		// ignore untracked pointers
-		const pointer = pointers.get(e.pointerId);
-		if (!pointer) {
+		// pointer lock releases capture -> ignore such events if pointer was locked to our canvas
+		if (e.type === "lostpointercapture" && document.pointerLockElement === canvas) {
 			return;
 		}
 
+		// ignore untracked pointers
+		const index = allPointers.findIndex(it => it.id === e.pointerId);
+		if (index === -1) {
+			return;
+		}
+
+		const current = allPointers[index];
 		try {
-			gesture!.stop(pointer);
+			gesture!.stop({ clientSize, allPointers, current });
 		}
 		finally {
-			canvas!.releasePointerCapture(pointer.id);
-			pointers.delete(pointer.id);
-			if (pointers.size === 0) {
+			canvas!.releasePointerCapture(current.id);
+			allPointers.splice(index, 1);
+			if (allPointers.length === 0) {
 				gesture = null;
 			}
 		}
@@ -127,35 +143,39 @@ export const EditorView = component((props: EditorViewProps) => {
 
 	const onPointerMove = (e: PointerEvent) => {
 		// ignore untracked pointers
-		const pointer = pointers.get(e.pointerId);
-		if (!pointer) {
+		const current = allPointers.find(it => it.id === e.pointerId);
+		if (!current) {
 			return;
 		}
 
-		const { delta } = pointer;
-		delta.x += e.movementX / devicePixelRatio;
-		delta.y += e.movementY / devicePixelRatio;
+		current.dx = e.movementX / devicePixelRatio;
+		current.dy = e.movementY / devicePixelRatio;
 
-		// when using pointer lock, reported position stays constant -> integrate deltas instead
-		if (pointer.type === P_MOUSE && document.pointerLockElement) {
-			pointer.x = delta.x;
-			pointer.y = delta.y;
+		// when using pointer lock, offset doesn't update -> integrate deltas instead
+		if (current.type === PointerType.MOUSE && document.pointerLockElement === canvas) {
+			current.x += current.dx;
+			current.y += current.dy;
 		}
 		else {
-			pointer.x = e.offsetX;
-			pointer.y = e.offsetY;
+			current.x = e.offsetX;
+			current.y = e.offsetY;
 		}
 
-		gesture!.move(pointer);
+		gesture!.move({ clientSize, allPointers, current });
 	};
 
 	const onWheel = (e: WheelEvent) => {
+		// ignore wheel events originating from elsewhere
+		if (e.target !== canvas || !editor) {
+			return;
+		}
+
 		let x = e.deltaX;
 		let y = e.deltaY;
 		switch (e.deltaMode) {
 			case WheelEvent.DOM_DELTA_PAGE:
-				x *= logicalSize.width;
-				y *= logicalSize.height;
+				x *= clientSize.width;
+				y *= clientSize.height;
 				break;
 
 			case WheelEvent.DOM_DELTA_LINE:
@@ -165,9 +185,17 @@ export const EditorView = component((props: EditorViewProps) => {
 
 			// case WheelEvent.DOM_DELTA_PIXEL:
 			// default:
+			// use x, y directly
 		}
 
-		editor?.scroll({ x, y });
+		editor.onWheel({
+			clientSize,
+			delta: { x, y },
+			point: {
+				x: e.offsetX,
+				y: e.offsetY,
+			},
+		});
 	};
 
 	return (
@@ -180,7 +208,10 @@ export const EditorView = component((props: EditorViewProps) => {
 			on:pointercancel={onPointerStop}
 			on:lostpointercapture={onPointerStop}
 			on:pointermove={onPointerMove}
-			on:wheel={onWheel}
+			on:wheel={{
+				listener: onWheel,
+				passive: true,
+			}}
 		/>
 	);
 });

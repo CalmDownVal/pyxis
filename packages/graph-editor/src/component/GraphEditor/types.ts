@@ -1,5 +1,5 @@
 import type { Rgb } from "~/support/color";
-import type { Size, Vector2 } from "~/support/math";
+import type { Size, Point } from "~/support/math";
 
 export interface RendererInit {
 	readonly backgroundColor: Rgb;
@@ -7,11 +7,11 @@ export interface RendererInit {
 }
 
 export interface RendererState {
-	readonly gridOffset: Vector2;
+	readonly gridOffset: Point;
 	readonly gridSize: number;
 }
 
 export interface Renderer {
 	render: (state: RendererState) => void;
-	resize: (size: Size) => void;
+	resize?: (size: Size) => void;
 }

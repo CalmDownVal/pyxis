@@ -2,7 +2,7 @@ import { isAtom, read, type MaybeAtom } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
 import type { Nil } from "~/support/types";
 import type { JsxProps, JsxResult, Template } from "~/Component";
-import { split, mount, unmount, type MountingGroup } from "~/Renderer";
+import { split, mount, unmount, type MountingGroup, mountJsx } from "~/Renderer";
 
 export interface ShowProps {
 	when?: MaybeAtom<boolean>;
@@ -32,14 +32,18 @@ export function Show<TNode>(
 	jsx: JsxResult,
 	parent: TNode,
 	before: TNode | null,
-	// level: number,
+	level: number,
 ) {
-	const when = jsx.when as MaybeAtom<boolean>;
+	const when = jsx.when as MaybeAtom<boolean> | undefined;
 	const template = jsx.children[0] as MaybeAtom<Nil<Template>>;
 	if (!isAtom(when) && !isAtom(template)) {
 		// static values were given and thus we have nothing to react to
 		// -> render synchronously without a sub-group
-		return when ? template?.() : null;
+		if (when !== false) {
+			mountJsx(group, template?.() ?? EMPTY_TEMPLATE, parent, before, level);
+		}
+
+		return;
 	}
 
 	const subGroup = split(group);
@@ -47,9 +51,9 @@ export function Show<TNode>(
 		? subGroup.adapter.anchor("/Show")
 		: subGroup.adapter.anchor();
 
-	let isShown = read(when);
+	let isShown = read(when) ?? true;
 	reaction(() => {
-		const shouldShow = read(when);
+		const shouldShow = read(when) ?? true;
 		if (shouldShow && !isShown) {
 			mount(subGroup, read(template) ?? EMPTY_TEMPLATE, undefined, parent, anchor);
 			isShown = true;
@@ -60,13 +64,11 @@ export function Show<TNode>(
 		}
 	});
 
-	if (!isShown) {
-		// content not shown, will be rendered later via reaction if the `when` Atom flips
-		return anchor;
-	}
-
 	// content should be shown but we're still mounting, i.e. anchor is not yet placed anywhere
 	// -> render synchronously within the sub-group
-	mount(subGroup, read(template) ?? EMPTY_TEMPLATE, undefined, parent, before);
+	if (isShown) {
+		mount(subGroup, read(template) ?? EMPTY_TEMPLATE, undefined, parent, before);
+	}
+
 	subGroup.adapter.insert(anchor, parent, before);
 }

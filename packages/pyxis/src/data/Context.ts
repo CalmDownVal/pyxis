@@ -1,4 +1,3 @@
-import type { ArgsMax5 } from "~/support/Callback";
 import type { Nil } from "~/support/types";
 
 import { notify, S_ATOM, type Atom, type AtomInternal } from "./Atom";

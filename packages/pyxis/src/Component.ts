@@ -108,6 +108,11 @@ export interface JsxResult {
  */
 export type JsxChildren = Nil<JsxResult> | readonly JsxChildren[];
 
+/**
+ * Utility type adding the standard `children` prop to the given props type.
+ */
+export type WithChildren<T extends PropsType> = { children: JsxChildren } & T;
+
 /** @internal */
 export interface ComponentHandler {
 	<TNode>(

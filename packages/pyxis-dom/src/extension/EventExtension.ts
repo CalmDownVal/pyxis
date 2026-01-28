@@ -1,27 +1,33 @@
-import { getLifecycle, reaction, read, unmounted, withLifecycle, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis";
+import { getLifecycle, isAtom, reaction, read, unmounted, withLifecycle, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis";
 
 export interface EventExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
 		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
-			readonly [TEventName in keyof GlobalEventHandlersEventMap]?: MaybeAtom<(e: ExtendedEvent<GlobalEventHandlersEventMap[TEventName], TEventName, NodeType<TElements[TElementName]>>) => any>;
+			readonly [TEventName in keyof GlobalEventHandlersEventMap]?: EventListenerType<GlobalEventHandlersEventMap[TEventName], NodeType<TElements[TElementName]>, TEventName>;
 		}>;
 	};
 
-	set: (node: HTMLElement, className: string, toggle: MaybeAtom<(e: unknown) => unknown>) => void;
+	set: (node: HTMLElement, className: string, toggle: EventListenerType<unknown, unknown, string>) => void;
 }
 
-export type ExtendedEvent<TEvent, TEventName, TNode> =
+export type EventListenerType<TEvent, TNode = EventTarget, TEventName = string> =
+	| MaybeAtom<(e: ExtendedEvent<TEvent, TNode, TEventName>) => void>
+	| (AddEventListenerOptions & {
+		readonly listener: MaybeAtom<(e: ExtendedEvent<TEvent, TNode, TEventName>) => void>;
+	});
+
+export type ExtendedEvent<TEvent, TNode = EventTarget, TEventName = string> =
 	& Omit<TEvent, "type" | "currentTarget">
 	& {
-		readonly type: TEventName;
 		readonly currentTarget: TNode;
+		readonly type: TEventName;
 	};
 
 export const EventExtension = {
 	set: (
 		node: HTMLElement,
 		type: string,
-		listener: MaybeAtom<(e: unknown) => unknown>,
+		listener: EventListenerType<unknown, unknown, string>,
 	) => {
 		let callback: (e: unknown) => unknown;
 
@@ -30,13 +36,31 @@ export const EventExtension = {
 			withLifecycle(lifecycle, callback!, e);
 		};
 
-		reaction(() => {
-			callback = read(listener);
-		}, lifecycle);
+		// see if listener options have been given
+		type ListenerAtom = MaybeAtom<(e: unknown) => unknown>;
+		let listenerAtom = listener as ListenerAtom;
+		let options: AddEventListenerOptions | undefined;
 
-		node.addEventListener(type, listenerWithLifecycle);
+		const maybeOptions = read(listener);
+		if (typeof maybeOptions === "object") {
+			listenerAtom = maybeOptions.listener as ListenerAtom;
+			options = maybeOptions;
+		}
+
+		// keep callback up to date
+		if (isAtom(listenerAtom)) {
+			reaction(() => {
+				callback = read(listenerAtom);
+			}, lifecycle);
+		}
+		else {
+			callback = listenerAtom;
+		}
+
+		// listen
+		node.addEventListener(type, listenerWithLifecycle, options);
 		unmounted(() => {
-			node.removeEventListener(type, listenerWithLifecycle);
+			node.removeEventListener(type, listenerWithLifecycle, options);
 		}, lifecycle);
 	},
 } as EventExtensionType;

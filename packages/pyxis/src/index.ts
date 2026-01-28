@@ -22,5 +22,5 @@ export type { ElementsType, Intersection, Nil, NodeType, PropsType, S_NODE_TYPE 
 
 export type { Adapter, Extension, ExtensionProps, ExtensionsType } from "./Adapter";
 export { pyxis, type PyxisBuilder } from "./Builder";
-export { component, isType, type Component, type DataTemplate, type JsxChildren, type JsxChildrenProp, type JsxProps, type JsxResult, type PropsOf, type Template } from "./Component";
+export { component, isType, type Component, type DataTemplate, type JsxChildren, type JsxChildrenProp, type JsxProps, type JsxResult, type PropsOf, type Template, type WithChildren } from "./Component";
 export { mount, mountJsx, split, unmount, type ElementsOf, type MountingGroup, type Renderer } from "./Renderer";

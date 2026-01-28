@@ -46,11 +46,12 @@ export function createGridRenderer(gl: WebGL2RenderingContext, init: RendererIni
 			gl.useProgram(program.ref);
 			gl.bindVertexArray(vao);
 
-			gl.uniform2fv(program.uniforms.uScreenSize, [ gl.drawingBufferWidth, gl.drawingBufferHeight ]);
-			gl.uniform2fv(program.uniforms.uGridOffset, [ state.gridOffset.x, state.gridOffset.y ]);
-			gl.uniform1f(program.uniforms.uGridSize, state.gridSize);
-			gl.uniform3fv(program.uniforms.uBackgroundColor, backgroundColor);
-			gl.uniform3fv(program.uniforms.uGridlineColor, gridlineColor);
+			const u = program.uniforms;
+			gl.uniform2fv(u.uScreenSize, [ gl.drawingBufferWidth, gl.drawingBufferHeight ]);
+			gl.uniform2fv(u.uGridOffset, [ state.gridOffset.x, state.gridOffset.y ]);
+			gl.uniform1f(u.uGridSize, state.gridSize);
+			gl.uniform3fv(u.uBackgroundColor, backgroundColor);
+			gl.uniform3fv(u.uGridlineColor, gridlineColor);
 
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 		},

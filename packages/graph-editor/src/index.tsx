@@ -1,8 +1,8 @@
-import { pyxis, RefExtension, type ElementsOf } from "@calmdown/pyxis";
+import { pyxis, RefExtension, type ElementsOf, type JsxResult } from "@calmdown/pyxis";
 import { ClassListExtension, DomAdapter, EventExtension, Text } from "@calmdown/pyxis-dom";
 
-import { EditorLayout } from "~/components/EditorLayout";
-import { GraphEditor } from "~/components/GraphEditor";
+import { EditorLayout } from "~/component/EditorLayout";
+import { GraphEditor } from "~/component/GraphEditor";
 
 const renderer = pyxis(DomAdapter)
 	.extend("on", EventExtension)
@@ -12,7 +12,7 @@ const renderer = pyxis(DomAdapter)
 
 declare global {
 	namespace JSX {
-		type Node = globalThis.Node;
+		type Element = JsxResult;
 		type IntrinsicElements = ElementsOf<typeof renderer>;
 	}
 }
