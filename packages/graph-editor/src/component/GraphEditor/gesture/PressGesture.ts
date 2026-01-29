@@ -1,5 +1,6 @@
 import type { Gesture, PointerGestureEvent } from "~/component/EditorView";
-import { distanceSqr, type Rect, type Point } from "~/support/math";
+import type { Rect, Point } from "~/support/math";
+
 import { toEditorSpace } from "../utils";
 
 export interface PressGestureOptions {
@@ -73,7 +74,9 @@ export class PressGesture implements Gesture {
 			return;
 		}
 
-		const distSqr = distanceSqr(current.start, current);
+		const dx = current.startX - current.rawX;
+		const dy = current.startY - current.rawY;
+		const distSqr = dx * dx + dy * dy;
 		if (distSqr > this.maxPressDistanceSqr) {
 			this.stateChanged(PressState.MOVED_TOO_FAR);
 		}

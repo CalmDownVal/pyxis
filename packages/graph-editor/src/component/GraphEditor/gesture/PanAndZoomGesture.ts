@@ -90,8 +90,8 @@ export class PanAndZoomGesture extends PressGesture {
 			this.prevPinchCenter = pinchCenter;
 		}
 		else {
-			const dx = (prevResult.right - prevResult.left) * (current.dx / e.clientSize.width);
-			const dy = (prevResult.bottom - prevResult.top) * (current.dy / e.clientSize.height);
+			const dx = (prevResult.right - prevResult.left) * (current.deltaX / e.clientSize.width);
+			const dy = (prevResult.bottom - prevResult.top) * (current.deltaY / e.clientSize.height);
 			result = {
 				left: prevResult.left - dx,
 				right: prevResult.right - dx,

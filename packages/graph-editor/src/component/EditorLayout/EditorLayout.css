@@ -49,22 +49,21 @@ body {
 	/* apply a dynamic clip path to avoid grabbing pointer events from the underlying editor
 	 * this is a workaround to avoid using `pointer-events: none` which on mobile devices breaks
 	 * scrolling entirely
+	 *
+	 * a curve is applied to keep a "buffer zone" as the clip-path tends to lag behind a little,
+	 * which can otherwise visibly clip the card during fast scrolls
 	 */
 	clip-path: rect(calc((100% - var(--peek-size)) * var(--toolbar-clip)) auto auto auto);
 	animation-name: kfToolbarClip;
-	animation-timing-function: linear;
+	animation-timing-function: cubic-bezier(0.0, 0.5, 0.5, 1.0);
 	animation-timeline: scroll(block self);
 	animation-fill-mode: both;
 	will-change: clip-path;
 }
 
 @keyframes kfToolbarClip {
-	/* keyframes run ahead to keep a "buffer zone" as the clip-path tends to lag behind a little,
-	 * which can otherwise visibly clip the card during fast scrolls
-	 */
 	0% { --toolbar-clip: 1; }
-	1% { --toolbar-clip: 0.8; }
-	100% { --toolbar-clip: -0.1; }
+	100% { --toolbar-clip: 0; }
 }
 
 
@@ -86,12 +85,13 @@ body {
 	height: 100%;
 	padding: 1rem;
 	scroll-snap-align: end;
-	background: lightgray;
 	corner-shape: squircle;
 	animation-name: kfToolbarCorners;
 	animation-timing-function: ease-in;
 	animation-timeline: scroll(block nearest);
 	will-change: border-radius;
+
+	background: rgb(200 200 200 / 90%);
 }
 
 @keyframes kfToolbarCorners {

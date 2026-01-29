@@ -1,20 +1,26 @@
-import type { Size, Point } from "~/support/math";
+import type { Size } from "~/support/math";
 
 export interface Editor {
-	onWheel: (e: WheelEditorEvent) => void;
+	onPan: (e: PanEditorEvent) => void;
+	onZoom: (e: ZoomEditorEvent) => void;
 	onGesture: (e: GestureEditorEvent) => Gesture | null;
 	onResize: (e: ResizeEditorEvent) => void;
 }
 
-export interface WheelEditorEvent {
-	clientSize: Size;
-	delta: Point;
-	point: Point;
+export interface PanEditorEvent {
+	deltaX: number;
+	deltaY: number;
+}
+
+export interface ZoomEditorEvent {
+	delta: number;
+	x: number;
+	y: number;
 }
 
 export interface GestureEditorEvent {
-	clientSize: Size;
-	point: Point;
+	x: number;
+	y: number;
 }
 
 export interface ResizeEditorEvent {
@@ -37,11 +43,15 @@ export interface PointerGestureEvent {
 export interface Pointer {
 	readonly id: number;
 	readonly type: PointerType;
-	readonly start: Point;
+	readonly startX: number;
+	readonly startY: number;
 	x: number;
 	y: number;
-	dx: number;
-	dy: number;
+	deltaX: number;
+	deltaY: number;
+	rawX: number;
+	rawY: number;
+	moveCount: number;
 }
 
 export enum PointerType {

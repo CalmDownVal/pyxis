@@ -1,10 +1,11 @@
 import { component, unmounted } from "@calmdown/pyxis";
 
-import type { Size, Point } from "~/support/math";
+import type { Size } from "~/support/math";
 import { PointerType, type Editor, type Gesture, type Pointer } from "./types";
 
 export interface EditorViewProps {
 	class?: string;
+	touchSmoothing?: number;
 	factory: (canvas: HTMLCanvasElement) => Editor;
 }
 
@@ -85,12 +86,8 @@ export const EditorView = component((props: EditorViewProps) => {
 				return;
 		}
 
-		const point: Point = {
-			x: e.offsetX,
-			y: e.offsetY,
-		};
-
-		gesture ??= editor.onGesture({ clientSize, point });
+		const { offsetX: x, offsetY: y } = e;
+		gesture ??= editor.onGesture({ x, y });
 		if (!gesture) {
 			return;
 		}
@@ -98,11 +95,15 @@ export const EditorView = component((props: EditorViewProps) => {
 		const current: Pointer = {
 			type,
 			id: e.pointerId,
-			start: point,
-			x: e.offsetX,
-			y: e.offsetY,
-			dx: 0.0,
-			dy: 0.0,
+			startX: x,
+			startY: y,
+			x: x,
+			y: y,
+			deltaX: 0.0,
+			deltaY: 0.0,
+			rawX: x,
+			rawY: y,
+			moveCount: 0,
 		};
 
 		// optimistically pre-push the pointer
@@ -144,6 +145,7 @@ export const EditorView = component((props: EditorViewProps) => {
 		}
 	};
 
+	const touchSmoothing = props.touchSmoothing ?? 10;
 	const onPointerMove = (e: PointerEvent) => {
 		// ignore untracked pointers
 		const current = allPointers.find(it => it.id === e.pointerId);
@@ -151,64 +153,108 @@ export const EditorView = component((props: EditorViewProps) => {
 			return;
 		}
 
-		// store previous coordinates
+		// previous coordinates
 		const px = current.x;
 		const py = current.y;
 
-		// when using pointer lock, offset doesn't update -> integrate deltas instead
+		// when using pointer lock, offsets don't update -> integrate deltas instead
 		if (current.type === PointerType.MOUSE && document.pointerLockElement === canvas) {
-			current.x += e.movementX;
-			current.y += e.movementY;
+			current.rawX += e.movementX;
+			current.rawY += e.movementY;
 		}
 		else {
-			current.x = e.offsetX;
-			current.y = e.offsetY;
+			current.rawX = e.offsetX;
+			current.rawY = e.offsetY;
 		}
 
-		// calculate delta (movement x/y reliably reports values only with pointer lock)
-		current.dx = current.x - px;
-		current.dy = current.y - py;
+		// apply initial touch smoothing to reduce jitter before full finger contact is established
+		current.moveCount += 1;
+		if (current.type === PointerType.TOUCH) {
+			const factor = 1.0 - Math.max(touchSmoothing - current.moveCount, 0) / touchSmoothing;
+			current.x += (current.rawX - px) * factor;
+			current.y += (current.rawY - py) * factor;
+		}
+		else {
+			current.x = current.rawX;
+			current.y = current.rawY;
+		}
 
-		try {
-			gesture!.move({ clientSize, allPointers, current });
-		}
-		finally {
-			cancelEvent(e);
-		}
+		// movement x/y reliably reports values only with pointer lock -> calculate deltas manually
+		current.deltaX = current.x - px;
+		current.deltaY = current.y - py;
+
+		cancelEvent(e);
+		gesture!.move({ clientSize, allPointers, current });
 	};
 
+	let lastWheelAt = 0;
+	let usePreciseWheelDeltas = false;
 	const onWheel = (e: WheelEvent) => {
 		// ignore wheel events originating from elsewhere
 		if (e.target !== canvas || !editor) {
 			return;
 		}
 
-		let x = e.deltaX;
-		let y = e.deltaY;
+		let { deltaX, deltaY } = e;
+		let adjustment = 1.0;
+
 		switch (e.deltaMode) {
 			case WheelEvent.DOM_DELTA_PAGE:
-				x *= clientSize.width;
-				y *= clientSize.height;
+				// scroll by a larger portion of the viewport ... page deltas are very rare though
+				adjustment = clientSize.height * 0.75;
 				break;
 
 			case WheelEvent.DOM_DELTA_LINE:
-				x *= 20.0;
-				y *= 20.0;
+				// assume we have ~30 lines in the editor ... whatever, as long as it's somewhat consistent
+				adjustment = clientSize.height * 0.03;
 				break;
 
-			// case WheelEvent.DOM_DELTA_PIXEL:
-			// default:
-			// use x, y directly
+			case WheelEvent.DOM_DELTA_PIXEL:
+				// on many mice, especially on windows (sigh...), deltas are reported in pixel mode
+				// but the values are constant +100/-100 or similar seemingly arbitrary numbers
+				// on track pads with momentum (e.g. Apple devices) the values are typically much
+				// smaller, reported in rapid succession, and actually correspond to pixels, imagine...
+
+				if (e.timeStamp - lastWheelAt > 100) {
+					const max = Math.max(Math.abs(e.deltaX), Math.abs(e.deltaY));
+					if (max < Number.EPSILON) {
+						return;
+					}
+
+					usePreciseWheelDeltas = max < 50.0;
+				}
+
+				if (!usePreciseWheelDeltas) {
+					deltaX = Math.sign(e.deltaX);
+					deltaY = Math.sign(e.deltaY);
+					adjustment = 15.0;
+				}
+
+				break;
 		}
 
-		editor.onWheel({
-			clientSize,
-			delta: { x, y },
-			point: {
+		lastWheelAt = e.timeStamp;
+		deltaX *= adjustment;
+		deltaY *= adjustment;
+
+		cancelEvent(e);
+		if (e.ctrlKey) {
+			// somewhat arbitrary extra adjustment, which seems to work okay on most platforms
+			editor.onZoom({
+				delta: deltaY * (10.0 / clientSize.width),
 				x: e.offsetX,
 				y: e.offsetY,
-			},
-		});
+			});
+		}
+		else if (e.shiftKey) {
+			// flipped direction, mainly for mice with only a y-wheel
+			editor.onPan({
+				deltaX: deltaY,
+				deltaY: deltaX,
+			});
+		} else {
+			editor.onPan({ deltaX, deltaY });
+		}
 	};
 
 	return (
@@ -222,10 +268,7 @@ export const EditorView = component((props: EditorViewProps) => {
 			on:pointercancel={onPointerStop}
 			on:lostpointercapture={onPointerStop}
 			on:pointermove={onPointerMove}
-			on:wheel={{
-				listener: onWheel,
-				passive: true,
-			}}
+			on:wheel={onWheel}
 		/>
 	);
 });

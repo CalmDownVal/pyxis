@@ -29,19 +29,8 @@ export function lerp(a: number, b: number, t: number) {
 	return a + t * (b - a);
 }
 
-export function midpoint(rect: Rect): Point {
-	return {
-		x: (rect.left + rect.right) * 0.5,
-		y: (rect.top + rect.bottom) * 0.5,
-	};
-}
-
-export function distanceSqr(point0: Point, point1: Point) {
+export function distance(point0: Point, point1: Point) {
 	const dx = point0.x - point1.x;
 	const dy = point0.y - point1.y;
-	return dx * dx + dy * dy;
-}
-
-export function distance(point0: Point, point1: Point) {
-	return Math.sqrt(distanceSqr(point0, point1));
+	return Math.sqrt(dx * dx + dy * dy);
 }
