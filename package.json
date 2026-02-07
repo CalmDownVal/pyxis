@@ -7,6 +7,7 @@
 		"packages/*"
 	],
 	"devDependencies": {
+		"build-logic": "workspace:*",
 		"typescript": "5.9.3"
 	}
 }

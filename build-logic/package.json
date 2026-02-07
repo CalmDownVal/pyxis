@@ -1,35 +1,28 @@
 {
 	"name": "build-logic",
 	"private": true,
+	"type": "module",
 	"exports": {
 		"./targets": {
-			"import": "./rollup-targets.mjs"
+			"import": "./rolldown-targets.js"
 		},
 		"./plugins": {
-			"import": "./rollup-plugins.mjs"
+			"import": "./rolldown-plugins.js"
 		}
 	},
 	"bin": {
-		"bake-types": "./command/bake-types.mjs",
-		"build": "./command/build.mjs"
+		"bake": "./bake.js",
+		"build": "./build.js"
 	},
 	"devDependencies": {
-		"@calmdownval/rollup-util": "1.0.0-alpha.18",
-		"@calmdownval/workspaces-util": "1.0.0-alpha.18",
-		"@microsoft/api-extractor": "7.55.2",
-		"@rollup/plugin-node-resolve": "16.0.3",
-		"@rollup/plugin-replace": "6.0.3",
-		"@rollup/plugin-terser": "0.4.4",
-		"@rollup/plugin-typescript": "12.3.0",
-		"postcss": "8.5.6",
-		"rollup": "4.53.2",
+		"@calmdown/rolldown-workspace": "file:..\\..\\rolldown-workspace\\packages\\rolldown-workspace",
+		"@calmdown/rollup-plugin-copy": "file:..\\..\\rolldown-workspace\\packages\\rollup-plugin-copy",
+		"@calmdown/rollup-plugin-delete": "file:..\\..\\rolldown-workspace\\packages\\rollup-plugin-delete",
+		"@calmdown/rollup-plugin-text-loader": "file:..\\..\\rolldown-workspace\\packages\\rollup-plugin-text-loader",
+		"rolldown": "1.0.0-rc.3",
+		"rolldown-plugin-dts": "0.22.1",
 		"rollup-plugin-import-file": "1.0.1",
 		"rollup-plugin-livereload": "2.0.5",
-		"rollup-plugin-node-externals": "8.1.2",
-		"rollup-plugin-postcss": "4.0.2",
-		"rollup-plugin-serve": "3.0.0",
-		"rollup-plugin-sourcemaps2": "0.5.4",
-		"tslib": "2.8.1",
-		"typescript": "5.9.3"
+		"rollup-plugin-serve": "3.0.0"
 	}
 }
