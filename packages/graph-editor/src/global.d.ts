@@ -1,4 +1,4 @@
-declare module "*.glsl" {
-	declare const shaderSrc: string;
-	export default shaderSrc;
+declare module "*?raw" {
+	declare const text: string;
+	export default text;
 }

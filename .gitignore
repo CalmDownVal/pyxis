@@ -2,6 +2,9 @@
 packages/*/src/**/*.svelte.d.ts
 packages/*/dist
 
+# Vite artifacts
+.vite
+
 # Yarn
 .yarn/*
 !.yarn/patches

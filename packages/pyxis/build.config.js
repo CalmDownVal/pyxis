@@ -13,10 +13,7 @@ Target.TypeScriptLibrary.build(target => {
 			targets: [
 				{
 					destination: "./dist",
-					include: [
-						"./src/jsx/jsx-runtime.js",
-						"./src/jsx/jsx-runtime.d.ts",
-					],
+					include: "./src/jsx/jsx-{dev-,}runtime.*",
 				},
 			],
 		})

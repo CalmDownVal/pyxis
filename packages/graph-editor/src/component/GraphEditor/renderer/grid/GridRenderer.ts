@@ -2,8 +2,8 @@ import { rgb2vec } from "~/support/color";
 
 import type { Renderer, RendererInit } from "../../types";
 import { createProgram } from "../utils";
-import gridFragmentShader from "./grid.fragment.glsl";
-import gridVertexShader from "./grid.vertex.glsl";
+import gridFragmentShader from "./grid.fragment.glsl?raw";
+import gridVertexShader from "./grid.vertex.glsl?raw";
 
 export function createGridRenderer(gl: WebGL2RenderingContext, init: RendererInit): Renderer {
 	const program = createProgram(gl, {

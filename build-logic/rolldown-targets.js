@@ -53,27 +53,7 @@ export const PyxisApplication = defineTarget("PyxisApplication", target => targe
 				extensions: /\.(svg|web[pma]|wasm)$/,
 			})
 		)
-		.plugin(Plugin.LoadText
-			.configure({
-				include: "**/*.glsl",
-			})
-		)
-		.plugin(Plugin.LiveReload
-			.enable((_, context) => context.isWatching)
-			.configure({
-				delay: 300,
-				verbose: false,
-			})
-		)
-		.plugin(Plugin.Serve
-			.enable((_, context) => context.isWatching)
-			.configure({
-				contentBase: "./dist",
-				host: "0.0.0.0",
-				port: 8080,
-				verbose: false,
-			})
-		)
+		.plugin(Plugin.LoadText)
 		.output("Main", out => out
 			.configure((_, context) => ({
 				dir: "./dist",

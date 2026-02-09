@@ -1,0 +1,23 @@
+{
+	"name": "@calmdown/vite-plugin-pyxis-hmr",
+	"version": "1.0.0",
+	"license": "ISC",
+	"type": "module",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./registry": {
+			"import": "./dist/registry.js",
+			"types": "./dist/registry.d.ts"
+		}
+	},
+	"devDependencies": {
+		"@oxc-project/types": "0.112.0",
+		"@types/node": "25.2.1",
+		"build-logic": "workspace:*",
+		"typescript": "5.9.3",
+		"vite": "8.0.0-beta.13"
+	}
+}

@@ -1,5 +1,5 @@
 import { atom, component, derivation, Iterator, list, pyxis, read, RefExtension, write, type Atom, type ElementsOf, type JsxResult } from "@calmdown/pyxis";
-import { ClassListExtension, DomAdapter, EventExtension, StyleExtension, Text } from "@calmdown/pyxis-dom";
+import { ClassListExtension, DomAdapter, EventExtension, CssStyleExtension, Text } from "@calmdown/pyxis-dom";
 
 import { Button } from "~/component/Button";
 import { CheckBox } from "~/component/CheckBox";
@@ -10,7 +10,7 @@ const renderer = pyxis(DomAdapter)
 	.extend("cl", ClassListExtension)
 	.extend("on", EventExtension)
 	.extend("ref", RefExtension)
-	.extend("css", StyleExtension)
+	.extend("css", CssStyleExtension)
 	.build();
 
 declare global {

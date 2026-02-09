@@ -20,17 +20,7 @@ export const ImportFile = definePlugin(
 	async () => (await import("rollup-plugin-import-file")).default,
 );
 
-export const LiveReload = definePlugin(
-	"LiveReload",
-	async () => (await import("rollup-plugin-livereload")).default,
-);
-
 export const LoadText = definePlugin(
 	"LoadText",
 	async () => (await import("@calmdown/rollup-plugin-text-loader")).default,
-);
-
-export const Serve = definePlugin(
-	"Serve",
-	async () => (await import("rollup-plugin-serve")).default,
 );
