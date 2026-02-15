@@ -102,7 +102,7 @@ export type JsxResult = Nil<{
 /**
  * The type of JSX elements accepted as individual children by common components.
  */
-export type JsxChildren = Nil<JsxResult> | readonly JsxChildren[];
+export type JsxChildren = JsxResult | readonly JsxChildren[];
 
 /**
  * Utility type adding the standard `children` prop to the given props type.
