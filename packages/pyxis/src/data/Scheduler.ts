@@ -1,5 +1,5 @@
-import { invoke, type ArgsMax2, type Callback } from "~/support/Callback";
-import type { Nil } from "~/support/types";
+import { invokeAll } from "~/support/common";
+import type { ArgsMax2, Callback, Nil } from "~/support/types";
 
 import type { LifecycleInternal } from "./Lifecycle";
 
@@ -11,8 +11,16 @@ export interface Scheduler {
 	readonly $scheduleTick: () => void;
 	$isUpdating: boolean;
 	$epoch: number;
-	$uh?: Nil<UpdateCallback>;
-	$ut?: Nil<UpdateCallback>;
+	$pending?: Nil<UpdateCallback[]>;
+}
+
+/**
+ * An update callback that can be scheduled.
+ * @see {@link Scheduler}
+ * @internal
+ */
+export interface UpdateCallback<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<TArgs> {
+	$epoch?: number;
 }
 
 /**
@@ -42,36 +50,17 @@ export function createScheduler(tick: TickFn) {
 	const update = () => {
 		try {
 			scheduler.$isUpdating = true;
-
-			let current = scheduler.$uh;
-			let tmp;
-			while (current) {
-				invoke(current);
-				tmp = current.$un;
-				current.$un = null;
-				current = tmp;
-			}
+			invokeAll(scheduler.$pending);
 		}
 		finally {
 			isPending = false;
 			scheduler.$isUpdating = false;
-			scheduler.$uh = null;
-			scheduler.$ut = null;
+			scheduler.$pending = null;
 			scheduler.$epoch += 1;
 		}
 	};
 
 	return scheduler;
-}
-
-/**
- * An update callback that can be scheduled.
- * @see {@link Scheduler}
- * @internal
- */
-export interface UpdateCallback<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<TArgs> {
-	$un?: Nil<UpdateCallback>;
-	$epoch?: number;
 }
 
 /**
@@ -89,14 +78,7 @@ export function schedule({ $scheduler }: LifecycleInternal, callback: UpdateCall
 		return;
 	}
 
-	if ($scheduler.$ut) {
-		$scheduler.$ut.$un = callback;
-	}
-	else {
-		$scheduler.$uh = callback;
-	}
-
-	$scheduler.$ut = callback;
 	callback.$epoch = $scheduler.$epoch;
+	($scheduler.$pending ??= []).push(callback);
 	$scheduler.$scheduleTick();
 }

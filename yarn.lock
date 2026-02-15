@@ -108,10 +108,10 @@ __metadata:
 
 "@calmdown/rolldown-workspace@file:..\\..\\rolldown-workspace\\packages\\rolldown-workspace::locator=build-logic%40workspace%3Abuild-logic":
   version: 1.0.0-beta.1
-  resolution: "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=fe5629&locator=build-logic%40workspace%3Abuild-logic"
+  resolution: "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=479791&locator=build-logic%40workspace%3Abuild-logic"
   peerDependencies:
     rolldown: 1.0.0-rc.3
-  checksum: 10/36d8a366bcba872ab9205bb371949ae70ba8bda01c072cd5ed0d843fbd887fd7e01b0733878d0a6ebe105d8ec91d16e4c5343e3d183920bee2571393ffadcc6b
+  checksum: 10/c97b6946191e84e689e18c2e1b34ddcdeac39c9d47392f71888d6db4ce774bf7c004fb613f5fdda18629ac3b4d3a7489f6ed84c0e1b43de42e5e0b824d703564
   languageName: node
   linkType: hard
 

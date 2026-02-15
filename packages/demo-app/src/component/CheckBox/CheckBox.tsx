@@ -1,9 +1,9 @@
-import { component, write, type MaybeAtom } from "@calmdown/pyxis";
+import { component, write } from "@calmdown/pyxis";
 import { Text, type TextProps } from "@calmdown/pyxis-dom";
 
-export interface CheckBoxProps {
-	name?: string;
-	checked: MaybeAtom<boolean>;
+type ExtendedInputProps = JSX.IntrinsicElements["input"];
+
+export interface CheckBoxProps extends Omit<ExtendedInputProps, "children" | "on:input" | "type" | "value"> {
 	children?: TextProps["children"];
 }
 

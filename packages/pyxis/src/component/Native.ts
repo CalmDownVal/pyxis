@@ -1,7 +1,7 @@
 import { isAtom, read } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
 import type { JsxResult } from "~/Component";
-import { mountJsx, type MountingGroupInternal } from "~/Renderer";
+import { insert, type HierarchyNodeInternal } from "~/Renderer";
 
 const RE_EXT = /^([^:]+?):(.+)$/;
 
@@ -11,13 +11,11 @@ export const S_TAG_NAME: unique symbol = __DEV__ ? Symbol.for("pyxis:tagName") :
 
 /** @internal */
 export function Native<TNode>(
-	group: MountingGroupInternal<TNode>,
 	jsx: JsxResult,
-	parent: TNode,
+	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
-	level: number,
 ) {
-	const { adapter, $extensions } = group;
+	const { adapter, $extensions } = parent.$pg;
 	const node = adapter.native(jsx[S_TAG_NAME]!);
 
 	let name;
@@ -25,7 +23,7 @@ export function Native<TNode>(
 	let value;
 
 	// for..in doesn't iterate symbol keys, so we don't need to manually exclude
-	// internal symbols (S_COMPONENT or S_TAG_NAME), just children
+	// internal symbols (S_COMPONENT, S_TAG_NAME, S_DEV_INFO), just children
 	for (name in jsx) {
 		match = RE_EXT.exec(name);
 		value = jsx[name];
@@ -44,12 +42,5 @@ export function Native<TNode>(
 		}
 	}
 
-	// register top level nodes
-	if (level === 0) {
-		group.top.push(node);
-	}
-
-	// mount children first, then this node
-	mountJsx(group, jsx.children, node, null, level + 1);
-	adapter.insert(node, parent, before);
+	insert(node, jsx.children, parent, before);
 }

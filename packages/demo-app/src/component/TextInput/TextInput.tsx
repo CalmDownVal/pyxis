@@ -1,9 +1,9 @@
-import { component, write, type MaybeAtom } from "@calmdown/pyxis";
+import { component, write } from "@calmdown/pyxis";
 
-export interface TextInputProps {
-	name?: string;
+type ExtendedInputProps = JSX.IntrinsicElements["input"];
+
+export interface TextInputProps extends Omit<ExtendedInputProps, "type"> {
 	masked?: boolean;
-	value: MaybeAtom<string>;
 }
 
 export const TextInput = component((props: TextInputProps) => (
@@ -11,6 +11,6 @@ export const TextInput = component((props: TextInputProps) => (
 		type={props.masked ? "password" : "text"}
 		name={props.name ?? ""}
 		value={props.value}
-		on:input={(e) => write(props.value, e.currentTarget.value)}
+		on:input={e => write(props.value, e.currentTarget.value)}
 	/>
 ));

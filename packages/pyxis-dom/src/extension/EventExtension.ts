@@ -29,13 +29,6 @@ export const EventExtension = {
 		type: string,
 		listener: EventListenerType<unknown, unknown, string>,
 	) => {
-		let callback: (e: unknown) => unknown;
-
-		const lifecycle = getLifecycle();
-		const listenerWithLifecycle = (e: unknown) => {
-			withLifecycle(lifecycle, callback!, e);
-		};
-
 		// see if listener options have been given
 		type ListenerAtom = MaybeAtom<(e: unknown) => unknown>;
 		let listenerAtom = listener as ListenerAtom;
@@ -47,7 +40,13 @@ export const EventExtension = {
 			options = maybeOptions;
 		}
 
+		if (!listenerAtom) {
+			return;
+		}
+
 		// keep callback up to date
+		let callback: (e: unknown) => unknown;
+		const lifecycle = getLifecycle();
 		if (isAtom(listenerAtom)) {
 			reaction(() => {
 				callback = read(listenerAtom);
@@ -58,6 +57,10 @@ export const EventExtension = {
 		}
 
 		// listen
+		const listenerWithLifecycle = (e: unknown) => {
+			withLifecycle(lifecycle, callback!, e);
+		};
+
 		node.addEventListener(type, listenerWithLifecycle, options);
 		unmounted(() => {
 			node.removeEventListener(type, listenerWithLifecycle, options);

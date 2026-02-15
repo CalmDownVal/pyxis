@@ -1,4 +1,4 @@
-import { reaction, read, type JsxProps, type JsxResult, type MaybeAtom, type MountingGroup, type Nil } from "@calmdown/pyxis";
+import { insert, reaction, read, type HierarchyNode, type JsxProps, type JsxResult, type MaybeAtom, type Nil } from "@calmdown/pyxis";
 
 export interface TextProps {
 	readonly children?: readonly (MaybeAtom<Nil<string | number | boolean | bigint>>)[];
@@ -9,24 +9,20 @@ export function Text(props: JsxProps<TextProps>): JsxResult;
 
 /** @internal */
 export function Text(
-	group: MountingGroup,
 	jsx: JsxResult,
-	parent: Node,
+	parent: HierarchyNode<Node>,
 	before: Node | null,
-	depth: number,
 ): void;
 
 export function Text(
-	group: MountingGroup,
 	{ children }: JsxResult,
-	parent: Node,
+	parent: HierarchyNode<Node>,
 	before: Node | null,
-	depth: number,
 ) {
 	const length = children?.length ?? 0;
 	if (length === 0) {
 		// no children given - no text will ever be rendered
-		return null;
+		return;
 	}
 
 	const node = document.createTextNode("");
@@ -40,9 +36,5 @@ export function Text(
 		node.textContent = text;
 	});
 
-	if (depth === 0) {
-		group.top.push(node);
-	}
-
-	group.adapter.insert(node, parent, before);
+	insert(node, null, parent, before);
 }

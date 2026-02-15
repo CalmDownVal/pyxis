@@ -1,6 +1,3 @@
-export const PLUGIN_NAME = "vite-plugin-pyxis-hmr";
-export const REGISTRY_IMPORT = "@calmdown/vite-plugin-pyxis-hmr/registry";
-
 export interface PyxisHmrPluginOptions {
 	/**
 	 * The name of the Pyxis module.
@@ -13,4 +10,10 @@ export interface PyxisHmrPluginOptions {
 	 * @default "component"
 	 */
 	componentFactory?: string;
+
+	/**
+	 * Paths or globs of files to exclude from HMR.
+	 * @default []
+	 */
+	exclude?: (string | RegExp)[] | string | RegExp;
 }

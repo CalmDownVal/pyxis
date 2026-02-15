@@ -4,17 +4,12 @@ import { PROP_MAP } from "./jsx/mapping";
 import type { IntrinsicElements } from "./jsx/baked";
 
 export const DomAdapter: Adapter<Node, IntrinsicElements> = {
-	anchor,
 	native,
 	insert,
 	remove,
 	set,
 	tick: queueMicrotask,
 };
-
-function anchor(hint = "") {
-	return document.createComment(hint);
-}
 
 function native(tagName: string) {
 	return document.createElement(tagName);

@@ -1,11 +1,11 @@
 import type { MaybeAtom } from "~/data/Atom";
-import { getLifecycle, type Lifecycle } from "~/data/Lifecycle";
+import type { Lifecycle } from "~/data/Lifecycle";
 import { link } from "~/data/Dependency";
 import type { List, ListInternal } from "~/data/List";
-import { K_CHANGE, K_CLEAR, K_INSERT, K_REMOVE, type ListDelta } from "~/data/ListDelta";
+import { K_CHANGE, K_CLEAR, K_INSERT, K_REMOVE } from "~/data/ListDelta";
 import { proxy, type ProxyAtom } from "~/data/ProxyAtom";
 import type { DataTemplate, JsxProps, JsxResult } from "~/Component";
-import { split, mount, unmount, type MountingGroup, type MountingGroupInternal } from "~/Renderer";
+import { mount, split, track, unmount, untrack, type HierarchyNodeInternal, type MountingGroupInternal } from "~/Renderer";
 
 export interface RemountIteratorProps<T> {
 	source: List<T>;
@@ -19,7 +19,7 @@ export interface ProxyIteratorProps<T, P extends readonly (keyof T)[]> {
 	children: [ DataTemplate<{ [K in P[number]]: ProxyAtom<T[K] extends MaybeAtom<infer V> ? V : T[K]> } & { readonly proxied: T }> ];
 }
 
-interface IteratorItemGroup extends MountingGroup {
+interface IteratorItemGroup<TNode> extends MountingGroupInternal<TNode> {
 	$data?: any;
 }
 
@@ -32,52 +32,48 @@ interface PendingItem<T> {
  * The built-in Iterator Component efficiently rendering collections of items
  * based on updates from a Pyxis `list`.
  */
-// @ts-expect-error fake overload to allow use with JSX
+// @ts-expect-error fake overload to enable use with JSX
 export function Iterator<T>(props: JsxProps<RemountIteratorProps<T>>): JsxResult;
 
 export function Iterator<T, P extends readonly (keyof T)[]>(props: JsxProps<ProxyIteratorProps<T, P>>): JsxResult;
 
 /** @internal */
 export function Iterator<TNode>(
-	group: MountingGroup,
 	jsx: JsxResult,
-	parent: TNode,
+	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
-	level: number,
 ): void;
 
 export function Iterator<TNode, T>(
-	group: MountingGroup,
 	jsx: JsxResult,
-	parent: TNode,
+	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
-	// level: number,
 ) {
 	const source = jsx.source as ListInternal<T>;
 	const proxy = jsx.proxy as readonly PropertyKey[] | undefined;
-	const template = jsx.children[0] as DataTemplate<T>;
 	const isProxy = proxy !== undefined;
-	const parentGroup = getLifecycle() as MountingGroup;
-	const fallbackAnchor = __DEV__
-		? group.adapter.anchor("/Iterator")
-		: group.adapter.anchor();
+	const template = jsx.children[0] as DataTemplate<T>;
+
+	const group = split(parent) as MountingGroupInternal<TNode>;
+	group.mounted = true;
 
 	// list change reactions
-	let items: IteratorItemGroup[];
-	const onDelta = (delta: ListDelta<T>) => {
+	let items: IteratorItemGroup<TNode>[];
+	const onDelta = () => {
+		const delta = source.$delta!;
 		const { $changes } = delta;
 		const cMax = $changes.length;
 		const iMax = items.length + delta.$lengthDelta;
-		const newItems = new Array<IteratorItemGroup>(iMax);
+		const newItems = new Array<IteratorItemGroup<TNode>>(iMax);
 		const pending: PendingItem<T>[] = [];
-		let recycled: IteratorItemGroup[] = [];
-		let item: IteratorItemGroup;
+		let recycled: IteratorItemGroup<TNode>[] = [];
+		let item: IteratorItemGroup<TNode>;
 		let inserted = 0;
-		let ci = 0;
-		let oi = 0;
-		let ni = 0;
-		let ri = 0;
+		let ci = 0; // change index
+		let oi = 0; // old items index
+		let ni = 0; // new items index
 		let change;
+		let tmp;
 
 		for (; ci < cMax; ci += 1) {
 			change = $changes[ci];
@@ -95,26 +91,22 @@ export function Iterator<TNode, T>(
 						updateProxy(item.$data, change.$item, proxy);
 					}
 					else {
+						// no need to untrack and re-track, position doesn't change
 						unmount(item);
-						mount(item, template, change.$item, parent, getAnchor(items, oi, fallbackAnchor));
+						mount(item, template, change.$item);
 					}
 
 					break;
 
 				case K_INSERT:
-					if (ri < recycled.length) {
-						// we must be in proxy mode, otherwise the recycled array would be empty
-						item = (newItems[ni++] = recycled[ri++]);
-						updateProxy(item.$data, change.$item, proxy!);
-					}
-					else if (!isProxy || inserted < delta.$lengthDelta) {
+					if (!isProxy || inserted < delta.$lengthDelta) {
 						// we're either in remount mode, or no more items are available for recycling
-						item = (newItems[ni++] = split(parentGroup));
+						item = (newItems[ni++] = split(group, items[oi]) as IteratorItemGroup<TNode>);
 						item.$data = isProxy ? createProxy(item, change.$item, proxy) : change.$item;
 						inserted += 1;
 					}
 					else {
-						// we know enough items will be removed later -> add a pending item
+						// we know enough items will be removed -> add a pending item
 						pending.push({
 							$index: ni++,
 							$item: change.$item,
@@ -123,17 +115,19 @@ export function Iterator<TNode, T>(
 						break;
 					}
 
-					mount(item, template, item.$data, parent, getAnchor(items, oi, fallbackAnchor));
+					mount(item, template, item.$data);
 					break;
 
 				case K_REMOVE:
+					tmp = items[oi++];
 					if (isProxy) {
-						recycled.push(items[oi++]);
+						recycled.push(tmp);
 					}
 					else {
-						unmount(items[oi++]);
+						unmount(tmp);
 					}
 
+					untrack(tmp);
 					break;
 
 				case K_CLEAR:
@@ -142,27 +136,11 @@ export function Iterator<TNode, T>(
 					// get mutated
 					if (isProxy) {
 						recycled = items;
+						recycled.forEach(untrack);
 					}
 
 					break;
 			}
-		}
-
-		// fulfill pending items with recycled ones
-		const pMax = pending.length;
-		let pi = 0;
-		let tmp;
-		while (pi < pMax) {
-			tmp = pending[pi++];
-			item = (newItems[tmp.$index] = recycled[ri++]);
-			updateProxy(item.$data, tmp.$item, proxy!);
-			mount(item, template, item.$data, parent, getAnchor(newItems, tmp.$index + 1, fallbackAnchor));
-		}
-
-		// unmount unused
-		const rMax = recycled.length;
-		while (ri < rMax) {
-			unmount(recycled[ri++]);
 		}
 
 		// copy remaining unchanged
@@ -170,36 +148,36 @@ export function Iterator<TNode, T>(
 			newItems[ni++] = items[oi++];
 		}
 
+		// fulfill pending items with recycled ones
+		let pi = pending.length - 1; // pending items index
+		let ri = recycled.length - 1; // recycled items index
+		while (pi >= 0) {
+			tmp = pending[pi--];
+			item = (newItems[tmp.$index] = recycled[ri--]);
+			updateProxy(item.$data, tmp.$item, proxy!);
+			track(item, group, newItems[tmp.$index + 1]);
+			mount(item, template, item.$data);
+		}
+
+		// unmount unused
+		while (ri >= 0) {
+			tmp = recycled[ri--];
+			unmount(tmp);
+			untrack(tmp);
+		}
+
 		items = newItems;
 	};
 
-	link(parentGroup as MountingGroupInternal, source, { $fn: onDelta });
+	link(group, source, { $fn: onDelta });
 
 	// initial render
 	items = source.$items.map(data => {
-		const item: IteratorItemGroup = split(parentGroup);
+		const item = split(group) as IteratorItemGroup<TNode>;
 		item.$data = isProxy ? createProxy(item, data, proxy) : data;
-		mount(item, template, item.$data, parent, before);
+		mount(item, template, item.$data, before);
 		return item;
 	});
-
-	group.adapter.insert(fallbackAnchor, parent, before);
-}
-
-function getAnchor<TNode>(items: readonly MountingGroup[], startIndex: number, fallbackAnchor: TNode): TNode {
-	const { length } = items;
-	let index = startIndex;
-	let item;
-	while (index < length) {
-		item = items[index];
-		if (item && item.top.length > 0) {
-			return item.top[0];
-		}
-
-		index += 1;
-	}
-
-	return fallbackAnchor;
 }
 
 type ProxyObject = { [_ in PropertyKey]?: ProxyAtom<any> };

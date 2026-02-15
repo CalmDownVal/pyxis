@@ -15,16 +15,6 @@ export interface Adapter<TNode, TIntrinsicElements extends ElementsType = Elemen
 	readonly tick: TickFn;
 
 	/**
-	 * Creates a dummy node occupying a place within the document hierarchy, but is not visually
-	 * presented to the user in any way. E.g. a comment node.
-	 *
-	 * Optionally a hint can be attached to convey the purpose of the anchor.
-	 */
-	readonly anchor: (
-		hint?: string,
-	) => TNode;
-
-	/**
 	 * Creates a native (intrinsic) element node by its name.
 	 */
 	readonly native: (

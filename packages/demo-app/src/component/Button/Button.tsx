@@ -1,17 +1,10 @@
-import { component, type JsxChildren, type MaybeAtom } from "@calmdown/pyxis";
+import { component } from "@calmdown/pyxis";
 
-export interface ButtonProps {
-	type?: "button" | "submit" | "reset";
-	children?: JsxChildren;
-	disabled?: MaybeAtom<boolean>;
-	onclick: () => void;
-}
+type ExtendedButtonProps = JSX.IntrinsicElements["button"];
 
-export const Button = component((props: ButtonProps) => (
+export const Button = component((props: ExtendedButtonProps) => (
 	<button
+		{...props}
 		type={props.type ?? "button"}
-		disabled={props.disabled}
-		children={props.children}
-		on:click={props.onclick}
 	/>
 ));

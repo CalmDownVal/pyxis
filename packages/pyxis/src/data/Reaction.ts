@@ -1,8 +1,7 @@
 import type { Nil } from "~/support/types";
 
-import type { Atom, AtomInternal } from "./Atom";
 import { getLifecycle, onUnmounted, type LifecycleInternal } from "./Lifecycle";
-import { link, unlink, type Dependency } from "./Dependency";
+import { link, unlink, type Dependency, type DependencyList } from "./Dependency";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
 export interface ReactionBlock {
@@ -16,7 +15,7 @@ export interface Reaction<T> {
 	readonly $react: (reaction: this, epoch: number) => void;
 	$epoch: number;
 	$willUnmount?: boolean;
-	$deps?: WeakMap<Atom, ReactionDependency>;
+	$deps?: WeakMap<DependencyList, ReactionDependency>;
 	$resolve?: UpdateCallback<[ reaction: Reaction<T> ]>;
 	$dispose?: Nil<() => void>;
 }
@@ -98,7 +97,7 @@ export function resolve<TReaction extends Reaction<any>>(reaction: TReaction): T
  * Reports an Atom has been accessed. Does nothing if not within a Reaction.
  * @internal
  */
-export function reportAccess(atom: AtomInternal<any>) {
+export function reportAccess(atom: DependencyList) {
 	if (!$currentReaction) {
 		return;
 	}

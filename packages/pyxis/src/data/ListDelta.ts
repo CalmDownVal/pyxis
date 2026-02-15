@@ -98,7 +98,7 @@ export function createDelta<T>(): ListDelta<T> {
 
 /** @internal */
 export function itemChanged<T>({ $changes }: ListDelta<T>, at: number, item: T) {
-	const ci = binarySearch($changes, at);
+	const ci = binarySearch($changes, at, latest);
 	if (ci < 0) {
 		// nothing at this index, add new delta
 		$changes.splice(~ci, 0, {
@@ -135,7 +135,7 @@ export function itemChanged<T>({ $changes }: ListDelta<T>, at: number, item: T) 
 export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
 	const { $changes } = delta;
 
-	let ci = binarySearch($changes, at);
+	let ci = binarySearch($changes, at, earliest);
 	if (ci < 0) {
 		// nothing at this index, add new delta
 		ci = ~ci;
@@ -191,7 +191,7 @@ export function itemInserted<T>(delta: ListDelta<T>, at: number, item: T) {
 export function itemRemoved<T>(delta: ListDelta<T>, at: number) {
 	const { $changes } = delta;
 
-	let ci = binarySearch($changes, at);
+	let ci = binarySearch($changes, at, latest);
 	if (ci < 0) {
 		// nothing at this index, add new delta
 		ci = ~ci;
@@ -331,7 +331,23 @@ export function listSynced<T>(delta: ListDelta<T>, oldState: readonly T[], newSt
 	while (state.$c < 2);
 }
 
-function binarySearch<T>(changes: readonly ChangeType<T>[], index: number) {
+interface SearchBias {
+	(changes: readonly ChangeType<unknown>[], index: number, mid: number, min: number, max: number): number;
+}
+
+const latest: SearchBias = (changes, index, mid, _min, max) => {
+	let i = mid;
+	while (++i < max && changes[i].$index === index) ;
+	return i - 1;
+};
+
+const earliest: SearchBias = (changes, index, mid, min, _max) => {
+	let i = mid;
+	while (--i >= min && changes[i].$index === index) ;
+	return i + 1;
+};
+
+function binarySearch<T>(changes: readonly ChangeType<T>[], index: number, bias: SearchBias) {
 	let min = 0;
 	let max = changes.length;
 	let mid;
@@ -348,10 +364,8 @@ function binarySearch<T>(changes: readonly ChangeType<T>[], index: number) {
 			min = mid + 1;
 		}
 		else {
-			// found matching index, but there may be more deltas with the same index
-			// find the last one
-			while (++mid < max && changes[mid].$index === index) ;
-			return mid - 1;
+			// found matching index, but there may be more deltas with the same index -> apply bias
+			return bias(changes, index, mid, min, max);
 		}
 	}
 

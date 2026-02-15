@@ -16,11 +16,10 @@ export { RefExtension, type RefExtensionType } from "~/extension/RefExtension";
 
 export { jsx, jsxs } from "~/jsx/factory";
 
-export type { ArgsMax5 } from "~/support/Callback";
 export { EMPTY_ARRAY } from "~/support/common";
-export type { ElementsType, Intersection, Nil, NodeType, PropsType, S_NODE_TYPE } from "~/support/types";
+export type { ArgsMax5, ElementsType, Intersection, Nil, NodeType, PropsType, S_NODE_TYPE } from "~/support/types";
 
 export type { Adapter, Extension, ExtensionProps, ExtensionsType } from "./Adapter";
 export { pyxis, type PyxisBuilder } from "./Builder";
 export { component, isType, type Component, type DataTemplate, type JsxChildren, type JsxChildrenProp, type JsxProps, type JsxResult, type PropsOf, type Template, type WithChildren } from "./Component";
-export { mount, mountJsx, split, unmount, type ElementsOf, type MountingGroup, type Renderer } from "./Renderer";
+export { getAnchor, insert, mount, mountJsx, S_COMPONENT, split, track, unmount, untrack, type ElementsOf, type Hierarchy, type HierarchyNode, type MountingGroup, type NativeNode, type Renderer } from "./Renderer";

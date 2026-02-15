@@ -1,5 +1,4 @@
-import type { ArgsMax2, Callback } from "~/support/Callback";
-import type { Nil } from "~/support/types";
+import type { ArgsMax2, Callback, Nil } from "~/support/types";
 
 import type { LifecycleInternal } from "./Lifecycle";
 

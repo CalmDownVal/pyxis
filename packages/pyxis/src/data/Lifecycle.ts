@@ -1,5 +1,5 @@
-import { invoke, type ArgsMax2, type ArgsMax5, type Callback } from "~/support/Callback";
-import type { Nil } from "~/support/types";
+import { invokeAll } from "~/support/common";
+import type { ArgsMax5, Callback, Nil } from "~/support/types";
 
 import type { DependencyList } from "./Dependency";
 import type { Scheduler } from "./Scheduler";
@@ -12,34 +12,8 @@ export interface Lifecycle {
 /** @internal */
 export interface LifecycleInternal extends Lifecycle, DependencyList {
 	readonly $scheduler: Scheduler;
-
-	/** The head of the mount callback linked list. */
-	$mh?: Nil<MountCallback>;
-
-	/** The tail of the mount callback linked list. */
-	$mt?: Nil<MountCallback>;
-
-	/** The head of the unmount callback linked list. */
-	$uh?: Nil<UnmountCallback>;
-
-	/** The tail of the unmount callback linked list. */
-	$ut?: Nil<UnmountCallback>;
-}
-
-/**
- * A mount callback running setup logic for contextual resources.
- * @internal
- */
-export interface MountCallback<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<TArgs> {
-	$mn?: Nil<MountCallback>;
-}
-
-/**
- * An unmount callback running teardown logic for contextual resources.
- * @internal
- */
-export interface UnmountCallback<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<TArgs> {
-	$un?: Nil<UnmountCallback>;
+	$onMount?: Nil<Callback[]>;
+	$onUnmount?: Nil<Callback[]>;
 }
 
 export interface MountBlock {
@@ -65,23 +39,16 @@ export function mounted(block: MountBlock, lifecycle = getLifecycle()) {
 	});
 }
 
+/** @internal */
+export function onMounted(lifecycle: LifecycleInternal, callback: Callback) {
+	(lifecycle.$onMount ??= []).push(callback);
+}
+
 function invokeMountedCallback(lifecycle: LifecycleInternal, block: MountBlock) {
 	const dispose = block();
 	if (dispose) {
 		onUnmounted(lifecycle, { $fn: dispose });
 	}
-}
-
-/** @internal */
-export function onMounted(lifecycle: LifecycleInternal, callback: MountCallback) {
-	if (lifecycle.$mt) {
-		lifecycle.$mt.$mn = callback;
-	}
-	else {
-		lifecycle.$mh = callback;
-	}
-
-	lifecycle.$mt = callback;
 }
 
 
@@ -94,15 +61,8 @@ export function unmounted(block: UnmountBlock, lifecycle = getLifecycle()) {
 }
 
 /** @internal */
-export function onUnmounted(lifecycle: LifecycleInternal, callback: UnmountCallback) {
-	if (lifecycle.$ut) {
-		lifecycle.$ut.$un = callback;
-	}
-	else {
-		lifecycle.$uh = callback;
-	}
-
-	lifecycle.$ut = callback;
+export function onUnmounted(lifecycle: LifecycleInternal, callback: Callback) {
+	(lifecycle.$onUnmount ??= []).push(callback);
 }
 
 
@@ -144,22 +104,8 @@ export function withLifecycle(
 /** @internal */
 export function notifyMounted(lifecycle: LifecycleInternal) {
 	lifecycle.mounted = true;
-
-	// run registered mount callbacks
-	try {
-		let callback = lifecycle.$mh;
-		let tmp;
-		while (callback) {
-			tmp = callback.$mn;
-			invoke(callback);
-			callback.$mn = null;
-			callback = tmp;
-		}
-	}
-	finally {
-		lifecycle.$mh = null;
-		lifecycle.$mt = null;
-	}
+	invokeAll(lifecycle.$onMount);
+	lifecycle.$onMount = null;
 }
 
 /** @internal */
@@ -204,18 +150,6 @@ export function notifyUnmounted(lifecycle: LifecycleInternal) {
 	lifecycle.$dt = null;
 
 	// run registered unmount callbacks
-	try {
-		let callback = lifecycle.$uh;
-		let tmp;
-		while (callback) {
-			tmp = callback.$un;
-			invoke(callback);
-			callback.$un = null;
-			callback = tmp;
-		}
-	}
-	finally {
-		lifecycle.$uh = null;
-		lifecycle.$ut = null;
-	}
+	invokeAll(lifecycle.$onUnmount);
+	lifecycle.$onUnmount = null;
 }

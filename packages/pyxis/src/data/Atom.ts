@@ -1,4 +1,4 @@
-import { invoke } from "~/support/Callback";
+import { invoke } from "~/support/common";
 
 import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";

@@ -3,7 +3,6 @@ declare global {
 }
 
 interface HotComponentEntry {
-	hash: string;
 	component: unknown;
 	dirty: boolean;
 	lh?: HotComponentListener | null;
@@ -25,10 +24,10 @@ export default class PyxisComponentRegistry {
 	private readonly components = new Map<string, HotComponentEntry>();
 	private isPendingUpdate = false;
 
-	public on(hash: string, fn: HotComponentListenerFn): HotComponentListener {
-		const entry = this.components.get(hash);
+	public on(id: string, fn: HotComponentListenerFn): HotComponentListener {
+		const entry = this.components.get(id);
 		if (!entry) {
-			throw new Error(`no component was registered under "${hash}"`);
+			throw new Error(`no component was registered under "${id}"`);
 		}
 
 		const listener: HotComponentListener = { fn, entry };
@@ -62,15 +61,19 @@ export default class PyxisComponentRegistry {
 			entry.lt = listener.lp;
 		}
 
-		listener.ln = null;
 		listener.lp = null;
+		listener.ln = null;
 	}
 
-	public upsert(hash: string, component: unknown) {
-		const entry = this.components.get(hash);
+	public subscribe(id: string, fn: HotComponentListenerFn) {
+		const listener = this.on(id, fn);
+		return () => this.off(listener);
+	}
+
+	public upsert(id: string, component: unknown) {
+		const entry = this.components.get(id);
 		if (!entry) {
-			this.components.set(hash, {
-				hash,
+			this.components.set(id, {
 				component,
 				dirty: false,
 			});
