@@ -14,6 +14,7 @@ export const TypeScriptLibrary = defineTarget("TypeScriptLibrary", target => tar
 	}))
 	.pipeline("Code", pipe => pipe
 		.plugin(Plugin.Delete
+			.disable((_, context) => context.isWatching)
 			.configure({
 				targets: "./dist/**/*",
 			})
@@ -42,6 +43,7 @@ export const PyxisApplication = defineTarget("PyxisApplication", target => targe
 	}))
 	.pipeline("Code", pipe => pipe
 		.plugin(Plugin.Delete
+			.disable((_, context) => context.isWatching)
 			.configure({
 				runOnce: true,
 				targets: "./dist/**/*",
