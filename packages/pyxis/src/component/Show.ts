@@ -27,13 +27,13 @@ export function Show<T>(props: JsxProps<ShowDataProps<T>>): JsxResult;
 
 /** @internal */
 export function Show<TNode>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ): void;
 
 export function Show<TNode>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ) {

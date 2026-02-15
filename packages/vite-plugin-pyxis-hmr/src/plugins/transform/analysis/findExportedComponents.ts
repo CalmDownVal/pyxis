@@ -3,8 +3,6 @@ import type * as AST from "@oxc-project/types";
 import type { PyxisHmrPluginOptions } from "~/types";
 import type { ComponentSymbolMeta, SymbolMeta } from "./types";
 
-const HASH_LENGTH = 16;
-
 interface ComponentChecker {
 	(node: AST.Node): boolean;
 }

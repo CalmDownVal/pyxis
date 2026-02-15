@@ -39,13 +39,13 @@ export function Iterator<T, P extends readonly (keyof T)[]>(props: JsxProps<Prox
 
 /** @internal */
 export function Iterator<TNode>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ): void;
 
 export function Iterator<TNode, T>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ) {

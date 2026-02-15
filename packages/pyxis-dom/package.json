@@ -21,6 +21,6 @@
 		"typescript": "5.9.3"
 	},
 	"scripts": {
-		"bake": "bake-types ./src/jsx/inferred.ts ./src/jsx/baked.ts"
+		"bake": "bake ./src/jsx/inferred.ts ./src/jsx/baked.ts"
 	}
 }

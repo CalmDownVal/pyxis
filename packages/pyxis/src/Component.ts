@@ -45,10 +45,6 @@ export function component(
 	};
 }
 
-export function isType(jsx: JsxResult, component: Component<any>) {
-	return jsx[S_COMPONENT] === component;
-}
-
 /**
  * Infers the props object for use with JSX. Because Pyxis always supplies components with child
  * arrays (or tuples), the type needs to be adjusted to reflect the internal mechanics.
@@ -92,7 +88,7 @@ export type JsxChildrenProp<T> = T extends readonly [ any, any, ...any[] ]
  * - S_TAG_NAME ... hidden, specifies the tag name, only populated for native elements
  * - children ... always present and always an array, empty array for childless components
  */
-export interface JsxResult {
+export type JsxResult = Nil<{
 	[propName: string]: unknown;
 	readonly children: readonly unknown[];
 
@@ -101,7 +97,7 @@ export interface JsxResult {
 
 	/** @internal */
 	readonly [S_TAG_NAME]?: string;
-}
+}>;
 
 /**
  * The type of JSX elements accepted as individual children by common components.
@@ -116,7 +112,7 @@ export type WithChildren<T extends PropsType> = { children: JsxChildren } & T;
 /** @internal */
 export interface ComponentHandler {
 	<TNode>(
-		jsx: JsxResult,
+		jsx: NonNullable<JsxResult>,
 		parent: HierarchyNodeInternal<TNode>,
 		before: TNode | null,
 	): void;

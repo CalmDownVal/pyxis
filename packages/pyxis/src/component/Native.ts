@@ -11,7 +11,7 @@ export const S_TAG_NAME: unique symbol = __DEV__ ? Symbol.for("pyxis:tagName") :
 
 /** @internal */
 export function Native<TNode>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ) {

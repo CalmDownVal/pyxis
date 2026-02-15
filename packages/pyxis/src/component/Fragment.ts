@@ -18,13 +18,13 @@ export function Fragment(props: JsxProps<FragmentProps>): JsxResult;
 
 /** @internal */
 export function Fragment<TNode>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ): void;
 
 export function Fragment<TNode>(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ) {

@@ -64,7 +64,13 @@ type Finalize<T> = { readonly [K in keyof T]?: T[K] };
 
 
 /** @bake */
-export type CSSStyleDeclarationProps = Finalize<WrapProps<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration>>>>>;
+export type CSSStyleDeclarationProps = Finalize<WrapProps<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration & ExtraCSSStyleDeclaration>>>>>;
+
+/** some newly available extras, currently missing in DOM types */
+interface ExtraCSSStyleDeclaration {
+	anchorName: string;
+	positionAnchor: string;
+}
 
 
 /** @bake */

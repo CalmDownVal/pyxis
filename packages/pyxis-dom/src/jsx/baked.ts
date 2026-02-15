@@ -511,6 +511,8 @@ export interface CSSStyleDeclarationProps {
 	readonly y?: MaybeAtom<string>;
 	readonly zIndex?: MaybeAtom<string>;
 	readonly zoom?: MaybeAtom<string>;
+	readonly anchorName?: MaybeAtom<string>;
+	readonly positionAnchor?: MaybeAtom<string>;
 }
 
 export interface HTMLAnchorElementProps {

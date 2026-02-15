@@ -97,10 +97,10 @@ __metadata:
 
 "@calmdown/rolldown-workspace@file:..\\..\\rolldown-workspace\\packages\\rolldown-workspace::locator=build-logic%40workspace%3Abuild-logic":
   version: 1.0.0-beta.1
-  resolution: "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=479791&locator=build-logic%40workspace%3Abuild-logic"
+  resolution: "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=44ef2d&locator=build-logic%40workspace%3Abuild-logic"
   peerDependencies:
     rolldown: 1.0.0-rc.3
-  checksum: 10/c97b6946191e84e689e18c2e1b34ddcdeac39c9d47392f71888d6db4ce774bf7c004fb613f5fdda18629ac3b4d3a7489f6ed84c0e1b43de42e5e0b824d703564
+  checksum: 10/a24416a9130c5afc472515dd252cc41cd5c178aa6b68e447e66473cb2e74cf67ba1f59afdb320334a7578616f726b6821fe230bcfde9699e6436390b96040e26
   languageName: node
   linkType: hard
 
@@ -464,6 +464,7 @@ __metadata:
     rolldown: "npm:1.0.0-rc.3"
     rolldown-plugin-dts: "npm:0.22.1"
     rollup-plugin-import-file: "npm:1.0.1"
+    typescript: "npm:5.9.3"
     vite: "npm:8.0.0-beta.13"
     vite-tsconfig-paths: "npm:6.0.5"
   bin:

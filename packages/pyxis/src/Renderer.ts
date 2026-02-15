@@ -419,7 +419,7 @@ export function mountJsx<TNode>(
 		}
 	}
 	else if (jsx !== null && typeof jsx === "object") {
-		(jsx as Partial<JsxResult>)[S_COMPONENT]?.(jsx as JsxResult, parent, before);
+		(jsx as Partial<NonNullable<JsxResult>>)[S_COMPONENT]?.(jsx as NonNullable<JsxResult>, parent, before);
 	}
 }
 
