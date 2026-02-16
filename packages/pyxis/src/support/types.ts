@@ -43,16 +43,19 @@ export type ArgsMax5<A0 = any, A1 = any, A2 = any, A3 = any, A4 = any> = [ a0?: 
 
 /**
  * A tuple of up to 2 arguments.
- * @internal
  */
 export type ArgsMax2<A0 = any, A1 = any> = [ a0?: A0, a1?: A1 ];
 
 /**
  * Describes a callback with stored values for its arguments.
- * @internal
  */
 export interface Callback<TArgs extends ArgsMax2 = ArgsMax2, TReturn = void> {
+	/** @internal */
 	$fn: (this: any, ...args: TArgs) => TReturn;
+
+	/** @internal */
 	$a0?: TArgs[0];
+
+	/** @internal */
 	$a1?: TArgs[1];
 }

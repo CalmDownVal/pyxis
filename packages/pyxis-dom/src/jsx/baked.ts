@@ -1584,7 +1584,7 @@ export interface SVGStyleElementProps extends SVGBaseProps {
 	readonly disabled?: MaybeAtom<boolean>;
 }
 
-export interface SVGSVGBaseProps extends SVGBaseProps {
+export interface SVGSVGElementProps extends SVGBaseProps {
 	readonly [S_NODE_TYPE]?: SVGSVGElement;
 	readonly currentScale?: MaybeAtom<number>;
 }

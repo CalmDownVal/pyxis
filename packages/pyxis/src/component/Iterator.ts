@@ -1,11 +1,11 @@
 import type { MaybeAtom } from "~/data/Atom";
 import type { Lifecycle } from "~/data/Lifecycle";
 import { link } from "~/data/Dependency";
-import type { List, ListInternal } from "~/data/List";
+import type { List } from "~/data/List";
 import { K_CHANGE, K_CLEAR, K_INSERT, K_REMOVE } from "~/data/ListDelta";
 import { proxy, type ProxyAtom } from "~/data/ProxyAtom";
 import type { DataTemplate, JsxProps, JsxResult } from "~/Component";
-import { mount, split, track, unmount, untrack, type HierarchyNodeInternal, type MountingGroupInternal } from "~/Renderer";
+import { mount, split, track, unmount, untrack, type HierarchyNode, type MountingGroup } from "~/Renderer";
 
 export interface RemountIteratorProps<T> {
 	source: List<T>;
@@ -19,7 +19,7 @@ export interface ProxyIteratorProps<T, P extends readonly (keyof T)[]> {
 	children: [ DataTemplate<{ [K in P[number]]: ProxyAtom<T[K] extends MaybeAtom<infer V> ? V : T[K]> } & { readonly proxied: T }> ];
 }
 
-interface IteratorItemGroup<TNode> extends MountingGroupInternal<TNode> {
+interface IteratorItemGroup<TNode> extends MountingGroup<TNode> {
 	$data?: any;
 }
 
@@ -40,21 +40,21 @@ export function Iterator<T, P extends readonly (keyof T)[]>(props: JsxProps<Prox
 /** @internal */
 export function Iterator<TNode>(
 	jsx: NonNullable<JsxResult>,
-	parent: HierarchyNodeInternal<TNode>,
+	parent: HierarchyNode<TNode>,
 	before: TNode | null,
 ): void;
 
 export function Iterator<TNode, T>(
 	jsx: NonNullable<JsxResult>,
-	parent: HierarchyNodeInternal<TNode>,
+	parent: HierarchyNode<TNode>,
 	before: TNode | null,
 ) {
-	const source = jsx.source as ListInternal<T>;
+	const source = jsx.source as List<T>;
 	const proxy = jsx.proxy as readonly PropertyKey[] | undefined;
 	const isProxy = proxy !== undefined;
 	const template = jsx.children[0] as DataTemplate<T>;
 
-	const group = split(parent) as MountingGroupInternal<TNode>;
+	const group = split(parent) as MountingGroup<TNode>;
 	group.mounted = true;
 
 	// list change reactions

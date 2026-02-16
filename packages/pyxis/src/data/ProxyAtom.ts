@@ -1,7 +1,7 @@
 import type { Nil } from "~/support/types";
 
-import { isAtom, notify, S_ATOM, type Atom, type AtomInternal, type MaybeAtom, type MaybeAtomInternal } from "./Atom";
-import { getLifecycle, type LifecycleInternal } from "./Lifecycle";
+import { isAtom, notify, S_ATOM, type Atom, type MaybeAtom } from "./Atom";
+import { getLifecycle } from "./Lifecycle";
 import { link, unlink, type Dependency } from "./Dependency";
 
 export interface ProxyAtom<T> extends Atom<T> {
@@ -10,11 +10,14 @@ export interface ProxyAtom<T> extends Atom<T> {
 	 * will be a read-only atom with a static value until rebound.
 	 */
 	use: (value: MaybeAtom<T>) => void;
-}
 
-interface ProxyAtomInternal<T> extends ProxyAtom<T>, AtomInternal<T> {
+	/** @internal */
 	$dep?: Dependency;
-	$bound?: Nil<AtomInternal<T>>;
+
+	/** @internal */
+	$bound?: Nil<Atom<T>>;
+
+	/** @internal */
 	$value?: Nil<T>;
 }
 
@@ -24,26 +27,25 @@ interface ProxyAtomInternal<T> extends ProxyAtom<T>, AtomInternal<T> {
  */
 export function proxy<T>(initialValue: MaybeAtom<T>, lifecycle = getLifecycle()): ProxyAtom<T> {
 	// $set is assigned by the use call below
-	const self: Omit<ProxyAtomInternal<T>, "$set"> = {
+	const self: Omit<ProxyAtom<T>, "$set"> = {
 		[S_ATOM]: true,
-		$lifecycle: lifecycle as LifecycleInternal,
+		$lifecycle: lifecycle,
 		use,
 		$get: getStaticValue,
 	};
 
 	self.use(initialValue);
-	return self;
+	return self as ProxyAtom<T>;
 }
 
-function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtom<T>): void;
-function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
+function use<T>(this: ProxyAtom<T>, value: MaybeAtom<T>) {
 	if (this.$dep) {
 		unlink(this.$dep);
 	}
 
 	const oldValue = this.$get();
 	if (isAtom(value)) {
-		this.$bound = value as AtomInternal<T>;
+		this.$bound = value;
 		this.$value = null;
 		this.$get = getBoundValue;
 		this.$set = setBoundValue;
@@ -64,18 +66,18 @@ function use<T>(this: ProxyAtomInternal<T>, value: MaybeAtomInternal<T>) {
 	}
 }
 
-function getBoundValue<T>(this: ProxyAtomInternal<T>) {
+function getBoundValue<T>(this: ProxyAtom<T>) {
 	return this.$bound!.$get();
 }
 
-function setBoundValue<T>(this: ProxyAtomInternal<T>, value: T) {
+function setBoundValue<T>(this: ProxyAtom<T>, value: T) {
 	return this.$bound!.$set(value);
 }
 
-function getStaticValue<T>(this: ProxyAtomInternal<T>) {
+function getStaticValue<T>(this: ProxyAtom<T>) {
 	return this.$value!;
 }
 
-function setStaticValue(this: ProxyAtomInternal<any>) {
+function setStaticValue(this: ProxyAtom<any>) {
 	return false;
 }

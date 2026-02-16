@@ -1,7 +1,7 @@
 import { invokeAll } from "~/support/common";
 import type { ArgsMax2, Callback, Nil } from "~/support/types";
 
-import type { LifecycleInternal } from "./Lifecycle";
+import type { Lifecycle } from "./Lifecycle";
 
 /**
  * Manages a queue of scheduled updates.
@@ -67,7 +67,7 @@ export function createScheduler(tick: TickFn) {
  * Adds the provided callback to the update queue. Does nothing if already queued.
  * @internal
  */
-export function schedule({ $scheduler }: LifecycleInternal, callback: UpdateCallback) {
+export function schedule({ $scheduler }: Lifecycle, callback: UpdateCallback) {
 	if (callback.$epoch === $scheduler.$epoch) {
 		if (__DEV__ && $scheduler.$isUpdating) {
 			throw new Error("Refusing to reschedule an update as it may cause an infinite loop. Are you mutating an Atom inside a reaction that depends on it?");

@@ -1,7 +1,7 @@
 import { isAtom, read } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
 import type { JsxResult } from "~/Component";
-import { insert, type HierarchyNode, type HierarchyNodeInternal } from "~/Renderer";
+import { insert, type HierarchyNode } from "~/Renderer";
 
 const RE_EXT = /^([^:]+?):(.+)$/;
 
@@ -9,17 +9,9 @@ const RE_EXT = /^([^:]+?):(.+)$/;
 // @ts-expect-error this is a unique symbol at runtime
 export const S_TAG_NAME: unique symbol = __DEV__ ? Symbol.for("pyxis:tagName") : Symbol();
 
-// @ts-expect-error public API hides internals
 export function Native<TNode>(
 	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNode<TNode>,
-	before: TNode | null,
-): void;
-
-/** @internal */
-export function Native<TNode>(
-	jsx: NonNullable<JsxResult>,
-	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ) {
 	const { adapter, $extensions } = parent.$ng;

@@ -1,5 +1,5 @@
-import { notify, S_ATOM, type Atom, type AtomInternal } from "./Atom";
-import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
+import { notify, S_ATOM, type Atom } from "./Atom";
+import { getLifecycle } from "./Lifecycle";
 import { unlink } from "./Dependency";
 import { resolve, type Reaction, type ReactionDependency } from "./Reaction";
 import { schedule } from "./Scheduler";
@@ -9,10 +9,11 @@ import { schedule } from "./Scheduler";
  * Derivations are read-only. Use the `read` function to access its value.
  * @see {@link read}
  */
-export interface Derivation<T = unknown> extends Atom<T> {}
-
-interface DerivationAtomInternal<T> extends Derivation<T>, Reaction<T>, AtomInternal<T> {
+export interface Derivation<T = unknown> extends Atom<T>, Reaction<T> {
+	/** @internal */
 	$dirty: boolean;
+
+	/** @internal */
 	$value?: T;
 }
 
@@ -20,11 +21,10 @@ interface DerivationAtomInternal<T> extends Derivation<T>, Reaction<T>, AtomInte
  * Creates a Derivation - an Atom with a value computed from other Atoms. Derivations are updated
  * lazily, i.e. only when they're accessed and at least one of its source Atoms changed.
  */
-export function derivation<T>(block: () => T, lifecycle?: Lifecycle): Derivation<T>;
-export function derivation<T>(block: () => T, lifecycle = getLifecycle()): DerivationAtomInternal<T> {
+export function derivation<T>(block: () => T, lifecycle = getLifecycle()): Derivation<T> {
 	return {
 		[S_ATOM]: true,
-		$lifecycle: lifecycle as LifecycleInternal,
+		$lifecycle: lifecycle,
 		$dirty: true,
 		$epoch: 0,
 		$block: block,
@@ -34,7 +34,7 @@ export function derivation<T>(block: () => T, lifecycle = getLifecycle()): Deriv
 	};
 }
 
-function scheduleNotify(this: ReactionDependency, derivation: DerivationAtomInternal<any>, epoch: number) {
+function scheduleNotify(this: ReactionDependency, derivation: Derivation<any>, epoch: number) {
 	// lazy cleanup: when we get an update from a stale dependency, the reported epoch will be lower
 	// than our current one (see the reportAccess function). We can unlink and skip the reaction.
 	if (derivation.$epoch > epoch) {
@@ -52,7 +52,7 @@ function scheduleNotify(this: ReactionDependency, derivation: DerivationAtomInte
 	});
 }
 
-function getValue<T>(this: DerivationAtomInternal<T>): T {
+function getValue<T>(this: Derivation<T>): T {
 	if (this.$dirty) {
 		this.$value = resolve(this);
 		this.$dirty = false;

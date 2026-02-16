@@ -1,13 +1,13 @@
 import { invoke } from "~/support/common";
 import type { Nil } from "~/support/types";
 
-import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
+import { getLifecycle, type Lifecycle } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
 import { createDelta, itemChanged, itemInserted, itemRemoved, listCleared, listSynced, type Equals, type ListDelta } from "./ListDelta";
 import { reportAccess } from "./Reaction";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
-export interface List<T> {
+export interface List<T> extends DependencyList {
 	readonly size: () => number;
 
 	readonly get: (index: number) => T;
@@ -22,35 +22,36 @@ export interface List<T> {
 	readonly removeAt: (index: number) => T;
 	readonly removeFirst: () => T;
 	readonly removeLast: () => T;
-}
 
-/** @internal */
-export interface ListInternal<T> extends List<T>, DependencyList {
-	readonly $lifecycle: LifecycleInternal;
+	/** @internal */
+	readonly $lifecycle: Lifecycle;
+
+	/** @internal */
 	$items: T[];
+
+	/** @internal */
 	$delta?: Nil<ListDelta<T>>;
-	$notify?: UpdateCallback<[ self: ListInternal<T> ]>;
+
+	/** @internal */
+	$notify?: UpdateCallback<[ self: List<T> ]>;
 }
 
 /**
  * Creates an empty List. This List emits deltas with each mutation which can be observed by
  * Components to efficiently update the rendered state.
  */
-export function list<T>(): List<T>;
+export function list<T>(source: null | undefined, lifecycle?: Lifecycle): List<T>;
 
 /**
  * Creates a List initialized with items copied from the provided Iterable. This List emits deltas
  * with each mutation which can be observed by Components to efficiently update the rendered state.
  */
-export function list<T>(source?: Iterable<T>): List<T>;
+export function list<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
 
-/** @internal */
-export function list<T>(source: Iterable<T> | undefined, lifecycle: Lifecycle): List<T>;
-
-export function list<T>(source?: Iterable<T> | undefined, lifecycle = getLifecycle()): ListInternal<T> {
+export function list<T>(source: Nil<Iterable<T>>, lifecycle = getLifecycle()): List<T> {
 	const items = source ? Array.from(source) : [];
 	return {
-		$lifecycle: lifecycle as LifecycleInternal,
+		$lifecycle: lifecycle,
 		$items: items,
 		size,
 		get,
@@ -75,24 +76,24 @@ export function list<T>(source?: Iterable<T> | undefined, lifecycle = getLifecyc
  * into bundled builds. This way, tools like Terser can eliminate the extra code when unused.
  */
 export function sync<T>(list: List<T>, source: readonly T[], eq: Equals<T> = defaultEquals) {
-	const oldState = (list as ListInternal<T>).$items;
-	(list as ListInternal<T>).$items = source.slice();
-	listSynced((list as ListInternal<T>).$delta ??= createDelta(), oldState, source, eq);
-	listMutated(list as ListInternal<T>);
+	const oldState = list.$items;
+	list.$items = source.slice();
+	listSynced(list.$delta ??= createDelta(), oldState, source, eq);
+	listMutated(list);
 }
 
-function size(this: ListInternal<any>) {
+function size(this: List<any>) {
 	reportAccess(this);
 	return this.$items.length;
 }
 
-function get(this: ListInternal<any>, index: number) {
+function get(this: List<any>, index: number) {
 	assertIndex(this, index);
 	reportAccess(this);
 	return this.$items[index];
 }
 
-function set<T>(this: ListInternal<T>, index: number, item: T) {
+function set<T>(this: List<T>, index: number, item: T) {
 	assertIndex(this, index);
 	if (this.$items[index] === item) {
 		return;
@@ -103,14 +104,14 @@ function set<T>(this: ListInternal<T>, index: number, item: T) {
 	listMutated(this);
 }
 
-function clear(this: ListInternal<any>) {
+function clear(this: List<any>) {
 	const count = this.$items.length;
 	this.$items.length = 0;
 	listCleared(this.$delta ??= createDelta(), count);
 	listMutated(this);
 }
 
-function insertAt<T>(this: ListInternal<T>, index: number, item: T) {
+function insertAt<T>(this: List<T>, index: number, item: T) {
 	const { $items } = this;
 	if (index === $items.length) {
 		$items.push(item);
@@ -124,15 +125,15 @@ function insertAt<T>(this: ListInternal<T>, index: number, item: T) {
 	listMutated(this);
 }
 
-function insertFirst<T>(this: ListInternal<T>, item: T) {
+function insertFirst<T>(this: List<T>, item: T) {
 	this.insertAt(0, item);
 }
 
-function insertLast<T>(this: ListInternal<T>, item: T) {
+function insertLast<T>(this: List<T>, item: T) {
 	this.insertAt(this.$items.length, item);
 }
 
-function remove<T>(this: ListInternal<any>, item: T) {
+function remove<T>(this: List<any>, item: T) {
 	const index = this.$items.indexOf(item);
 	if (index === -1) {
 		return false;
@@ -142,7 +143,7 @@ function remove<T>(this: ListInternal<any>, item: T) {
 	return true;
 }
 
-function removeAt<T>(this: ListInternal<T>, index: number) {
+function removeAt<T>(this: List<T>, index: number) {
 	assertIndex(this, index);
 	const removed = this.$items.splice(index, 1)[0];
 	itemRemoved(this.$delta ??= createDelta(), index);
@@ -150,15 +151,15 @@ function removeAt<T>(this: ListInternal<T>, index: number) {
 	return removed;
 }
 
-function removeFirst<T>(this: ListInternal<T>) {
+function removeFirst<T>(this: List<T>) {
 	return this.removeAt(0);
 }
 
-function removeLast<T>(this: ListInternal<T>) {
+function removeLast<T>(this: List<T>) {
 	return this.removeAt(this.$items.length - 1);
 }
 
-function assertIndex(list: ListInternal<any>, index: number) {
+function assertIndex(list: List<any>, index: number) {
 	if (index >= list.$items.length || index < 0) {
 		if (__DEV__) {
 			throw new RangeError("list index out of bounds");
@@ -173,14 +174,14 @@ function defaultEquals<T>(item0: T, item1: T) {
 	return item0 === item1;
 }
 
-function listMutated(list: ListInternal<any>) {
+function listMutated(list: List<any>) {
 	schedule(list.$lifecycle, list.$notify ??= {
 		$fn: notify,
 		$a0: list,
 	});
 }
 
-function notify(list: ListInternal<any>) {
+function notify(list: List<any>) {
 	let current = list.$dh;
 	while (current) {
 		invoke(current);

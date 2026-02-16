@@ -2,7 +2,7 @@ import { isAtom, read, type MaybeAtom } from "~/data/Atom";
 import { reaction } from "~/data/Reaction";
 import type { Nil } from "~/support/types";
 import type { DataTemplate, JsxProps, JsxResult, Template } from "~/Component";
-import { mount, mountJsx, split, unmount, type HierarchyNodeInternal } from "~/Renderer";
+import { mount, mountJsx, split, unmount, type HierarchyNode } from "~/Renderer";
 
 export interface ShowProps {
 	when?: MaybeAtom<boolean>;
@@ -28,13 +28,13 @@ export function Show<T>(props: JsxProps<ShowDataProps<T>>): JsxResult;
 /** @internal */
 export function Show<TNode>(
 	jsx: NonNullable<JsxResult>,
-	parent: HierarchyNodeInternal<TNode>,
+	parent: HierarchyNode<TNode>,
 	before: TNode | null,
 ): void;
 
 export function Show<TNode>(
 	jsx: NonNullable<JsxResult>,
-	parent: HierarchyNodeInternal<TNode>,
+	parent: HierarchyNode<TNode>,
 	before: TNode | null,
 ) {
 	const when = jsx.when as MaybeAtom<boolean> | undefined;

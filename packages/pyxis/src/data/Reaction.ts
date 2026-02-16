@@ -1,6 +1,6 @@
 import type { Nil } from "~/support/types";
 
-import { getLifecycle, onUnmounted, type LifecycleInternal } from "./Lifecycle";
+import { getLifecycle, onUnmounted, type Lifecycle } from "./Lifecycle";
 import { link, unlink, type Dependency, type DependencyList } from "./Dependency";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
@@ -8,15 +8,29 @@ export interface ReactionBlock {
 	(): (() => void) | void;
 }
 
-/** @internal */
 export interface Reaction<T> {
-	readonly $lifecycle: LifecycleInternal;
+	/** @internal */
+	readonly $lifecycle: Lifecycle;
+
+	/** @internal */
 	readonly $block: () => T;
+
+	/** @internal */
 	readonly $react: (reaction: this, epoch: number) => void;
+
+	/** @internal */
 	$epoch: number;
+
+	/** @internal */
 	$willUnmount?: boolean;
+
+	/** @internal */
 	$deps?: WeakMap<DependencyList, ReactionDependency>;
+
+	/** @internal */
 	$resolve?: UpdateCallback<[ reaction: Reaction<T> ]>;
+
+	/** @internal */
 	$dispose?: Nil<() => void>;
 }
 
@@ -31,7 +45,7 @@ export type ReactionDependency = Dependency<[ reaction: Reaction<any>, epoch: nu
  */
 export function reaction(block: ReactionBlock, lifecycle = getLifecycle()) {
 	runReaction({
-		$lifecycle: lifecycle as LifecycleInternal,
+		$lifecycle: lifecycle,
 		$block: block,
 		$react: scheduleReaction,
 		$epoch: 1,

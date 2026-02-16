@@ -1,8 +1,8 @@
 import type { Nil } from "~/support/types";
 
-import { notify, S_ATOM, type Atom, type AtomInternal } from "./Atom";
+import { notify, S_ATOM, type Atom } from "./Atom";
 import { link, unlink, type Dependency } from "./Dependency";
-import { getLifecycle, type LifecycleInternal } from "./Lifecycle";
+import { getLifecycle } from "./Lifecycle";
 
 /**
  * Describes a Context distributing data throughout the Component hierarchy.
@@ -58,9 +58,9 @@ export function setCurrentContainer(container: ContextContainer | undefined) {
 }
 
 
-interface ContextAtomInternal<T> extends AtomInternal<T> {
+interface ContextAtom<T> extends Atom<T> {
 	$dep?: Nil<Dependency>;
-	$ancestor?: Nil<AtomInternal<T>>;
+	$ancestor?: Nil<Atom<T>>;
 	$value?: T;
 }
 
@@ -68,7 +68,7 @@ function getReadOnlyContext<T>(context: Context<T>) {
 	const { $symbol } = context;
 	let ptr: Nil<ContextContainer> = currentContainer;
 	let atom;
-	while (ptr && !(atom = ptr[$symbol] as AtomInternal<T> | undefined)) {
+	while (ptr && !(atom = ptr[$symbol] as Atom<T> | undefined)) {
 		ptr = ptr.$parent;
 	}
 
@@ -87,8 +87,8 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 		};
 	}
 
-	const lifecycle = getLifecycle() as LifecycleInternal;
-	const localAtom: ContextAtomInternal<T> = {
+	const lifecycle = getLifecycle();
+	const localAtom: ContextAtom<T> = {
 		[S_ATOM]: true,
 		$lifecycle: lifecycle,
 		$tracksValue: true,
@@ -113,15 +113,15 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 	return localAtom;
 }
 
-function getAncestorValue<T>(this: ContextAtomInternal<T>) {
+function getAncestorValue<T>(this: ContextAtom<T>) {
 	return this.$ancestor!.$get();
 }
 
-function getLocalValue<T>(this: ContextAtomInternal<T>) {
+function getLocalValue<T>(this: ContextAtom<T>) {
 	return this.$value!;
 }
 
-function setValue<T>(this: ContextAtomInternal<T>, value: T) {
+function setValue<T>(this: ContextAtom<T>, value: T) {
 	let oldValue = this.$value;
 	if (this.$ancestor) {
 		oldValue = this.$ancestor.$get();

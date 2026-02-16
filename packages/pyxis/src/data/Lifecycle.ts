@@ -4,15 +4,17 @@ import type { ArgsMax5, Callback, Nil } from "~/support/types";
 import type { DependencyList } from "./Dependency";
 import type { Scheduler } from "./Scheduler";
 
-export interface Lifecycle {
+export interface Lifecycle extends DependencyList {
 	/** whether this Lifecycle is currently mounted or not */
 	mounted: boolean;
-}
 
-/** @internal */
-export interface LifecycleInternal extends Lifecycle, DependencyList {
+	/** @internal */
 	readonly $scheduler: Scheduler;
+
+	/** @internal */
 	$onMount?: Nil<Callback[]>;
+
+	/** @internal */
 	$onUnmount?: Nil<Callback[]>;
 }
 
@@ -32,7 +34,7 @@ export interface UnmountBlock {
  * @see {@link unmounted}
  */
 export function mounted(block: MountBlock, lifecycle = getLifecycle()) {
-	onMounted(lifecycle as LifecycleInternal, {
+	onMounted(lifecycle, {
 		$fn: invokeMountedCallback,
 		$a0: lifecycle,
 		$a1: block,
@@ -40,11 +42,11 @@ export function mounted(block: MountBlock, lifecycle = getLifecycle()) {
 }
 
 /** @internal */
-export function onMounted(lifecycle: LifecycleInternal, callback: Callback) {
+export function onMounted(lifecycle: Lifecycle, callback: Callback) {
 	(lifecycle.$onMount ??= []).push(callback);
 }
 
-function invokeMountedCallback(lifecycle: LifecycleInternal, block: MountBlock) {
+function invokeMountedCallback(lifecycle: Lifecycle, block: MountBlock) {
 	const dispose = block();
 	if (dispose) {
 		onUnmounted(lifecycle, { $fn: dispose });
@@ -57,11 +59,11 @@ function invokeMountedCallback(lifecycle: LifecycleInternal, block: MountBlock) 
  * @see {@link mounted}
  */
 export function unmounted(block: UnmountBlock, lifecycle = getLifecycle()) {
-	onUnmounted(lifecycle as LifecycleInternal, { $fn: block });
+	onUnmounted(lifecycle, { $fn: block });
 }
 
 /** @internal */
-export function onUnmounted(lifecycle: LifecycleInternal, callback: Callback) {
+export function onUnmounted(lifecycle: Lifecycle, callback: Callback) {
 	(lifecycle.$onUnmount ??= []).push(callback);
 }
 
@@ -102,14 +104,14 @@ export function withLifecycle(
 }
 
 /** @internal */
-export function notifyMounted(lifecycle: LifecycleInternal) {
+export function notifyMounted(lifecycle: Lifecycle) {
 	lifecycle.mounted = true;
 	invokeAll(lifecycle.$onMount);
 	lifecycle.$onMount = null;
 }
 
 /** @internal */
-export function notifyUnmounted(lifecycle: LifecycleInternal) {
+export function notifyUnmounted(lifecycle: Lifecycle) {
 	lifecycle.mounted = false;
 
 	// unlink all contextual dependencies

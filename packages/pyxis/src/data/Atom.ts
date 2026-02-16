@@ -1,9 +1,10 @@
 import { invoke } from "~/support/common";
 
-import { getLifecycle, type Lifecycle, type LifecycleInternal } from "./Lifecycle";
+import { getLifecycle, type Lifecycle } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
 import { reportAccess } from "./Reaction";
 import { schedule, type UpdateCallback } from "./Scheduler";
+import type { Nil } from "~/support/types";
 
 /**
  * Pyxis Atom type guard marker.
@@ -17,7 +18,7 @@ export const S_ATOM: unique symbol = __DEV__ ? Symbol.for("pyxis:atom") : Symbol
  * @see {@link read}
  * @see {@link write}
  */
-export interface Atom<T = unknown> {
+export interface Atom<T = unknown> extends DependencyList {
 	/**
 	 * Pyxis Atom type guard marker.
 	 */
@@ -28,32 +29,33 @@ export interface Atom<T = unknown> {
 	 * @deprecated **Type only, does not exist at runtime!**
 	 */
 	readonly __type?: T;
-}
 
-/** @internal */
-export interface AtomInternal<T> extends Atom<T>, DependencyList {
-	readonly $lifecycle: LifecycleInternal;
+	/** @internal */
+	readonly $lifecycle: Lifecycle;
 	readonly $tracksValue?: boolean;
 	$lastValue?: T;
 
 	/**
 	 * The notify callback of this Atom.
+	 * @internal
 	 */
-	$notify?: UpdateCallback<[ self: AtomInternal<T> ]>;
+	$notify?: UpdateCallback<[ self: Atom<T> ]>;
 
 	/**
 	 * Gets the value of this Atom.
+	 * @internal
 	 */
 	$get: () => T;
 
 	/**
 	 * Sets the value of this Atom. Does nothing if this Atom is readonly.
 	 * @returns Boolean indicating whether the value of this Atom changed.
+	 * @internal
 	 */
 	$set: (value: T) => boolean;
 }
 
-interface DirectAtom<T> extends AtomInternal<any> {
+interface DirectAtom<T> extends Atom<any> {
 	$value: T;
 }
 
@@ -66,9 +68,6 @@ interface DirectAtom<T> extends AtomInternal<any> {
  */
 export type MaybeAtom<T> = Atom<T> | T;
 
-/** @internal */
-export type MaybeAtomInternal<T> = AtomInternal<T> | T;
-
 /**
  * Creates an empty Atom; i.e. value set to `undefined`.
  */
@@ -79,16 +78,16 @@ export function atom<T>(): Atom<T | undefined>;
  * is returned as-is.
  * @see {@link isAtom}
  */
-export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T>;
+export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T | undefined>;
 
-export function atom<T>(initialValue?: MaybeAtomInternal<T>, lifecycle = getLifecycle()) {
+export function atom<T>(initialValue?: MaybeAtom<T>, lifecycle = getLifecycle()) {
 	return isAtom(initialValue)
 		? initialValue
 		: {
 			[S_ATOM]: true,
-			$value: initialValue!,
+			$value: initialValue as T,
 			$tracksValue: true,
-			$lifecycle: lifecycle as LifecycleInternal,
+			$lifecycle: lifecycle,
 			$lastValue: initialValue,
 			$get: getValue,
 			$set: setValue,
@@ -111,7 +110,7 @@ function setValue<T>(this: DirectAtom<T>, value: T) {
 /**
  * Atom type guard, checks if the provided input is an Atom.
  */
-export function isAtom<T = unknown>(input: MaybeAtom<T>): input is Atom<T> {
+export function isAtom<T = unknown>(input: Nil<MaybeAtom<T>>): input is Atom<T> {
 	return (
 		input !== null &&
 		typeof input === "object" &&
@@ -127,8 +126,11 @@ export function isAtom<T = unknown>(input: MaybeAtom<T>): input is Atom<T> {
  * @see {@link peek}
  * @see {@link update}
  */
-export function read<T>(input: MaybeAtom<T>): T
-export function read<T>(input: MaybeAtomInternal<T>): T {
+export function read<T>(input: MaybeAtom<T>): T;
+export function read<T>(input: MaybeAtom<T> | undefined): T | undefined;
+export function read<T>(input: MaybeAtom<T> | null): T | null;
+export function read<T>(input: Nil<MaybeAtom<T>>): Nil<T>;
+export function read<T>(input: MaybeAtom<T>) {
 	if (isAtom<T>(input)) {
 		reportAccess(input);
 		return input.$get();
@@ -145,8 +147,11 @@ export function read<T>(input: MaybeAtomInternal<T>): T {
  * @see {@link write}
  * @see {@link update}
  */
-export function peek<T>(input: MaybeAtom<T>): T
-export function peek<T>(input: MaybeAtomInternal<T>): T {
+export function peek<T>(input: MaybeAtom<T>): T;
+export function peek<T>(input: MaybeAtom<T> | undefined): T | undefined;
+export function peek<T>(input: MaybeAtom<T> | null): T | null;
+export function peek<T>(input: Nil<MaybeAtom<T>>): Nil<T>;
+export function peek<T>(input: MaybeAtom<T>): T {
 	if (isAtom<T>(input)) {
 		return input.$get();
 	}
@@ -164,8 +169,11 @@ export function peek<T>(input: MaybeAtomInternal<T>): T {
  * @see {@link write}
  * @see {@link update}
  */
-export function write<T>(input: MaybeAtom<T>, value: T): T
-export function write<T>(input: MaybeAtomInternal<T>, value: T): T {
+export function write<T>(input: MaybeAtom<T>, value: T): T;
+export function write<T>(input: MaybeAtom<T> | undefined, value: T): T | undefined;
+export function write<T>(input: MaybeAtom<T> | null, value: T): T | null;
+export function write<T>(input: Nil<MaybeAtom<T>>, value: T): Nil<T>;
+export function write<T>(input: MaybeAtom<T>, value: T): T {
 	if (isAtom(input)) {
 		if (input.$set(value)) {
 			schedule(input.$lifecycle, input.$notify ??= {
@@ -190,8 +198,11 @@ export function write<T>(input: MaybeAtomInternal<T>, value: T): T {
  * @see {@link peek}
  * @see {@link write}
  */
-export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T
-export function update<T>(input: MaybeAtomInternal<T>, transform: (value: T) => T): T {
+export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T;
+export function update<T>(input: MaybeAtom<T> | undefined, transform: (value: T) => T): T | undefined;
+export function update<T>(input: MaybeAtom<T> | null, transform: (value: T) => T): T | null;
+export function update<T>(input: Nil<MaybeAtom<T>>, transform: (value: T) => T): Nil<T>;
+export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T {
 	if (isAtom(input)) {
 		if (input.$set(transform(input.$get()))) {
 			schedule(input.$lifecycle, input.$notify ??= {
@@ -210,7 +221,7 @@ export function update<T>(input: MaybeAtomInternal<T>, transform: (value: T) => 
  * Notifies the dependencies of an Atom.
  * @internal
  */
-export function notify<T>(input: AtomInternal<T>) {
+export function notify<T>(input: Atom<T>) {
 	// optimization: when Atom changes multiple times within a single update and ends up with the
 	// same value it started with, the notification is skipped
 	if (input.$tracksValue) {

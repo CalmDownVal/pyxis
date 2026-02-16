@@ -2,7 +2,7 @@ import type { S_TAG_NAME } from "~/component/Native";
 import { getCurrentContainer, setCurrentContainer } from "~/data/Context";
 import type { Nil, PropsType } from "~/support/types";
 
-import { mountJsx, S_COMPONENT, type HierarchyNodeInternal } from "./Renderer";
+import { mountJsx, S_COMPONENT, type HierarchyNode } from "./Renderer";
 
 /**
  * Represents a Pyxis Component function responsible for setting up a view model and returning a
@@ -113,7 +113,7 @@ export type WithChildren<T extends PropsType> = { children: JsxChildren } & T;
 export interface ComponentHandler {
 	<TNode>(
 		jsx: NonNullable<JsxResult>,
-		parent: HierarchyNodeInternal<TNode>,
+		parent: HierarchyNode<TNode>,
 		before: TNode | null,
 	): void;
 }

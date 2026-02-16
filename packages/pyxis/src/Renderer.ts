@@ -1,4 +1,4 @@
-import { notifyMounted, notifyUnmounted, onMounted, withLifecycle, type LifecycleInternal, type Lifecycle } from "~/data/Lifecycle";
+import { notifyMounted, notifyUnmounted, onMounted, withLifecycle, type Lifecycle } from "~/data/Lifecycle";
 import { createScheduler } from "~/data/Scheduler";
 import type { ElementsType, Mutable, Nil } from "~/support/types";
 
@@ -25,81 +25,107 @@ export type ElementsOf<TRenderer> = TRenderer extends { readonly __elements?: in
 	: {};
 
 
-export interface MountingGroup<TNode = any> extends Lifecycle, Hierarchy<typeof K_GROUP> {
-	/** the Adapter usable with this MountingGroup */
-	readonly adapter: Adapter<TNode>;
-}
-
-/** @internal */
-export interface MountingGroupInternal<TNode = any> extends MountingGroup<TNode>, HierarchyInternal<typeof K_GROUP, TNode>, LifecycleInternal {
-	readonly $extensions: ExtensionsType<TNode>;
-	readonly $context?: ContextContainer;
-
-	/** the first node in the unmount linked list */
-	$uh?: Nil<HierarchyNodeInternal<TNode>>;
-
-	/** the last node in the unmount linked list */
-	$ut?: Nil<HierarchyNodeInternal<TNode>>;
-}
-
-
-export interface NativeNode extends Hierarchy<typeof K_NATIVE> {}
-
-/** @internal */
-export interface NativeNodeInternal<TNode = any> extends NativeNode, HierarchyInternal<typeof K_NATIVE, TNode> {}
-
-
 const K_NATIVE = 1;
 const K_GROUP = 2;
 
-export interface Hierarchy<TKind> {
-	readonly kind: TKind;
+export interface MountingGroup<TNode> extends Lifecycle, Hierarchy<typeof K_GROUP, TNode> {
+	/** the Adapter usable with this MountingGroup */
+	readonly adapter: Adapter<TNode>;
+
+	/** @internal */
+	readonly $extensions: ExtensionsType<TNode>;
+
+	/** @internal */
+	readonly $context?: ContextContainer;
+
+	/**
+	 * the first node in the unmount linked list
+	 * @internal
+	 */
+	$uh?: Nil<HierarchyNode<TNode>>;
+
+	/**
+	 * the last node in the unmount linked list
+	 * @internal
+	 */
+	$ut?: Nil<HierarchyNode<TNode>>;
 }
 
-/** @internal */
-interface HierarchyInternal<TKind, TNode> extends Hierarchy<TKind> {
-	/** the ancestor group this node belongs to */
-	readonly $pg?: MountingGroupInternal<TNode>;
+export interface NativeNode<TNode> extends Hierarchy<typeof K_NATIVE, TNode> {
+}
 
-	/** the immediate hierarchy parent node this node belongs to */
-	readonly $ph?: HierarchyNodeInternal<TNode>;
+export interface Hierarchy<TKind, TNode> {
+	readonly kind: TKind;
 
-	/** the nearest mounting group (could be self) */
-	readonly $ng: MountingGroupInternal<TNode>;
+	/**
+	 * the ancestor group this node belongs to
+	 * @internal
+	 */
+	readonly $pg?: MountingGroup<TNode>;
 
-	/** the nearest native node (could be self) to which children should be inserted */
+	/**
+	 * the immediate hierarchy parent node this node belongs to
+	 * @internal
+	 */
+	readonly $ph?: HierarchyNode<TNode>;
+
+	/**
+	 * the nearest mounting group (could be self)
+	 * @internal
+	 */
+	readonly $ng: MountingGroup<TNode>;
+
+	/**
+	 * the nearest native node (could be self) to which children should be inserted
+	 * @internal
+	 */
 	readonly $nn: TNode;
 
-	/** the first child within this hierarchy */
-	$hh?: Nil<HierarchyNodeInternal<TNode>>;
+	/**
+	 * the first child within this hierarchy
+	 * @internal
+	 */
+	$hh?: Nil<HierarchyNode<TNode>>;
 
-	/** the last child within this hierarchy */
-	$ht?: Nil<HierarchyNodeInternal<TNode>>;
+	/**
+	 * the last child within this hierarchy
+	 * @internal
+	 */
+	$ht?: Nil<HierarchyNode<TNode>>;
 
-	/** the previous sibling within this hierarchy */
-	$hp?: Nil<HierarchyNodeInternal<TNode>>;
+	/**
+	 * the previous sibling within this hierarchy
+	 * @internal
+	 */
+	$hp?: Nil<HierarchyNode<TNode>>;
 
-	/** the next sibling within this hierarchy */
-	$hn?: Nil<HierarchyNodeInternal<TNode>>;
+	/**
+	 * the next sibling within this hierarchy
+	 * @internal
+	 */
+	$hn?: Nil<HierarchyNode<TNode>>;
 
-	/** the previous node in the unmount linked list */
-	$up?: Nil<HierarchyNodeInternal<TNode>>;
+	/**
+	 * the previous node in the unmount linked list
+	 * @internal
+	 */
+	$up?: Nil<HierarchyNode<TNode>>;
 
-	/** the next node in the unmount linked list */
-	$un?: Nil<HierarchyNodeInternal<TNode>>;
+	/**
+	 * the next node in the unmount linked list
+	 * @internal
+	 */
+	$un?: Nil<HierarchyNode<TNode>>;
 }
 
-export type HierarchyNode<TNode> = NativeNode | MountingGroup<TNode>;
-
-/** @internal */
-export type HierarchyNodeInternal<TNode> = NativeNodeInternal<TNode> | MountingGroupInternal<TNode>;
+export type HierarchyNode<TNode> = NativeNode<TNode> | MountingGroup<TNode>;
 
 /** @internal */
 export function createRenderer<TNode, TIntrinsicElements extends ElementsType>(
 	adapter: Adapter<TNode>,
 	extensions: ExtensionsType<TNode>,
 ): Renderer<TNode, TIntrinsicElements> {
-	const group: Mutable<MountingGroupInternal<TNode> & Renderer<TNode, TIntrinsicElements>> = {
+	const group: Mutable<MountingGroup<TNode> & Renderer<TNode, TIntrinsicElements>> = {
 		kind: K_GROUP,
 		mounted: false,
 		adapter: adapter,
@@ -122,20 +148,13 @@ export function createRenderer<TNode, TIntrinsicElements extends ElementsType>(
  * Creates a sub-group of the provided MountingGroup. Needed whenever a subtree
  * may need to dynamically re-render or unmount entirely.
  */
-// @ts-expect-error public API hides internals
 export function split<TNode>(
 	parent: HierarchyNode<TNode>,
-	before?: Nil<HierarchyNode<TNode>>,
+	before: Nil<HierarchyNode<TNode>> = null,
 	adapter?: Adapter<TNode>,
-): MountingGroup<TNode>;
-
-export function split<TNode>(
-	parent: HierarchyNodeInternal<TNode>,
-	before: HierarchyNodeInternal<TNode> | null = null,
-	adapter?: Adapter<TNode>,
-) {
+): MountingGroup<TNode> {
 	const group = parent.$ng;
-	const subGroup: Mutable<MountingGroupInternal<TNode>> = {
+	const subGroup: Mutable<MountingGroup<TNode>> = {
 		mounted: false,
 		adapter: adapter ?? group.adapter,
 		$scheduler: group.$scheduler,
@@ -157,17 +176,10 @@ export function split<TNode>(
  * Adds a MountingGroup to the tracking hierarchy. Necessary to preserve
  * rendering order.
  */
-// @ts-expect-error public API hides internals
 export function track<TNode>(
 	node: HierarchyNode<TNode>,
 	parent: HierarchyNode<TNode>,
-	before?: Nil<HierarchyNode<TNode>>,
-): void;
-
-export function track<TNode>(
-	node: HierarchyNodeInternal<TNode>,
-	parent: HierarchyNodeInternal<TNode>,
-	before: Nil<HierarchyNodeInternal<TNode>> = null,
+	before: Nil<HierarchyNode<TNode>> = null,
 ) {
 	// insert into hierarchy before given sibling
 	if (before?.$ph === parent) {
@@ -215,9 +227,7 @@ export function track<TNode>(
  * Removes a MountingGroup from the tracking hierarchy. Necessary to call before
  * a group is disposed of to preserve rendering order.
  */
-// @ts-expect-error public API hides internals
-export function untrack<TNode>(node: MountingGroup<TNode>): void;
-export function untrack<TNode>(node: MountingGroupInternal<TNode>) {
+export function untrack<TNode>(node: MountingGroup<TNode>) {
 	// remove from hierarchy
 	if (node.$hp) {
 		node.$hp.$hn = node.$hn;
@@ -259,21 +269,13 @@ export function untrack<TNode>(node: MountingGroupInternal<TNode>) {
  * Inserts a native node and dds it to the tracking hierarchy. Necessary to
  * preserve render order.
  */
-// @ts-expect-error public API hides internals
 export function insert<TNode>(
 	node: TNode,
 	jsx: unknown,
 	parent: HierarchyNode<TNode>,
-	before?: Nil<TNode>,
-): HierarchyNode<TNode>;
-
-export function insert<TNode>(
-	node: TNode,
-	jsx: unknown,
-	parent: HierarchyNodeInternal<TNode>,
 	before: Nil<TNode> = null,
 ) {
-	const hNode: NativeNodeInternal<TNode> = {
+	const hNode: NativeNode<TNode> = {
 		kind: K_NATIVE,
 		$pg: parent.$ng,
 		$ph: parent,
@@ -291,10 +293,7 @@ export function insert<TNode>(
  * Gets the effective next native sibling node for the given group to anchor
  * against.
  */
-// @ts-expect-error public API hides internals
-export function getAnchor<TNode>(group: MountingGroup<TNode>): TNode | null;
-
-export function getAnchor<TNode>(group: MountingGroupInternal<TNode>): TNode | null {
+export function getAnchor<TNode>(group: MountingGroup<TNode>): TNode | null {
 	let current = group.$hn; // don't check self, start from next sibling
 	let node;
 	while (current) {
@@ -318,7 +317,6 @@ export function getAnchor<TNode>(group: MountingGroupInternal<TNode>): TNode | n
  * group is already mounted, it is moved to the new location without re-mounting
  * its components.
  */
-// @ts-expect-error public API hides internals
 export function mount<TNode>(
 	group: MountingGroup<TNode>,
 	template: Template,
@@ -334,8 +332,8 @@ export function mount<TNode, TData>(
 ): void;
 
 export function mount<TNode>(
-	group: MountingGroupInternal<TNode>,
-	template: Template | DataTemplate<any>,
+	group: MountingGroup<TNode>,
+	template: DataTemplate<any>,
 	data: any,
 	before?: Nil<TNode>,
 ) {
@@ -365,10 +363,7 @@ export function mount<TNode>(
  * Unmounts a MountingGroup from the node tree. The group remains usable and can
  * be remounted later.
  */
-// @ts-expect-error public API hides internals
-export function unmount(group: MountingGroup): void;
-
-export function unmount(group: MountingGroupInternal) {
+export function unmount<TNode>(group: MountingGroup<TNode>) {
 	if (!group.mounted) {
 		return;
 	}
@@ -401,16 +396,9 @@ export function unmount(group: MountingGroupInternal) {
  * Mounts components described by the JsxResult to the specified location in the
  * node tree.
  */
-// @ts-expect-error public API hides internals
 export function mountJsx<TNode>(
 	jsx: unknown,
 	parent: HierarchyNode<TNode>,
-	before: TNode | null,
-): void;
-
-export function mountJsx<TNode>(
-	jsx: unknown,
-	parent: HierarchyNodeInternal<TNode>,
 	before: TNode | null,
 ) {
 	if (jsx === null || jsx === undefined) {
@@ -429,7 +417,7 @@ export function mountJsx<TNode>(
 	}
 }
 
-function reinsertNodes<TNode>(group: MountingGroupInternal<TNode>, parent: TNode, before: TNode | null) {
+function reinsertNodes<TNode>(group: MountingGroup<TNode>, parent: TNode, before: TNode | null) {
 	const { adapter } = group;
 	let current = group.$hh;
 
@@ -447,7 +435,7 @@ function reinsertNodes<TNode>(group: MountingGroupInternal<TNode>, parent: TNode
 	}
 }
 
-function first<TNode>(node: HierarchyNodeInternal<TNode>): TNode | null {
+function first<TNode>(node: HierarchyNode<TNode>): TNode | null {
 	if (node.kind === K_NATIVE) {
 		return node.$nn;
 	}

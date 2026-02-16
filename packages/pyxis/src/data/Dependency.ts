@@ -1,34 +1,53 @@
 import type { ArgsMax2, Callback, Nil } from "~/support/types";
 
-import type { LifecycleInternal } from "./Lifecycle";
+import type { Lifecycle } from "./Lifecycle";
 
 /**
  * A dependency callback of an Atom. The callback will be run whenever the relevant Atom changes.
- * @internal
  */
 export interface Dependency<TArgs extends ArgsMax2 = ArgsMax2> extends Callback<TArgs> {
+	/** @internal */
 	$lifecycle?: Nil<DependencyList>;
+
+	/** @internal */
 	$target?: Nil<DependencyList<TArgs>>;
 
-	/** Previous Dependency within an Atom's dependency list. */
+	/**
+	 * Previous Dependency within an Atom's dependency list.
+	 * @internal
+	 */
 	$ap?: Nil<Dependency<TArgs>>;
 
-	/** Next Dependency within an Atom's dependency list. */
+	/**
+	 * Next Dependency within an Atom's dependency list.
+	 * @internal
+	 */
 	$an?: Nil<Dependency<TArgs>>;
 
-	/** Previous Dependency within a Lifecycle's dependency list. */
+	/**
+	 * Previous Dependency within a Lifecycle's dependency list.
+	 * @internal
+	 */
 	$lp?: Nil<Dependency>;
 
-	/** Next Dependency within an Lifecycle's dependency list. */
+	/**
+	 * Next Dependency within an Lifecycle's dependency list.
+	 * @internal
+	 */
 	$ln?: Nil<Dependency>;
 }
 
-/** @internal */
 export interface DependencyList<TArgs extends ArgsMax2 = ArgsMax2> {
-	/** The head of the dependencies linked list. */
+	/**
+	 * The head of the dependencies linked list.
+	 * @internal
+	 */
 	$dh?: Nil<Dependency<TArgs>>;
 
-	/** The tail of the dependencies linked list. */
+	/**
+	 * The tail of the dependencies linked list.
+	 * @internal
+	 */
 	$dt?: Nil<Dependency<TArgs>>;
 }
 
@@ -36,7 +55,7 @@ export interface DependencyList<TArgs extends ArgsMax2 = ArgsMax2> {
  * Links a Dependency to an Atom and Lifecycle.
  * @internal
  */
-export function link<TArgs extends ArgsMax2>(lifecycle: LifecycleInternal, target: DependencyList<TArgs>, dep: Dependency<TArgs>) {
+export function link<TArgs extends ArgsMax2>(lifecycle: Lifecycle, target: DependencyList<TArgs>, dep: Dependency<TArgs>) {
 	// link to target
 	if (target.$dt) {
 		target.$dt.$an = dep;

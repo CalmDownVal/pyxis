@@ -1088,7 +1088,7 @@ export type SVGStyleElementProps = SVGMinProps<SVGStyleElement>;
  * @bake
  * @extends SVGBaseProps
  */
-export type SVGSVGBaseProps = SVGMinProps<SVGSVGElement>;
+export type SVGSVGElementProps = SVGMinProps<SVGSVGElement>;
 
 /**
  * @bake

@@ -1,4 +1,4 @@
-import type { Adapter, JsxResult } from "@calmdown/pyxis";
+import type { Adapter } from "@calmdown/pyxis";
 
 import { PROP_MAP } from "../jsx/mapping";
 import type { IntrinsicElements } from "../jsx/baked";
@@ -12,7 +12,7 @@ export const DomAdapter: Adapter<Node, IntrinsicElements> = {
 	tick: queueMicrotask,
 };
 
-function native(tagName: string, jsx: NonNullable<JsxResult>) {
+function native(tagName: string) {
 	return document.createElement(tagName);
 }
 
