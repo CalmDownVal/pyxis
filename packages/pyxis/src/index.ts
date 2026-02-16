@@ -1,5 +1,6 @@
 export { Fragment, type FragmentProps } from "~/component/Fragment";
 export { Iterator, type ProxyIteratorProps, type RemountIteratorProps } from "~/component/Iterator";
+export { Native } from "~/component/Native";
 export { Show, type ShowProps } from "~/component/Show";
 
 export { atom, isAtom, peek, read, update, write, type Atom, type MaybeAtom, type S_ATOM } from "~/data/Atom";

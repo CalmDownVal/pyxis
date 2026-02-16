@@ -59,13 +59,16 @@ export interface Hierarchy<TKind> {
 /** @internal */
 interface HierarchyInternal<TKind, TNode> extends Hierarchy<TKind> {
 	/** the ancestor group this node belongs to */
-	readonly $pg: MountingGroupInternal<TNode>;
+	readonly $pg?: MountingGroupInternal<TNode>;
 
 	/** the immediate hierarchy parent node this node belongs to */
-	readonly $ph: HierarchyNodeInternal<TNode>;
+	readonly $ph?: HierarchyNodeInternal<TNode>;
 
-	/** the native node to which children should be inserted */
-	readonly $pn: TNode;
+	/** the nearest mounting group (could be self) */
+	readonly $ng: MountingGroupInternal<TNode>;
+
+	/** the nearest native node (could be self) to which children should be inserted */
+	readonly $nn: TNode;
 
 	/** the first child within this hierarchy */
 	$hh?: Nil<HierarchyNodeInternal<TNode>>;
@@ -102,18 +105,16 @@ export function createRenderer<TNode, TIntrinsicElements extends ElementsType>(
 		adapter: adapter,
 		$scheduler: createScheduler(adapter.tick),
 		$extensions: extensions,
-		$pg: null!,
-		$ph: null!,
-		$pn: null!,
+		$ng: null!,
+		$nn: null!,
 		unmount: () => unmount(group),
 		mount: (root, template) => {
-			group.$pn = root;
+			group.$nn = root;
 			mount(group, template, null);
 		},
 	};
 
-	group.$pg = group;
-	group.$ph = group;
+	group.$ng = group;
 	return group;
 }
 
@@ -125,25 +126,29 @@ export function createRenderer<TNode, TIntrinsicElements extends ElementsType>(
 export function split<TNode>(
 	parent: HierarchyNode<TNode>,
 	before?: Nil<HierarchyNode<TNode>>,
+	adapter?: Adapter<TNode>,
 ): MountingGroup<TNode>;
 
 export function split<TNode>(
 	parent: HierarchyNodeInternal<TNode>,
 	before: HierarchyNodeInternal<TNode> | null = null,
+	adapter?: Adapter<TNode>,
 ) {
-	const group = parent.kind === K_GROUP ? parent : parent.$pg;
-	const subGroup: MountingGroupInternal<TNode> = {
+	const group = parent.$ng;
+	const subGroup: Mutable<MountingGroupInternal<TNode>> = {
 		mounted: false,
-		adapter: group.adapter,
+		adapter: adapter ?? group.adapter,
 		$scheduler: group.$scheduler,
 		$extensions: group.$extensions,
 		$context: getCurrentContainer(),
 		$pg: group,
 		$ph: parent,
-		$pn: parent.$pn,
+		$ng: null!,
+		$nn: parent.$nn,
 		kind: K_GROUP,
 	};
 
+	subGroup.$ng = subGroup;
 	track(subGroup, parent, before);
 	return subGroup;
 }
@@ -217,14 +222,14 @@ export function untrack<TNode>(node: MountingGroupInternal<TNode>) {
 	if (node.$hp) {
 		node.$hp.$hn = node.$hn;
 	}
-	else if (node.$ph.$hh === node) {
+	else if (node.$ph?.$hh === node) {
 		node.$ph.$hh = node.$hn;
 	}
 
 	if (node.$hn) {
 		node.$hn.$hp = node.$hp;
 	}
-	else if (node.$ph.$ht === node) {
+	else if (node.$ph?.$ht === node) {
 		node.$ph.$ht = node.$hp;
 	}
 
@@ -235,14 +240,14 @@ export function untrack<TNode>(node: MountingGroupInternal<TNode>) {
 	if (node.$up) {
 		node.$up.$un = node.$un;
 	}
-	else if (node.$pg.$uh === node) {
+	else if (node.$pg?.$uh === node) {
 		node.$pg.$uh = node.$un;
 	}
 
 	if (node.$un) {
 		node.$un.$up = node.$up;
 	}
-	else if (node.$pg.$ut === node) {
+	else if (node.$pg?.$ut === node) {
 		node.$pg.$ut = node.$up;
 	}
 
@@ -270,14 +275,15 @@ export function insert<TNode>(
 ) {
 	const hNode: NativeNodeInternal<TNode> = {
 		kind: K_NATIVE,
-		$pg: parent.kind === K_GROUP ? parent : parent.$pg,
+		$pg: parent.$ng,
 		$ph: parent,
-		$pn: node,
+		$ng: parent.$ng,
+		$nn: node,
 	};
 
 	track(hNode, parent);
 	mountJsx(jsx, hNode, null);
-	parent.$pg.adapter.insert(node, parent.$pn, before);
+	parent.$ng.adapter.insert(node, parent.$nn, before);
 	return hNode;
 }
 
@@ -302,7 +308,7 @@ export function getAnchor<TNode>(group: MountingGroupInternal<TNode>): TNode | n
 	// checked all siblings to no avail
 	// ... within a node or top level? -> ok to append at the end (null)
 	// ... otherwise check upwards
-	return group.$ph.kind === K_NATIVE || group.$ph === group
+	return !group.$ph || group.$ph?.kind === K_NATIVE
 		? null
 		: getAnchor(group.$ph);
 }
@@ -335,7 +341,7 @@ export function mount<TNode>(
 ) {
 	if (group.mounted) {
 		// already mounted -> move nodes
-		reinsertNodes(group, group.$pn, before ?? getAnchor(group));
+		reinsertNodes(group, group.$nn, before ?? getAnchor(group));
 		return;
 	}
 
@@ -344,7 +350,7 @@ export function mount<TNode>(
 	setCurrentContainer(group.$context);
 	withLifecycle(group, mountJsx, jsx, group, before ?? getAnchor(group));
 
-	if (group.$pg.kind === K_GROUP && group.$pg !== group && !group.$pg.mounted) {
+	if (group.$pg?.mounted === false) {
 		onMounted(group.$pg, {
 			$fn: notifyMounted,
 			$a0: group,
@@ -378,7 +384,7 @@ export function unmount(group: MountingGroupInternal) {
 			unmount(current);
 		}
 		else {
-			adapter.remove(current.$pn);
+			adapter.remove(current.$nn);
 		}
 
 		tmp = current.$un;
@@ -434,7 +440,7 @@ function reinsertNodes<TNode>(group: MountingGroupInternal<TNode>, parent: TNode
 			}
 		}
 		else {
-			adapter.insert(current.$pn, parent, before);
+			adapter.insert(current.$nn, parent, before);
 		}
 
 		current = current.$hn;
@@ -443,7 +449,7 @@ function reinsertNodes<TNode>(group: MountingGroupInternal<TNode>, parent: TNode
 
 function first<TNode>(node: HierarchyNodeInternal<TNode>): TNode | null {
 	if (node.kind === K_NATIVE) {
-		return node.$pn;
+		return node.$nn;
 	}
 
 	let current = node.$ht;
@@ -455,7 +461,7 @@ function first<TNode>(node: HierarchyNodeInternal<TNode>): TNode | null {
 			}
 		}
 		else {
-			return current.$pn;
+			return current.$nn;
 		}
 
 		current = current.$hn;

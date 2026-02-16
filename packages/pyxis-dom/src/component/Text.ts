@@ -9,13 +9,13 @@ export function Text(props: JsxProps<TextProps>): JsxResult;
 
 /** @internal */
 export function Text(
-	jsx: JsxResult,
+	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNode<Node>,
 	before: Node | null,
 ): void;
 
 export function Text(
-	{ children }: JsxResult,
+	{ children }: NonNullable<JsxResult>,
 	parent: HierarchyNode<Node>,
 	before: Node | null,
 ) {
