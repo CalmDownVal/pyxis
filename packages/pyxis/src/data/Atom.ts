@@ -78,7 +78,7 @@ export function atom<T>(): Atom<T | undefined>;
  * is returned as-is.
  * @see {@link isAtom}
  */
-export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T | undefined>;
+export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T>;
 
 export function atom<T>(initialValue?: MaybeAtom<T>, lifecycle = getLifecycle()) {
 	return isAtom(initialValue)

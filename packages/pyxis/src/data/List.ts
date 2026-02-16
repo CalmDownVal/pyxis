@@ -40,7 +40,7 @@ export interface List<T> extends DependencyList {
  * Creates an empty List. This List emits deltas with each mutation which can be observed by
  * Components to efficiently update the rendered state.
  */
-export function list<T>(source: null | undefined, lifecycle?: Lifecycle): List<T>;
+export function list<T>(source?: null, lifecycle?: Lifecycle): List<T>;
 
 /**
  * Creates a List initialized with items copied from the provided Iterable. This List emits deltas

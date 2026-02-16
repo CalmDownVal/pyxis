@@ -1,24 +1,24 @@
 import { Native, split, type HierarchyNode, type JsxProps, type JsxResult } from "@calmdown/pyxis";
 
-import { SvgAdapter } from "~/adapter/SvgAdapter";
-import type { SVGSVGElementProps } from "~/jsx/baked";
+import { MathMLAdapter } from "~/adapter/MathMLAdapter";
+import type { MathMLMathElementProps } from "~/jsx/baked";
 
 // @ts-expect-error fake overload to allow use with JSX
-export function Svg(props: JsxProps<SVGSVGElementProps>): JsxResult;
+export function MathML(props: JsxProps<MathMLMathElementProps>): JsxResult;
 
 /** @internal */
-export function Svg(
+export function MathML(
 	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNode<Node>,
 	before: Node | null,
 ): void;
 
-export function Svg(
+export function MathML(
 	jsx: NonNullable<JsxResult>,
 	parent: HierarchyNode<Node>,
 	before: Node | null,
 ) {
-	const group = split(parent, null, SvgAdapter);
+	const group = split(parent, null, MathMLAdapter);
 	Native(jsx, group, before);
 	group.mounted = true;
 }

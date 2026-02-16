@@ -440,9 +440,64 @@ export interface CSSStyleDeclarationProps {
 	readonly positionAnchor?: MaybeAtom<string>;
 }
 
-interface HTMLBaseProps {
+export interface ARIAProps {
+	readonly ariaActiveDescendantElement?: Element | null;
+	readonly ariaAtomic?: string | null;
+	readonly ariaAutoComplete?: string | null;
+	readonly ariaBrailleLabel?: string | null;
+	readonly ariaBrailleRoleDescription?: string | null;
+	readonly ariaBusy?: string | null;
+	readonly ariaChecked?: string | null;
+	readonly ariaColCount?: string | null;
+	readonly ariaColIndex?: string | null;
+	readonly ariaColIndexText?: string | null;
+	readonly ariaColSpan?: string | null;
+	readonly ariaControlsElements?: readonly Element[] | null;
+	readonly ariaCurrent?: string | null;
+	readonly ariaDescribedByElements?: readonly Element[] | null;
+	readonly ariaDescription?: string | null;
+	readonly ariaDetailsElements?: readonly Element[] | null;
+	readonly ariaDisabled?: string | null;
+	readonly ariaErrorMessageElements?: readonly Element[] | null;
+	readonly ariaExpanded?: string | null;
+	readonly ariaFlowToElements?: readonly Element[] | null;
+	readonly ariaHasPopup?: string | null;
+	readonly ariaHidden?: string | null;
+	readonly ariaInvalid?: string | null;
+	readonly ariaKeyShortcuts?: string | null;
+	readonly ariaLabel?: string | null;
+	readonly ariaLabelledByElements?: readonly Element[] | null;
+	readonly ariaLevel?: string | null;
+	readonly ariaLive?: string | null;
+	readonly ariaModal?: string | null;
+	readonly ariaMultiLine?: string | null;
+	readonly ariaMultiSelectable?: string | null;
+	readonly ariaOrientation?: string | null;
+	readonly ariaOwnsElements?: readonly Element[] | null;
+	readonly ariaPlaceholder?: string | null;
+	readonly ariaPosInSet?: string | null;
+	readonly ariaPressed?: string | null;
+	readonly ariaReadOnly?: string | null;
+	readonly ariaRelevant?: string | null;
+	readonly ariaRequired?: string | null;
+	readonly ariaRoleDescription?: string | null;
+	readonly ariaRowCount?: string | null;
+	readonly ariaRowIndex?: string | null;
+	readonly ariaRowIndexText?: string | null;
+	readonly ariaRowSpan?: string | null;
+	readonly ariaSelected?: string | null;
+	readonly ariaSetSize?: string | null;
+	readonly ariaSort?: string | null;
+	readonly ariaValueMax?: string | null;
+	readonly ariaValueMin?: string | null;
+	readonly ariaValueNow?: string | null;
+	readonly ariaValueText?: string | null;
+	readonly role?: string | null;
+}
+
+export interface HTMLGlobalProps {
+	readonly children?: JsxChildren;
 	readonly translate?: MaybeAtom<boolean>;
-	readonly children?: MaybeAtom<JsxChildren>;
 	readonly part?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
 	readonly accessKey?: MaybeAtom<string>;
@@ -461,58 +516,6 @@ interface HTMLBaseProps {
 	readonly scrollLeft?: MaybeAtom<number>;
 	readonly scrollTop?: MaybeAtom<number>;
 	readonly slot?: MaybeAtom<string>;
-	readonly ariaActiveDescendantElement?: MaybeAtom<Element | null>;
-	readonly ariaAtomic?: MaybeAtom<string | null>;
-	readonly ariaAutoComplete?: MaybeAtom<string | null>;
-	readonly ariaBrailleLabel?: MaybeAtom<string | null>;
-	readonly ariaBrailleRoleDescription?: MaybeAtom<string | null>;
-	readonly ariaBusy?: MaybeAtom<string | null>;
-	readonly ariaChecked?: MaybeAtom<string | null>;
-	readonly ariaColCount?: MaybeAtom<string | null>;
-	readonly ariaColIndex?: MaybeAtom<string | null>;
-	readonly ariaColIndexText?: MaybeAtom<string | null>;
-	readonly ariaColSpan?: MaybeAtom<string | null>;
-	readonly ariaControlsElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaCurrent?: MaybeAtom<string | null>;
-	readonly ariaDescribedByElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaDescription?: MaybeAtom<string | null>;
-	readonly ariaDetailsElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaDisabled?: MaybeAtom<string | null>;
-	readonly ariaErrorMessageElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaExpanded?: MaybeAtom<string | null>;
-	readonly ariaFlowToElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaHasPopup?: MaybeAtom<string | null>;
-	readonly ariaHidden?: MaybeAtom<string | null>;
-	readonly ariaInvalid?: MaybeAtom<string | null>;
-	readonly ariaKeyShortcuts?: MaybeAtom<string | null>;
-	readonly ariaLabel?: MaybeAtom<string | null>;
-	readonly ariaLabelledByElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaLevel?: MaybeAtom<string | null>;
-	readonly ariaLive?: MaybeAtom<string | null>;
-	readonly ariaModal?: MaybeAtom<string | null>;
-	readonly ariaMultiLine?: MaybeAtom<string | null>;
-	readonly ariaMultiSelectable?: MaybeAtom<string | null>;
-	readonly ariaOrientation?: MaybeAtom<string | null>;
-	readonly ariaOwnsElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaPlaceholder?: MaybeAtom<string | null>;
-	readonly ariaPosInSet?: MaybeAtom<string | null>;
-	readonly ariaPressed?: MaybeAtom<string | null>;
-	readonly ariaReadOnly?: MaybeAtom<string | null>;
-	readonly ariaRelevant?: MaybeAtom<string | null>;
-	readonly ariaRequired?: MaybeAtom<string | null>;
-	readonly ariaRoleDescription?: MaybeAtom<string | null>;
-	readonly ariaRowCount?: MaybeAtom<string | null>;
-	readonly ariaRowIndex?: MaybeAtom<string | null>;
-	readonly ariaRowIndexText?: MaybeAtom<string | null>;
-	readonly ariaRowSpan?: MaybeAtom<string | null>;
-	readonly ariaSelected?: MaybeAtom<string | null>;
-	readonly ariaSetSize?: MaybeAtom<string | null>;
-	readonly ariaSort?: MaybeAtom<string | null>;
-	readonly ariaValueMax?: MaybeAtom<string | null>;
-	readonly ariaValueMin?: MaybeAtom<string | null>;
-	readonly ariaValueNow?: MaybeAtom<string | null>;
-	readonly ariaValueText?: MaybeAtom<string | null>;
-	readonly role?: MaybeAtom<string | null>;
 	readonly contentEditable?: MaybeAtom<string>;
 	readonly enterKeyHint?: MaybeAtom<string>;
 	readonly inputMode?: MaybeAtom<string>;
@@ -521,7 +524,7 @@ interface HTMLBaseProps {
 	readonly tabIndex?: MaybeAtom<number>;
 }
 
-export interface HTMLAnchorElementProps extends HTMLBaseProps {
+export interface HTMLAnchorElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLAnchorElement;
 	readonly charset?: MaybeAtom<string>;
 	readonly coords?: MaybeAtom<string>;
@@ -531,7 +534,7 @@ export interface HTMLAnchorElementProps extends HTMLBaseProps {
 	readonly ping?: MaybeAtom<string>;
 	readonly referrerPolicy?: MaybeAtom<string>;
 	readonly rel?: MaybeAtom<string>;
-	readonly relList?: MaybeAtom<DOMTokenList>;
+	readonly relList?: MaybeAtom<string>;
 	readonly rev?: MaybeAtom<string>;
 	readonly shape?: MaybeAtom<string>;
 	readonly target?: MaybeAtom<string>;
@@ -549,14 +552,14 @@ export interface HTMLAnchorElementProps extends HTMLBaseProps {
 	readonly username?: MaybeAtom<string>;
 }
 
-export interface HTMLAreaElementProps extends HTMLBaseProps {
+export interface HTMLAreaElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLAreaElement;
 	readonly coords?: MaybeAtom<string>;
 	readonly download?: MaybeAtom<string>;
 	readonly ping?: MaybeAtom<string>;
 	readonly referrerPolicy?: MaybeAtom<string>;
 	readonly rel?: MaybeAtom<string>;
-	readonly relList?: MaybeAtom<DOMTokenList>;
+	readonly relList?: MaybeAtom<string>;
 	readonly shape?: MaybeAtom<string>;
 	readonly target?: MaybeAtom<string>;
 	readonly hash?: MaybeAtom<string>;
@@ -573,7 +576,7 @@ export interface HTMLAreaElementProps extends HTMLBaseProps {
 	readonly noHref?: MaybeAtom<boolean>;
 }
 
-export interface HTMLAudioElementProps extends HTMLBaseProps {
+export interface HTMLAudioElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLAudioElement;
 	readonly autoplay?: MaybeAtom<boolean>;
 	readonly controls?: MaybeAtom<boolean>;
@@ -592,51 +595,27 @@ export interface HTMLAudioElementProps extends HTMLBaseProps {
 	readonly volume?: MaybeAtom<number>;
 }
 
-export interface HTMLBaseElementProps extends HTMLBaseProps {
+export interface HTMLBaseElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLBaseElement;
 	readonly target?: MaybeAtom<string>;
 	readonly href?: MaybeAtom<string>;
 }
 
-export interface HTMLElementProps extends HTMLBaseProps {
-	readonly [S_NODE_TYPE]?: HTMLAnchorElement;
-	readonly charset?: MaybeAtom<string>;
-	readonly coords?: MaybeAtom<string>;
-	readonly download?: MaybeAtom<string>;
-	readonly hreflang?: MaybeAtom<string>;
-	readonly name?: MaybeAtom<string>;
-	readonly ping?: MaybeAtom<string>;
-	readonly referrerPolicy?: MaybeAtom<string>;
-	readonly rel?: MaybeAtom<string>;
-	readonly relList?: MaybeAtom<DOMTokenList>;
-	readonly rev?: MaybeAtom<string>;
-	readonly shape?: MaybeAtom<string>;
-	readonly target?: MaybeAtom<string>;
-	readonly text?: MaybeAtom<string>;
-	readonly type?: MaybeAtom<string>;
-	readonly hash?: MaybeAtom<string>;
-	readonly host?: MaybeAtom<string>;
-	readonly hostname?: MaybeAtom<string>;
-	readonly href?: MaybeAtom<string>;
-	readonly password?: MaybeAtom<string>;
-	readonly pathname?: MaybeAtom<string>;
-	readonly port?: MaybeAtom<string>;
-	readonly protocol?: MaybeAtom<string>;
-	readonly search?: MaybeAtom<string>;
-	readonly username?: MaybeAtom<string>;
+export interface HTMLElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLElement;
 }
 
-export interface HTMLQuoteElementProps extends HTMLBaseProps {
+export interface HTMLQuoteElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLQuoteElement;
 	readonly cite?: MaybeAtom<string>;
 }
 
-export interface HTMLBRElementProps extends HTMLBaseProps {
-	readonly clear?: MaybeAtom<string>;
+export interface HTMLBRElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLBRElement;
+	readonly clear?: MaybeAtom<string>;
 }
 
-export interface HTMLButtonElementProps extends HTMLBaseProps {
+export interface HTMLButtonElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLButtonElement;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<"submit" | "reset" | "button">;
@@ -651,20 +630,20 @@ export interface HTMLButtonElementProps extends HTMLBaseProps {
 	readonly popoverTargetElement?: MaybeAtom<Element | null>;
 }
 
-export interface HTMLCanvasElementProps extends HTMLBaseProps {
+export interface HTMLCanvasElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLCanvasElement;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly [S_NODE_TYPE]?: HTMLCanvasElement;
 }
 
-export interface HTMLTableCaptionElementProps extends HTMLBaseProps {
+export interface HTMLTableCaptionElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableCaptionElement;
 	readonly align?: MaybeAtom<string>;
 }
 
-export interface HTMLTableColElementProps extends HTMLBaseProps {
-	readonly width?: MaybeAtom<string>;
+export interface HTMLTableColElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableColElement;
+	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
@@ -672,64 +651,64 @@ export interface HTMLTableColElementProps extends HTMLBaseProps {
 	readonly vAlign?: MaybeAtom<string>;
 }
 
-export interface HTMLDataElementProps extends HTMLBaseProps {
+export interface HTMLDataElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDataElement;
 	readonly value?: MaybeAtom<string>;
 }
 
-export interface HTMLDataListElementProps extends HTMLBaseProps {
+export interface HTMLDataListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDataListElement;
 }
 
-export interface HTMLModElementProps extends HTMLBaseProps {
+export interface HTMLModElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLModElement;
 	readonly cite?: MaybeAtom<string>;
 	readonly dateTime?: MaybeAtom<string>;
 }
 
-export interface HTMLDetailsElementProps extends HTMLBaseProps {
+export interface HTMLDetailsElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDetailsElement;
 	readonly name?: MaybeAtom<string>;
 	readonly open?: MaybeAtom<boolean>;
 }
 
-export interface HTMLDialogElementProps extends HTMLBaseProps {
+export interface HTMLDialogElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDialogElement;
 	readonly open?: MaybeAtom<boolean>;
 	readonly returnValue?: MaybeAtom<string>;
 }
 
-export interface HTMLDivElementProps extends HTMLBaseProps {
+export interface HTMLDivElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDivElement;
 	readonly align?: MaybeAtom<string>;
 }
 
-export interface HTMLDListElementProps extends HTMLBaseProps {
+export interface HTMLDListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDListElement;
 	readonly compact?: MaybeAtom<boolean>;
 }
 
-export interface HTMLEmbedElementProps extends HTMLBaseProps {
+export interface HTMLEmbedElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLEmbedElement;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: HTMLEmbedElement;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly src?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
 }
 
-export interface HTMLFieldSetElementProps extends HTMLBaseProps {
+export interface HTMLFieldSetElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLFieldSetElement;
 	readonly name?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
 }
 
-export interface HTMLFormElementProps extends HTMLBaseProps {
+export interface HTMLFormElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLFormElement;
 	readonly name?: MaybeAtom<string>;
 	readonly rel?: MaybeAtom<string>;
-	readonly relList?: MaybeAtom<DOMTokenList>;
+	readonly relList?: MaybeAtom<string>;
 	readonly target?: MaybeAtom<string>;
 	readonly acceptCharset?: MaybeAtom<string>;
 	readonly action?: MaybeAtom<string>;
@@ -740,24 +719,24 @@ export interface HTMLFormElementProps extends HTMLBaseProps {
 	readonly noValidate?: MaybeAtom<boolean>;
 }
 
-export interface HTMLHeadingElementProps extends HTMLBaseProps {
+export interface HTMLHeadingElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLHeadingElement;
 	readonly align?: MaybeAtom<string>;
 }
 
-export interface HTMLHRElementProps extends HTMLBaseProps {
+export interface HTMLHRElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLHRElement;
 	readonly color?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: HTMLHRElement;
 	readonly align?: MaybeAtom<string>;
 	readonly noShade?: MaybeAtom<boolean>;
 	readonly size?: MaybeAtom<string>;
 }
 
-export interface HTMLIFrameElementProps extends HTMLBaseProps {
+export interface HTMLIFrameElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLIFrameElement;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: HTMLIFrameElement;
 	readonly name?: MaybeAtom<string>;
 	readonly referrerPolicy?: MaybeAtom<ReferrerPolicy>;
 	readonly src?: MaybeAtom<string>;
@@ -774,11 +753,11 @@ export interface HTMLIFrameElementProps extends HTMLBaseProps {
 	readonly srcdoc?: MaybeAtom<string>;
 }
 
-export interface HTMLImageElementProps extends HTMLBaseProps {
+export interface HTMLImageElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLImageElement;
 	readonly border?: MaybeAtom<string>;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly [S_NODE_TYPE]?: HTMLImageElement;
 	readonly name?: MaybeAtom<string>;
 	readonly referrerPolicy?: MaybeAtom<string>;
 	readonly alt?: MaybeAtom<string>;
@@ -798,10 +777,10 @@ export interface HTMLImageElementProps extends HTMLBaseProps {
 	readonly vspace?: MaybeAtom<number>;
 }
 
-export interface HTMLInputElementProps extends HTMLBaseProps {
+export interface HTMLInputElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLInputElement;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly [S_NODE_TYPE]?: HTMLInputElement;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly alt?: MaybeAtom<string>;
@@ -845,33 +824,33 @@ export interface HTMLInputElementProps extends HTMLBaseProps {
 	readonly webkitdirectory?: MaybeAtom<boolean>;
 }
 
-export interface HTMLLabelElementProps extends HTMLBaseProps {
-	readonly for?: MaybeAtom<string>;
+export interface HTMLLabelElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLLabelElement;
+	readonly for?: MaybeAtom<string>;
 }
 
-export interface HTMLLegendElementProps extends HTMLBaseProps {
+export interface HTMLLegendElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLLegendElement;
 	readonly align?: MaybeAtom<string>;
 }
 
-export interface HTMLLIElementProps extends HTMLBaseProps {
+export interface HTMLLIElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLLIElement;
 	readonly type?: MaybeAtom<string>;
 	readonly value?: MaybeAtom<number>;
 }
 
-export interface HTMLMapElementProps extends HTMLBaseProps {
+export interface HTMLMapElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLMapElement;
 	readonly name?: MaybeAtom<string>;
 }
 
-export interface HTMLMenuElementProps extends HTMLBaseProps {
+export interface HTMLMenuElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLMenuElement;
 	readonly compact?: MaybeAtom<boolean>;
 }
 
-export interface HTMLMeterElementProps extends HTMLBaseProps {
+export interface HTMLMeterElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLMeterElement;
 	readonly value?: MaybeAtom<number>;
 	readonly high?: MaybeAtom<number>;
@@ -881,11 +860,11 @@ export interface HTMLMeterElementProps extends HTMLBaseProps {
 	readonly optimum?: MaybeAtom<number>;
 }
 
-export interface HTMLObjectElementProps extends HTMLBaseProps {
+export interface HTMLObjectElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLObjectElement;
 	readonly border?: MaybeAtom<string>;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: HTMLObjectElement;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
@@ -901,7 +880,7 @@ export interface HTMLObjectElementProps extends HTMLBaseProps {
 	readonly standby?: MaybeAtom<string>;
 }
 
-export interface HTMLOListElementProps extends HTMLBaseProps {
+export interface HTMLOListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOListElement;
 	readonly type?: MaybeAtom<string>;
 	readonly compact?: MaybeAtom<boolean>;
@@ -909,13 +888,13 @@ export interface HTMLOListElementProps extends HTMLBaseProps {
 	readonly start?: MaybeAtom<number>;
 }
 
-export interface HTMLOptGroupElementProps extends HTMLBaseProps {
+export interface HTMLOptGroupElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOptGroupElement;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly label?: MaybeAtom<string>;
 }
 
-export interface HTMLOptionElementProps extends HTMLBaseProps {
+export interface HTMLOptionElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOptionElement;
 	readonly text?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
@@ -925,37 +904,37 @@ export interface HTMLOptionElementProps extends HTMLBaseProps {
 	readonly selected?: MaybeAtom<boolean>;
 }
 
-export interface HTMLOutputElementProps extends HTMLBaseProps {
-	readonly for?: MaybeAtom<DOMTokenList>;
+export interface HTMLOutputElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOutputElement;
+	readonly for?: MaybeAtom<DOMTokenList>;
 	readonly name?: MaybeAtom<string>;
 	readonly value?: MaybeAtom<string>;
 	readonly defaultValue?: MaybeAtom<string>;
 }
 
-export interface HTMLParagraphElementProps extends HTMLBaseProps {
+export interface HTMLParagraphElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLParagraphElement;
 	readonly align?: MaybeAtom<string>;
 }
 
-export interface HTMLPictureElementProps extends HTMLBaseProps {
+export interface HTMLPictureElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLPictureElement;
 }
 
-export interface HTMLPreElementProps extends HTMLBaseProps {
-	readonly width?: MaybeAtom<number>;
+export interface HTMLPreElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLPreElement;
+	readonly width?: MaybeAtom<number>;
 }
 
-export interface HTMLProgressElementProps extends HTMLBaseProps {
+export interface HTMLProgressElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLProgressElement;
 	readonly value?: MaybeAtom<number>;
 	readonly max?: MaybeAtom<number>;
 }
 
-export interface HTMLSelectElementProps extends HTMLBaseProps {
-	readonly length?: MaybeAtom<number>;
+export interface HTMLSelectElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSelectElement;
+	readonly length?: MaybeAtom<number>;
 	readonly name?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly value?: MaybeAtom<string>;
@@ -966,15 +945,15 @@ export interface HTMLSelectElementProps extends HTMLBaseProps {
 	readonly selectedIndex?: MaybeAtom<number>;
 }
 
-export interface HTMLSlotElementProps extends HTMLBaseProps {
+export interface HTMLSlotElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSlotElement;
 	readonly name?: MaybeAtom<string>;
 }
 
-export interface HTMLSourceElementProps extends HTMLBaseProps {
+export interface HTMLSourceElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLSourceElement;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly [S_NODE_TYPE]?: HTMLSourceElement;
 	readonly type?: MaybeAtom<string>;
 	readonly src?: MaybeAtom<string>;
 	readonly sizes?: MaybeAtom<string>;
@@ -982,14 +961,14 @@ export interface HTMLSourceElementProps extends HTMLBaseProps {
 	readonly media?: MaybeAtom<string>;
 }
 
-export interface HTMLSpanElementProps extends HTMLBaseProps {
+export interface HTMLSpanElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSpanElement;
 }
 
-export interface HTMLTableElementProps extends HTMLBaseProps {
+export interface HTMLTableElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLTableElement;
 	readonly border?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: HTMLTableElement;
 	readonly align?: MaybeAtom<string>;
 	readonly bgColor?: MaybeAtom<string>;
 	readonly caption?: MaybeAtom<HTMLTableCaptionElement | null>;
@@ -1002,7 +981,7 @@ export interface HTMLTableElementProps extends HTMLBaseProps {
 	readonly tHead?: MaybeAtom<HTMLTableSectionElement | null>;
 }
 
-export interface HTMLTableSectionElementProps extends HTMLBaseProps {
+export interface HTMLTableSectionElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableSectionElement;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
@@ -1010,10 +989,10 @@ export interface HTMLTableSectionElementProps extends HTMLBaseProps {
 	readonly vAlign?: MaybeAtom<string>;
 }
 
-export interface HTMLTableCellElementProps extends HTMLBaseProps {
+export interface HTMLTableCellElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLTableCellElement;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: HTMLTableCellElement;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
@@ -1028,7 +1007,7 @@ export interface HTMLTableCellElementProps extends HTMLBaseProps {
 	readonly scope?: MaybeAtom<string>;
 }
 
-export interface HTMLTemplateElementProps extends HTMLBaseProps {
+export interface HTMLTemplateElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTemplateElement;
 	readonly shadowRootClonable?: MaybeAtom<boolean>;
 	readonly shadowRootDelegatesFocus?: MaybeAtom<boolean>;
@@ -1036,7 +1015,7 @@ export interface HTMLTemplateElementProps extends HTMLBaseProps {
 	readonly shadowRootSerializable?: MaybeAtom<boolean>;
 }
 
-export interface HTMLTextAreaElementProps extends HTMLBaseProps {
+export interface HTMLTextAreaElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTextAreaElement;
 	readonly name?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
@@ -1057,12 +1036,12 @@ export interface HTMLTextAreaElementProps extends HTMLBaseProps {
 	readonly wrap?: MaybeAtom<string>;
 }
 
-export interface HTMLTimeElementProps extends HTMLBaseProps {
+export interface HTMLTimeElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTimeElement;
 	readonly dateTime?: MaybeAtom<string>;
 }
 
-export interface HTMLTableRowElementProps extends HTMLBaseProps {
+export interface HTMLTableRowElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableRowElement;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
@@ -1071,7 +1050,7 @@ export interface HTMLTableRowElementProps extends HTMLBaseProps {
 	readonly bgColor?: MaybeAtom<string>;
 }
 
-export interface HTMLTrackElementProps extends HTMLBaseProps {
+export interface HTMLTrackElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTrackElement;
 	readonly src?: MaybeAtom<string>;
 	readonly label?: MaybeAtom<string>;
@@ -1080,16 +1059,16 @@ export interface HTMLTrackElementProps extends HTMLBaseProps {
 	readonly srclang?: MaybeAtom<string>;
 }
 
-export interface HTMLUListElementProps extends HTMLBaseProps {
+export interface HTMLUListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLUListElement;
 	readonly type?: MaybeAtom<string>;
 	readonly compact?: MaybeAtom<boolean>;
 }
 
-export interface HTMLVideoElementProps extends HTMLBaseProps {
+export interface HTMLVideoElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLVideoElement;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
-	readonly [S_NODE_TYPE]?: HTMLVideoElement;
 	readonly autoplay?: MaybeAtom<boolean>;
 	readonly controls?: MaybeAtom<boolean>;
 	readonly crossOrigin?: MaybeAtom<string | null>;
@@ -1110,521 +1089,7 @@ export interface HTMLVideoElementProps extends HTMLBaseProps {
 	readonly poster?: MaybeAtom<string>;
 }
 
-interface SVGBaseProps {
-	readonly clip?: MaybeAtom<string>;
-	readonly color?: MaybeAtom<string>;
-	readonly cursor?: MaybeAtom<string>;
-	readonly cx?: MaybeAtom<string>;
-	readonly cy?: MaybeAtom<string>;
-	readonly d?: MaybeAtom<string>;
-	readonly direction?: MaybeAtom<string>;
-	readonly display?: MaybeAtom<string>;
-	readonly fill?: MaybeAtom<string>;
-	readonly filter?: MaybeAtom<string>;
-	readonly height?: MaybeAtom<string>;
-	readonly mask?: MaybeAtom<string>;
-	readonly offset?: MaybeAtom<string>;
-	readonly opacity?: MaybeAtom<string>;
-	readonly order?: MaybeAtom<string>;
-	readonly overflow?: MaybeAtom<string>;
-	readonly r?: MaybeAtom<string>;
-	readonly rotate?: MaybeAtom<string>;
-	readonly rx?: MaybeAtom<string>;
-	readonly ry?: MaybeAtom<string>;
-	readonly scale?: MaybeAtom<string>;
-	readonly stroke?: MaybeAtom<string>;
-	readonly transform?: MaybeAtom<string>;
-	readonly visibility?: MaybeAtom<string>;
-	readonly width?: MaybeAtom<string>;
-	readonly x?: MaybeAtom<string>;
-	readonly y?: MaybeAtom<string>;
-	readonly children?: MaybeAtom<JsxChildren>;
-	readonly part?: MaybeAtom<string>;
-	readonly class?: undefined;
-	readonly lang?: MaybeAtom<string>;
-	readonly id?: MaybeAtom<string>;
-	readonly scrollLeft?: MaybeAtom<number>;
-	readonly scrollTop?: MaybeAtom<number>;
-	readonly slot?: MaybeAtom<string>;
-	readonly ariaActiveDescendantElement?: MaybeAtom<Element | null>;
-	readonly ariaAtomic?: MaybeAtom<string | null>;
-	readonly ariaAutoComplete?: MaybeAtom<string | null>;
-	readonly ariaBrailleLabel?: MaybeAtom<string | null>;
-	readonly ariaBrailleRoleDescription?: MaybeAtom<string | null>;
-	readonly ariaBusy?: MaybeAtom<string | null>;
-	readonly ariaChecked?: MaybeAtom<string | null>;
-	readonly ariaColCount?: MaybeAtom<string | null>;
-	readonly ariaColIndex?: MaybeAtom<string | null>;
-	readonly ariaColIndexText?: MaybeAtom<string | null>;
-	readonly ariaColSpan?: MaybeAtom<string | null>;
-	readonly ariaControlsElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaCurrent?: MaybeAtom<string | null>;
-	readonly ariaDescribedByElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaDescription?: MaybeAtom<string | null>;
-	readonly ariaDetailsElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaDisabled?: MaybeAtom<string | null>;
-	readonly ariaErrorMessageElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaExpanded?: MaybeAtom<string | null>;
-	readonly ariaFlowToElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaHasPopup?: MaybeAtom<string | null>;
-	readonly ariaHidden?: MaybeAtom<string | null>;
-	readonly ariaInvalid?: MaybeAtom<string | null>;
-	readonly ariaKeyShortcuts?: MaybeAtom<string | null>;
-	readonly ariaLabel?: MaybeAtom<string | null>;
-	readonly ariaLabelledByElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaLevel?: MaybeAtom<string | null>;
-	readonly ariaLive?: MaybeAtom<string | null>;
-	readonly ariaModal?: MaybeAtom<string | null>;
-	readonly ariaMultiLine?: MaybeAtom<string | null>;
-	readonly ariaMultiSelectable?: MaybeAtom<string | null>;
-	readonly ariaOrientation?: MaybeAtom<string | null>;
-	readonly ariaOwnsElements?: MaybeAtom<readonly Element[] | null>;
-	readonly ariaPlaceholder?: MaybeAtom<string | null>;
-	readonly ariaPosInSet?: MaybeAtom<string | null>;
-	readonly ariaPressed?: MaybeAtom<string | null>;
-	readonly ariaReadOnly?: MaybeAtom<string | null>;
-	readonly ariaRelevant?: MaybeAtom<string | null>;
-	readonly ariaRequired?: MaybeAtom<string | null>;
-	readonly ariaRoleDescription?: MaybeAtom<string | null>;
-	readonly ariaRowCount?: MaybeAtom<string | null>;
-	readonly ariaRowIndex?: MaybeAtom<string | null>;
-	readonly ariaRowIndexText?: MaybeAtom<string | null>;
-	readonly ariaRowSpan?: MaybeAtom<string | null>;
-	readonly ariaSelected?: MaybeAtom<string | null>;
-	readonly ariaSetSize?: MaybeAtom<string | null>;
-	readonly ariaSort?: MaybeAtom<string | null>;
-	readonly ariaValueMax?: MaybeAtom<string | null>;
-	readonly ariaValueMin?: MaybeAtom<string | null>;
-	readonly ariaValueNow?: MaybeAtom<string | null>;
-	readonly ariaValueText?: MaybeAtom<string | null>;
-	readonly role?: MaybeAtom<string | null>;
-	readonly autofocus?: MaybeAtom<string>;
-	readonly nonce?: MaybeAtom<string | undefined>;
-	readonly tabIndex?: MaybeAtom<number>;
-	readonly hreflang?: MaybeAtom<string>;
-	readonly ping?: MaybeAtom<string>;
-	readonly referrerPolicy?: MaybeAtom<string>;
-	readonly rel?: MaybeAtom<string>;
-	readonly relList?: MaybeAtom<string>;
-	readonly target?: MaybeAtom<string>;
-	readonly type?: MaybeAtom<string>;
-	readonly href?: MaybeAtom<string>;
-	readonly origin?: MaybeAtom<string>;
-	readonly method?: MaybeAtom<string>;
-	readonly decoding?: MaybeAtom<string>;
-	readonly max?: MaybeAtom<string>;
-	readonly min?: MaybeAtom<string>;
-	readonly media?: MaybeAtom<string>;
-	readonly textLength?: MaybeAtom<string>;
-	readonly accumulate?: MaybeAtom<string>;
-	readonly additive?: MaybeAtom<string>;
-	readonly "alignment-baseline"?: MaybeAtom<string>;
-	readonly amplitude?: MaybeAtom<string>;
-	readonly attributeName?: MaybeAtom<string>;
-	readonly attributeType?: MaybeAtom<string>;
-	readonly azimuth?: MaybeAtom<string>;
-	readonly baseFrequency?: MaybeAtom<string>;
-	readonly "baseline-shift"?: MaybeAtom<string>;
-	readonly baseProfile?: MaybeAtom<string>;
-	readonly begin?: MaybeAtom<string>;
-	readonly bias?: MaybeAtom<string>;
-	readonly by?: MaybeAtom<string>;
-	readonly calcMode?: MaybeAtom<string>;
-	readonly clipPathUnits?: MaybeAtom<string>;
-	readonly "clip-path"?: MaybeAtom<string>;
-	readonly "clip-rule"?: MaybeAtom<string>;
-	readonly "color-interpolation"?: MaybeAtom<string>;
-	readonly "color-interpolation-filters"?: MaybeAtom<string>;
-	readonly crossorigin?: MaybeAtom<string>;
-	readonly diffuseConstant?: MaybeAtom<string>;
-	readonly divisor?: MaybeAtom<string>;
-	readonly "dominant-baseline"?: MaybeAtom<string>;
-	readonly dur?: MaybeAtom<string>;
-	readonly dx?: MaybeAtom<string>;
-	readonly dy?: MaybeAtom<string>;
-	readonly edgeMode?: MaybeAtom<string>;
-	readonly elevation?: MaybeAtom<string>;
-	readonly end?: MaybeAtom<string>;
-	readonly exponent?: MaybeAtom<string>;
-	readonly fetchpriority?: MaybeAtom<string>;
-	readonly "fill-opacity"?: MaybeAtom<string>;
-	readonly "fill-rule"?: MaybeAtom<string>;
-	readonly filterUnits?: MaybeAtom<string>;
-	readonly "flood-color"?: MaybeAtom<string>;
-	readonly "flood-opacity"?: MaybeAtom<string>;
-	readonly "font-family"?: MaybeAtom<string>;
-	readonly "font-size"?: MaybeAtom<string>;
-	readonly "font-size-adjust"?: MaybeAtom<string>;
-	readonly "font-stretch"?: MaybeAtom<string>;
-	readonly "font-style"?: MaybeAtom<string>;
-	readonly "font-variant"?: MaybeAtom<string>;
-	readonly "font-weight"?: MaybeAtom<string>;
-	readonly fr?: MaybeAtom<string>;
-	readonly from?: MaybeAtom<string>;
-	readonly fx?: MaybeAtom<string>;
-	readonly fy?: MaybeAtom<string>;
-	readonly "glyph-orientation-horizontal"?: MaybeAtom<string>;
-	readonly "glyph-orientation-vertical"?: MaybeAtom<string>;
-	readonly gradientTransform?: MaybeAtom<string>;
-	readonly gradientUnits?: MaybeAtom<string>;
-	readonly "image-rendering"?: MaybeAtom<string>;
-	readonly in?: MaybeAtom<string>;
-	readonly in2?: MaybeAtom<string>;
-	readonly intercept?: MaybeAtom<string>;
-	readonly k1?: MaybeAtom<string>;
-	readonly k2?: MaybeAtom<string>;
-	readonly k3?: MaybeAtom<string>;
-	readonly k4?: MaybeAtom<string>;
-	readonly kernelMatrix?: MaybeAtom<string>;
-	readonly kernelUnitLength?: MaybeAtom<string>;
-	readonly keyPoints?: MaybeAtom<string>;
-	readonly keySplines?: MaybeAtom<string>;
-	readonly keyTimes?: MaybeAtom<string>;
-	readonly lengthAdjust?: MaybeAtom<string>;
-	readonly "letter-spacing"?: MaybeAtom<string>;
-	readonly "lighting-color"?: MaybeAtom<string>;
-	readonly limitingConeAngle?: MaybeAtom<string>;
-	readonly "marker-end"?: MaybeAtom<string>;
-	readonly "marker-mid"?: MaybeAtom<string>;
-	readonly "marker-start"?: MaybeAtom<string>;
-	readonly markerHeight?: MaybeAtom<string>;
-	readonly markerUnits?: MaybeAtom<string>;
-	readonly markerWidth?: MaybeAtom<string>;
-	readonly maskContentUnits?: MaybeAtom<string>;
-	readonly maskUnits?: MaybeAtom<string>;
-	readonly mode?: MaybeAtom<string>;
-	readonly numOctaves?: MaybeAtom<string>;
-	readonly operator?: MaybeAtom<string>;
-	readonly orient?: MaybeAtom<string>;
-	readonly "paint-order"?: MaybeAtom<string>;
-	readonly path?: MaybeAtom<string>;
-	readonly pathLength?: MaybeAtom<string>;
-	readonly patternContentUnits?: MaybeAtom<string>;
-	readonly patternTransform?: MaybeAtom<string>;
-	readonly patternUnits?: MaybeAtom<string>;
-	readonly "pointer-events"?: MaybeAtom<string>;
-	readonly points?: MaybeAtom<string>;
-	readonly pointsAtX?: MaybeAtom<string>;
-	readonly pointsAtY?: MaybeAtom<string>;
-	readonly pointsAtZ?: MaybeAtom<string>;
-	readonly preserveAlpha?: MaybeAtom<string>;
-	readonly preserveAspectRatio?: MaybeAtom<string>;
-	readonly primitiveUnits?: MaybeAtom<string>;
-	readonly radius?: MaybeAtom<string>;
-	readonly refX?: MaybeAtom<string>;
-	readonly refY?: MaybeAtom<string>;
-	readonly repeatCount?: MaybeAtom<string>;
-	readonly repeatDur?: MaybeAtom<string>;
-	readonly requiredExtensions?: MaybeAtom<string>;
-	readonly requiredFeatures?: MaybeAtom<string>;
-	readonly restart?: MaybeAtom<string>;
-	readonly result?: MaybeAtom<string>;
-	readonly seed?: MaybeAtom<string>;
-	readonly "shape-rendering"?: MaybeAtom<string>;
-	readonly side?: MaybeAtom<string>;
-	readonly slope?: MaybeAtom<string>;
-	readonly spacing?: MaybeAtom<string>;
-	readonly specularConstant?: MaybeAtom<string>;
-	readonly specularExponent?: MaybeAtom<string>;
-	readonly spreadMethod?: MaybeAtom<string>;
-	readonly startOffset?: MaybeAtom<string>;
-	readonly stdDeviation?: MaybeAtom<string>;
-	readonly stitchTiles?: MaybeAtom<string>;
-	readonly "stop-color"?: MaybeAtom<string>;
-	readonly "stop-opacity"?: MaybeAtom<string>;
-	readonly "stroke-dasharray"?: MaybeAtom<string>;
-	readonly "stroke-dashoffset"?: MaybeAtom<string>;
-	readonly "stroke-linecap"?: MaybeAtom<string>;
-	readonly "stroke-linejoin"?: MaybeAtom<string>;
-	readonly "stroke-miterlimit"?: MaybeAtom<string>;
-	readonly "stroke-opacity"?: MaybeAtom<string>;
-	readonly "stroke-width"?: MaybeAtom<string>;
-	readonly surfaceScale?: MaybeAtom<string>;
-	readonly systemLanguage?: MaybeAtom<string>;
-	readonly tabindex?: MaybeAtom<string>;
-	readonly tableValues?: MaybeAtom<string>;
-	readonly targetX?: MaybeAtom<string>;
-	readonly targetY?: MaybeAtom<string>;
-	readonly "text-anchor"?: MaybeAtom<string>;
-	readonly "text-decoration"?: MaybeAtom<string>;
-	readonly "text-overflow"?: MaybeAtom<string>;
-	readonly "text-rendering"?: MaybeAtom<string>;
-	readonly to?: MaybeAtom<string>;
-	readonly "transform-origin"?: MaybeAtom<string>;
-	readonly "unicode-bidi"?: MaybeAtom<string>;
-	readonly values?: MaybeAtom<string>;
-	readonly "vector-effect"?: MaybeAtom<string>;
-	readonly version?: MaybeAtom<string>;
-	readonly viewBox?: MaybeAtom<string>;
-	readonly "white-space"?: MaybeAtom<string>;
-	readonly "word-spacing"?: MaybeAtom<string>;
-	readonly "writing-mode"?: MaybeAtom<string>;
-	readonly x1?: MaybeAtom<string>;
-	readonly x2?: MaybeAtom<string>;
-	readonly xChannelSelector?: MaybeAtom<string>;
-	readonly y1?: MaybeAtom<string>;
-	readonly y2?: MaybeAtom<string>;
-	readonly yChannelSelector?: MaybeAtom<string>;
-	readonly z?: MaybeAtom<string>;
-	readonly zoomAndPan?: MaybeAtom<string>;
-}
-
-export interface SVGAElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGAElement;
-}
-
-export interface SVGAnimateElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGAnimateElement;
-}
-
-export interface SVGAnimateMotionElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGAnimateMotionElement;
-}
-
-export interface SVGAnimateTransformElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGAnimateTransformElement;
-}
-
-export interface SVGCircleElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGCircleElement;
-}
-
-export interface SVGClipPathElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGClipPathElement;
-}
-
-export interface SVGDefsElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGDefsElement;
-}
-
-export interface SVGDescElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGDescElement;
-}
-
-export interface SVGEllipseElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGEllipseElement;
-}
-
-export interface SVGFEBlendElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEBlendElement;
-}
-
-export interface SVGFEColorMatrixElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEColorMatrixElement;
-}
-
-export interface SVGFEComponentTransferElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEComponentTransferElement;
-}
-
-export interface SVGFECompositeElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFECompositeElement;
-}
-
-export interface SVGFEConvolveMatrixElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEConvolveMatrixElement;
-}
-
-export interface SVGFEDiffuseLightingElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEDiffuseLightingElement;
-}
-
-export interface SVGFEDisplacementMapElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEDisplacementMapElement;
-}
-
-export interface SVGFEDistantLightElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEDistantLightElement;
-}
-
-export interface SVGFEDropShadowElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEDropShadowElement;
-}
-
-export interface SVGFEFloodElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEFloodElement;
-}
-
-export interface SVGFEFuncAElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEFuncAElement;
-}
-
-export interface SVGFEFuncBElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEFuncBElement;
-}
-
-export interface SVGFEFuncGElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEFuncGElement;
-}
-
-export interface SVGFEFuncRElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEFuncRElement;
-}
-
-export interface SVGFEGaussianBlurElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEGaussianBlurElement;
-}
-
-export interface SVGFEImageElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEImageElement;
-}
-
-export interface SVGFEMergeElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEMergeElement;
-}
-
-export interface SVGFEMergeNodeElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEMergeNodeElement;
-}
-
-export interface SVGFEMorphologyElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEMorphologyElement;
-}
-
-export interface SVGFEOffsetElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEOffsetElement;
-}
-
-export interface SVGFEPointLightElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFEPointLightElement;
-}
-
-export interface SVGFESpecularLightingElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFESpecularLightingElement;
-}
-
-export interface SVGFESpotLightElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFESpotLightElement;
-}
-
-export interface SVGFETileElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFETileElement;
-}
-
-export interface SVGFETurbulenceElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFETurbulenceElement;
-}
-
-export interface SVGFilterElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGFilterElement;
-}
-
-export interface SVGForeignObjectElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGForeignObjectElement;
-}
-
-export interface SVGGElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGGElement;
-}
-
-export interface SVGImageElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGImageElement;
-	readonly crossOrigin?: MaybeAtom<string | null>;
-}
-
-export interface SVGLineElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGLineElement;
-}
-
-export interface SVGLinearGradientElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGLinearGradientElement;
-}
-
-export interface SVGMarkerElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGMarkerElement;
-}
-
-export interface SVGMaskElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGMaskElement;
-}
-
-export interface SVGMetadataElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGMetadataElement;
-}
-
-export interface SVGMPathElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGMPathElement;
-}
-
-export interface SVGPathElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGPathElement;
-}
-
-export interface SVGPatternElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGPatternElement;
-}
-
-export interface SVGPolygonElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGPolygonElement;
-}
-
-export interface SVGPolylineElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGPolylineElement;
-}
-
-export interface SVGRadialGradientElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGRadialGradientElement;
-}
-
-export interface SVGRectElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGRectElement;
-}
-
-export interface SVGSetElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGSetElement;
-}
-
-export interface SVGStopElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGStopElement;
-}
-
-export interface SVGStyleElementProps extends SVGBaseProps {
-	readonly title?: MaybeAtom<string>;
-	readonly [S_NODE_TYPE]?: SVGStyleElement;
-	readonly disabled?: MaybeAtom<boolean>;
-}
-
-export interface SVGSVGElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGSVGElement;
-	readonly currentScale?: MaybeAtom<number>;
-}
-
-export interface SVGSwitchElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGSwitchElement;
-}
-
-export interface SVGSymbolElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGSymbolElement;
-}
-
-export interface SVGTextElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGTextElement;
-}
-
-export interface SVGTextPathElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGTextPathElement;
-}
-
-export interface SVGTitleElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGTitleElement;
-}
-
-export interface SVGTSpanElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGTSpanElement;
-}
-
-export interface SVGUseElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGUseElement;
-}
-
-export interface SVGViewElementProps extends SVGBaseProps {
-	readonly [S_NODE_TYPE]?: SVGViewElement;
-}
-
-export interface IntrinsicElements {
-	a: HTMLAnchorElementProps | SVGAElementProps;
-
-
+export interface HTMLIntrinsicElements {
 	abbr: HTMLElementProps;
 	address: HTMLElementProps;
 	area: HTMLAreaElementProps;
@@ -1736,8 +1201,1186 @@ export interface IntrinsicElements {
 	var: HTMLElementProps;
 	video: HTMLVideoElementProps;
 	wbr: HTMLElementProps;
+}
 
+export interface SVGGlobalProps {
+	readonly autofocus?: MaybeAtom<boolean>;
+	readonly class?: MaybeAtom<string>;
+	readonly color?: MaybeAtom<string>;
+	readonly display?: MaybeAtom<string>;
+	readonly filter?: MaybeAtom<string>;
+	readonly id?: MaybeAtom<string>;
+	readonly lang?: MaybeAtom<string>;
+	readonly style?: MaybeAtom<string>;
+	readonly tabindex?: MaybeAtom<string | number>;
+	readonly transform?: MaybeAtom<string>;
+	readonly "transform-origin"?: MaybeAtom<string>;
+}
 
+export type SVGAccumulate = "none" | "sum";
+
+export type SVGAdditive = "replace" | "sum";
+
+export type SVGAlignmentBaseline = "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "top" | "center" | "bottom";
+
+export type SVGCalcMode = "discrete" | "linear" | "paced" | "spline";
+
+export type SVGClipRule = "nonzero" | "evenodd" | "inherit";
+
+export type SVGColorInterpolationFilters = "auto" | "sRGB" | "linearRGB";
+
+export type SVGCrossOrigin = "" | "anonymous" | "use-credentials";
+
+export type SVGTextDirection = "rtl" | "ltr";
+
+export type SVGDominantBaseline = "auto" | "text-bottom" | "alphabetic" | "ideographic" | "middle" | "central" | "mathematical" | "hanging" | "text-top";
+
+export type SVGEdgeMode = "duplicate" | "wrap" | "none";
+
+export type SVGFillMode = "freeze" | "remove";
+
+export type SVGFillRule = "nonzero" | "evenodd";
+
+export type SVGFontStyle = "normal" | "italic" | "oblique";
+
+export type SVGUnits = "userSpaceOnUse" | "objectBoundingBox";
+
+export type SVGLengthAdjust = "spacing" | "spacingAndGlyphs";
+
+export type SVGOverflow = "visible" | "hidden" | "scroll" | "auto";
+
+export type SVGPointerEvents = "bounding-box" | "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | "none";
+
+export type SVGRestart = "always" | "whenNotActive" | "never";
+
+export type SVGShapeRendering = "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision";
+
+export type SVGSpreadMethod = "pad" | "reflect" | "repeat";
+
+export type SVGStrokeLineCap = "butt" | "round" | "square";
+
+export type SVGStrokeLineJoin = "arcs" | "bevel" | "miter" | "miter-clip" | "round";
+
+export type SVGTextAnchor = "start" | "middle" | "end";
+
+export type SVGUnicodeBidi = "normal" | "embed" | "isolate" | "bidi-override" | "isolate-override" | "plaintext";
+
+export type SVGVectorEffect = "none" | "non-scaling-stroke" | "non-scaling-size" | "non-rotation" | "fixed-position";
+
+export type SVGVisibility = "visible" | "hidden" | "collapse";
+
+export type SVGWhiteSpace = "normal" | "pre" | "nowrap" | "pre-wrap" | "break-space" | "pre-line";
+
+export type SVGWritingMode = "horizontal-tb" | "vertical-rl" | "vertical-lr";
+
+export type SVGColorChannel = "R" | "G" | "B" | "A";
+
+export interface SVGAElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGAElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly href?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly referrerpolicy?: MaybeAtom<ReferrerPolicy>;
+	readonly rel?: MaybeAtom<string>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly target?: MaybeAtom<string>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+}
+
+export interface SVGAnimateElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGAnimateElement;
+	readonly children?: JsxChildren;
+	readonly accumulate?: MaybeAtom<SVGAccumulate>;
+	readonly additive?: MaybeAtom<SVGAdditive>;
+	readonly attributeName?: MaybeAtom<string>;
+	readonly begin?: MaybeAtom<string>;
+	readonly by?: MaybeAtom<string | number>;
+	readonly calcMode?: MaybeAtom<SVGCalcMode>;
+	readonly dur?: MaybeAtom<string | number>;
+	readonly end?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<SVGFillMode>;
+	readonly from?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly keyPoints?: MaybeAtom<string>;
+	readonly keySplines?: MaybeAtom<string>;
+	readonly keyTimes?: MaybeAtom<string>;
+	readonly max?: MaybeAtom<string>;
+	readonly min?: MaybeAtom<string>;
+	readonly repeatCount?: MaybeAtom<number | "indefinite">;
+	readonly repeatDur?: MaybeAtom<string | number>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly restart?: MaybeAtom<SVGRestart>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly to?: MaybeAtom<string | number>;
+	readonly values?: MaybeAtom<string>;
+}
+
+export interface SVGAnimateMotionElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGAnimateMotionElement;
+	readonly children?: JsxChildren;
+	readonly accumulate?: MaybeAtom<SVGAccumulate>;
+	readonly additive?: MaybeAtom<SVGAdditive>;
+	readonly begin?: MaybeAtom<string>;
+	readonly by?: MaybeAtom<string | number>;
+	readonly calcMode?: MaybeAtom<SVGCalcMode>;
+	readonly dur?: MaybeAtom<string | number>;
+	readonly end?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<SVGFillMode>;
+	readonly from?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly keyPoints?: MaybeAtom<string>;
+	readonly keySplines?: MaybeAtom<string>;
+	readonly keyTimes?: MaybeAtom<string>;
+	readonly max?: MaybeAtom<string>;
+	readonly min?: MaybeAtom<string>;
+	readonly path?: MaybeAtom<string>;
+	readonly repeatCount?: MaybeAtom<number | "indefinite">;
+	readonly repeatDur?: MaybeAtom<string | number>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly restart?: MaybeAtom<SVGRestart>;
+	readonly rotate?: MaybeAtom<number | "auto" | "auto-reverse">;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly to?: MaybeAtom<string | number>;
+	readonly values?: MaybeAtom<string>;
+}
+
+export interface SVGAnimateTransformElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGAnimateTransformElement;
+	readonly children?: JsxChildren;
+	readonly accumulate?: MaybeAtom<SVGAccumulate>;
+	readonly additive?: MaybeAtom<SVGAdditive>;
+	readonly attributeName?: MaybeAtom<string>;
+	readonly begin?: MaybeAtom<string>;
+	readonly by?: MaybeAtom<string | number>;
+	readonly calcMode?: MaybeAtom<SVGCalcMode>;
+	readonly dur?: MaybeAtom<string | number>;
+	readonly end?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<SVGFillMode>;
+	readonly from?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly keyPoints?: MaybeAtom<string>;
+	readonly keySplines?: MaybeAtom<string>;
+	readonly keyTimes?: MaybeAtom<string>;
+	readonly max?: MaybeAtom<string>;
+	readonly min?: MaybeAtom<string>;
+	readonly repeatCount?: MaybeAtom<number | "indefinite">;
+	readonly repeatDur?: MaybeAtom<string | number>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly restart?: MaybeAtom<SVGRestart>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly to?: MaybeAtom<string | number>;
+	readonly type?: MaybeAtom<string>;
+	readonly values?: MaybeAtom<string>;
+}
+
+export interface SVGCircleElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGCircleElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly cx?: MaybeAtom<string | number>;
+	readonly cy?: MaybeAtom<string | number>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly r?: MaybeAtom<string | number>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+}
+
+export interface SVGClipPathElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGClipPathElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly clipPathUnits?: MaybeAtom<SVGUnits>;
+	readonly mask?: MaybeAtom<string>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+}
+
+export interface SVGDefsElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGDefsElement;
+	readonly children?: JsxChildren;
+	readonly cursor?: MaybeAtom<string>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+}
+
+export interface SVGDescElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGDescElement;
+	readonly children?: JsxChildren;
+}
+
+export interface SVGEllipseElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGEllipseElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly cx?: MaybeAtom<string | number>;
+	readonly cy?: MaybeAtom<string | number>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly rx?: MaybeAtom<string | number>;
+	readonly ry?: MaybeAtom<string | number>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+}
+
+export interface SVGFEBlendElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEBlendElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly in2?: MaybeAtom<string>;
+	readonly mode?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEColorMatrixElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEColorMatrixElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly type?: MaybeAtom<string>;
+	readonly values?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEComponentTransferElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEComponentTransferElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFECompositeElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFECompositeElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly in2?: MaybeAtom<string>;
+	readonly k1?: MaybeAtom<string | number>;
+	readonly k2?: MaybeAtom<string | number>;
+	readonly k3?: MaybeAtom<string | number>;
+	readonly k4?: MaybeAtom<string | number>;
+	readonly operator?: MaybeAtom<"in" | "over" | "out" | "atop" | "xor" | "lighter" | "arithmetic">;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEConvolveMatrixElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEConvolveMatrixElement;
+	readonly children?: JsxChildren;
+	readonly bias?: MaybeAtom<string | number>;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly divisor?: MaybeAtom<string | number>;
+	readonly edgeMode?: MaybeAtom<SVGEdgeMode>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly kernelMatrix?: MaybeAtom<string>;
+	readonly kernelUnitLength?: MaybeAtom<string | number>;
+	readonly order?: MaybeAtom<string | number>;
+	readonly preserveAlpha?: MaybeAtom<string | boolean>;
+	readonly result?: MaybeAtom<string>;
+	readonly targetX?: MaybeAtom<string | number>;
+	readonly targetY?: MaybeAtom<string | number>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEDiffuseLightingElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEDiffuseLightingElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly diffuseConstant?: MaybeAtom<string | number>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly kernelUnitLength?: MaybeAtom<string | number>;
+	readonly "lighting-color"?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly surfaceScale?: MaybeAtom<string | number>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEDisplacementMapElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEDisplacementMapElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly in2?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly scale?: MaybeAtom<string | number>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly xChannelSelector?: MaybeAtom<SVGColorChannel>;
+	readonly y?: MaybeAtom<string | number>;
+	readonly yChannelSelector?: MaybeAtom<SVGColorChannel>;
+}
+
+export interface SVGFEDistantLightElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEDistantLightElement;
+	readonly children?: JsxChildren;
+	readonly azimuth?: MaybeAtom<string | number>;
+	readonly elevation?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEDropShadowElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEDropShadowElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly dx?: MaybeAtom<string | number>;
+	readonly dy?: MaybeAtom<string | number>;
+	readonly "flood-color"?: MaybeAtom<string>;
+	readonly "flood-opacity"?: MaybeAtom<string | number>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly stdDeviation?: MaybeAtom<string | number>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEFloodElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEFloodElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly "flood-color"?: MaybeAtom<string>;
+	readonly "flood-opacity"?: MaybeAtom<string | number>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEFuncAElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEFuncAElement;
+	readonly children?: JsxChildren;
+	readonly amplitude?: MaybeAtom<string | number>;
+	readonly exponent?: MaybeAtom<string | number>;
+	readonly intercept?: MaybeAtom<string | number>;
+	readonly slope?: MaybeAtom<string | number>;
+	readonly tableValues?: MaybeAtom<string>;
+	readonly type?: MaybeAtom<string>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEFuncBElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEFuncBElement;
+	readonly children?: JsxChildren;
+	readonly amplitude?: MaybeAtom<string | number>;
+	readonly exponent?: MaybeAtom<string | number>;
+	readonly intercept?: MaybeAtom<string | number>;
+	readonly slope?: MaybeAtom<string | number>;
+	readonly tableValues?: MaybeAtom<string>;
+	readonly type?: MaybeAtom<string>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEFuncGElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEFuncGElement;
+	readonly children?: JsxChildren;
+	readonly amplitude?: MaybeAtom<string | number>;
+	readonly exponent?: MaybeAtom<string | number>;
+	readonly intercept?: MaybeAtom<string | number>;
+	readonly slope?: MaybeAtom<string | number>;
+	readonly tableValues?: MaybeAtom<string>;
+	readonly type?: MaybeAtom<string>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEFuncRElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEFuncRElement;
+	readonly children?: JsxChildren;
+	readonly amplitude?: MaybeAtom<string | number>;
+	readonly exponent?: MaybeAtom<string | number>;
+	readonly intercept?: MaybeAtom<string | number>;
+	readonly slope?: MaybeAtom<string | number>;
+	readonly tableValues?: MaybeAtom<string>;
+	readonly type?: MaybeAtom<string>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEGaussianBlurElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEGaussianBlurElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly edgeMode?: MaybeAtom<SVGEdgeMode>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly stdDeviation?: MaybeAtom<string | number>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEImageElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEImageElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEMergeElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEMergeElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEMergeNodeElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEMergeNodeElement;
+	readonly children?: JsxChildren;
+	readonly in?: MaybeAtom<string>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEMorphologyElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEMorphologyElement;
+	readonly children?: JsxChildren;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly operator?: MaybeAtom<"erode" | "dilate">;
+	readonly radius?: MaybeAtom<string | number>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEOffsetElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEOffsetElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly dx?: MaybeAtom<string | number>;
+	readonly dy?: MaybeAtom<string | number>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFEPointLightElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFEPointLightElement;
+	readonly children?: JsxChildren;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+	readonly z?: MaybeAtom<string | number>;
+}
+
+export interface SVGFESpecularLightingElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFESpecularLightingElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly kernelUnitLength?: MaybeAtom<string | number>;
+	readonly "lighting-color"?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly specularConstant?: MaybeAtom<string | number>;
+	readonly specularExponent?: MaybeAtom<string | number>;
+	readonly surfaceScale?: MaybeAtom<string | number>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFESpotLightElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFESpotLightElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly limitingConeAngle?: MaybeAtom<string | number>;
+	readonly pointsAtX?: MaybeAtom<string | number>;
+	readonly pointsAtY?: MaybeAtom<string | number>;
+	readonly pointsAtZ?: MaybeAtom<string | number>;
+	readonly specularExponent?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+	readonly z?: MaybeAtom<string | number>;
+}
+
+export interface SVGFETileElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFETileElement;
+	readonly children?: JsxChildren;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly in?: MaybeAtom<string>;
+	readonly result?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFETurbulenceElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFETurbulenceElement;
+	readonly children?: JsxChildren;
+	readonly baseFrequency?: MaybeAtom<string | number>;
+	readonly "color-interpolation-filters"?: MaybeAtom<SVGColorInterpolationFilters>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly numOctaves?: MaybeAtom<string | number>;
+	readonly result?: MaybeAtom<string>;
+	readonly seed?: MaybeAtom<string | number>;
+	readonly stitchTiles?: MaybeAtom<"noStitch" | "stitch">;
+	readonly type?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGFilterElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGFilterElement;
+	readonly children?: JsxChildren;
+	readonly filterUnits?: MaybeAtom<SVGUnits>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly primitiveUnits?: MaybeAtom<SVGUnits>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGForeignObjectElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGForeignObjectElement;
+	readonly children?: JsxChildren;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGGElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGGElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+}
+
+export interface SVGImageElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGImageElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly crossorigin?: MaybeAtom<SVGCrossOrigin>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly decoding?: MaybeAtom<"auto" | "async" | "sync">;
+	readonly height?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly "image-rendering"?: MaybeAtom<"auto" | "optimizeSpeed" | "optimizeQuality">;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGLineElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGLineElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly orient?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linecap"?: MaybeAtom<SVGStrokeLineCap>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly x1?: MaybeAtom<string | number>;
+	readonly x2?: MaybeAtom<string | number>;
+	readonly y1?: MaybeAtom<string | number>;
+	readonly y2?: MaybeAtom<string | number>;
+}
+
+export interface SVGLinearGradientElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGLinearGradientElement;
+	readonly children?: JsxChildren;
+	readonly gradientTransform?: MaybeAtom<string>;
+	readonly gradientUnits?: MaybeAtom<SVGUnits>;
+	readonly href?: MaybeAtom<string>;
+	readonly spreadMethod?: MaybeAtom<SVGSpreadMethod>;
+	readonly x1?: MaybeAtom<string | number>;
+	readonly x2?: MaybeAtom<string | number>;
+	readonly y1?: MaybeAtom<string | number>;
+	readonly y2?: MaybeAtom<string | number>;
+}
+
+export interface SVGMarkerElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGMarkerElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly markerHeight?: MaybeAtom<string | number>;
+	readonly markerUnits?: MaybeAtom<"strokeWidth" | "userSpaceOnUse">;
+	readonly markerWidth?: MaybeAtom<string | number>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly refX?: MaybeAtom<string | number>;
+	readonly refY?: MaybeAtom<string | number>;
+	readonly viewBox?: MaybeAtom<string>;
+}
+
+export interface SVGMaskElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGMaskElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly mask?: MaybeAtom<string>;
+	readonly "mask-type"?: MaybeAtom<"alpha" | "luminance">;
+	readonly maskContentUnits?: MaybeAtom<SVGUnits>;
+	readonly maskUnits?: MaybeAtom<SVGUnits>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGMetadataElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGMetadataElement;
+	readonly children?: JsxChildren;
+}
+
+export interface SVGMPathElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGMPathElement;
+	readonly children?: JsxChildren;
+	readonly href?: MaybeAtom<string>;
+}
+
+export interface SVGPathElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGPathElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly d?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "fill-rule"?: MaybeAtom<SVGFillRule>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linecap"?: MaybeAtom<SVGStrokeLineCap>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+}
+
+export interface SVGPatternElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGPatternElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly patternContentUnits?: MaybeAtom<SVGUnits>;
+	readonly patternTransform?: MaybeAtom<string>;
+	readonly patternUnits?: MaybeAtom<SVGUnits>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly viewBox?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGPolygonElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGPolygonElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "fill-rule"?: MaybeAtom<SVGFillRule>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly points?: MaybeAtom<string>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+}
+
+export interface SVGPolylineElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGPolylineElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "fill-rule"?: MaybeAtom<SVGFillRule>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly points?: MaybeAtom<string>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linecap"?: MaybeAtom<SVGStrokeLineCap>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+}
+
+export interface SVGRadialGradientElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGRadialGradientElement;
+	readonly children?: JsxChildren;
+	readonly cx?: MaybeAtom<string | number>;
+	readonly cy?: MaybeAtom<string | number>;
+	readonly fr?: MaybeAtom<string | number>;
+	readonly fx?: MaybeAtom<string | number>;
+	readonly fy?: MaybeAtom<string | number>;
+	readonly gradientTransform?: MaybeAtom<string>;
+	readonly gradientUnits?: MaybeAtom<SVGUnits>;
+	readonly href?: MaybeAtom<string>;
+	readonly r?: MaybeAtom<string | number>;
+	readonly spreadMethod?: MaybeAtom<SVGSpreadMethod>;
+}
+
+export interface SVGRectElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGRectElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly "marker-end"?: MaybeAtom<string>;
+	readonly "marker-mid"?: MaybeAtom<string>;
+	readonly "marker-start"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly pathLength?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly rx?: MaybeAtom<string | number>;
+	readonly ry?: MaybeAtom<string | number>;
+	readonly "shape-rendering"?: MaybeAtom<SVGShapeRendering>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGSetElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGSetElement;
+	readonly children?: JsxChildren;
+	readonly attributeName?: MaybeAtom<string>;
+	readonly begin?: MaybeAtom<string>;
+	readonly dur?: MaybeAtom<string | number>;
+	readonly end?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<SVGFillMode>;
+	readonly href?: MaybeAtom<string>;
+	readonly keyPoints?: MaybeAtom<string>;
+	readonly max?: MaybeAtom<string>;
+	readonly min?: MaybeAtom<string>;
+	readonly repeatCount?: MaybeAtom<number | "indefinite">;
+	readonly repeatDur?: MaybeAtom<string | number>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly restart?: MaybeAtom<SVGRestart>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly to?: MaybeAtom<string | number>;
+}
+
+export interface SVGStopElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGStopElement;
+	readonly children?: JsxChildren;
+	readonly "stop-color"?: MaybeAtom<string>;
+	readonly "stop-opacity"?: MaybeAtom<string | number>;
+}
+
+export interface SVGSVGElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGSVGElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly fill?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly viewBox?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGSwitchElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGSwitchElement;
+	readonly children?: JsxChildren;
+	readonly cursor?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+}
+
+export interface SVGSymbolElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGSymbolElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly viewBox?: MaybeAtom<string>;
+}
+
+export interface SVGTextElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGTextElement;
+	readonly children?: JsxChildren;
+	readonly "alignment-baseline"?: MaybeAtom<SVGAlignmentBaseline>;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly direction?: MaybeAtom<SVGTextDirection>;
+	readonly "dominant-baseline"?: MaybeAtom<SVGDominantBaseline>;
+	readonly dx?: MaybeAtom<string | number>;
+	readonly dy?: MaybeAtom<string | number>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "fill-rule"?: MaybeAtom<SVGFillRule>;
+	readonly "font-family"?: MaybeAtom<string>;
+	readonly "font-size"?: MaybeAtom<string | number>;
+	readonly "font-size-adjust"?: MaybeAtom<string>;
+	readonly "font-style"?: MaybeAtom<SVGFontStyle>;
+	readonly "font-variant"?: MaybeAtom<string>;
+	readonly "font-weight"?: MaybeAtom<string | number>;
+	readonly lengthAdjust?: MaybeAtom<SVGLengthAdjust>;
+	readonly "letter-spacing"?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly overflow?: MaybeAtom<SVGOverflow>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linecap"?: MaybeAtom<SVGStrokeLineCap>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "text-anchor"?: MaybeAtom<SVGTextAnchor>;
+	readonly "text-decoration"?: MaybeAtom<string>;
+	readonly "text-overflow"?: MaybeAtom<"clip" | "ellipses">;
+	readonly "text-rendering"?: MaybeAtom<"auto" | "optimizeSpeed" | "geometricPrecision" | "optimizeLegibility">;
+	readonly textLength?: MaybeAtom<string | number>;
+	readonly "unicode-bidi"?: MaybeAtom<SVGUnicodeBidi>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly "white-space"?: MaybeAtom<SVGWhiteSpace>;
+	readonly "word-spacing"?: MaybeAtom<string | number>;
+	readonly "writing-mode"?: MaybeAtom<SVGWritingMode>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGTextPathElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGTextPathElement;
+	readonly children?: JsxChildren;
+	readonly "alignment-baseline"?: MaybeAtom<SVGAlignmentBaseline>;
+	readonly "baseline-shift"?: MaybeAtom<string>;
+	readonly direction?: MaybeAtom<SVGTextDirection>;
+	readonly "dominant-baseline"?: MaybeAtom<SVGDominantBaseline>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "fill-rule"?: MaybeAtom<SVGFillRule>;
+	readonly "font-family"?: MaybeAtom<string>;
+	readonly "font-size"?: MaybeAtom<string | number>;
+	readonly "font-size-adjust"?: MaybeAtom<string>;
+	readonly "font-style"?: MaybeAtom<SVGFontStyle>;
+	readonly "font-variant"?: MaybeAtom<string>;
+	readonly "font-weight"?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly lengthAdjust?: MaybeAtom<SVGLengthAdjust>;
+	readonly "letter-spacing"?: MaybeAtom<string>;
+	readonly method?: MaybeAtom<"align" | "stretch">;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly path?: MaybeAtom<string>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly spacing?: MaybeAtom<"auto" | "exact">;
+	readonly startOffset?: MaybeAtom<string | number>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linecap"?: MaybeAtom<SVGStrokeLineCap>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "text-anchor"?: MaybeAtom<SVGTextAnchor>;
+	readonly "text-decoration"?: MaybeAtom<string>;
+	readonly "text-overflow"?: MaybeAtom<"clip" | "ellipses">;
+	readonly textLength?: MaybeAtom<string | number>;
+	readonly "unicode-bidi"?: MaybeAtom<SVGUnicodeBidi>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly "white-space"?: MaybeAtom<SVGWhiteSpace>;
+	readonly "word-spacing"?: MaybeAtom<string | number>;
+	readonly "writing-mode"?: MaybeAtom<SVGWritingMode>;
+}
+
+export interface SVGTitleElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGTitleElement;
+	readonly children?: JsxChildren;
+}
+
+export interface SVGTSpanElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGTSpanElement;
+	readonly children?: JsxChildren;
+	readonly "alignment-baseline"?: MaybeAtom<SVGAlignmentBaseline>;
+	readonly "baseline-shift"?: MaybeAtom<string>;
+	readonly direction?: MaybeAtom<SVGTextDirection>;
+	readonly "dominant-baseline"?: MaybeAtom<SVGDominantBaseline>;
+	readonly dx?: MaybeAtom<string | number>;
+	readonly dy?: MaybeAtom<string | number>;
+	readonly fill?: MaybeAtom<string>;
+	readonly "fill-opacity"?: MaybeAtom<string | number>;
+	readonly "fill-rule"?: MaybeAtom<SVGFillRule>;
+	readonly "font-family"?: MaybeAtom<string>;
+	readonly "font-size"?: MaybeAtom<string | number>;
+	readonly "font-size-adjust"?: MaybeAtom<string>;
+	readonly "font-style"?: MaybeAtom<SVGFontStyle>;
+	readonly "font-variant"?: MaybeAtom<string>;
+	readonly "font-weight"?: MaybeAtom<string | number>;
+	readonly lengthAdjust?: MaybeAtom<SVGLengthAdjust>;
+	readonly "letter-spacing"?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "paint-order"?: MaybeAtom<string>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly stroke?: MaybeAtom<string>;
+	readonly "stroke-dasharray"?: MaybeAtom<string>;
+	readonly "stroke-dashoffset"?: MaybeAtom<string | number>;
+	readonly "stroke-linecap"?: MaybeAtom<SVGStrokeLineCap>;
+	readonly "stroke-linejoin"?: MaybeAtom<SVGStrokeLineJoin>;
+	readonly "stroke-miterlimit"?: MaybeAtom<string | number>;
+	readonly "stroke-opacity"?: MaybeAtom<string | number>;
+	readonly "stroke-width"?: MaybeAtom<string | number>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "text-anchor"?: MaybeAtom<SVGTextAnchor>;
+	readonly "text-decoration"?: MaybeAtom<string>;
+	readonly "text-overflow"?: MaybeAtom<"clip" | "ellipses">;
+	readonly textLength?: MaybeAtom<string | number>;
+	readonly "unicode-bidi"?: MaybeAtom<SVGUnicodeBidi>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly visibility?: MaybeAtom<SVGVisibility>;
+	readonly "white-space"?: MaybeAtom<SVGWhiteSpace>;
+	readonly "word-spacing"?: MaybeAtom<string | number>;
+	readonly "writing-mode"?: MaybeAtom<SVGWritingMode>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGUseElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGUseElement;
+	readonly children?: JsxChildren;
+	readonly "clip-path"?: MaybeAtom<string>;
+	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
+	readonly cursor?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string | number>;
+	readonly href?: MaybeAtom<string>;
+	readonly mask?: MaybeAtom<string>;
+	readonly opacity?: MaybeAtom<string | number>;
+	readonly "pointer-events"?: MaybeAtom<SVGPointerEvents>;
+	readonly requiredExtensions?: MaybeAtom<string>;
+	readonly systemLanguage?: MaybeAtom<string>;
+	readonly "vector-effect"?: MaybeAtom<SVGVectorEffect>;
+	readonly width?: MaybeAtom<string | number>;
+	readonly x?: MaybeAtom<string | number>;
+	readonly y?: MaybeAtom<string | number>;
+}
+
+export interface SVGViewElementProps extends SVGGlobalProps {
+	readonly [S_NODE_TYPE]?: SVGViewElement;
+	readonly children?: JsxChildren;
+	readonly preserveAspectRatio?: MaybeAtom<string>;
+	readonly viewBox?: MaybeAtom<string>;
+}
+
+export interface SVGIntrinsicElements {
 	animate: SVGAnimateElementProps;
 	animateMotion: SVGAnimateMotionElementProps;
 	animateTransform: SVGAnimateTransformElementProps;
@@ -1790,7 +2433,7 @@ export interface IntrinsicElements {
 	// script: SVGScriptElementProps;
 	set: SVGSetElementProps;
 	stop: SVGStopElementProps;
-	style: SVGStyleElementProps;
+	// style: SVGStyleElementProps;
 	// svg: SVGSVGBaseProps;
 	switch: SVGSwitchElementProps;
 	symbol: SVGSymbolElementProps;
@@ -1800,5 +2443,135 @@ export interface IntrinsicElements {
 	tspan: SVGTSpanElementProps;
 	use: SVGUseElementProps;
 	view: SVGViewElementProps;
+}
+
+export interface MathMLGlobalProps {
+	readonly dir?: MaybeAtom<"rtl" | "ltr">;
+	readonly displaystyle?: MaybeAtom<boolean>;
+	readonly mathbackground?: MaybeAtom<string>;
+	readonly mathcolor?: MaybeAtom<string>;
+	readonly mathsize?: MaybeAtom<string>;
+	readonly scriptlevel?: MaybeAtom<string>;
+}
+
+export interface MathMLElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+}
+
+export interface MathMLMathElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly display?: MaybeAtom<"block" | "inline">;
+}
+
+export interface MatMLFracElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly linethickness?: MaybeAtom<string>;
+}
+
+export interface MatMLIElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly mathvariant?: MaybeAtom<"normal">;
+}
+
+export interface MatMLOElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly fence?: MaybeAtom<boolean>;
+	readonly form?: MaybeAtom<"prefix" | "infix" | "postfix">;
+	readonly largeop?: MaybeAtom<boolean>;
+	readonly lspace?: MaybeAtom<string>;
+	readonly maxsize?: MaybeAtom<string>;
+	readonly minsize?: MaybeAtom<string>;
+	readonly movablelimits?: MaybeAtom<boolean>;
+	readonly rspace?: MaybeAtom<string>;
+	readonly separator?: MaybeAtom<boolean>;
+	readonly stretchy?: MaybeAtom<boolean>;
+	readonly symmetric?: MaybeAtom<boolean>;
+}
+
+export interface MatMLOverElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly accent?: MaybeAtom<boolean>;
+}
+
+export interface MatMLPaddedElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly depth?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string>;
+	readonly lspace?: MaybeAtom<string>;
+	readonly voffset?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string>;
+}
+
+export interface MatMLSpaceElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly depth?: MaybeAtom<string>;
+	readonly height?: MaybeAtom<string>;
+	readonly width?: MaybeAtom<string>;
+}
+
+export interface MatMLTDElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly columnspan?: MaybeAtom<string | number>;
+	readonly rowspan?: MaybeAtom<string | number>;
+}
+
+export interface MatMLUnderElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly accentunder?: MaybeAtom<boolean>;
+}
+
+export interface MatMLUnderOverElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: JsxChildren;
+	readonly accent?: MaybeAtom<boolean>;
+	readonly accentunder?: MaybeAtom<boolean>;
+}
+
+export interface MathMLIntrinsicElements {
+	math: MathMLMathElementProps;
+	merror: MathMLElementProps;
+	mfrac: MatMLFracElementProps;
+	mi: MatMLIElementProps;
+	mmultiscripts: MathMLElementProps;
+	mn: MathMLElementProps;
+	mo: MatMLOElementProps;
+	mover: MatMLOverElementProps;
+	mpadded: MatMLPaddedElementProps;
+	mphantom: MathMLElementProps;
+	mprescripts: MathMLElementProps;
+	mroot: MathMLElementProps;
+	mrow: MathMLElementProps;
+	ms: MathMLElementProps;
+	mspace: MatMLSpaceElementProps;
+	msqrt: MathMLElementProps;
+	mstyle: MathMLElementProps;
+	msub: MathMLElementProps;
+	msup: MathMLElementProps;
+	msubsup: MathMLElementProps;
+	mtable: MathMLElementProps;
+	mtd: MatMLTDElementProps;
+	mtext: MathMLElementProps;
+	mtr: MathMLElementProps;
+	munder: MatMLUnderElementProps;
+	munderover: MatMLUnderOverElementProps;
+
+	// difficult to support due to the inclusion of extra XML namespaces:
+	// - semantics
+	// - annotation
+	// - annotation-xml
+}
+
+export interface IntrinsicElements extends HTMLIntrinsicElements, SVGIntrinsicElements, MathMLIntrinsicElements {
+	a: HTMLAnchorElementProps | SVGAElementProps;
 }
 

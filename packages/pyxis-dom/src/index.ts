@@ -1,6 +1,8 @@
 export { Text, type TextProps } from "~/component/Text";
+export { MathML } from "~/component/MathML";
 export { Svg } from "~/component/Svg";
 
+export { AriaExtension, type AriaExtensionType } from "~/extension/AriaExtension";
 export { ClassListExtension, type ClassListExtensionType } from "~/extension/ClassListExtension";
 export { CssStyleExtension, type CssStyleExtensionType } from "~/extension/CssStyleExtension";
 export { CssVariableExtension, type CssVariableExtensionType } from "~/extension/CssVariableExtension";

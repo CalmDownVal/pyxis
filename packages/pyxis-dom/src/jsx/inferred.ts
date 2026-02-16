@@ -3,9 +3,6 @@ import type { JsxChildren, MaybeAtom, Nil, S_NODE_TYPE } from "@calmdown/pyxis";
 
 import type { PROP_MAP } from "./mapping";
 
-// TODO: improve SVG support
-// TODO: add MathML support
-
 /** omits any catch-all index signatures from T */
 type OmitIndex<T> = {
 	[K in keyof T as (
@@ -53,6 +50,14 @@ type MappedPropKeys<T, M extends { [K in string]: string }> =
 type Finalize<T> = { readonly [K in keyof T]?: T[K] };
 
 
+interface NodeTypeProp<T> {
+	readonly [S_NODE_TYPE]?: T;
+}
+
+interface ChildrenProp {
+	readonly children?: JsxChildren;
+}
+
 // #region CSS
 
 /** @bake */
@@ -60,6 +65,8 @@ export type CSSStyleDeclarationProps = Finalize<WrapProps<ApplyOverrides<OmitFun
 
 interface CSSPropOverrides {
 	anchorName: string;
+	positionAnchor: string;
+
 	clip: never;
 	fontStretch: never;
 	gridColumnGap: never;
@@ -69,7 +76,6 @@ interface CSSPropOverrides {
 	pageBreakAfter: never;
 	pageBreakBefore: never;
 	pageBreakInside: never;
-	positionAnchor: string;
 	webkitAlignContent: never;
 	webkitAlignItems: never;
 	webkitAlignSelf: never;
@@ -140,1016 +146,420 @@ interface CSSPropOverrides {
 
 // #endregion
 
-// #region HTML
-
-type HTMLMinProps<T> = Finalize<Omit<{ readonly [S_NODE_TYPE]?: T } & HTMLRawProps<T>, keyof HTMLBaseProps>>;
-type HTMLRawProps<T> = MapProps<WrapProps<ApplyOverrides<OmitFunctions<OmitReadonly<OmitIndex<T>>>, HTMLPropOverrides>>, typeof PROP_MAP>;
+// #region ARIA
 
 /** @bake */
-type HTMLBaseProps = Finalize<HTMLRawProps<HTMLElement>>;
+export type ARIAProps = Finalize<ARIAMixin>;
+
+// #endregion
+
+// #region HTML
+
+type HTMLMinProps<T, O = {}> = Finalize<NodeTypeProp<T> & Omit<HTMLRawProps<T, O>, keyof HTMLGlobalProps>>;
+type HTMLRawProps<T, O> = ChildrenProp & MapProps<WrapProps<ApplyOverrides<Omit<OmitFunctions<OmitReadonly<OmitIndex<T>>>, keyof ARIAProps>, HTMLPropOverrides & O>>, typeof PROP_MAP>;
 
 interface HTMLPropOverrides {
-	children: JsxChildren;
+	part: string;
+
 	classList: never;
 	innerHTML: never;
 	innerText: never;
 	nodeValue: never;
 	outerHTML: never;
 	outerText: never;
-	part: string;
 	style: never;
 	textContent: never;
 }
 
-/**
- * @bake
- * @extends HTMLBaseProps
- */
-export type HTMLAnchorElementProps = HTMLMinProps<HTMLAnchorElement>;
+/** @bake */
+export type HTMLGlobalProps = Finalize<HTMLRawProps<HTMLElement, {}>>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
-export type HTMLAreaElementProps = HTMLMinProps<HTMLAreaElement>;
+export type HTMLAnchorElementProps = HTMLMinProps<HTMLAnchorElement, {
+	relList: string;
+}>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
+ */
+export type HTMLAreaElementProps = HTMLMinProps<HTMLAreaElement, {
+	relList: string;
+}>;
+
+/**
+ * @bake
+ * @extends HTMLGlobalProps
  */
 export type HTMLAudioElementProps = HTMLMinProps<HTMLAudioElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLBaseElementProps = HTMLMinProps<HTMLBaseElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
-export type HTMLElementProps = HTMLMinProps<HTMLAnchorElement>;
+export type HTMLElementProps = HTMLMinProps<HTMLElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLQuoteElementProps = HTMLMinProps<HTMLQuoteElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLBodyElementProps = HTMLProps<HTMLBodyElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLBRElementProps = HTMLMinProps<HTMLBRElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLButtonElementProps = HTMLMinProps<HTMLButtonElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLCanvasElementProps = HTMLMinProps<HTMLCanvasElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTableCaptionElementProps = HTMLMinProps<HTMLTableCaptionElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTableColElementProps = HTMLMinProps<HTMLTableColElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLDataElementProps = HTMLMinProps<HTMLDataElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLDataListElementProps = HTMLMinProps<HTMLDataListElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLModElementProps = HTMLMinProps<HTMLModElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLDetailsElementProps = HTMLMinProps<HTMLDetailsElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLDialogElementProps = HTMLMinProps<HTMLDialogElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLDivElementProps = HTMLMinProps<HTMLDivElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLDListElementProps = HTMLMinProps<HTMLDListElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLEmbedElementProps = HTMLMinProps<HTMLEmbedElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLFieldSetElementProps = HTMLMinProps<HTMLFieldSetElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
-export type HTMLFormElementProps = HTMLMinProps<HTMLFormElement>;
+export type HTMLFormElementProps = HTMLMinProps<HTMLFormElement, {
+	relList: string;
+}>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLHeadingElementProps = HTMLMinProps<HTMLHeadingElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLHeadElementProps = HTMLProps<HTMLHeadElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLHRElementProps = HTMLMinProps<HTMLHRElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLHtmlElementProps = HTMLProps<HTMLHtmlElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLIFrameElementProps = HTMLMinProps<HTMLIFrameElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLImageElementProps = HTMLMinProps<HTMLImageElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLInputElementProps = HTMLMinProps<HTMLInputElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLLabelElementProps = HTMLMinProps<HTMLLabelElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLLegendElementProps = HTMLMinProps<HTMLLegendElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLLIElementProps = HTMLMinProps<HTMLLIElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLLinkElementProps = HTMLProps<HTMLLinkElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLMapElementProps = HTMLMinProps<HTMLMapElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLMenuElementProps = HTMLMinProps<HTMLMenuElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLMetaElementProps = HTMLProps<HTMLMetaElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLMeterElementProps = HTMLMinProps<HTMLMeterElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLObjectElementProps = HTMLMinProps<HTMLObjectElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLOListElementProps = HTMLMinProps<HTMLOListElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLOptGroupElementProps = HTMLMinProps<HTMLOptGroupElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLOptionElementProps = HTMLMinProps<HTMLOptionElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLOutputElementProps = HTMLMinProps<HTMLOutputElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLParagraphElementProps = HTMLMinProps<HTMLParagraphElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLPictureElementProps = HTMLMinProps<HTMLPictureElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLPreElementProps = HTMLMinProps<HTMLPreElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLProgressElementProps = HTMLMinProps<HTMLProgressElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLScriptElementProps = HTMLProps<HTMLScriptElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLSelectElementProps = HTMLMinProps<HTMLSelectElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLSlotElementProps = HTMLMinProps<HTMLSlotElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLSourceElementProps = HTMLMinProps<HTMLSourceElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLSpanElementProps = HTMLMinProps<HTMLSpanElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLStyleElementProps = HTMLProps<HTMLStyleElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTableElementProps = HTMLMinProps<HTMLTableElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTableSectionElementProps = HTMLMinProps<HTMLTableSectionElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTableCellElementProps = HTMLMinProps<HTMLTableCellElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTemplateElementProps = HTMLMinProps<HTMLTemplateElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTextAreaElementProps = HTMLMinProps<HTMLTextAreaElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTimeElementProps = HTMLMinProps<HTMLTimeElement>;
 
 // /**
 //  * @bake
-//  * @extends HTMLBaseProps
+//  * @extends HTMLGlobalProps
 //  */
 // export type HTMLTitleElementProps = HTMLProps<HTMLTitleElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTableRowElementProps = HTMLMinProps<HTMLTableRowElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLTrackElementProps = HTMLMinProps<HTMLTrackElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLUListElementProps = HTMLMinProps<HTMLUListElement>;
 
 /**
  * @bake
- * @extends HTMLBaseProps
+ * @extends HTMLGlobalProps
  */
 export type HTMLVideoElementProps = HTMLMinProps<HTMLVideoElement>;
 
-// #endregion
-
-// #region SVG
-
-type SVGMinProps<T> = Finalize<Omit<{ readonly [S_NODE_TYPE]?: T } & SVGRawProps<T>, keyof SVGBaseProps>>;
-type SVGRawProps<T> = MapProps<WrapProps<ApplyOverrides<OmitFunctions<OmitReadonly<OmitIndex<T>>>, SVGPropOverrides>>, typeof PROP_MAP>;
-
-/** @bake */
-type SVGBaseProps = Finalize<SVGRawProps<SVGElement>>;
-
-interface SVGPropOverrides {
-	children: JsxChildren;
-	classList: never;
-	innerHTML: never;
-	nodeValue: never;
-	outerHTML: never;
-	part: string;
-	relList: string;
-	style: never;
-	textContent: never;
-
-	// attribute list taken from:
-	// https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute
-	accumulate: string;
-	additive: string;
-	"alignment-baseline": string;
-	amplitude: string;
-	attributeName: string;
-	attributeType: string;
-	autofocus: string;
-	azimuth: string;
-	baseFrequency: string;
-	"baseline-shift": string;
-	baseProfile: string;
-	begin: string;
-	bias: string;
-	by: string;
-	calcMode: string;
-	class: string;
-	clip: string;
-	clipPathUnits: string;
-	"clip-path": string;
-	"clip-rule": string;
-	color: string;
-	"color-interpolation": string;
-	"color-interpolation-filters": string;
-	crossorigin: string;
-	cursor: string;
-	cx: string;
-	cy: string;
-	d: string;
-	decoding: string;
-	diffuseConstant: string;
-	direction: string;
-	display: string;
-	divisor: string;
-	"dominant-baseline": string;
-	dur: string;
-	dx: string;
-	dy: string;
-	edgeMode: string;
-	elevation: string;
-	end: string;
-	exponent: string;
-	fetchpriority: string;
-	fill: string;
-	"fill-opacity": string;
-	"fill-rule": string;
-	filter: string;
-	filterUnits: string;
-	"flood-color": string;
-	"flood-opacity": string;
-	"font-family": string;
-	"font-size": string;
-	"font-size-adjust": string;
-	"font-stretch": string;
-	"font-style": string;
-	"font-variant": string;
-	"font-weight": string;
-	fr: string;
-	from: string;
-	fx: string;
-	fy: string;
-	"glyph-orientation-horizontal": string;
-	"glyph-orientation-vertical": string;
-	gradientTransform: string;
-	gradientUnits: string;
-	height: string;
-	href: string;
-	hreflang: string;
-	id: string;
-	"image-rendering": string;
-	in: string;
-	in2: string;
-	intercept: string;
-	k1: string;
-	k2: string;
-	k3: string;
-	k4: string;
-	kernelMatrix: string;
-	kernelUnitLength: string;
-	keyPoints: string;
-	keySplines: string;
-	keyTimes: string;
-	lang: string;
-	lengthAdjust: string;
-	"letter-spacing": string;
-	"lighting-color": string;
-	limitingConeAngle: string;
-	"marker-end": string;
-	"marker-mid": string;
-	"marker-start": string;
-	markerHeight: string;
-	markerUnits: string;
-	markerWidth: string;
-	mask: string;
-	maskContentUnits: string;
-	maskUnits: string;
-	max: string;
-	media: string;
-	method: string;
-	min: string;
-	mode: string;
-	numOctaves: string;
-	offset: string;
-	opacity: string;
-	operator: string;
-	order: string;
-	orient: string;
-	origin: string;
-	overflow: string;
-	"paint-order": string;
-	path: string;
-	pathLength: string;
-	patternContentUnits: string;
-	patternTransform: string;
-	patternUnits: string;
-	ping: string;
-	"pointer-events": string;
-	points: string;
-	pointsAtX: string;
-	pointsAtY: string;
-	pointsAtZ: string;
-	preserveAlpha: string;
-	preserveAspectRatio: string;
-	primitiveUnits: string;
-	r: string;
-	radius: string;
-	referrerPolicy: string;
-	refX: string;
-	refY: string;
-	rel: string;
-	repeatCount: string;
-	repeatDur: string;
-	requiredExtensions: string;
-	requiredFeatures: string;
-	restart: string;
-	result: string;
-	rotate: string;
-	rx: string;
-	ry: string;
-	scale: string;
-	seed: string;
-	"shape-rendering": string;
-	side: string;
-	slope: string;
-	spacing: string;
-	specularConstant: string;
-	specularExponent: string;
-	spreadMethod: string;
-	startOffset: string;
-	stdDeviation: string;
-	stitchTiles: string;
-	"stop-color": string;
-	"stop-opacity": string;
-	stroke: string;
-	"stroke-dasharray": string;
-	"stroke-dashoffset": string;
-	"stroke-linecap": string;
-	"stroke-linejoin": string;
-	"stroke-miterlimit": string;
-	"stroke-opacity": string;
-	"stroke-width": string;
-	surfaceScale: string;
-	systemLanguage: string;
-	tabindex: string;
-	tableValues: string;
-	target: string;
-	targetX: string;
-	targetY: string;
-	"text-anchor": string;
-	"text-decoration": string;
-	"text-overflow": string;
-	"text-rendering": string;
-	textLength: string;
-	to: string;
-	transform: string;
-	"transform-origin": string;
-	type: string;
-	"unicode-bidi": string;
-	values: string;
-	"vector-effect": string;
-	version: string;
-	viewBox: string;
-	visibility: string;
-	"white-space": string;
-	width: string;
-	"word-spacing": string;
-	"writing-mode": string;
-	x: string;
-	x1: string;
-	x2: string;
-	xChannelSelector: string;
-	y: string;
-	y1: string;
-	y2: string;
-	yChannelSelector: string;
-	z: string;
-	zoomAndPan: string;
-}
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGAElementProps = SVGMinProps<SVGAElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGAnimateElementProps = SVGMinProps<SVGAnimateElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGAnimateMotionElementProps = SVGMinProps<SVGAnimateMotionElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGAnimateTransformElementProps = SVGMinProps<SVGAnimateTransformElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGCircleElementProps = SVGMinProps<SVGCircleElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGClipPathElementProps = SVGMinProps<SVGClipPathElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGDefsElementProps = SVGMinProps<SVGDefsElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGDescElementProps = SVGMinProps<SVGDescElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGEllipseElementProps = SVGMinProps<SVGEllipseElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEBlendElementProps = SVGMinProps<SVGFEBlendElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEColorMatrixElementProps = SVGMinProps<SVGFEColorMatrixElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEComponentTransferElementProps = SVGMinProps<SVGFEComponentTransferElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFECompositeElementProps = SVGMinProps<SVGFECompositeElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEConvolveMatrixElementProps = SVGMinProps<SVGFEConvolveMatrixElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEDiffuseLightingElementProps = SVGMinProps<SVGFEDiffuseLightingElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEDisplacementMapElementProps = SVGMinProps<SVGFEDisplacementMapElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEDistantLightElementProps = SVGMinProps<SVGFEDistantLightElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEDropShadowElementProps = SVGMinProps<SVGFEDropShadowElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEFloodElementProps = SVGMinProps<SVGFEFloodElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEFuncAElementProps = SVGMinProps<SVGFEFuncAElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEFuncBElementProps = SVGMinProps<SVGFEFuncBElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEFuncGElementProps = SVGMinProps<SVGFEFuncGElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEFuncRElementProps = SVGMinProps<SVGFEFuncRElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEGaussianBlurElementProps = SVGMinProps<SVGFEGaussianBlurElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEImageElementProps = SVGMinProps<SVGFEImageElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEMergeElementProps = SVGMinProps<SVGFEMergeElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEMergeNodeElementProps = SVGMinProps<SVGFEMergeNodeElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEMorphologyElementProps = SVGMinProps<SVGFEMorphologyElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEOffsetElementProps = SVGMinProps<SVGFEOffsetElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFEPointLightElementProps = SVGMinProps<SVGFEPointLightElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFESpecularLightingElementProps = SVGMinProps<SVGFESpecularLightingElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFESpotLightElementProps = SVGMinProps<SVGFESpotLightElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFETileElementProps = SVGMinProps<SVGFETileElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFETurbulenceElementProps = SVGMinProps<SVGFETurbulenceElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGFilterElementProps = SVGMinProps<SVGFilterElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGForeignObjectElementProps = SVGMinProps<SVGForeignObjectElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGGElementProps = SVGMinProps<SVGGElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGImageElementProps = SVGMinProps<SVGImageElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGLineElementProps = SVGMinProps<SVGLineElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGLinearGradientElementProps = SVGMinProps<SVGLinearGradientElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGMarkerElementProps = SVGMinProps<SVGMarkerElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGMaskElementProps = SVGMinProps<SVGMaskElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGMetadataElementProps = SVGMinProps<SVGMetadataElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGMPathElementProps = SVGMinProps<SVGMPathElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGPathElementProps = SVGMinProps<SVGPathElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGPatternElementProps = SVGMinProps<SVGPatternElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGPolygonElementProps = SVGMinProps<SVGPolygonElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGPolylineElementProps = SVGMinProps<SVGPolylineElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGRadialGradientElementProps = SVGMinProps<SVGRadialGradientElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGRectElementProps = SVGMinProps<SVGRectElement>;
-
-// /**
-//  * @bake
-//  * @extends SVGBaseProps
-//  */
-// export type SVGScriptElementProps = SVGMinProps<SVGScriptElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGSetElementProps = SVGMinProps<SVGSetElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGStopElementProps = SVGMinProps<SVGStopElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGStyleElementProps = SVGMinProps<SVGStyleElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGSVGElementProps = SVGMinProps<SVGSVGElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGSwitchElementProps = SVGMinProps<SVGSwitchElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGSymbolElementProps = SVGMinProps<SVGSymbolElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGTextElementProps = SVGMinProps<SVGTextElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGTextPathElementProps = SVGMinProps<SVGTextPathElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGTitleElementProps = SVGMinProps<SVGTitleElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGTSpanElementProps = SVGMinProps<SVGTSpanElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGUseElementProps = SVGMinProps<SVGUseElement>;
-
-/**
- * @bake
- * @extends SVGBaseProps
- */
-export type SVGViewElementProps = SVGMinProps<SVGViewElement>;
-
-// #endregion
-
-// #region IntrinsicElements
-
-/**
- * describes the props of all usable DOM elements
- * @preserve
- */
-export interface IntrinsicElements {
-	a: HTMLAnchorElementProps | SVGAElementProps;
-
-
+/** @preserve */
+export interface HTMLIntrinsicElements {
 	abbr: HTMLElementProps;
 	address: HTMLElementProps;
 	area: HTMLAreaElementProps;
@@ -1261,8 +671,1367 @@ export interface IntrinsicElements {
 	var: HTMLElementProps;
 	video: HTMLVideoElementProps;
 	wbr: HTMLElementProps;
+}
 
+// #endregion
 
+// #region SVG
+
+// SVG attributes on MDN:
+// https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute
+
+/** @bake */
+export type SVGGlobalProps = Finalize<WrapProps<{
+	autofocus: boolean;
+	class: string;
+	color: string;
+	display: string;
+	filter: string;
+	id: string;
+	lang: string;
+	style: string;
+	tabindex: number | string;
+	transform: string;
+	"transform-origin": string;
+}>>;
+
+type SVGProps<T, P = {}> = Finalize<NodeTypeProp<T> & ChildrenProp & WrapProps<P>>;
+
+/** @preserve */
+export type SVGAccumulate = "none" | "sum";
+
+/** @preserve */
+export type SVGAdditive = "replace" | "sum";
+
+/** @preserve */
+export type SVGAlignmentBaseline = "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" | "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "top" | "center" | "bottom";
+
+/** @preserve */
+export type SVGCalcMode = "discrete" | "linear" | "paced" | "spline";
+
+/** @preserve */
+export type SVGClipRule = "nonzero" | "evenodd" | "inherit";
+
+/** @preserve */
+export type SVGColorInterpolationFilters = "auto" | "sRGB" | "linearRGB";
+
+/** @preserve */
+export type SVGCrossOrigin = "" | "anonymous" | "use-credentials";
+
+/** @preserve */
+export type SVGTextDirection = "rtl" | "ltr";
+
+/** @preserve */
+export type SVGDominantBaseline = "auto" | "text-bottom" | "alphabetic" | "ideographic" | "middle" | "central" | "mathematical" | "hanging" | "text-top";
+
+/** @preserve */
+export type SVGEdgeMode = "duplicate" | "wrap" | "none";
+
+/** @preserve */
+export type SVGFillMode = "freeze" | "remove";
+
+/** @preserve */
+export type SVGFillRule = "nonzero" | "evenodd";
+
+/** @preserve */
+export type SVGFontStyle = "normal" | "italic" | "oblique";
+
+/** @preserve */
+export type SVGUnits = "userSpaceOnUse" | "objectBoundingBox";
+
+/** @preserve */
+export type SVGLengthAdjust = "spacing" | "spacingAndGlyphs";
+
+/** @preserve */
+export type SVGOverflow = "visible" | "hidden" | "scroll" | "auto";
+
+/** @preserve */
+export type SVGPointerEvents = "bounding-box" | "visiblePainted" | "visibleFill" | "visibleStroke" | "visible" | "painted" | "fill" | "stroke" | "all" | "none";
+
+/** @preserve */
+export type SVGRestart = "always" | "whenNotActive" | "never";
+
+/** @preserve */
+export type SVGShapeRendering = "auto" | "optimizeSpeed" | "crispEdges" | "geometricPrecision";
+
+/** @preserve */
+export type SVGSpreadMethod = "pad" | "reflect" | "repeat";
+
+/** @preserve */
+export type SVGStrokeLineCap = "butt" | "round" | "square";
+
+/** @preserve */
+export type SVGStrokeLineJoin = "arcs" | "bevel" | "miter" | "miter-clip" | "round";
+
+/** @preserve */
+export type SVGTextAnchor = "start" | "middle" | "end";
+
+/** @preserve */
+export type SVGUnicodeBidi = "normal" | "embed" | "isolate" | "bidi-override" | "isolate-override" | "plaintext";
+
+/** @preserve */
+export type SVGVectorEffect = "none" | "non-scaling-stroke" | "non-scaling-size" | "non-rotation" | "fixed-position";
+
+/** @preserve */
+export type SVGVisibility = "visible" | "hidden" | "collapse";
+
+/** @preserve */
+export type SVGWhiteSpace = "normal" | "pre" | "nowrap" | "pre-wrap" | "break-space" | "pre-line";
+
+/** @preserve */
+export type SVGWritingMode = "horizontal-tb" | "vertical-rl" | "vertical-lr";
+
+/** @preserve */
+export type SVGColorChannel = "R" | "G" | "B" | "A";
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGAElementProps = SVGProps<SVGAElement, {
+	"clip-path": string;
+	cursor: string;
+	href: string;
+	mask: string;
+	opacity: number | string;
+	"pointer-events": SVGPointerEvents;
+	referrerpolicy: ReferrerPolicy;
+	rel: string;
+	requiredExtensions: string;
+	systemLanguage: string;
+	target: string;
+	visibility: SVGVisibility;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGAnimateElementProps = SVGProps<SVGAnimateElement, {
+	accumulate: SVGAccumulate;
+	additive: SVGAdditive;
+	attributeName: string;
+	begin: string;
+	by: number | string;
+	calcMode: SVGCalcMode;
+	dur: number | string;
+	end: string;
+	fill: SVGFillMode;
+	from: number | string;
+	href: string;
+	keyPoints: string;
+	keySplines: string;
+	keyTimes: string;
+	max: string;
+	min: string;
+	repeatCount: number | "indefinite";
+	repeatDur: number | string;
+	requiredExtensions: string;
+	restart: SVGRestart;
+	systemLanguage: string;
+	to: number | string;
+	values: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGAnimateMotionElementProps = SVGProps<SVGAnimateMotionElement, {
+	accumulate: SVGAccumulate;
+	additive: SVGAdditive;
+	begin: string;
+	by: number | string;
+	calcMode: SVGCalcMode;
+	dur: number | string;
+	end: string;
+	fill: SVGFillMode;
+	from: number | string;
+	href: string;
+	keyPoints: string;
+	keySplines: string;
+	keyTimes: string;
+	max: string;
+	min: string;
+	path: string;
+	repeatCount: number | "indefinite";
+	repeatDur: number | string;
+	requiredExtensions: string;
+	restart: SVGRestart;
+	rotate: number | "auto" | "auto-reverse";
+	systemLanguage: string;
+	to: number | string;
+	values: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGAnimateTransformElementProps = SVGProps<SVGAnimateTransformElement, {
+	accumulate: SVGAccumulate;
+	additive: SVGAdditive;
+	attributeName: string;
+	begin: string;
+	by: number | string;
+	calcMode: SVGCalcMode;
+	dur: number | string;
+	end: string;
+	fill: SVGFillMode;
+	from: number | string;
+	href: string;
+	keyPoints: string;
+	keySplines: string;
+	keyTimes: string;
+	max: string;
+	min: string;
+	repeatCount: number | "indefinite";
+	repeatDur: number | string;
+	requiredExtensions: string;
+	restart: SVGRestart;
+	systemLanguage: string;
+	to: number | string;
+	type: string;
+	values: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGCircleElementProps = SVGProps<SVGCircleElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	cx: number | string;
+	cy: number | string;
+	fill: string;
+	"fill-opacity": number | string;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	r: number | string;
+	requiredExtensions: string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGClipPathElementProps = SVGProps<SVGClipPathElement, {
+	"clip-path": string;
+	clipPathUnits: SVGUnits;
+	mask: string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGDefsElementProps = SVGProps<SVGDefsElement, {
+	cursor: string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGDescElementProps = SVGProps<SVGDescElement, {
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGEllipseElementProps = SVGProps<SVGEllipseElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	cx: number | string;
+	cy: number | string;
+	fill: string;
+	"fill-opacity": number | string;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	rx: number | string;
+	ry: number | string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEBlendElementProps = SVGProps<SVGFEBlendElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	in2: string;
+	mode: string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEColorMatrixElementProps = SVGProps<SVGFEColorMatrixElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	result: string;
+	type: string;
+	values: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEComponentTransferElementProps = SVGProps<SVGFEComponentTransferElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFECompositeElementProps = SVGProps<SVGFECompositeElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	in2: string;
+	k1: number | string;
+	k2: number | string;
+	k3: number | string;
+	k4: number | string;
+	operator: "over" | "in" | "out" | "atop" | "xor" | "lighter" | "arithmetic";
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEConvolveMatrixElementProps = SVGProps<SVGFEConvolveMatrixElement, {
+	bias: number | string;
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	divisor: number | string;
+	edgeMode: SVGEdgeMode;
+	height: number | string;
+	in: string;
+	kernelMatrix: string;
+	kernelUnitLength: number | string;
+	order: number | string;
+	preserveAlpha: boolean | string;
+	result: string;
+	targetX: number | string;
+	targetY: number | string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEDiffuseLightingElementProps = SVGProps<SVGFEDiffuseLightingElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	diffuseConstant: number | string;
+	height: number | string;
+	in: string;
+	kernelUnitLength: number | string;
+	"lighting-color": string;
+	result: string;
+	surfaceScale: number | string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEDisplacementMapElementProps = SVGProps<SVGFEDisplacementMapElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	in2: string;
+	result: string;
+	scale: number | string;
+	width: number | string;
+	x: number | string;
+	xChannelSelector: SVGColorChannel;
+	y: number | string;
+	yChannelSelector: SVGColorChannel;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEDistantLightElementProps = SVGProps<SVGFEDistantLightElement, {
+	azimuth: number | string;
+	elevation: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEDropShadowElementProps = SVGProps<SVGFEDropShadowElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	dx: number | string;
+	dy: number | string;
+	"flood-color": string;
+	"flood-opacity": number | string;
+	height: number | string;
+	in: string;
+	result: string;
+	stdDeviation: number | string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEFloodElementProps = SVGProps<SVGFEFloodElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	"flood-color": string;
+	"flood-opacity": number | string;
+	height: number | string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEFuncAElementProps = SVGProps<SVGFEFuncAElement, {
+	amplitude: number | string;
+	exponent: number | string;
+	intercept: number | string;
+	slope: number | string;
+	tableValues: string;
+	type: string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEFuncBElementProps = SVGProps<SVGFEFuncBElement, {
+	amplitude: number | string;
+	exponent: number | string;
+	intercept: number | string;
+	slope: number | string;
+	tableValues: string;
+	type: string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEFuncGElementProps = SVGProps<SVGFEFuncGElement, {
+	amplitude: number | string;
+	exponent: number | string;
+	intercept: number | string;
+	slope: number | string;
+	tableValues: string;
+	type: string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEFuncRElementProps = SVGProps<SVGFEFuncRElement, {
+	amplitude: number | string;
+	exponent: number | string;
+	intercept: number | string;
+	slope: number | string;
+	tableValues: string;
+	type: string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEGaussianBlurElementProps = SVGProps<SVGFEGaussianBlurElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	edgeMode: SVGEdgeMode;
+	height: number | string;
+	in: string;
+	result: string;
+	stdDeviation: number | string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEImageElementProps = SVGProps<SVGFEImageElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	href: string;
+	preserveAspectRatio: string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEMergeElementProps = SVGProps<SVGFEMergeElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEMergeNodeElementProps = SVGProps<SVGFEMergeNodeElement, {
+	in: string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEMorphologyElementProps = SVGProps<SVGFEMorphologyElement, {
+	height: number | string;
+	in: string;
+	operator: "erode" | "dilate";
+	radius: number | string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEOffsetElementProps = SVGProps<SVGFEOffsetElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	dx: number | string;
+	dy: number | string;
+	height: number | string;
+	in: string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFEPointLightElementProps = SVGProps<SVGFEPointLightElement, {
+	x: number | string;
+	y: number | string;
+	z: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFESpecularLightingElementProps = SVGProps<SVGFESpecularLightingElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	kernelUnitLength: number | string;
+	"lighting-color": string;
+	result: string;
+	specularConstant: number | string;
+	specularExponent: number | string;
+	surfaceScale: number | string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFESpotLightElementProps = SVGProps<SVGFESpotLightElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	limitingConeAngle: number | string;
+	pointsAtX: number | string;
+	pointsAtY: number | string;
+	pointsAtZ: number | string;
+	specularExponent: number | string;
+	x: number | string;
+	y: number | string;
+	z: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFETileElementProps = SVGProps<SVGFETileElement, {
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	in: string;
+	result: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFETurbulenceElementProps = SVGProps<SVGFETurbulenceElement, {
+	baseFrequency: number | string;
+	"color-interpolation-filters": SVGColorInterpolationFilters;
+	height: number | string;
+	numOctaves: number | string;
+	result: string;
+	seed: number | string;
+	stitchTiles: "noStitch" | "stitch";
+	type: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGFilterElementProps = SVGProps<SVGFilterElement, {
+	filterUnits: SVGUnits;
+	height: number | string;
+	primitiveUnits: SVGUnits;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGForeignObjectElementProps = SVGProps<SVGForeignObjectElement, {
+	opacity: number | string;
+	overflow: SVGOverflow;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGGElementProps = SVGProps<SVGGElement, {
+	"clip-path": string;
+	cursor: string;
+	mask: string;
+	opacity: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGImageElementProps = SVGProps<SVGImageElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	crossorigin: SVGCrossOrigin;
+	cursor: string;
+	decoding: "auto" | "sync" | "async";
+	height: number | string;
+	href: string;
+	"image-rendering": "auto" | "optimizeSpeed" | "optimizeQuality";
+	mask: string;
+	opacity: number | string;
+	overflow: SVGOverflow;
+	"pointer-events": SVGPointerEvents;
+	preserveAspectRatio: string;
+	requiredExtensions: string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGLineElementProps = SVGProps<SVGLineElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	orient: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linecap": SVGStrokeLineCap;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	x1: number | string;
+	x2: number | string;
+	y1: number | string;
+	y2: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGLinearGradientElementProps = SVGProps<SVGLinearGradientElement, {
+	gradientTransform: string;
+	gradientUnits: SVGUnits;
+	href: string;
+	spreadMethod: SVGSpreadMethod;
+	x1: number | string;
+	x2: number | string;
+	y1: number | string;
+	y2: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGMarkerElementProps = SVGProps<SVGMarkerElement, {
+	"clip-path": string;
+	cursor: string;
+	markerHeight: number | string;
+	markerUnits: "userSpaceOnUse" | "strokeWidth";
+	markerWidth: number | string;
+	mask: string;
+	opacity: number | string;
+	overflow: SVGOverflow;
+	"pointer-events": SVGPointerEvents;
+	preserveAspectRatio: string;
+	refX: number | string;
+	refY: number | string;
+	viewBox: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGMaskElementProps = SVGProps<SVGMaskElement, {
+	"clip-path": string;
+	cursor: string;
+	height: number | string;
+	mask: string;
+	"mask-type": "alpha" | "luminance";
+	maskContentUnits: SVGUnits;
+	maskUnits: SVGUnits;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGMetadataElementProps = SVGProps<SVGMetadataElement, {
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGMPathElementProps = SVGProps<SVGMPathElement, {
+	href: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGPathElementProps = SVGProps<SVGPathElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	d: string;
+	fill: string;
+	"fill-opacity": number | string;
+	"fill-rule": SVGFillRule;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linecap": SVGStrokeLineCap;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGPatternElementProps = SVGProps<SVGPatternElement, {
+	"clip-path": string;
+	cursor: string;
+	height: number | string;
+	href: string;
+	mask: string;
+	overflow: SVGOverflow;
+	patternContentUnits: SVGUnits;
+	patternTransform: string;
+	patternUnits: SVGUnits;
+	"pointer-events": SVGPointerEvents;
+	preserveAspectRatio: string;
+	requiredExtensions: string;
+	systemLanguage: string;
+	viewBox: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGPolygonElementProps = SVGProps<SVGPolygonElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	fill: string;
+	"fill-opacity": number | string;
+	"fill-rule": SVGFillRule;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	points: string;
+	requiredExtensions: string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGPolylineElementProps = SVGProps<SVGPolylineElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	fill: string;
+	"fill-opacity": number | string;
+	"fill-rule": SVGFillRule;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	points: string;
+	requiredExtensions: string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linecap": SVGStrokeLineCap;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGRadialGradientElementProps = SVGProps<SVGRadialGradientElement, {
+	cx: number | string;
+	cy: number | string;
+	fr: number | string;
+	fx: number | string;
+	fy: number | string;
+	gradientTransform: string;
+	gradientUnits: SVGUnits;
+	href: string;
+	r: number | string;
+	spreadMethod: SVGSpreadMethod;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGRectElementProps = SVGProps<SVGRectElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	fill: string;
+	"fill-opacity": number | string;
+	height: number | string;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	mask: string;
+	opacity: number | string;
+	"paint-order": string;
+	pathLength: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	rx: number | string;
+	ry: number | string;
+	"shape-rendering": SVGShapeRendering;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+// /**
+//  * @bake
+//  * @extends SVGGlobalProps
+//  */
+// export type SVGScriptElementProps = SVGProps<SVGScriptElement, {
+// 	crossorigin: SVGCrossOrigin;
+// 	href: string;
+// 	type: string;
+// }>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGSetElementProps = SVGProps<SVGSetElement, {
+	attributeName: string;
+	begin: string;
+	dur: number | string;
+	end: string;
+	fill: SVGFillMode;
+	href: string;
+	keyPoints: string;
+	max: string;
+	min: string;
+	repeatCount: number | "indefinite";
+	repeatDur: number | string;
+	requiredExtensions: string;
+	restart: SVGRestart;
+	systemLanguage: string;
+	to: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGStopElementProps = SVGProps<SVGStopElement, {
+	"stop-color": string;
+	"stop-opacity": number | string;
+}>;
+
+// /**
+//  * @bake
+//  * @extends SVGGlobalProps
+//  */
+// export type SVGStyleElementProps = SVGProps<SVGStyleElement, {
+// 	media: string;
+// 	type: string;
+// }>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGSVGElementProps = SVGProps<SVGSVGElement, {
+	"clip-path": string;
+	cursor: string;
+	fill: string;
+	height: number | string;
+	mask: string;
+	opacity: number | string;
+	overflow: SVGOverflow;
+	"pointer-events": SVGPointerEvents;
+	preserveAspectRatio: string;
+	requiredExtensions: string;
+	stroke: string;
+	systemLanguage: string;
+	viewBox: string;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGSwitchElementProps = SVGProps<SVGSwitchElement, {
+	cursor: string;
+	opacity: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGSymbolElementProps = SVGProps<SVGSymbolElement, {
+	"clip-path": string;
+	cursor: string;
+	mask: string;
+	opacity: number | string;
+	overflow: SVGOverflow;
+	"pointer-events": SVGPointerEvents;
+	preserveAspectRatio: string;
+	viewBox: string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGTextElementProps = SVGProps<SVGTextElement, {
+	"alignment-baseline": SVGAlignmentBaseline;
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	direction: SVGTextDirection;
+	"dominant-baseline": SVGDominantBaseline;
+	dx: number | string;
+	dy: number | string;
+	fill: string;
+	"fill-opacity": number | string;
+	"fill-rule": SVGFillRule;
+	"font-family": string;
+	"font-size": number | string;
+	"font-size-adjust": string;
+	"font-style": SVGFontStyle;
+	"font-variant": string;
+	"font-weight": number | string;
+	lengthAdjust: SVGLengthAdjust;
+	"letter-spacing": string;
+	mask: string;
+	opacity: number | string;
+	overflow: SVGOverflow;
+	"paint-order": string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linecap": SVGStrokeLineCap;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"text-anchor": SVGTextAnchor;
+	"text-decoration": string;
+	"text-overflow": "clip" | "ellipses";
+	"text-rendering": "auto" | "optimizeSpeed" | "optimizeLegibility" | "geometricPrecision";
+	textLength: number | string;
+	"unicode-bidi": SVGUnicodeBidi;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	"white-space": SVGWhiteSpace;
+	"word-spacing": number | string;
+	"writing-mode": SVGWritingMode;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGTextPathElementProps = SVGProps<SVGTextPathElement, {
+	"alignment-baseline": SVGAlignmentBaseline;
+	"baseline-shift": string;
+	direction: SVGTextDirection;
+	"dominant-baseline": SVGDominantBaseline;
+	fill: string;
+	"fill-opacity": number | string;
+	"fill-rule": SVGFillRule;
+	"font-family": string;
+	"font-size": number | string;
+	"font-size-adjust": string;
+	"font-style": SVGFontStyle;
+	"font-variant": string;
+	"font-weight": number | string;
+	href: string;
+	lengthAdjust: SVGLengthAdjust;
+	"letter-spacing": string;
+	method: "align" | "stretch";
+	opacity: number | string;
+	"paint-order": string;
+	path: string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	spacing: "auto" | "exact";
+	startOffset: number | string;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linecap": SVGStrokeLineCap;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"text-anchor": SVGTextAnchor;
+	"text-decoration": string;
+	"text-overflow": "clip" | "ellipses";
+	textLength: number | string;
+	"unicode-bidi": SVGUnicodeBidi;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	"white-space": SVGWhiteSpace;
+	"word-spacing": number | string;
+	"writing-mode": SVGWritingMode;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGTitleElementProps = SVGProps<SVGTitleElement, {
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGTSpanElementProps = SVGProps<SVGTSpanElement, {
+	"alignment-baseline": SVGAlignmentBaseline;
+	"baseline-shift": string;
+	direction: SVGTextDirection;
+	"dominant-baseline": SVGDominantBaseline;
+	dx: number | string;
+	dy: number | string;
+	fill: string;
+	"fill-opacity": number | string;
+	"fill-rule": SVGFillRule;
+	"font-family": string;
+	"font-size": number | string;
+	"font-size-adjust": string;
+	"font-style": SVGFontStyle;
+	"font-variant": string;
+	"font-weight": number | string;
+	lengthAdjust: SVGLengthAdjust;
+	"letter-spacing": string;
+	opacity: number | string;
+	"paint-order": string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": number | string;
+	"stroke-linecap": SVGStrokeLineCap;
+	"stroke-linejoin": SVGStrokeLineJoin;
+	"stroke-miterlimit": number | string;
+	"stroke-opacity": number | string;
+	"stroke-width": number | string;
+	systemLanguage: string;
+	"text-anchor": SVGTextAnchor;
+	"text-decoration": string;
+	"text-overflow": "clip" | "ellipses";
+	textLength: number | string;
+	"unicode-bidi": SVGUnicodeBidi;
+	"vector-effect": SVGVectorEffect;
+	visibility: SVGVisibility;
+	"white-space": SVGWhiteSpace;
+	"word-spacing": number | string;
+	"writing-mode": SVGWritingMode;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGUseElementProps = SVGProps<SVGUseElement, {
+	"clip-path": string;
+	"clip-rule": SVGClipRule;
+	cursor: string;
+	height: number | string;
+	href: string;
+	mask: string;
+	opacity: number | string;
+	"pointer-events": SVGPointerEvents;
+	requiredExtensions: string;
+	systemLanguage: string;
+	"vector-effect": SVGVectorEffect;
+	width: number | string;
+	x: number | string;
+	y: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends SVGGlobalProps
+ */
+export type SVGViewElementProps = SVGProps<SVGViewElement, {
+	preserveAspectRatio: string;
+	viewBox: string;
+}>;
+
+/** @preserve */
+export interface SVGIntrinsicElements {
 	animate: SVGAnimateElementProps;
 	animateMotion: SVGAnimateMotionElementProps;
 	animateTransform: SVGAnimateTransformElementProps;
@@ -1315,7 +2084,7 @@ export interface IntrinsicElements {
 	// script: SVGScriptElementProps;
 	set: SVGSetElementProps;
 	stop: SVGStopElementProps;
-	style: SVGStyleElementProps;
+	// style: SVGStyleElementProps;
 	// svg: SVGSVGBaseProps;
 	switch: SVGSwitchElementProps;
 	symbol: SVGSymbolElementProps;
@@ -1328,3 +2097,169 @@ export interface IntrinsicElements {
 }
 
 // #endregion
+
+// #region MathML
+
+// MathML attributes on MDN:
+// https://developer.mozilla.org/en-US/docs/Web/MathML/Reference/Global_attributes
+
+/** @bake */
+export type MathMLGlobalProps = Finalize<WrapProps<{
+	dir: "ltr" | "rtl";
+	displaystyle: boolean;
+	mathbackground: string;
+	mathcolor: string;
+	mathsize: string;
+	scriptlevel: string;
+}>>;
+
+type MathMLProps<T, P = {}> = Finalize<NodeTypeProp<T> & ChildrenProp & WrapProps<P>>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MathMLElementProps = MathMLProps<MathMLElement>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MathMLMathElementProps = MathMLProps<MathMLElement, {
+	display: "block" | "inline";
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLFracElementProps = MathMLProps<MathMLElement, {
+	linethickness: string;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLIElementProps = MathMLProps<MathMLElement, {
+	mathvariant: "normal";
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLOElementProps = MathMLProps<MathMLElement, {
+	fence: boolean;
+	form: "prefix" | "infix" | "postfix";
+	largeop: boolean;
+	lspace: string;
+	maxsize: string;
+	minsize: string;
+	movablelimits: boolean;
+	rspace: string;
+	separator: boolean;
+	stretchy: boolean;
+	symmetric: boolean;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLOverElementProps = MathMLProps<MathMLElement, {
+	accent: boolean;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLPaddedElementProps = MathMLProps<MathMLElement, {
+	depth: string;
+	height: string;
+	lspace: string;
+	voffset: string;
+	width: string;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLSpaceElementProps = MathMLProps<MathMLElement, {
+	depth: string;
+	height: string;
+	width: string;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLTDElementProps = MathMLProps<MathMLElement, {
+	columnspan: number | string;
+	rowspan: number | string;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLUnderElementProps = MathMLProps<MathMLElement, {
+	accentunder: boolean;
+}>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLUnderOverElementProps = MathMLProps<MathMLElement, {
+	accent: boolean;
+	accentunder: boolean;
+}>;
+
+/** @preserve */
+export interface MathMLIntrinsicElements {
+	math: MathMLMathElementProps;
+	merror: MathMLElementProps;
+	mfrac: MatMLFracElementProps;
+	mi: MatMLIElementProps;
+	mmultiscripts: MathMLElementProps;
+	mn: MathMLElementProps;
+	mo: MatMLOElementProps;
+	mover: MatMLOverElementProps;
+	mpadded: MatMLPaddedElementProps;
+	mphantom: MathMLElementProps;
+	mprescripts: MathMLElementProps;
+	mroot: MathMLElementProps;
+	mrow: MathMLElementProps;
+	ms: MathMLElementProps;
+	mspace: MatMLSpaceElementProps;
+	msqrt: MathMLElementProps;
+	mstyle: MathMLElementProps;
+	msub: MathMLElementProps;
+	msup: MathMLElementProps;
+	msubsup: MathMLElementProps;
+	mtable: MathMLElementProps;
+	mtd: MatMLTDElementProps;
+	mtext: MathMLElementProps;
+	mtr: MathMLElementProps;
+	munder: MatMLUnderElementProps;
+	munderover: MatMLUnderOverElementProps;
+
+	// difficult to support due to the inclusion of extra XML namespaces:
+	// - semantics
+	// - annotation
+	// - annotation-xml
+}
+
+// #endregion
+
+/**
+ * describes the props of all usable DOM elements
+ * @preserve
+ */
+export interface IntrinsicElements extends HTMLIntrinsicElements, SVGIntrinsicElements, MathMLIntrinsicElements {
+	a: HTMLAnchorElementProps | SVGAElementProps;
+}
