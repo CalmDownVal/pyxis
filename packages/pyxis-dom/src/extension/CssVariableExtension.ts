@@ -1,13 +1,15 @@
-import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom, type Nil } from "@calmdown/pyxis";
+import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom, type Nil, type NodeType } from "@calmdown/pyxis";
 
 export interface CssVariableExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
-		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
-			readonly [TVarName in string]?: MaybeAtom<Nil<string | number>>;
-		}>;
+		[TElementName in keyof TElements]: (
+			NodeType<TElements[TElementName]> extends ElementCSSInlineStyle
+				? TElements[TElementName] & ExtensionProps<TExtensionKey, { readonly [TVarName in string]?: MaybeAtom<Nil<string | number>> }>
+				: TElements[TElementName]
+		);
 	};
 
-	set: (node: HTMLElement, varName: string, value: MaybeAtom<Nil<string | number>>) => void;
+	set: (node: ElementCSSInlineStyle, varName: string, value: MaybeAtom<Nil<string | number>>) => void;
 }
 
 export const CssVariableExtension = {

@@ -2,12 +2,12 @@ import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type Ma
 
 export interface ClassListExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
-		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
-			readonly [_ in string]?: MaybeAtom<boolean>;
-		}>;
+		[TElementName in keyof TElements]: (
+			TElements[TElementName] & ExtensionProps<TExtensionKey, { readonly [TClassName in string]?: MaybeAtom<boolean> }>
+		);
 	};
 
-	set: (node: HTMLElement, className: string, toggle: MaybeAtom<boolean>) => void;
+	set: (node: Element, className: string, toggle: MaybeAtom<boolean>) => void;
 }
 
 export const ClassListExtension = {

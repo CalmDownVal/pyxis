@@ -2,9 +2,11 @@ import { getLifecycle, isAtom, reaction, read, unmounted, withLifecycle, type El
 
 export interface EventExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
-		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
-			readonly [TEventName in keyof GlobalEventHandlersEventMap]?: EventListenerType<GlobalEventHandlersEventMap[TEventName], NodeType<TElements[TElementName]>, TEventName>;
-		}>;
+		[TElementName in keyof TElements]: (
+			TElements[TElementName] & ExtensionProps<TExtensionKey, {
+				readonly [TEventName in keyof GlobalEventHandlersEventMap]?: EventListenerType<GlobalEventHandlersEventMap[TEventName], NodeType<TElements[TElementName]>, TEventName>;
+			}>
+		);
 	};
 
 	set: (node: HTMLElement, className: string, toggle: EventListenerType<unknown, unknown, string>) => void;

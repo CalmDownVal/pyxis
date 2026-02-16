@@ -2,9 +2,9 @@ import { unmounted, write, type Atom, type ElementsType, type ExtensionProps } f
 
 export interface ResizeObserverExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
-		[TElementName in keyof TElements]: TElements[TElementName] & ExtensionProps<TExtensionKey, {
-			readonly block?: Atom<number>;
-		}>;
+		[TElementName in keyof TElements]: (
+			TElements[TElementName] & ExtensionProps<TExtensionKey, { readonly block?: Atom<number> }>
+		);
 	};
 
 	set: (node: Element, kind: "block" | "inline", size: Atom<number>) => void;
