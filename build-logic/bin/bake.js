@@ -53,12 +53,12 @@ const flags =
 
 
 function visit(node) {
-	const jsdocTags = ts.getJSDocTags(node);
-	if (jsdocTags.some(it => it.tagName.escapedText === "preserve")) {
+	const tags = resolveTags(node);
+	if (tags.isPreserved) {
 		visitPreservedNode(node);
 	}
-	else if (jsdocTags.some(it => it.tagName.escapedText === "bake")) {
-		visitBakedNode(node);
+	else if (tags.isBaked) {
+		visitBakedNode(node, tags.extensions);
 	}
 
 	ts.forEachChild(node, visit);
@@ -69,7 +69,7 @@ function visitPreservedNode(node) {
 	output.write("\n\n");
 }
 
-function visitBakedNode(node) {
+function visitBakedNode(node, extensions) {
 	if (!ts.isTypeAliasDeclaration(node)) {
 		throw new Error("the @bake tag is only applicable to type aliases");
 	}
@@ -87,9 +87,58 @@ function visitBakedNode(node) {
 	// add newline before closing bracket
 	typeStr = typeStr.replace(/\}$/, "\n}");
 
-	output.write(`export interface ${node.name.escapedText} `);
+	// check if the type is exported
+	const declaration = node.modifiers?.some(it => it.kind === ts.SyntaxKind.ExportKeyword)
+		? "export interface"
+		: "interface";
+
+	// add extends clause, if specified
+	let extension = "";
+	if (extensions.length > 0) {
+		extension = `extends ${extensions.join(", ")} `;
+	}
+
+	output.write(`${declaration} ${node.name.text} ${extension}`);
 	output.write(typeStr);
 	output.write("\n\n");
+}
+
+function resolveTags(node) {
+	const jsdocTags = ts.getJSDocTags(node);
+	const extensions = [];
+	let isPreserved = false;
+	let isBaked = false;
+
+	for (const tag of jsdocTags) {
+		switch (tag.tagName.text) {
+			case "preserve":
+				isPreserved = true;
+				break;
+
+			case "bake":
+				isBaked = true;
+				break;
+
+			case "extends": {
+				const ref = tag.class?.expression?.text;
+				if (typeof ref === "string") {
+					extensions.push(ref);
+				}
+
+				break;
+			}
+		}
+	}
+
+	if (isPreserved && isBaked) {
+		throw new Error("the @bake and @preserve tags are mutually exclusive");
+	}
+
+	return {
+		extensions,
+		isPreserved,
+		isBaked,
+	};
 }
 
 visit(input);
