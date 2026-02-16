@@ -7,15 +7,6 @@ import type { PROP_MAP } from "./mapping";
 // TODO: MathML support
 // ...or maybe a generic xmlns support?
 
-/** infers the usable props of a DOM element from its native typings */
-type BasePropsOf<T> = Finalize<
-	& MapProps<WrapProps<OmitBanned<OmitFunctions<OmitReadonly<OmitIndex<T>>>>>, typeof PROP_MAP>
-	& {
-		readonly [S_NODE_TYPE]?: T;
-		children: JsxChildren;
-	}
->;
-
 /** omits any catch-all index signatures from T */
 type OmitIndex<T> = {
 	[K in keyof T as (
@@ -38,8 +29,8 @@ type Equals<A, B, Y, N> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X ext
 /** omits any functions from an object type */
 type OmitFunctions<T> = Pick<T, { [K in keyof T] -?: T[K] extends Nil<(...args: any) => any> ? never : K }[keyof T]>;
 
-/** omits a select set of "banned" properties, mainly direct HTML or text manipulation as that should be done via Pyxis' own mechanics */
-type OmitBanned<T> = Omit<T, "children" | "classList" | "style" | "innerHTML" | "outerHTML" | "innerText" | "outerText" | "textContent" | "nodeValue">;
+/** applies custom field overrides O over the given type T */
+type ApplyOverrides<T, O> = Omit<T, keyof O> & Pick<O, { [K in keyof O]: O[K] extends never ? never : K }[keyof O]>;
 
 /** wraps each property type in MaybeAtom to allow the use of atoms on properties of intrinsic elements */
 type WrapProps<T> = { [K in keyof T]: MaybeAtom<T[K]> };
@@ -63,204 +54,707 @@ type MappedPropKeys<T, M extends { [K in string]: string }> =
 type Finalize<T> = { readonly [K in keyof T]?: T[K] };
 
 
-/** @bake */
-export type CSSStyleDeclarationProps = Finalize<WrapProps<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration & ExtraCSSStyleDeclaration>>>>>;
+// #region CSS
 
-/** some newly available extras, currently missing in DOM types */
-interface ExtraCSSStyleDeclaration {
+/** @bake */
+export type CSSStyleDeclarationProps = Finalize<WrapProps<ApplyOverrides<OmitFunctions<OmitReadonly<OmitIndex<CSSStyleDeclaration>>>, CSSPropOverrides>>>;
+
+interface CSSPropOverrides {
 	anchorName: string;
+	clip: never;
+	fontStretch: never;
+	gridColumnGap: never;
+	gridGap: never;
+	gridRowGap: never;
+	imageOrientation: never;
+	pageBreakAfter: never;
+	pageBreakBefore: never;
+	pageBreakInside: never;
 	positionAnchor: string;
+	webkitAlignContent: never;
+	webkitAlignItems: never;
+	webkitAlignSelf: never;
+	webkitAnimation: never;
+	webkitAnimationDelay: never;
+	webkitAnimationDirection: never;
+	webkitAnimationDuration: never;
+	webkitAnimationFillMode: never;
+	webkitAnimationIterationCount: never;
+	webkitAnimationName: never;
+	webkitAnimationPlayState: never;
+	webkitAnimationTimingFunction: never;
+	webkitAppearance: never;
+	webkitBackfaceVisibility: never;
+	webkitBackgroundClip: never;
+	webkitBackgroundOrigin: never;
+	webkitBackgroundSize: never;
+	webkitBorderBottomLeftRadius: never;
+	webkitBorderBottomRightRadius: never;
+	webkitBorderRadius: never;
+	webkitBorderTopLeftRadius: never;
+	webkitBorderTopRightRadius: never;
+	webkitBoxAlign: never;
+	webkitBoxFlex: never;
+	webkitBoxOrdinalGroup: never;
+	webkitBoxOrient: never;
+	webkitBoxPack: never;
+	webkitBoxShadow: never;
+	webkitBoxSizing: never;
+	webkitFilter: never;
+	webkitFlex: never;
+	webkitFlexBasis: never;
+	webkitFlexDirection: never;
+	webkitFlexFlow: never;
+	webkitFlexGrow: never;
+	webkitFlexShrink: never;
+	webkitFlexWrap: never;
+	webkitJustifyContent: never;
+	webkitMask: never;
+	webkitMaskBoxImage: never;
+	webkitMaskBoxImageOutset: never;
+	webkitMaskBoxImageRepeat: never;
+	webkitMaskBoxImageSlice: never;
+	webkitMaskBoxImageSource: never;
+	webkitMaskBoxImageWidth: never;
+	webkitMaskClip: never;
+	webkitMaskComposite: never;
+	webkitMaskImage: never;
+	webkitMaskOrigin: never;
+	webkitMaskPosition: never;
+	webkitMaskRepeat: never;
+	webkitMaskSize: never;
+	webkitOrder: never;
+	webkitPerspective: never;
+	webkitPerspectiveOrigin: never;
+	webkitTextSizeAdjust: never;
+	webkitTransform: never;
+	webkitTransformOrigin: never;
+	webkitTransformStyle: never;
+	webkitTransition: never;
+	webkitTransitionDelay: never;
+	webkitTransitionDuration: never;
+	webkitTransitionProperty: never;
+	webkitTransitionTimingFunction: never;
+	webkitUserSelect: never;
+	wordWrap: never;
 }
 
+// #endregion
+
+// #region HTML
+
+type HTMLProps<T> = Finalize<{ readonly [S_NODE_TYPE]?: T } & MapProps<WrapProps<ApplyOverrides<OmitFunctions<OmitReadonly<OmitIndex<T>>>, HTMLPropOverrides>>, typeof PROP_MAP>>;
+
+interface HTMLPropOverrides {
+	children: JsxChildren;
+	classList: never;
+	innerHTML: never;
+	innerText: never;
+	nodeValue: never;
+	outerHTML: never;
+	outerText: never;
+	part: string;
+	style: never;
+	textContent: never;
+}
 
 /** @bake */
-export type HTMLAnchorElementProps = BasePropsOf<HTMLAnchorElement>;
+export type HTMLAnchorElementProps = HTMLProps<HTMLAnchorElement>;
 
 /** @bake */
-export type HTMLElementProps = BasePropsOf<HTMLElement>;
+export type HTMLElementProps = HTMLProps<HTMLElement>;
 
 /** @bake */
-export type HTMLAreaElementProps = BasePropsOf<HTMLAreaElement>;
+export type HTMLAreaElementProps = HTMLProps<HTMLAreaElement>;
 
 /** @bake */
-export type HTMLAudioElementProps = BasePropsOf<HTMLAudioElement>;
+export type HTMLAudioElementProps = HTMLProps<HTMLAudioElement>;
 
 /** @bake */
-export type HTMLBaseElementProps = BasePropsOf<HTMLBaseElement>;
+export type HTMLBaseElementProps = HTMLProps<HTMLBaseElement>;
 
 /** @bake */
-export type HTMLQuoteElementProps = BasePropsOf<HTMLQuoteElement>;
+export type HTMLQuoteElementProps = HTMLProps<HTMLQuoteElement>;
 
 // /** @bake */
-// export type HTMLBodyElementProps = BasePropsOf<HTMLBodyElement>;
+// export type HTMLBodyElementProps = HTMLProps<HTMLBodyElement>;
 
 /** @bake */
-export type HTMLBRElementProps = BasePropsOf<HTMLBRElement>;
+export type HTMLBRElementProps = HTMLProps<HTMLBRElement>;
 
 /** @bake */
-export type HTMLButtonElementProps = BasePropsOf<HTMLButtonElement>;
+export type HTMLButtonElementProps = HTMLProps<HTMLButtonElement>;
 
 /** @bake */
-export type HTMLCanvasElementProps = BasePropsOf<HTMLCanvasElement>;
+export type HTMLCanvasElementProps = HTMLProps<HTMLCanvasElement>;
 
 /** @bake */
-export type HTMLTableCaptionElementProps = BasePropsOf<HTMLTableCaptionElement>;
+export type HTMLTableCaptionElementProps = HTMLProps<HTMLTableCaptionElement>;
 
 /** @bake */
-export type HTMLTableColElementProps = BasePropsOf<HTMLTableColElement>;
+export type HTMLTableColElementProps = HTMLProps<HTMLTableColElement>;
 
 /** @bake */
-export type HTMLDataElementProps = BasePropsOf<HTMLDataElement>;
+export type HTMLDataElementProps = HTMLProps<HTMLDataElement>;
 
 /** @bake */
-export type HTMLDataListElementProps = BasePropsOf<HTMLDataListElement>;
+export type HTMLDataListElementProps = HTMLProps<HTMLDataListElement>;
 
 /** @bake */
-export type HTMLModElementProps = BasePropsOf<HTMLModElement>;
+export type HTMLModElementProps = HTMLProps<HTMLModElement>;
 
 /** @bake */
-export type HTMLDetailsElementProps = BasePropsOf<HTMLDetailsElement>;
+export type HTMLDetailsElementProps = HTMLProps<HTMLDetailsElement>;
 
 /** @bake */
-export type HTMLDialogElementProps = BasePropsOf<HTMLDialogElement>;
+export type HTMLDialogElementProps = HTMLProps<HTMLDialogElement>;
 
 /** @bake */
-export type HTMLDivElementProps = BasePropsOf<HTMLDivElement>;
+export type HTMLDivElementProps = HTMLProps<HTMLDivElement>;
 
 /** @bake */
-export type HTMLDListElementProps = BasePropsOf<HTMLDListElement>;
+export type HTMLDListElementProps = HTMLProps<HTMLDListElement>;
 
 /** @bake */
-export type HTMLEmbedElementProps = BasePropsOf<HTMLEmbedElement>;
+export type HTMLEmbedElementProps = HTMLProps<HTMLEmbedElement>;
 
 /** @bake */
-export type HTMLFieldSetElementProps = BasePropsOf<HTMLFieldSetElement>;
+export type HTMLFieldSetElementProps = HTMLProps<HTMLFieldSetElement>;
 
 /** @bake */
-export type HTMLFormElementProps = BasePropsOf<HTMLFormElement>;
+export type HTMLFormElementProps = HTMLProps<HTMLFormElement>;
 
 /** @bake */
-export type HTMLHeadingElementProps = BasePropsOf<HTMLHeadingElement>;
+export type HTMLHeadingElementProps = HTMLProps<HTMLHeadingElement>;
 
 // /** @bake */
-// export type HTMLHeadElementProps = BasePropsOf<HTMLHeadElement>;
+// export type HTMLHeadElementProps = HTMLProps<HTMLHeadElement>;
 
 /** @bake */
-export type HTMLHRElementProps = BasePropsOf<HTMLHRElement>;
+export type HTMLHRElementProps = HTMLProps<HTMLHRElement>;
 
 // /** @bake */
-// export type HTMLHtmlElementProps = BasePropsOf<HTMLHtmlElement>;
+// export type HTMLHtmlElementProps = HTMLProps<HTMLHtmlElement>;
 
 /** @bake */
-export type HTMLIFrameElementProps = BasePropsOf<HTMLIFrameElement>;
+export type HTMLIFrameElementProps = HTMLProps<HTMLIFrameElement>;
 
 /** @bake */
-export type HTMLImageElementProps = BasePropsOf<HTMLImageElement>;
+export type HTMLImageElementProps = HTMLProps<HTMLImageElement>;
 
 /** @bake */
-export type HTMLInputElementProps = BasePropsOf<HTMLInputElement>;
+export type HTMLInputElementProps = HTMLProps<HTMLInputElement>;
 
 /** @bake */
-export type HTMLLabelElementProps = BasePropsOf<HTMLLabelElement>;
+export type HTMLLabelElementProps = HTMLProps<HTMLLabelElement>;
 
 /** @bake */
-export type HTMLLegendElementProps = BasePropsOf<HTMLLegendElement>;
+export type HTMLLegendElementProps = HTMLProps<HTMLLegendElement>;
 
 /** @bake */
-export type HTMLLIElementProps = BasePropsOf<HTMLLIElement>;
+export type HTMLLIElementProps = HTMLProps<HTMLLIElement>;
 
 // /** @bake */
-// export type HTMLLinkElementProps = BasePropsOf<HTMLLinkElement>;
+// export type HTMLLinkElementProps = HTMLProps<HTMLLinkElement>;
 
 /** @bake */
-export type HTMLMapElementProps = BasePropsOf<HTMLMapElement>;
+export type HTMLMapElementProps = HTMLProps<HTMLMapElement>;
 
 /** @bake */
-export type HTMLMenuElementProps = BasePropsOf<HTMLMenuElement>;
+export type HTMLMenuElementProps = HTMLProps<HTMLMenuElement>;
 
 // /** @bake */
-// export type HTMLMetaElementProps = BasePropsOf<HTMLMetaElement>;
+// export type HTMLMetaElementProps = HTMLProps<HTMLMetaElement>;
 
 /** @bake */
-export type HTMLMeterElementProps = BasePropsOf<HTMLMeterElement>;
+export type HTMLMeterElementProps = HTMLProps<HTMLMeterElement>;
 
 /** @bake */
-export type HTMLObjectElementProps = BasePropsOf<HTMLObjectElement>;
+export type HTMLObjectElementProps = HTMLProps<HTMLObjectElement>;
 
 /** @bake */
-export type HTMLOListElementProps = BasePropsOf<HTMLOListElement>;
+export type HTMLOListElementProps = HTMLProps<HTMLOListElement>;
 
 /** @bake */
-export type HTMLOptGroupElementProps = BasePropsOf<HTMLOptGroupElement>;
+export type HTMLOptGroupElementProps = HTMLProps<HTMLOptGroupElement>;
 
 /** @bake */
-export type HTMLOptionElementProps = BasePropsOf<HTMLOptionElement>;
+export type HTMLOptionElementProps = HTMLProps<HTMLOptionElement>;
 
 /** @bake */
-export type HTMLOutputElementProps = BasePropsOf<HTMLOutputElement>;
+export type HTMLOutputElementProps = HTMLProps<HTMLOutputElement>;
 
 /** @bake */
-export type HTMLParagraphElementProps = BasePropsOf<HTMLParagraphElement>;
+export type HTMLParagraphElementProps = HTMLProps<HTMLParagraphElement>;
 
 /** @bake */
-export type HTMLPictureElementProps = BasePropsOf<HTMLPictureElement>;
+export type HTMLPictureElementProps = HTMLProps<HTMLPictureElement>;
 
 /** @bake */
-export type HTMLPreElementProps = BasePropsOf<HTMLPreElement>;
+export type HTMLPreElementProps = HTMLProps<HTMLPreElement>;
 
 /** @bake */
-export type HTMLProgressElementProps = BasePropsOf<HTMLProgressElement>;
+export type HTMLProgressElementProps = HTMLProps<HTMLProgressElement>;
 
 // /** @bake */
-// export type HTMLScriptElementProps = BasePropsOf<HTMLScriptElement>;
+// export type HTMLScriptElementProps = HTMLProps<HTMLScriptElement>;
 
 /** @bake */
-export type HTMLSelectElementProps = BasePropsOf<HTMLSelectElement>;
+export type HTMLSelectElementProps = HTMLProps<HTMLSelectElement>;
 
 /** @bake */
-export type HTMLSlotElementProps = BasePropsOf<HTMLSlotElement>;
+export type HTMLSlotElementProps = HTMLProps<HTMLSlotElement>;
 
 /** @bake */
-export type HTMLSourceElementProps = BasePropsOf<HTMLSourceElement>;
+export type HTMLSourceElementProps = HTMLProps<HTMLSourceElement>;
 
 /** @bake */
-export type HTMLSpanElementProps = BasePropsOf<HTMLSpanElement>;
+export type HTMLSpanElementProps = HTMLProps<HTMLSpanElement>;
 
 // /** @bake */
-// export type HTMLStyleElementProps = BasePropsOf<HTMLStyleElement>;
+// export type HTMLStyleElementProps = HTMLProps<HTMLStyleElement>;
 
 /** @bake */
-export type HTMLTableElementProps = BasePropsOf<HTMLTableElement>;
+export type HTMLTableElementProps = HTMLProps<HTMLTableElement>;
 
 /** @bake */
-export type HTMLTableSectionElementProps = BasePropsOf<HTMLTableSectionElement>;
+export type HTMLTableSectionElementProps = HTMLProps<HTMLTableSectionElement>;
 
 /** @bake */
-export type HTMLTableCellElementProps = BasePropsOf<HTMLTableCellElement>;
+export type HTMLTableCellElementProps = HTMLProps<HTMLTableCellElement>;
 
 /** @bake */
-export type HTMLTemplateElementProps = BasePropsOf<HTMLTemplateElement>;
+export type HTMLTemplateElementProps = HTMLProps<HTMLTemplateElement>;
 
 /** @bake */
-export type HTMLTextAreaElementProps = BasePropsOf<HTMLTextAreaElement>;
+export type HTMLTextAreaElementProps = HTMLProps<HTMLTextAreaElement>;
 
 /** @bake */
-export type HTMLTimeElementProps = BasePropsOf<HTMLTimeElement>;
+export type HTMLTimeElementProps = HTMLProps<HTMLTimeElement>;
 
 // /** @bake */
-// export type HTMLTitleElementProps = BasePropsOf<HTMLTitleElement>;
+// export type HTMLTitleElementProps = HTMLProps<HTMLTitleElement>;
 
 /** @bake */
-export type HTMLTableRowElementProps = BasePropsOf<HTMLTableRowElement>;
+export type HTMLTableRowElementProps = HTMLProps<HTMLTableRowElement>;
 
 /** @bake */
-export type HTMLTrackElementProps = BasePropsOf<HTMLTrackElement>;
+export type HTMLTrackElementProps = HTMLProps<HTMLTrackElement>;
 
 /** @bake */
-export type HTMLUListElementProps = BasePropsOf<HTMLUListElement>;
+export type HTMLUListElementProps = HTMLProps<HTMLUListElement>;
 
 /** @bake */
-export type HTMLVideoElementProps = BasePropsOf<HTMLVideoElement>;
+export type HTMLVideoElementProps = HTMLProps<HTMLVideoElement>;
+
+// #endregion
+
+// #region SVG
+
+type SVGProps<T> = Finalize<{ readonly [S_NODE_TYPE]?: T } & MapProps<WrapProps<ApplyOverrides<OmitFunctions<OmitReadonly<OmitIndex<SVGElement>>>, SVGPropOverrides>>, typeof PROP_MAP>>;
+
+interface SVGPropOverrides {
+	children: JsxChildren;
+	classList: never;
+	innerHTML: never;
+	nodeValue: never;
+	outerHTML: never;
+	part: string;
+	style: never;
+	textContent: never;
+
+	// attribute list taken from:
+	// https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute
+	accumulate: string;
+	additive: string;
+	"alignment-baseline": string;
+	amplitude: string;
+	attributeName: string;
+	attributeType: string;
+	autofocus: string;
+	azimuth: string;
+	baseFrequency: string;
+	"baseline-shift": string;
+	baseProfile: string;
+	begin: string;
+	bias: string;
+	by: string;
+	calcMode: string;
+	class: string;
+	clip: string;
+	clipPathUnits: string;
+	"clip-path": string;
+	"clip-rule": string;
+	color: string;
+	"color-interpolation": string;
+	"color-interpolation-filters": string;
+	crossorigin: string;
+	cursor: string;
+	cx: string;
+	cy: string;
+	d: string;
+	decoding: string;
+	diffuseConstant: string;
+	direction: string;
+	display: string;
+	divisor: string;
+	"dominant-baseline": string;
+	dur: string;
+	dx: string;
+	dy: string;
+	edgeMode: string;
+	elevation: string;
+	end: string;
+	exponent: string;
+	fetchpriority: string;
+	fill: string;
+	"fill-opacity": string;
+	"fill-rule": string;
+	filter: string;
+	filterUnits: string;
+	"flood-color": string;
+	"flood-opacity": string;
+	"font-family": string;
+	"font-size": string;
+	"font-size-adjust": string;
+	"font-stretch": string;
+	"font-style": string;
+	"font-variant": string;
+	"font-weight": string;
+	fr: string;
+	from: string;
+	fx: string;
+	fy: string;
+	"glyph-orientation-horizontal": string;
+	"glyph-orientation-vertical": string;
+	gradientTransform: string;
+	gradientUnits: string;
+	height: string;
+	href: string;
+	hreflang: string;
+	id: string;
+	"image-rendering": string;
+	in: string;
+	in2: string;
+	intercept: string;
+	k1: string;
+	k2: string;
+	k3: string;
+	k4: string;
+	kernelMatrix: string;
+	kernelUnitLength: string;
+	keyPoints: string;
+	keySplines: string;
+	keyTimes: string;
+	lang: string;
+	lengthAdjust: string;
+	"letter-spacing": string;
+	"lighting-color": string;
+	limitingConeAngle: string;
+	"marker-end": string;
+	"marker-mid": string;
+	"marker-start": string;
+	markerHeight: string;
+	markerUnits: string;
+	markerWidth: string;
+	mask: string;
+	maskContentUnits: string;
+	maskUnits: string;
+	max: string;
+	media: string;
+	method: string;
+	min: string;
+	mode: string;
+	numOctaves: string;
+	offset: string;
+	opacity: string;
+	operator: string;
+	order: string;
+	orient: string;
+	origin: string;
+	overflow: string;
+	"paint-order": string;
+	path: string;
+	pathLength: string;
+	patternContentUnits: string;
+	patternTransform: string;
+	patternUnits: string;
+	ping: string;
+	"pointer-events": string;
+	points: string;
+	pointsAtX: string;
+	pointsAtY: string;
+	pointsAtZ: string;
+	preserveAlpha: string;
+	preserveAspectRatio: string;
+	primitiveUnits: string;
+	r: string;
+	radius: string;
+	referrerPolicy: string;
+	refX: string;
+	refY: string;
+	rel: string;
+	repeatCount: string;
+	repeatDur: string;
+	requiredExtensions: string;
+	requiredFeatures: string;
+	restart: string;
+	result: string;
+	rotate: string;
+	rx: string;
+	ry: string;
+	scale: string;
+	seed: string;
+	"shape-rendering": string;
+	side: string;
+	slope: string;
+	spacing: string;
+	specularConstant: string;
+	specularExponent: string;
+	spreadMethod: string;
+	startOffset: string;
+	stdDeviation: string;
+	stitchTiles: string;
+	"stop-color": string;
+	"stop-opacity": string;
+	stroke: string;
+	"stroke-dasharray": string;
+	"stroke-dashoffset": string;
+	"stroke-linecap": string;
+	"stroke-linejoin": string;
+	"stroke-miterlimit": string;
+	"stroke-opacity": string;
+	"stroke-width": string;
+	surfaceScale: string;
+	systemLanguage: string;
+	tabindex: string;
+	tableValues: string;
+	target: string;
+	targetX: string;
+	targetY: string;
+	"text-anchor": string;
+	"text-decoration": string;
+	"text-overflow": string;
+	"text-rendering": string;
+	textLength: string;
+	to: string;
+	transform: string;
+	"transform-origin": string;
+	type: string;
+	"unicode-bidi": string;
+	values: string;
+	"vector-effect": string;
+	version: string;
+	viewBox: string;
+	visibility: string;
+	"white-space": string;
+	width: string;
+	"word-spacing": string;
+	"writing-mode": string;
+	x: string;
+	x1: string;
+	x2: string;
+	xChannelSelector: string;
+	y: string;
+	y1: string;
+	y2: string;
+	yChannelSelector: string;
+	z: string;
+	zoomAndPan: string;
+}
+
+/** @bake */
+export type SVGAElementProps = SVGProps<SVGAElement>;
+
+/** @bake */
+export type SVGAnimateElementProps = SVGProps<SVGAnimateElement>;
+
+/** @bake */
+export type SVGAnimateMotionElementProps = SVGProps<SVGAnimateMotionElement>;
+
+/** @bake */
+export type SVGAnimateTransformElementProps = SVGProps<SVGAnimateTransformElement>;
+
+/** @bake */
+export type SVGCircleElementProps = SVGProps<SVGCircleElement>;
+
+/** @bake */
+export type SVGClipPathElementProps = SVGProps<SVGClipPathElement>;
+
+/** @bake */
+export type SVGDefsElementProps = SVGProps<SVGDefsElement>;
+
+/** @bake */
+export type SVGDescElementProps = SVGProps<SVGDescElement>;
+
+/** @bake */
+export type SVGEllipseElementProps = SVGProps<SVGEllipseElement>;
+
+/** @bake */
+export type SVGFEBlendElementProps = SVGProps<SVGFEBlendElement>;
+
+/** @bake */
+export type SVGFEColorMatrixElementProps = SVGProps<SVGFEColorMatrixElement>;
+
+/** @bake */
+export type SVGFEComponentTransferElementProps = SVGProps<SVGFEComponentTransferElement>;
+
+/** @bake */
+export type SVGFECompositeElementProps = SVGProps<SVGFECompositeElement>;
+
+/** @bake */
+export type SVGFEConvolveMatrixElementProps = SVGProps<SVGFEConvolveMatrixElement>;
+
+/** @bake */
+export type SVGFEDiffuseLightingElementProps = SVGProps<SVGFEDiffuseLightingElement>;
+
+/** @bake */
+export type SVGFEDisplacementMapElementProps = SVGProps<SVGFEDisplacementMapElement>;
+
+/** @bake */
+export type SVGFEDistantLightElementProps = SVGProps<SVGFEDistantLightElement>;
+
+/** @bake */
+export type SVGFEDropShadowElementProps = SVGProps<SVGFEDropShadowElement>;
+
+/** @bake */
+export type SVGFEFloodElementProps = SVGProps<SVGFEFloodElement>;
+
+/** @bake */
+export type SVGFEFuncAElementProps = SVGProps<SVGFEFuncAElement>;
+
+/** @bake */
+export type SVGFEFuncBElementProps = SVGProps<SVGFEFuncBElement>;
+
+/** @bake */
+export type SVGFEFuncGElementProps = SVGProps<SVGFEFuncGElement>;
+
+/** @bake */
+export type SVGFEFuncRElementProps = SVGProps<SVGFEFuncRElement>;
+
+/** @bake */
+export type SVGFEGaussianBlurElementProps = SVGProps<SVGFEGaussianBlurElement>;
+
+/** @bake */
+export type SVGFEImageElementProps = SVGProps<SVGFEImageElement>;
+
+/** @bake */
+export type SVGFEMergeElementProps = SVGProps<SVGFEMergeElement>;
+
+/** @bake */
+export type SVGFEMergeNodeElementProps = SVGProps<SVGFEMergeNodeElement>;
+
+/** @bake */
+export type SVGFEMorphologyElementProps = SVGProps<SVGFEMorphologyElement>;
+
+/** @bake */
+export type SVGFEOffsetElementProps = SVGProps<SVGFEOffsetElement>;
+
+/** @bake */
+export type SVGFEPointLightElementProps = SVGProps<SVGFEPointLightElement>;
+
+/** @bake */
+export type SVGFESpecularLightingElementProps = SVGProps<SVGFESpecularLightingElement>;
+
+/** @bake */
+export type SVGFESpotLightElementProps = SVGProps<SVGFESpotLightElement>;
+
+/** @bake */
+export type SVGFETileElementProps = SVGProps<SVGFETileElement>;
+
+/** @bake */
+export type SVGFETurbulenceElementProps = SVGProps<SVGFETurbulenceElement>;
+
+/** @bake */
+export type SVGFilterElementProps = SVGProps<SVGFilterElement>;
+
+/** @bake */
+export type SVGForeignObjectElementProps = SVGProps<SVGForeignObjectElement>;
+
+/** @bake */
+export type SVGGElementProps = SVGProps<SVGGElement>;
+
+/** @bake */
+export type SVGImageElementProps = SVGProps<SVGImageElement>;
+
+/** @bake */
+export type SVGLineElementProps = SVGProps<SVGLineElement>;
+
+/** @bake */
+export type SVGLinearGradientElementProps = SVGProps<SVGLinearGradientElement>;
+
+/** @bake */
+export type SVGMarkerElementProps = SVGProps<SVGMarkerElement>;
+
+/** @bake */
+export type SVGMaskElementProps = SVGProps<SVGMaskElement>;
+
+/** @bake */
+export type SVGMetadataElementProps = SVGProps<SVGMetadataElement>;
+
+/** @bake */
+export type SVGMPathElementProps = SVGProps<SVGMPathElement>;
+
+/** @bake */
+export type SVGPathElementProps = SVGProps<SVGPathElement>;
+
+/** @bake */
+export type SVGPatternElementProps = SVGProps<SVGPatternElement>;
+
+/** @bake */
+export type SVGPolygonElementProps = SVGProps<SVGPolygonElement>;
+
+/** @bake */
+export type SVGPolylineElementProps = SVGProps<SVGPolylineElement>;
+
+/** @bake */
+export type SVGRadialGradientElementProps = SVGProps<SVGRadialGradientElement>;
+
+/** @bake */
+export type SVGRectElementProps = SVGProps<SVGRectElement>;
+
+/** @bake */
+export type SVGScriptElementProps = SVGProps<SVGScriptElement>;
+
+/** @bake */
+export type SVGSetElementProps = SVGProps<SVGSetElement>;
+
+/** @bake */
+export type SVGStopElementProps = SVGProps<SVGStopElement>;
+
+/** @bake */
+export type SVGStyleElementProps = SVGProps<SVGStyleElement>;
+
+/** @bake */
+export type SVGSVGElementProps = SVGProps<SVGSVGElement>;
+
+/** @bake */
+export type SVGSwitchElementProps = SVGProps<SVGSwitchElement>;
+
+/** @bake */
+export type SVGSymbolElementProps = SVGProps<SVGSymbolElement>;
+
+/** @bake */
+export type SVGTextElementProps = SVGProps<SVGTextElement>;
+
+/** @bake */
+export type SVGTextPathElementProps = SVGProps<SVGTextPathElement>;
+
+/** @bake */
+export type SVGTitleElementProps = SVGProps<SVGTitleElement>;
+
+/** @bake */
+export type SVGTSpanElementProps = SVGProps<SVGTSpanElement>;
+
+/** @bake */
+export type SVGUseElementProps = SVGProps<SVGUseElement>;
+
+/** @bake */
+export type SVGViewElementProps = SVGProps<SVGViewElement>;
+
+// #endregion
+
+// #region IntrinsicElements
 
 /**
  * describes the props of all usable DOM elements
@@ -379,4 +873,70 @@ export interface IntrinsicElements {
 	var: HTMLElementProps;
 	video: HTMLVideoElementProps;
 	wbr: HTMLElementProps;
+
+	// a: SVGAElementProps; // TODO: how can these coexist???
+	// animate: SVGAnimateElementProps;
+	// animateMotion: SVGAnimateMotionElementProps;
+	// animateTransform: SVGAnimateTransformElementProps;
+	// circle: SVGCircleElementProps;
+	// clipPath: SVGClipPathElementProps;
+	// defs: SVGDefsElementProps;
+	// desc: SVGDescElementProps;
+	// ellipse: SVGEllipseElementProps;
+	// feBlend: SVGFEBlendElementProps;
+	// feColorMatrix: SVGFEColorMatrixElementProps;
+	// feComponentTransfer: SVGFEComponentTransferElementProps;
+	// feComposite: SVGFECompositeElementProps;
+	// feConvolveMatrix: SVGFEConvolveMatrixElementProps;
+	// feDiffuseLighting: SVGFEDiffuseLightingElementProps;
+	// feDisplacementMap: SVGFEDisplacementMapElementProps;
+	// feDistantLight: SVGFEDistantLightElementProps;
+	// feDropShadow: SVGFEDropShadowElementProps;
+	// feFlood: SVGFEFloodElementProps;
+	// feFuncA: SVGFEFuncAElementProps;
+	// feFuncB: SVGFEFuncBElementProps;
+	// feFuncG: SVGFEFuncGElementProps;
+	// feFuncR: SVGFEFuncRElementProps;
+	// feGaussianBlur: SVGFEGaussianBlurElementProps;
+	// feImage: SVGFEImageElementProps;
+	// feMerge: SVGFEMergeElementProps;
+	// feMergeNode: SVGFEMergeNodeElementProps;
+	// feMorphology: SVGFEMorphologyElementProps;
+	// feOffset: SVGFEOffsetElementProps;
+	// fePointLight: SVGFEPointLightElementProps;
+	// feSpecularLighting: SVGFESpecularLightingElementProps;
+	// feSpotLight: SVGFESpotLightElementProps;
+	// feTile: SVGFETileElementProps;
+	// feTurbulence: SVGFETurbulenceElementProps;
+	// filter: SVGFilterElementProps;
+	// foreignObject: SVGForeignObjectElementProps;
+	// g: SVGGElementProps;
+	// image: SVGImageElementProps;
+	// line: SVGLineElementProps;
+	// linearGradient: SVGLinearGradientElementProps;
+	// marker: SVGMarkerElementProps;
+	// mask: SVGMaskElementProps;
+	// metadata: SVGMetadataElementProps;
+	// mpath: SVGMPathElementProps;
+	// path: SVGPathElementProps;
+	// pattern: SVGPatternElementProps;
+	// polygon: SVGPolygonElementProps;
+	// polyline: SVGPolylineElementProps;
+	// radialGradient: SVGRadialGradientElementProps;
+	// rect: SVGRectElementProps;
+	// script: SVGScriptElementProps;
+	// set: SVGSetElementProps;
+	// stop: SVGStopElementProps;
+	// style: SVGStyleElementProps;
+	// svg: SVGSVGElementProps;
+	// switch: SVGSwitchElementProps;
+	// symbol: SVGSymbolElementProps;
+	// text: SVGTextElementProps;
+	// textPath: SVGTextPathElementProps;
+	// title: SVGTitleElementProps;
+	// tspan: SVGTSpanElementProps;
+	// use: SVGUseElementProps;
+	// view: SVGViewElementProps;
 }
+
+// #endregion
