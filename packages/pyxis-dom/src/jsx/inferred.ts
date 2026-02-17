@@ -66,6 +66,7 @@ export type CSSStyleDeclarationProps = Finalize<WrapProps<ApplyOverrides<OmitFun
 interface CSSPropOverrides {
 	anchorName: string;
 	positionAnchor: string;
+	positionArea: string;
 
 	clip: never;
 	fontStretch: never;

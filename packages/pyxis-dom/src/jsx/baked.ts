@@ -438,6 +438,7 @@ export interface CSSStyleDeclarationProps {
 	readonly zoom?: MaybeAtom<string>;
 	readonly anchorName?: MaybeAtom<string>;
 	readonly positionAnchor?: MaybeAtom<string>;
+	readonly positionArea?: MaybeAtom<string>;
 }
 
 export interface ARIAProps {
