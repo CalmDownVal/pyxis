@@ -497,7 +497,6 @@ export interface ARIAProps {
 }
 
 export interface HTMLGlobalProps {
-	readonly children?: JsxChildren;
 	readonly translate?: MaybeAtom<boolean>;
 	readonly part?: MaybeAtom<string>;
 	readonly class?: MaybeAtom<string>;
@@ -527,6 +526,7 @@ export interface HTMLGlobalProps {
 
 export interface HTMLAnchorElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLAnchorElement;
+	readonly children?: JsxChildren;
 	readonly charset?: MaybeAtom<string>;
 	readonly coords?: MaybeAtom<string>;
 	readonly download?: MaybeAtom<string>;
@@ -555,6 +555,7 @@ export interface HTMLAnchorElementProps extends HTMLGlobalProps {
 
 export interface HTMLAreaElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLAreaElement;
+	readonly children?: never;
 	readonly coords?: MaybeAtom<string>;
 	readonly download?: MaybeAtom<string>;
 	readonly ping?: MaybeAtom<string>;
@@ -579,6 +580,7 @@ export interface HTMLAreaElementProps extends HTMLGlobalProps {
 
 export interface HTMLAudioElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLAudioElement;
+	readonly children?: JsxChildren;
 	readonly autoplay?: MaybeAtom<boolean>;
 	readonly controls?: MaybeAtom<boolean>;
 	readonly crossOrigin?: MaybeAtom<string | null>;
@@ -598,26 +600,31 @@ export interface HTMLAudioElementProps extends HTMLGlobalProps {
 
 export interface HTMLBaseElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLBaseElement;
+	readonly children?: never;
 	readonly target?: MaybeAtom<string>;
 	readonly href?: MaybeAtom<string>;
 }
 
 export interface HTMLElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLElement;
+	readonly children?: JsxChildren;
 }
 
 export interface HTMLQuoteElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLQuoteElement;
+	readonly children?: JsxChildren;
 	readonly cite?: MaybeAtom<string>;
 }
 
 export interface HTMLBRElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLBRElement;
+	readonly children?: never;
 	readonly clear?: MaybeAtom<string>;
 }
 
 export interface HTMLButtonElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLButtonElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 	readonly type?: MaybeAtom<"submit" | "reset" | "button">;
 	readonly disabled?: MaybeAtom<boolean>;
@@ -633,17 +640,20 @@ export interface HTMLButtonElementProps extends HTMLGlobalProps {
 
 export interface HTMLCanvasElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLCanvasElement;
+	readonly children?: JsxChildren;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
 }
 
 export interface HTMLTableCaptionElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableCaptionElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 }
 
 export interface HTMLTableColElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableColElement;
+	readonly children?: never;
 	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
@@ -654,43 +664,51 @@ export interface HTMLTableColElementProps extends HTMLGlobalProps {
 
 export interface HTMLDataElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDataElement;
+	readonly children?: JsxChildren;
 	readonly value?: MaybeAtom<string>;
 }
 
 export interface HTMLDataListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDataListElement;
+	readonly children?: JsxChildren;
 }
 
 export interface HTMLModElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLModElement;
+	readonly children?: JsxChildren;
 	readonly cite?: MaybeAtom<string>;
 	readonly dateTime?: MaybeAtom<string>;
 }
 
 export interface HTMLDetailsElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDetailsElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 	readonly open?: MaybeAtom<boolean>;
 }
 
 export interface HTMLDialogElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDialogElement;
+	readonly children?: JsxChildren;
 	readonly open?: MaybeAtom<boolean>;
 	readonly returnValue?: MaybeAtom<string>;
 }
 
 export interface HTMLDivElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDivElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 }
 
 export interface HTMLDListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLDListElement;
+	readonly children?: JsxChildren;
 	readonly compact?: MaybeAtom<boolean>;
 }
 
 export interface HTMLEmbedElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLEmbedElement;
+	readonly children?: never;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
@@ -701,12 +719,14 @@ export interface HTMLEmbedElementProps extends HTMLGlobalProps {
 
 export interface HTMLFieldSetElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLFieldSetElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
 }
 
 export interface HTMLFormElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLFormElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 	readonly rel?: MaybeAtom<string>;
 	readonly relList?: MaybeAtom<string>;
@@ -722,11 +742,13 @@ export interface HTMLFormElementProps extends HTMLGlobalProps {
 
 export interface HTMLHeadingElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLHeadingElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 }
 
 export interface HTMLHRElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLHRElement;
+	readonly children?: never;
 	readonly color?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
@@ -736,6 +758,7 @@ export interface HTMLHRElementProps extends HTMLGlobalProps {
 
 export interface HTMLIFrameElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLIFrameElement;
+	readonly children?: JsxChildren;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
 	readonly name?: MaybeAtom<string>;
@@ -756,6 +779,7 @@ export interface HTMLIFrameElementProps extends HTMLGlobalProps {
 
 export interface HTMLImageElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLImageElement;
+	readonly children?: never;
 	readonly border?: MaybeAtom<string>;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
@@ -780,6 +804,7 @@ export interface HTMLImageElementProps extends HTMLGlobalProps {
 
 export interface HTMLInputElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLInputElement;
+	readonly children?: never;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
 	readonly name?: MaybeAtom<string>;
@@ -827,32 +852,38 @@ export interface HTMLInputElementProps extends HTMLGlobalProps {
 
 export interface HTMLLabelElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLLabelElement;
+	readonly children?: JsxChildren;
 	readonly for?: MaybeAtom<string>;
 }
 
 export interface HTMLLegendElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLLegendElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 }
 
 export interface HTMLLIElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLLIElement;
+	readonly children?: JsxChildren;
 	readonly type?: MaybeAtom<string>;
 	readonly value?: MaybeAtom<number>;
 }
 
 export interface HTMLMapElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLMapElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 }
 
 export interface HTMLMenuElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLMenuElement;
+	readonly children?: JsxChildren;
 	readonly compact?: MaybeAtom<boolean>;
 }
 
 export interface HTMLMeterElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLMeterElement;
+	readonly children?: JsxChildren;
 	readonly value?: MaybeAtom<number>;
 	readonly high?: MaybeAtom<number>;
 	readonly low?: MaybeAtom<number>;
@@ -863,6 +894,7 @@ export interface HTMLMeterElementProps extends HTMLGlobalProps {
 
 export interface HTMLObjectElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLObjectElement;
+	readonly children?: JsxChildren;
 	readonly border?: MaybeAtom<string>;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
@@ -883,6 +915,7 @@ export interface HTMLObjectElementProps extends HTMLGlobalProps {
 
 export interface HTMLOListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOListElement;
+	readonly children?: JsxChildren;
 	readonly type?: MaybeAtom<string>;
 	readonly compact?: MaybeAtom<boolean>;
 	readonly reversed?: MaybeAtom<boolean>;
@@ -891,12 +924,14 @@ export interface HTMLOListElementProps extends HTMLGlobalProps {
 
 export interface HTMLOptGroupElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOptGroupElement;
+	readonly children?: JsxChildren;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly label?: MaybeAtom<string>;
 }
 
 export interface HTMLOptionElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOptionElement;
+	readonly children?: JsxChildren;
 	readonly text?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly value?: MaybeAtom<string>;
@@ -907,6 +942,7 @@ export interface HTMLOptionElementProps extends HTMLGlobalProps {
 
 export interface HTMLOutputElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLOutputElement;
+	readonly children?: JsxChildren;
 	readonly for?: MaybeAtom<DOMTokenList>;
 	readonly name?: MaybeAtom<string>;
 	readonly value?: MaybeAtom<string>;
@@ -915,26 +951,31 @@ export interface HTMLOutputElementProps extends HTMLGlobalProps {
 
 export interface HTMLParagraphElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLParagraphElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 }
 
 export interface HTMLPictureElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLPictureElement;
+	readonly children?: JsxChildren;
 }
 
 export interface HTMLPreElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLPreElement;
+	readonly children?: JsxChildren;
 	readonly width?: MaybeAtom<number>;
 }
 
 export interface HTMLProgressElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLProgressElement;
+	readonly children?: JsxChildren;
 	readonly value?: MaybeAtom<number>;
 	readonly max?: MaybeAtom<number>;
 }
 
 export interface HTMLSelectElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSelectElement;
+	readonly children?: JsxChildren;
 	readonly length?: MaybeAtom<number>;
 	readonly name?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
@@ -948,11 +989,13 @@ export interface HTMLSelectElementProps extends HTMLGlobalProps {
 
 export interface HTMLSlotElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSlotElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 }
 
 export interface HTMLSourceElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSourceElement;
+	readonly children?: never;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
 	readonly type?: MaybeAtom<string>;
@@ -964,10 +1007,12 @@ export interface HTMLSourceElementProps extends HTMLGlobalProps {
 
 export interface HTMLSpanElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLSpanElement;
+	readonly children?: JsxChildren;
 }
 
 export interface HTMLTableElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableElement;
+	readonly children?: JsxChildren;
 	readonly border?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
@@ -984,6 +1029,7 @@ export interface HTMLTableElementProps extends HTMLGlobalProps {
 
 export interface HTMLTableSectionElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableSectionElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
@@ -992,6 +1038,7 @@ export interface HTMLTableSectionElementProps extends HTMLGlobalProps {
 
 export interface HTMLTableCellElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableCellElement;
+	readonly children?: JsxChildren;
 	readonly height?: MaybeAtom<string>;
 	readonly width?: MaybeAtom<string>;
 	readonly align?: MaybeAtom<string>;
@@ -1010,6 +1057,7 @@ export interface HTMLTableCellElementProps extends HTMLGlobalProps {
 
 export interface HTMLTemplateElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTemplateElement;
+	readonly children?: JsxChildren;
 	readonly shadowRootClonable?: MaybeAtom<boolean>;
 	readonly shadowRootDelegatesFocus?: MaybeAtom<boolean>;
 	readonly shadowRootMode?: MaybeAtom<string>;
@@ -1018,6 +1066,7 @@ export interface HTMLTemplateElementProps extends HTMLGlobalProps {
 
 export interface HTMLTextAreaElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTextAreaElement;
+	readonly children?: JsxChildren;
 	readonly name?: MaybeAtom<string>;
 	readonly disabled?: MaybeAtom<boolean>;
 	readonly value?: MaybeAtom<string>;
@@ -1039,11 +1088,13 @@ export interface HTMLTextAreaElementProps extends HTMLGlobalProps {
 
 export interface HTMLTimeElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTimeElement;
+	readonly children?: JsxChildren;
 	readonly dateTime?: MaybeAtom<string>;
 }
 
 export interface HTMLTableRowElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTableRowElement;
+	readonly children?: JsxChildren;
 	readonly align?: MaybeAtom<string>;
 	readonly ch?: MaybeAtom<string>;
 	readonly chOff?: MaybeAtom<string>;
@@ -1053,6 +1104,7 @@ export interface HTMLTableRowElementProps extends HTMLGlobalProps {
 
 export interface HTMLTrackElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLTrackElement;
+	readonly children?: never;
 	readonly src?: MaybeAtom<string>;
 	readonly label?: MaybeAtom<string>;
 	readonly default?: MaybeAtom<boolean>;
@@ -1062,12 +1114,14 @@ export interface HTMLTrackElementProps extends HTMLGlobalProps {
 
 export interface HTMLUListElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLUListElement;
+	readonly children?: JsxChildren;
 	readonly type?: MaybeAtom<string>;
 	readonly compact?: MaybeAtom<boolean>;
 }
 
 export interface HTMLVideoElementProps extends HTMLGlobalProps {
 	readonly [S_NODE_TYPE]?: HTMLVideoElement;
+	readonly children?: JsxChildren;
 	readonly height?: MaybeAtom<number>;
 	readonly width?: MaybeAtom<number>;
 	readonly autoplay?: MaybeAtom<boolean>;
@@ -1088,6 +1142,11 @@ export interface HTMLVideoElementProps extends HTMLGlobalProps {
 	readonly disablePictureInPicture?: MaybeAtom<boolean>;
 	readonly playsInline?: MaybeAtom<boolean>;
 	readonly poster?: MaybeAtom<string>;
+}
+
+export interface HTMLWbrElementProps extends HTMLGlobalProps {
+	readonly [S_NODE_TYPE]?: HTMLElement;
+	readonly children?: never;
 }
 
 export interface HTMLIntrinsicElements {
@@ -1201,7 +1260,7 @@ export interface HTMLIntrinsicElements {
 	ul: HTMLUListElementProps;
 	var: HTMLElementProps;
 	video: HTMLVideoElementProps;
-	wbr: HTMLElementProps;
+	wbr: HTMLWbrElementProps;
 }
 
 export interface SVGGlobalProps {
@@ -1381,7 +1440,7 @@ export interface SVGAnimateTransformElementProps extends SVGGlobalProps {
 
 export interface SVGCircleElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGCircleElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -1437,7 +1496,7 @@ export interface SVGDescElementProps extends SVGGlobalProps {
 
 export interface SVGEllipseElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGEllipseElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -1846,7 +1905,7 @@ export interface SVGGElementProps extends SVGGlobalProps {
 
 export interface SVGImageElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGImageElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly crossorigin?: MaybeAtom<SVGCrossOrigin>;
@@ -1871,7 +1930,7 @@ export interface SVGImageElementProps extends SVGGlobalProps {
 
 export interface SVGLineElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGLineElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -1963,7 +2022,7 @@ export interface SVGMPathElementProps extends SVGGlobalProps {
 
 export interface SVGPathElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGPathElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -2018,7 +2077,7 @@ export interface SVGPatternElementProps extends SVGGlobalProps {
 
 export interface SVGPolygonElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGPolygonElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -2050,7 +2109,7 @@ export interface SVGPolygonElementProps extends SVGGlobalProps {
 
 export interface SVGPolylineElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGPolylineElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -2098,7 +2157,7 @@ export interface SVGRadialGradientElementProps extends SVGGlobalProps {
 
 export interface SVGRectElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGRectElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -2154,7 +2213,7 @@ export interface SVGSetElementProps extends SVGGlobalProps {
 
 export interface SVGStopElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGStopElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "stop-color"?: MaybeAtom<string>;
 	readonly "stop-opacity"?: MaybeAtom<string | number>;
 }
@@ -2357,7 +2416,7 @@ export interface SVGTSpanElementProps extends SVGGlobalProps {
 
 export interface SVGUseElementProps extends SVGGlobalProps {
 	readonly [S_NODE_TYPE]?: SVGUseElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly "clip-path"?: MaybeAtom<string>;
 	readonly "clip-rule"?: MaybeAtom<SVGClipRule>;
 	readonly cursor?: MaybeAtom<string>;
@@ -2468,7 +2527,7 @@ export interface MathMLMathElementProps extends MathMLGlobalProps {
 
 export interface MatMLFracElementProps extends MathMLGlobalProps {
 	readonly [S_NODE_TYPE]?: MathMLElement;
-	readonly children?: JsxChildren;
+	readonly children?: never;
 	readonly linethickness?: MaybeAtom<string>;
 }
 
@@ -2510,6 +2569,11 @@ export interface MatMLPaddedElementProps extends MathMLGlobalProps {
 	readonly width?: MaybeAtom<string>;
 }
 
+export interface MatMLRowElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: never;
+}
+
 export interface MatMLSpaceElementProps extends MathMLGlobalProps {
 	readonly [S_NODE_TYPE]?: MathMLElement;
 	readonly children?: JsxChildren;
@@ -2523,6 +2587,11 @@ export interface MatMLTDElementProps extends MathMLGlobalProps {
 	readonly children?: JsxChildren;
 	readonly columnspan?: MaybeAtom<string | number>;
 	readonly rowspan?: MaybeAtom<string | number>;
+}
+
+export interface MatMLTextElementProps extends MathMLGlobalProps {
+	readonly [S_NODE_TYPE]?: MathMLElement;
+	readonly children?: never;
 }
 
 export interface MatMLUnderElementProps extends MathMLGlobalProps {
@@ -2551,7 +2620,7 @@ export interface MathMLIntrinsicElements {
 	mphantom: MathMLElementProps;
 	mprescripts: MathMLElementProps;
 	mroot: MathMLElementProps;
-	mrow: MathMLElementProps;
+	mrow: MatMLRowElementProps;
 	ms: MathMLElementProps;
 	mspace: MatMLSpaceElementProps;
 	msqrt: MathMLElementProps;
@@ -2561,7 +2630,7 @@ export interface MathMLIntrinsicElements {
 	msubsup: MathMLElementProps;
 	mtable: MathMLElementProps;
 	mtd: MatMLTDElementProps;
-	mtext: MathMLElementProps;
+	mtext: MatMLTextElementProps;
 	mtr: MathMLElementProps;
 	munder: MatMLUnderElementProps;
 	munderover: MatMLUnderOverElementProps;

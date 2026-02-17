@@ -58,6 +58,10 @@ interface ChildrenProp {
 	readonly children?: JsxChildren;
 }
 
+interface NoChildrenProp {
+	readonly children?: never;
+}
+
 // #region CSS
 
 /** @bake */
@@ -156,8 +160,9 @@ export type ARIAProps = Finalize<ARIAMixin>;
 
 // #region HTML
 
-type HTMLMinProps<T, O = {}> = Finalize<NodeTypeProp<T> & Omit<HTMLRawProps<T, O>, keyof HTMLGlobalProps>>;
-type HTMLRawProps<T, O> = ChildrenProp & MapProps<WrapProps<ApplyOverrides<Omit<OmitFunctions<OmitReadonly<OmitIndex<T>>>, keyof ARIAProps>, HTMLPropOverrides & O>>, typeof PROP_MAP>;
+type HTMLProps<T, O = {}> = Finalize<NodeTypeProp<T> & ChildrenProp & Omit<HTMLRawProps<T, O>, keyof HTMLGlobalProps>>;
+type HTMLPropsNoChildren<T, O = {}> = Finalize<NodeTypeProp<T> & NoChildrenProp & Omit<HTMLRawProps<T, O>, keyof HTMLGlobalProps>>;
+type HTMLRawProps<T, O> = MapProps<WrapProps<ApplyOverrides<Omit<OmitFunctions<OmitReadonly<OmitIndex<T>>>, keyof ARIAProps>, HTMLPropOverrides & O>>, typeof PROP_MAP>;
 
 interface HTMLPropOverrides {
 	part: string;
@@ -179,7 +184,7 @@ export type HTMLGlobalProps = Finalize<HTMLRawProps<HTMLElement, {}>>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLAnchorElementProps = HTMLMinProps<HTMLAnchorElement, {
+export type HTMLAnchorElementProps = HTMLProps<HTMLAnchorElement, {
 	relList: string;
 }>;
 
@@ -187,7 +192,7 @@ export type HTMLAnchorElementProps = HTMLMinProps<HTMLAnchorElement, {
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLAreaElementProps = HTMLMinProps<HTMLAreaElement, {
+export type HTMLAreaElementProps = HTMLPropsNoChildren<HTMLAreaElement, {
 	relList: string;
 }>;
 
@@ -195,25 +200,25 @@ export type HTMLAreaElementProps = HTMLMinProps<HTMLAreaElement, {
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLAudioElementProps = HTMLMinProps<HTMLAudioElement>;
+export type HTMLAudioElementProps = HTMLProps<HTMLAudioElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLBaseElementProps = HTMLMinProps<HTMLBaseElement>;
+export type HTMLBaseElementProps = HTMLPropsNoChildren<HTMLBaseElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLElementProps = HTMLMinProps<HTMLElement>;
+export type HTMLElementProps = HTMLProps<HTMLElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLQuoteElementProps = HTMLMinProps<HTMLQuoteElement>;
+export type HTMLQuoteElementProps = HTMLProps<HTMLQuoteElement>;
 
 // /**
 //  * @bake
@@ -225,91 +230,91 @@ export type HTMLQuoteElementProps = HTMLMinProps<HTMLQuoteElement>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLBRElementProps = HTMLMinProps<HTMLBRElement>;
+export type HTMLBRElementProps = HTMLPropsNoChildren<HTMLBRElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLButtonElementProps = HTMLMinProps<HTMLButtonElement>;
+export type HTMLButtonElementProps = HTMLProps<HTMLButtonElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLCanvasElementProps = HTMLMinProps<HTMLCanvasElement>;
+export type HTMLCanvasElementProps = HTMLProps<HTMLCanvasElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTableCaptionElementProps = HTMLMinProps<HTMLTableCaptionElement>;
+export type HTMLTableCaptionElementProps = HTMLProps<HTMLTableCaptionElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTableColElementProps = HTMLMinProps<HTMLTableColElement>;
+export type HTMLTableColElementProps = HTMLPropsNoChildren<HTMLTableColElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLDataElementProps = HTMLMinProps<HTMLDataElement>;
+export type HTMLDataElementProps = HTMLProps<HTMLDataElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLDataListElementProps = HTMLMinProps<HTMLDataListElement>;
+export type HTMLDataListElementProps = HTMLProps<HTMLDataListElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLModElementProps = HTMLMinProps<HTMLModElement>;
+export type HTMLModElementProps = HTMLProps<HTMLModElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLDetailsElementProps = HTMLMinProps<HTMLDetailsElement>;
+export type HTMLDetailsElementProps = HTMLProps<HTMLDetailsElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLDialogElementProps = HTMLMinProps<HTMLDialogElement>;
+export type HTMLDialogElementProps = HTMLProps<HTMLDialogElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLDivElementProps = HTMLMinProps<HTMLDivElement>;
+export type HTMLDivElementProps = HTMLProps<HTMLDivElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLDListElementProps = HTMLMinProps<HTMLDListElement>;
+export type HTMLDListElementProps = HTMLProps<HTMLDListElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLEmbedElementProps = HTMLMinProps<HTMLEmbedElement>;
+export type HTMLEmbedElementProps = HTMLPropsNoChildren<HTMLEmbedElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLFieldSetElementProps = HTMLMinProps<HTMLFieldSetElement>;
+export type HTMLFieldSetElementProps = HTMLProps<HTMLFieldSetElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLFormElementProps = HTMLMinProps<HTMLFormElement, {
+export type HTMLFormElementProps = HTMLProps<HTMLFormElement, {
 	relList: string;
 }>;
 
@@ -317,7 +322,7 @@ export type HTMLFormElementProps = HTMLMinProps<HTMLFormElement, {
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLHeadingElementProps = HTMLMinProps<HTMLHeadingElement>;
+export type HTMLHeadingElementProps = HTMLProps<HTMLHeadingElement>;
 
 // /**
 //  * @bake
@@ -329,7 +334,7 @@ export type HTMLHeadingElementProps = HTMLMinProps<HTMLHeadingElement>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLHRElementProps = HTMLMinProps<HTMLHRElement>;
+export type HTMLHRElementProps = HTMLPropsNoChildren<HTMLHRElement>;
 
 // /**
 //  * @bake
@@ -341,121 +346,121 @@ export type HTMLHRElementProps = HTMLMinProps<HTMLHRElement>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLIFrameElementProps = HTMLMinProps<HTMLIFrameElement>;
+export type HTMLIFrameElementProps = HTMLProps<HTMLIFrameElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLImageElementProps = HTMLMinProps<HTMLImageElement>;
+export type HTMLImageElementProps = HTMLPropsNoChildren<HTMLImageElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLInputElementProps = HTMLMinProps<HTMLInputElement>;
+export type HTMLInputElementProps = HTMLPropsNoChildren<HTMLInputElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLLabelElementProps = HTMLMinProps<HTMLLabelElement>;
+export type HTMLLabelElementProps = HTMLProps<HTMLLabelElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLLegendElementProps = HTMLMinProps<HTMLLegendElement>;
+export type HTMLLegendElementProps = HTMLProps<HTMLLegendElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLLIElementProps = HTMLMinProps<HTMLLIElement>;
+export type HTMLLIElementProps = HTMLProps<HTMLLIElement>;
 
 // /**
 //  * @bake
 //  * @extends HTMLGlobalProps
 //  */
-// export type HTMLLinkElementProps = HTMLProps<HTMLLinkElement>;
+// export type HTMLLinkElementProps = HTMLPropsNoChildren<HTMLLinkElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLMapElementProps = HTMLMinProps<HTMLMapElement>;
+export type HTMLMapElementProps = HTMLProps<HTMLMapElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLMenuElementProps = HTMLMinProps<HTMLMenuElement>;
+export type HTMLMenuElementProps = HTMLProps<HTMLMenuElement>;
 
 // /**
 //  * @bake
 //  * @extends HTMLGlobalProps
 //  */
-// export type HTMLMetaElementProps = HTMLProps<HTMLMetaElement>;
+// export type HTMLMetaElementProps = HTMLPropsNoChildren<HTMLMetaElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLMeterElementProps = HTMLMinProps<HTMLMeterElement>;
+export type HTMLMeterElementProps = HTMLProps<HTMLMeterElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLObjectElementProps = HTMLMinProps<HTMLObjectElement>;
+export type HTMLObjectElementProps = HTMLProps<HTMLObjectElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLOListElementProps = HTMLMinProps<HTMLOListElement>;
+export type HTMLOListElementProps = HTMLProps<HTMLOListElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLOptGroupElementProps = HTMLMinProps<HTMLOptGroupElement>;
+export type HTMLOptGroupElementProps = HTMLProps<HTMLOptGroupElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLOptionElementProps = HTMLMinProps<HTMLOptionElement>;
+export type HTMLOptionElementProps = HTMLProps<HTMLOptionElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLOutputElementProps = HTMLMinProps<HTMLOutputElement>;
+export type HTMLOutputElementProps = HTMLProps<HTMLOutputElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLParagraphElementProps = HTMLMinProps<HTMLParagraphElement>;
+export type HTMLParagraphElementProps = HTMLProps<HTMLParagraphElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLPictureElementProps = HTMLMinProps<HTMLPictureElement>;
+export type HTMLPictureElementProps = HTMLProps<HTMLPictureElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLPreElementProps = HTMLMinProps<HTMLPreElement>;
+export type HTMLPreElementProps = HTMLProps<HTMLPreElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLProgressElementProps = HTMLMinProps<HTMLProgressElement>;
+export type HTMLProgressElementProps = HTMLProps<HTMLProgressElement>;
 
 // /**
 //  * @bake
@@ -467,25 +472,25 @@ export type HTMLProgressElementProps = HTMLMinProps<HTMLProgressElement>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLSelectElementProps = HTMLMinProps<HTMLSelectElement>;
+export type HTMLSelectElementProps = HTMLProps<HTMLSelectElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLSlotElementProps = HTMLMinProps<HTMLSlotElement>;
+export type HTMLSlotElementProps = HTMLProps<HTMLSlotElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLSourceElementProps = HTMLMinProps<HTMLSourceElement>;
+export type HTMLSourceElementProps = HTMLPropsNoChildren<HTMLSourceElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLSpanElementProps = HTMLMinProps<HTMLSpanElement>;
+export type HTMLSpanElementProps = HTMLProps<HTMLSpanElement>;
 
 // /**
 //  * @bake
@@ -497,37 +502,37 @@ export type HTMLSpanElementProps = HTMLMinProps<HTMLSpanElement>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTableElementProps = HTMLMinProps<HTMLTableElement>;
+export type HTMLTableElementProps = HTMLProps<HTMLTableElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTableSectionElementProps = HTMLMinProps<HTMLTableSectionElement>;
+export type HTMLTableSectionElementProps = HTMLProps<HTMLTableSectionElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTableCellElementProps = HTMLMinProps<HTMLTableCellElement>;
+export type HTMLTableCellElementProps = HTMLProps<HTMLTableCellElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTemplateElementProps = HTMLMinProps<HTMLTemplateElement>;
+export type HTMLTemplateElementProps = HTMLProps<HTMLTemplateElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTextAreaElementProps = HTMLMinProps<HTMLTextAreaElement>;
+export type HTMLTextAreaElementProps = HTMLProps<HTMLTextAreaElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTimeElementProps = HTMLMinProps<HTMLTimeElement>;
+export type HTMLTimeElementProps = HTMLProps<HTMLTimeElement>;
 
 // /**
 //  * @bake
@@ -539,25 +544,31 @@ export type HTMLTimeElementProps = HTMLMinProps<HTMLTimeElement>;
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTableRowElementProps = HTMLMinProps<HTMLTableRowElement>;
+export type HTMLTableRowElementProps = HTMLProps<HTMLTableRowElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLTrackElementProps = HTMLMinProps<HTMLTrackElement>;
+export type HTMLTrackElementProps = HTMLPropsNoChildren<HTMLTrackElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLUListElementProps = HTMLMinProps<HTMLUListElement>;
+export type HTMLUListElementProps = HTMLProps<HTMLUListElement>;
 
 /**
  * @bake
  * @extends HTMLGlobalProps
  */
-export type HTMLVideoElementProps = HTMLMinProps<HTMLVideoElement>;
+export type HTMLVideoElementProps = HTMLProps<HTMLVideoElement>;
+
+/**
+ * @bake
+ * @extends HTMLGlobalProps
+ */
+export type HTMLWbrElementProps = HTMLPropsNoChildren<HTMLElement>;
 
 /** @preserve */
 export interface HTMLIntrinsicElements {
@@ -671,7 +682,7 @@ export interface HTMLIntrinsicElements {
 	ul: HTMLUListElementProps;
 	var: HTMLElementProps;
 	video: HTMLVideoElementProps;
-	wbr: HTMLElementProps;
+	wbr: HTMLWbrElementProps;
 }
 
 // #endregion
@@ -697,6 +708,7 @@ export type SVGGlobalProps = Finalize<WrapProps<{
 }>>;
 
 type SVGProps<T, P = {}> = Finalize<NodeTypeProp<T> & ChildrenProp & WrapProps<P>>;
+type SVGPropsNoChildren<T, P = {}> = Finalize<NodeTypeProp<T> & NoChildrenProp & WrapProps<P>>;
 
 /** @preserve */
 export type SVGAccumulate = "none" | "sum";
@@ -900,7 +912,7 @@ export type SVGAnimateTransformElementProps = SVGProps<SVGAnimateTransformElemen
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGCircleElementProps = SVGProps<SVGCircleElement, {
+export type SVGCircleElementProps = SVGPropsNoChildren<SVGCircleElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -964,7 +976,7 @@ export type SVGDescElementProps = SVGProps<SVGDescElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGEllipseElementProps = SVGProps<SVGEllipseElement, {
+export type SVGEllipseElementProps = SVGPropsNoChildren<SVGEllipseElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -1431,7 +1443,7 @@ export type SVGGElementProps = SVGProps<SVGGElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGImageElementProps = SVGProps<SVGImageElement, {
+export type SVGImageElementProps = SVGPropsNoChildren<SVGImageElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	crossorigin: SVGCrossOrigin;
@@ -1458,7 +1470,7 @@ export type SVGImageElementProps = SVGProps<SVGImageElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGLineElementProps = SVGProps<SVGLineElement, {
+export type SVGLineElementProps = SVGPropsNoChildren<SVGLineElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -1562,7 +1574,7 @@ export type SVGMPathElementProps = SVGProps<SVGMPathElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGPathElementProps = SVGProps<SVGPathElement, {
+export type SVGPathElementProps = SVGPropsNoChildren<SVGPathElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -1621,7 +1633,7 @@ export type SVGPatternElementProps = SVGProps<SVGPatternElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGPolygonElementProps = SVGProps<SVGPolygonElement, {
+export type SVGPolygonElementProps = SVGPropsNoChildren<SVGPolygonElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -1655,7 +1667,7 @@ export type SVGPolygonElementProps = SVGProps<SVGPolygonElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGPolylineElementProps = SVGProps<SVGPolylineElement, {
+export type SVGPolylineElementProps = SVGPropsNoChildren<SVGPolylineElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -1707,7 +1719,7 @@ export type SVGRadialGradientElementProps = SVGProps<SVGRadialGradientElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGRectElementProps = SVGProps<SVGRectElement, {
+export type SVGRectElementProps = SVGPropsNoChildren<SVGRectElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -1777,7 +1789,7 @@ export type SVGSetElementProps = SVGProps<SVGSetElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGStopElementProps = SVGProps<SVGStopElement, {
+export type SVGStopElementProps = SVGPropsNoChildren<SVGStopElement, {
 	"stop-color": string;
 	"stop-opacity": number | string;
 }>;
@@ -2005,7 +2017,7 @@ export type SVGTSpanElementProps = SVGProps<SVGTSpanElement, {
  * @bake
  * @extends SVGGlobalProps
  */
-export type SVGUseElementProps = SVGProps<SVGUseElement, {
+export type SVGUseElementProps = SVGPropsNoChildren<SVGUseElement, {
 	"clip-path": string;
 	"clip-rule": SVGClipRule;
 	cursor: string;
@@ -2115,6 +2127,7 @@ export type MathMLGlobalProps = Finalize<WrapProps<{
 }>>;
 
 type MathMLProps<T, P = {}> = Finalize<NodeTypeProp<T> & ChildrenProp & WrapProps<P>>;
+type MathMLPropsNoChildren<T, P = {}> = Finalize<NodeTypeProp<T> & NoChildrenProp & WrapProps<P>>;
 
 /**
  * @bake
@@ -2134,7 +2147,7 @@ export type MathMLMathElementProps = MathMLProps<MathMLElement, {
  * @bake
  * @extends MathMLGlobalProps
  */
-export type MatMLFracElementProps = MathMLProps<MathMLElement, {
+export type MatMLFracElementProps = MathMLPropsNoChildren<MathMLElement, {
 	linethickness: string;
 }>;
 
@@ -2188,6 +2201,12 @@ export type MatMLPaddedElementProps = MathMLProps<MathMLElement, {
  * @bake
  * @extends MathMLGlobalProps
  */
+export type MatMLRowElementProps = MathMLPropsNoChildren<MathMLElement>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
 export type MatMLSpaceElementProps = MathMLProps<MathMLElement, {
 	depth: string;
 	height: string;
@@ -2202,6 +2221,12 @@ export type MatMLTDElementProps = MathMLProps<MathMLElement, {
 	columnspan: number | string;
 	rowspan: number | string;
 }>;
+
+/**
+ * @bake
+ * @extends MathMLGlobalProps
+ */
+export type MatMLTextElementProps = MathMLPropsNoChildren<MathMLElement>;
 
 /**
  * @bake
@@ -2234,7 +2259,7 @@ export interface MathMLIntrinsicElements {
 	mphantom: MathMLElementProps;
 	mprescripts: MathMLElementProps;
 	mroot: MathMLElementProps;
-	mrow: MathMLElementProps;
+	mrow: MatMLRowElementProps;
 	ms: MathMLElementProps;
 	mspace: MatMLSpaceElementProps;
 	msqrt: MathMLElementProps;
@@ -2244,7 +2269,7 @@ export interface MathMLIntrinsicElements {
 	msubsup: MathMLElementProps;
 	mtable: MathMLElementProps;
 	mtd: MatMLTDElementProps;
-	mtext: MathMLElementProps;
+	mtext: MatMLTextElementProps;
 	mtr: MathMLElementProps;
 	munder: MatMLUnderElementProps;
 	munderover: MatMLUnderOverElementProps;
