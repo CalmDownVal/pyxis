@@ -1,8 +1,9 @@
 import type { S_TAG_NAME } from "~/component/Native";
 import { getCurrentContainer, setCurrentContainer } from "~/data/Context";
+import { unmounted } from "~/data/Lifecycle";
 import type { Nil, PropsType } from "~/support/types";
 
-import { mountJsx, S_COMPONENT, type HierarchyNode } from "./Renderer";
+import { mount, mountJsx, S_COMPONENT, split, unmount, type HierarchyNode } from "./Renderer";
 
 /**
  * Represents a Pyxis Component function responsible for setting up a view model and returning a
@@ -31,17 +32,47 @@ export interface DataTemplate<TData> {
 	(data: TData): JsxChildren;
 }
 
+export interface ComponentBlock {
+	(props: PropsType): JsxResult;
+}
+
 export function component<TPropsArg extends [ {} ]>(
 	block: (...args: TPropsArg) => JsxResult,
 ): (...args: [ props: JsxProps<TPropsArg[0]> ]) => JsxResult;
 
 export function component(
-	block: (props: PropsType) => JsxResult,
+	block: ComponentBlock,
+	devId?: string,
 ): ComponentHandler {
 	return (jsx, parent, before) => {
 		const context = getCurrentContainer();
-		mountJsx(block(jsx), parent, before);
-		setCurrentContainer(context);
+		try {
+			if (__DEV__) {
+				if (!import.meta.hot || !devId) {
+					mountJsx(block(jsx), parent, before);
+					return;
+				}
+
+				const group = split(parent);
+				const template = (impl: ComponentBlock): JsxResult => ({
+					...jsx,
+					[S_COMPONENT]: impl,
+				});
+
+				unmounted(
+					globalThis.__PYXIS_HMR__.component.subscribe(devId, impl => {
+						unmount(group);
+						mount(group, template, impl);
+					})
+				);
+			}
+			else {
+				mountJsx(block(jsx), parent, before);
+			}
+		}
+		finally {
+			setCurrentContainer(context);
+		}
 	};
 }
 

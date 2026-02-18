@@ -34,6 +34,12 @@ export interface List<T> extends DependencyList {
 
 	/** @internal */
 	$notify?: UpdateCallback<[ self: List<T> ]>;
+
+	/**
+	 * The ID of this List, used in development mode.
+	 * @internal
+	 */
+	$devId?: string;
 }
 
 /**
@@ -48,9 +54,15 @@ export function list<T>(source?: null, lifecycle?: Lifecycle): List<T>;
  */
 export function list<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
 
-export function list<T>(source: Nil<Iterable<T>>, lifecycle = getLifecycle()): List<T> {
+export function list<T>(source: Nil<Iterable<T>>, lifecycle = getLifecycle(), devId?: string): List<T> {
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
+			source = value;
+		});
+	}
+
 	const items = source ? Array.from(source) : [];
-	return {
+	const list: List<T> = {
 		$lifecycle: lifecycle,
 		$items: items,
 		size,
@@ -65,6 +77,12 @@ export function list<T>(source: Nil<Iterable<T>>, lifecycle = getLifecycle()): L
 		removeFirst,
 		removeLast,
 	};
+
+	if (__DEV__) {
+		list.$devId = devId;
+	}
+
+	return list;
 }
 
 /**
@@ -175,6 +193,10 @@ function defaultEquals<T>(item0: T, item1: T) {
 }
 
 function listMutated(list: List<any>) {
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.preserve(list.$lifecycle, list.$devId, list.$items);
+	}
+
 	schedule(list.$lifecycle, list.$notify ??= {
 		$fn: notify,
 		$a0: list,

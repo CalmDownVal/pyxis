@@ -79,8 +79,9 @@ function getReadOnlyContext<T>(context: Context<T>) {
 	return atom;
 }
 
-function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
+function getMutableContext<T>(context: Context<T>, defaultValue?: T, devId?: string) {
 	if (!isNewContainer || !currentContainer) {
+		// split context, current component becomes a provider
 		isNewContainer = true;
 		currentContainer = {
 			$parent: currentContainer,
@@ -88,6 +89,12 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 	}
 
 	const lifecycle = getLifecycle();
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
+			defaultValue = value;
+		});
+	}
+
 	const localAtom: ContextAtom<T> = {
 		[S_ATOM]: true,
 		$lifecycle: lifecycle,
@@ -107,6 +114,10 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 				$a0: localAtom,
 			});
 		}
+	}
+
+	if (__DEV__) {
+		localAtom.$devId = devId;
 	}
 
 	currentContainer[context.$symbol] = localAtom;
@@ -132,6 +143,10 @@ function setValue<T>(this: ContextAtom<T>, value: T) {
 	}
 
 	this.$value = value;
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.preserve(this.$lifecycle, this.$devId, value);
+	}
+
 	return oldValue !== value;
 }
 

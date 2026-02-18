@@ -6,6 +6,7 @@ import type { Adapter, ExtensionsType } from "./Adapter";
 import type { DataTemplate, JsxResult, Template } from "./Component";
 import { getCurrentContainer, setCurrentContainer, type ContextContainer } from "./data/Context";
 
+/** @internal */
 // @ts-expect-error this is a unique symbol at runtime
 export const S_COMPONENT: unique symbol = __DEV__ ? Symbol.for("pyxis:component") : Symbol();
 

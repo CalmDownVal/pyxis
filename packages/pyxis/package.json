@@ -12,6 +12,10 @@
 			"import": "./dist/core.js",
 			"types": "./dist/core.d.ts"
 		},
+		"./core-dev": {
+			"import": "./dist/core-dev.js",
+			"types": "./dist/core-dev.d.ts"
+		},
 		"./jsx-runtime": {
 			"import": "./dist/jsx-runtime.js",
 			"types": "./dist/jsx-runtime.d.ts"

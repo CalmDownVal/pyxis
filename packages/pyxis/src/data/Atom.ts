@@ -42,6 +42,12 @@ export interface Atom<T = unknown> extends DependencyList {
 	$notify?: UpdateCallback<[ self: Atom<T> ]>;
 
 	/**
+	 * The ID of this Atom, used in development mode.
+	 * @internal
+	 */
+	$devId?: string;
+
+	/**
 	 * Gets the value of this Atom.
 	 * @internal
 	 */
@@ -80,18 +86,29 @@ export function atom<T>(): Atom<T | undefined>;
  */
 export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T>;
 
-export function atom<T>(initialValue?: MaybeAtom<T>, lifecycle = getLifecycle()) {
-	return isAtom(initialValue)
-		? initialValue
-		: {
-			[S_ATOM]: true,
-			$value: initialValue as T,
-			$tracksValue: true,
-			$lifecycle: lifecycle,
-			$lastValue: initialValue,
-			$get: getValue,
-			$set: setValue,
-		} satisfies DirectAtom<T>;
+export function atom<T>(initialValue?: MaybeAtom<T>, lifecycle = getLifecycle(), devId?: string) {
+	if (isAtom(initialValue)) {
+		return initialValue;
+	}
+
+	const atom: DirectAtom<T> = {
+		[S_ATOM]: true,
+		$value: initialValue as T,
+		$tracksValue: true,
+		$lifecycle: lifecycle,
+		$lastValue: initialValue,
+		$get: getValue,
+		$set: setValue,
+	};
+
+	if (__DEV__) {
+		atom.$devId = devId;
+		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
+			atom.$value = value;
+		});
+	}
+
+	return atom;
 }
 
 function getValue<T>(this: DirectAtom<T>) {
@@ -104,6 +121,10 @@ function setValue<T>(this: DirectAtom<T>, value: T) {
 	}
 
 	this.$value = value;
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.preserve(this.$lifecycle, this.$devId, value);
+	}
+
 	return true;
 }
 
