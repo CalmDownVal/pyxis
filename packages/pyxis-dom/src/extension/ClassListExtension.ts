@@ -1,4 +1,4 @@
-import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom } from "@calmdown/pyxis/core";
+import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom } from "@calmdown/pyxis/core";
 
 export interface ClassListExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -13,7 +13,7 @@ export interface ClassListExtensionType {
 export const ClassListExtension = {
 	set: (node, className, toggle) => {
 		if (isAtom(toggle)) {
-			reaction(() => {
+			effect(() => {
 				node.classList.toggle(className, read(toggle));
 			});
 		}

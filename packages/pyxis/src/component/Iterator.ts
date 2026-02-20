@@ -3,7 +3,7 @@ import type { Lifecycle } from "~/data/Lifecycle";
 import { link } from "~/data/Dependency";
 import type { ReadonlyList } from "~/data/List";
 import { K_CHANGE, K_CLEAR, K_INSERT, K_REMOVE } from "~/data/ListDelta";
-import { proxy, type ProxyAtom } from "~/data/ProxyAtom";
+import { proxyOf, type ProxyAtom } from "~/data/ProxyAtom";
 import type { DataTemplate, JsxProps, JsxResult } from "~/Component";
 import { mount, split, track, unmount, untrack, type HierarchyNode, type MountingGroup } from "~/Renderer";
 
@@ -57,7 +57,7 @@ export function Iterator<TNode, T>(
 	const group = split(parent) as MountingGroup<TNode>;
 	group.mounted = true;
 
-	// list change reactions
+	// list change handler
 	let items: IteratorItemGroup<TNode>[];
 	const onDelta = () => {
 		const delta = source.$delta!;
@@ -189,7 +189,7 @@ function createProxy(lifecycle: Lifecycle, data: any, keys: readonly PropertyKey
 	let key;
 	for (; index < length; index += 1) {
 		key = keys[index];
-		obj[key] = proxy(data[key], lifecycle);
+		obj[key] = proxyOf(data[key], lifecycle);
 	}
 
 	return obj;

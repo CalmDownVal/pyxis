@@ -23,10 +23,10 @@ their value directly, instead it is necessary to use the `read`, `write` and
 The read function checks whether its input is an Atom and reads its value.
 Non-atom inputs are returned as-is.
 
-It also reports read access when used within a reaction or derivation block.
+It also reports read access when used within an effect or derived block.
 
 ```ts
-const count = atom(0);
+const count = atomOf(0);
 
 read(count); // returns 0
 read(123); // returns 123
@@ -40,8 +40,8 @@ will quietly fail and their current, unchanged value will be returned. For
 non-atom inputs this function is a no-op and returns the input as-is.
 
 ```ts
-const count = atom(0);
-const count2 = derivation(() => read(count) * 2); // readonly atom
+const count = atomOf(0);
+const count2 = derived(() => read(count) * 2); // readonly atom
 
 write(count, 1); // writes count, returns 1
 write(count2, 1); // does nothing, returns 2
@@ -55,12 +55,12 @@ function to update the atom's value derived from its current one. Like write,
 the new value of the atom is returned. For non-atom inputs, this function is a
 no-op and returns the input as-is.
 
-Update does *not* report read access, even when used within a reaction or
-derivation block.
+Update does *not* report read access, even when used within an effect or derive
+block.
 
 ```ts
-const count = atom(0);
-const count2 = derivation(() => read(count) * 2); // readonly atom
+const count = atomOf(0);
+const count2 = derived(() => read(count) * 2); // readonly atom
 
 const increment = (current: number) => current + 1;
 
@@ -69,7 +69,7 @@ update(count2, increment); // does nothing, returns 2
 update(123, increment); // does nothing, returns 123
 ```
 
-### Derivation
+### Derivations
 
 Derivations are a special, readonly type of an atom. Their value is derived from
 one or more other atoms. Derivations are updated when one or more of the atoms
@@ -77,22 +77,22 @@ they depend on change. The update is lazy and doesn't run until the derivation's
 value is accessed.
 
 ```ts
-const totalPrice = derivation(() => read(unitPrice) * read(quantity));
+const totalPrice = derived(() => read(unitPrice) * read(quantity));
 ```
 
-### Reaction
+### Effects
 
-Reaction is a block of code that automatically re-runs whenever one or more
-atoms it depends on change. Reaction blocks are synchronously executed upon
+An effect is a block of code that automatically re-runs whenever one or more
+atoms it depends on change. Effect blocks are synchronously executed upon
 declaration and then eagerly re-run with updates.
 
 ```ts
-reaction(() => {
+effect(() => {
   console.log("counter is", read(counter));
 });
 ```
 
-Reactions may also return a teardown function to dispose of any resources
+Effects may also return a teardown function to dispose of any resources
 allocated in its previous run.
 
 ### Mount and Unmount
@@ -210,7 +210,7 @@ array. To get reactive lists, a builtin observable list is provided with a
 matching `<Iterator>` component.
 
 ```tsx
-const items = list([ "foo", "bar" ]);
+const items = listOf([ "foo", "bar" ]);
 return (
   <ul>
     <Iterator source={items}>

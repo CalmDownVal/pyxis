@@ -1,4 +1,4 @@
-import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
+import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
 
 import type { CSSStyleDeclarationProps } from "~/jsx/baked";
 
@@ -17,7 +17,7 @@ export interface CssStyleExtensionType {
 export const CssStyleExtension = {
 	set: (node, ruleName, value) => {
 		if (isAtom(value)) {
-			reaction(() => {
+			effect(() => {
 				node.style[ruleName as never] = read(value);
 			});
 		}

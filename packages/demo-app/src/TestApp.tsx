@@ -1,4 +1,4 @@
-import { atom, component, derivation, Iterator, list, read, unmounted, write, type Atom } from "@calmdown/pyxis";
+import { atomOf, component, derived, Iterator, listOf, read, unmounted, write, type Atom } from "@calmdown/pyxis";
 import { Text } from "@calmdown/pyxis-dom";
 
 import { Button } from "~/component/Button";
@@ -11,11 +11,11 @@ interface TodoItem {
 }
 
 export const TestApp = component(() => {
-	const todos = list<TodoItem>();
-	const todoText = atom("");
+	const todos = listOf<TodoItem>();
+	const todoText = atomOf("");
 	const addTodoItem = () => {
 		todos.insertFirst({
-			done: atom(false),
+			done: atomOf(false),
 			text: read(todoText),
 		});
 
@@ -61,17 +61,17 @@ export const TestApp = component(() => {
 	return (
 		<>
 			<label>
-				<Text>What needs to be done ({derivation(() => todos.size())})?</Text>
+				<Text>What needs to be done ({derived(() => todos.size())})?</Text>
 				<TextInput value={todoText} />
 			</label>
 			<Button
-				disabled={derivation(() => !read(todoText))}
+				disabled={derived(() => !read(todoText))}
 				on:click={addTodoItem}
 			>
 				<Text>Add</Text>
 			</Button>
 			<Button
-				disabled={derivation(() => todos.size() < 2)}
+				disabled={derived(() => todos.size() < 2)}
 				on:mousedown={beginShuffle}
 				on:mouseup={endShuffle}
 			>

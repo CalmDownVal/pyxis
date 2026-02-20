@@ -1,4 +1,4 @@
-import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
+import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
 
 export interface DatasetExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -15,7 +15,7 @@ export interface DatasetExtensionType {
 export const DatasetExtension = {
 	set: (node, key, value) => {
 		if (isAtom(value)) {
-			reaction(() => {
+			effect(() => {
 				node.dataset[key] = read(value);
 			});
 		}

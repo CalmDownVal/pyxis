@@ -3,8 +3,8 @@ import type { Nil } from "~/support/types";
 
 import { getLifecycle, type Lifecycle } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
+import { reportAccess } from "./Effect";
 import { createDelta, itemChanged, itemInserted, itemRemoved, listCleared, listSynced, type Equals, type ListDelta } from "./ListDelta";
-import { reportAccess } from "./Reaction";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
 export interface ReadonlyList<T> extends DependencyList {
@@ -51,16 +51,16 @@ export interface List<T> extends ReadonlyList<T> {
  * Creates an empty List. This List emits deltas with each mutation which can be observed by
  * Components to efficiently update the rendered state.
  */
-export function list<T>(): List<T>;
-export function list<T>(source: Nil<never>, lifecycle: Lifecycle): List<T>;
+export function listOf<T>(): List<T>;
+export function listOf<T>(source: Nil<never>, lifecycle: Lifecycle): List<T>;
 
 /**
  * Creates a List initialized with items copied from the provided Iterable. This List emits deltas
  * with each mutation which can be observed by Components to efficiently update the rendered state.
  */
-export function list<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
+export function listOf<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
 
-export function list<T>(source?: Nil<Iterable<T>>, lifecycle = getLifecycle(), devId?: string): List<T> {
+export function listOf<T>(source?: Nil<Iterable<T>>, lifecycle = getLifecycle(), devId?: string): List<T> {
 	if (__DEV__) {
 		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
 			source = value;

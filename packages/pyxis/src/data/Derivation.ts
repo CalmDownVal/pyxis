@@ -1,7 +1,7 @@
 import { notify, S_ATOM, type Atom } from "./Atom";
 import { getLifecycle } from "./Lifecycle";
 import { unlink } from "./Dependency";
-import { resolve, type Reaction, type ReactionDependency } from "./Reaction";
+import { resolve, type Effect, type EffectDependency } from "./Effect";
 import { schedule } from "./Scheduler";
 
 /**
@@ -9,7 +9,7 @@ import { schedule } from "./Scheduler";
  * Derivations are read-only. Use the `read` function to access its value.
  * @see {@link read}
  */
-export interface Derivation<T = unknown> extends Atom<T>, Reaction<T> {
+export interface Derivation<T = unknown> extends Atom<T>, Effect<T> {
 	/** @internal */
 	$dirty: boolean;
 
@@ -21,7 +21,7 @@ export interface Derivation<T = unknown> extends Atom<T>, Reaction<T> {
  * Creates a Derivation - an Atom with a value computed from other Atoms. Derivations are updated
  * lazily, i.e. only when they're accessed and at least one of its source Atoms changed.
  */
-export function derivation<T>(block: () => T, lifecycle = getLifecycle()): Derivation<T> {
+export function derived<T>(block: () => T, lifecycle = getLifecycle()): Derivation<T> {
 	return {
 		[S_ATOM]: true,
 		$lifecycle: lifecycle,
@@ -34,15 +34,15 @@ export function derivation<T>(block: () => T, lifecycle = getLifecycle()): Deriv
 	};
 }
 
-function scheduleNotify(this: ReactionDependency, derivation: Derivation<any>, epoch: number) {
+function scheduleNotify(this: EffectDependency, derivation: Derivation<any>, epoch: number) {
 	// lazy cleanup: when we get an update from a stale dependency, the reported epoch will be lower
-	// than our current one (see the reportAccess function). We can unlink and skip the reaction.
+	// than our current one (see the reportAccess function). We can unlink and skip the effect.
 	if (derivation.$epoch > epoch) {
 		unlink(this);
 		return;
 	}
 
-	// we're already within a scheduler tick; the reaction will therefore run synchronously despite
+	// we're already within a scheduler tick; the effect will therefore run synchronously despite
 	// being "scheduled" - this also gives priority to already scheduled updates and prevents
 	// infinite loops when dependency cycles exist
 	derivation.$dirty = true;

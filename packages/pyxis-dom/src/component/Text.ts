@@ -1,4 +1,4 @@
-import { insert, reaction, read, type HierarchyNode, type JsxProps, type JsxResult, type MaybeAtom, type Nil } from "@calmdown/pyxis/core";
+import { effect, insert, read, type HierarchyNode, type JsxProps, type JsxResult, type MaybeAtom, type Nil } from "@calmdown/pyxis/core";
 
 export interface TextProps {
 	readonly children?: readonly (MaybeAtom<Nil<string | number | boolean | bigint>>)[];
@@ -26,7 +26,7 @@ export function Text(
 	}
 
 	const node = document.createTextNode("");
-	reaction(() => {
+	effect(() => {
 		let text = "";
 		let index = 0;
 		for (; index < length; index += 1) {

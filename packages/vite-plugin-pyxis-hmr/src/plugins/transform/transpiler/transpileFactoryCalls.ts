@@ -18,10 +18,10 @@ type FactoryKind =
 	| "provider";
 
 const factoryKindMap: { [N in string]?: FactoryKind } = {
-	atom: "atom",
+	atomOf: "atom",
 	component: "component",
 	createContext: "context",
-	list: "list",
+	listOf: "list",
 	providerOf: "provider",
 };
 
