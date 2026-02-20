@@ -59,10 +59,9 @@ try {
 		cacheDir: path.join(currentPackage.directory, "./.vite"),
 		root: currentPackage.directory,
 		server: {
-			host: true,
+			host: "0.0.0.0",
 			port: cmd.opts.port,
 			hmr: true,
-			allowedHosts: [ "localhost", "tower.home" ],
 		},
 		build: {
 			outDir: "./dist",

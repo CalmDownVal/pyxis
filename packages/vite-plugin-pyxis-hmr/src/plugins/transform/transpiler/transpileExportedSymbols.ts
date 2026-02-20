@@ -37,6 +37,8 @@ export function transpileExportedSymbols(transpiler: Transpiler, ast: AST.Progra
 					break;
 				}
 
+				let isAffected = false;
+
 				// may be a direct named export, e.g.:
 				// export const a = 123;
 				const declaration = node.declaration;
@@ -48,6 +50,8 @@ export function transpileExportedSymbols(transpiler: Transpiler, ast: AST.Progra
 							localName: it.name,
 							exportName: it.name,
 						});
+
+						isAffected = true;
 					});
 				}
 
@@ -67,20 +71,28 @@ export function transpileExportedSymbols(transpiler: Transpiler, ast: AST.Progra
 							localName,
 							exportName,
 						});
+
+						isAffected = true;
 					}
 				}
 
-				transpiler.addTransform(node, removeExport);
+				if (isAffected) {
+					transpiler.addTransform(node, removeExport);
+				}
+
 				break;
 			}
 
-			case "ExportDefaultDeclaration":
+			case "ExportDefaultDeclaration": {
+				let isAffected = false;
+
 				// default export can be any expression -> detect references, otherwise use directly
 				if (node.declaration.type === "Identifier") {
 					const localName = node.declaration.name;
 					const exportedNode = topScopeNodes[localName];
 					if (exportedNode) {
 						exportedNodes.add(exportedNode);
+						isAffected = true;
 					}
 				}
 				else if (!isTypeScriptNode(node.declaration)) {
@@ -89,11 +101,22 @@ export function transpileExportedSymbols(transpiler: Transpiler, ast: AST.Progra
 						localName: "__default",
 						exportName: "default",
 					});
+
+					isAffected = true;
 				}
 
-				transpiler.addTransform(node, removeExport);
+				if (isAffected) {
+					transpiler.addTransform(node, removeExport);
+				}
+
 				break;
+			}
 		}
+	}
+
+	// exit early if no exports were transformed
+	if (exportedNodes.size === 0) {
+		return;
 	}
 
 	for (const node of exportedNodes) {

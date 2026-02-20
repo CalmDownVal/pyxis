@@ -28,12 +28,16 @@ export function pyxisHmrTransformPlugin(pluginOptions: Required<PyxisHmrPluginOp
 					return null;
 				}
 
-				const ast = this.parse(code, { astType: "js" });
 				const transpiler = new Transpiler();
 				const shortModuleId = getShortModuleId(root, moduleId);
+				const ast = this.parse(code, { astType: "js" });
 
 				transpileExportedSymbols(transpiler, ast);
 				transpileFactoryCalls(transpiler, ast, pluginOptions, shortModuleId);
+
+				if (!transpiler.hasTransforms()) {
+					return null;
+				}
 
 				const result = transpiler.transpile(code);
 				return {

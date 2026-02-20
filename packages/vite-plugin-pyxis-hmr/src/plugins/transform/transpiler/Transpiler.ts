@@ -30,6 +30,10 @@ interface Boundary {
 export class Transpiler {
 	private readonly transforms: Transform[] = [];
 
+	public hasTransforms() {
+		return this.transforms.length > 0;
+	}
+
 	public addTransform(node: AST.Node, block: TransformBlock) {
 		this.transforms.push({
 			start: node.start,
