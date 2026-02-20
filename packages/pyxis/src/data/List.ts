@@ -3,14 +3,34 @@ import type { Nil } from "~/support/types";
 
 import { getLifecycle, type Lifecycle } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
+import { reportAccess } from "./Effect";
 import { createDelta, itemChanged, itemInserted, itemRemoved, listCleared, listSynced, type Equals, type ListDelta } from "./ListDelta";
-import { reportAccess } from "./Reaction";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
-export interface List<T> extends DependencyList {
+export interface ReadonlyList<T> extends DependencyList {
 	readonly size: () => number;
-
 	readonly get: (index: number) => T;
+
+	/** @internal */
+	readonly $lifecycle: Lifecycle;
+
+	/** @internal */
+	$items: readonly T[];
+
+	/** @internal */
+	$delta?: Nil<ListDelta<T>>;
+
+	/** @internal */
+	$notify?: UpdateCallback<[ self: List<T> ]>;
+
+	/**
+	 * The ID of this List, used in development mode.
+	 * @internal
+	 */
+	$devId?: string;
+}
+
+export interface List<T> extends ReadonlyList<T> {
 	readonly set: (index: number, item: T) => void;
 	readonly clear: () => void;
 
@@ -24,33 +44,31 @@ export interface List<T> extends DependencyList {
 	readonly removeLast: () => T;
 
 	/** @internal */
-	readonly $lifecycle: Lifecycle;
-
-	/** @internal */
 	$items: T[];
-
-	/** @internal */
-	$delta?: Nil<ListDelta<T>>;
-
-	/** @internal */
-	$notify?: UpdateCallback<[ self: List<T> ]>;
 }
 
 /**
  * Creates an empty List. This List emits deltas with each mutation which can be observed by
  * Components to efficiently update the rendered state.
  */
-export function list<T>(source?: null, lifecycle?: Lifecycle): List<T>;
+export function listOf<T>(): List<T>;
+export function listOf<T>(source: Nil<never>, lifecycle: Lifecycle): List<T>;
 
 /**
  * Creates a List initialized with items copied from the provided Iterable. This List emits deltas
  * with each mutation which can be observed by Components to efficiently update the rendered state.
  */
-export function list<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
+export function listOf<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
 
-export function list<T>(source: Nil<Iterable<T>>, lifecycle = getLifecycle()): List<T> {
+export function listOf<T>(source?: Nil<Iterable<T>>, lifecycle = getLifecycle(), devId?: string): List<T> {
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
+			source = value;
+		});
+	}
+
 	const items = source ? Array.from(source) : [];
-	return {
+	const list: List<T> = {
 		$lifecycle: lifecycle,
 		$items: items,
 		size,
@@ -65,6 +83,12 @@ export function list<T>(source: Nil<Iterable<T>>, lifecycle = getLifecycle()): L
 		removeFirst,
 		removeLast,
 	};
+
+	if (__DEV__) {
+		list.$devId = devId;
+	}
+
+	return list;
 }
 
 /**
@@ -175,6 +199,10 @@ function defaultEquals<T>(item0: T, item1: T) {
 }
 
 function listMutated(list: List<any>) {
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.preserve(list.$lifecycle, list.$devId, list.$items);
+	}
+
 	schedule(list.$lifecycle, list.$notify ??= {
 		$fn: notify,
 		$a0: list,

@@ -1,5 +1,5 @@
 import { isAtom, read } from "~/data/Atom";
-import { reaction } from "~/data/Reaction";
+import { effect } from "~/data/Effect";
 import type { JsxResult } from "~/Component";
 import { insert, type HierarchyNode } from "~/Renderer";
 
@@ -33,7 +33,7 @@ export function Native<TNode>(
 			if (isAtom(value)) {
 				const prop = name;
 				const atom = value;
-				reaction(() => adapter.set(node, prop, read(atom)));
+				effect(() => adapter.set(node, prop, read(atom)));
 			}
 			else {
 				adapter.set(node, name, value);

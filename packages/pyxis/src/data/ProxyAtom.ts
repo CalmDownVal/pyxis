@@ -1,8 +1,8 @@
 import type { Nil } from "~/support/types";
 
 import { isAtom, notify, S_ATOM, type Atom, type MaybeAtom } from "./Atom";
-import { getLifecycle } from "./Lifecycle";
 import { link, unlink, type Dependency } from "./Dependency";
+import { getLifecycle } from "./Lifecycle";
 
 export interface ProxyAtom<T> extends Atom<T> {
 	/**
@@ -25,7 +25,7 @@ export interface ProxyAtom<T> extends Atom<T> {
  * Creates a ProxyAtom bound to the provided initial value. If it is an Atom, the proxy will mirror
  * it, otherwise it will be a read-only atom with a static value until rebound.
  */
-export function proxy<T>(initialValue: MaybeAtom<T>, lifecycle = getLifecycle()): ProxyAtom<T> {
+export function proxyOf<T>(initialValue: MaybeAtom<T>, lifecycle = getLifecycle()): ProxyAtom<T> {
 	// $set is assigned by the use call below
 	const self: Omit<ProxyAtom<T>, "$set"> = {
 		[S_ATOM]: true,

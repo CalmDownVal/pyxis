@@ -1,4 +1,4 @@
-import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom, type Nil, type NodeType } from "@calmdown/pyxis/core";
+import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type Nil, type NodeType } from "@calmdown/pyxis/core";
 
 export interface CssVariableExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -15,7 +15,7 @@ export interface CssVariableExtensionType {
 export const CssVariableExtension = {
 	set: (node, varName, value) => {
 		if (isAtom(value)) {
-			reaction(() => setProp(node.style, varName, read(value)));
+			effect(() => setProp(node.style, varName, read(value)));
 		}
 		else if (value) {
 			setProp(node.style, varName, value);

@@ -13,11 +13,6 @@ export interface Context<T> {
 	readonly $symbol: symbol;
 
 	/**
-	 * The name of this Context, if specified during creation.
-	 */
-	readonly name?: string;
-
-	/**
 	 * A fake property kept for TypeScript to properly type-check Context compatibility.
 	 * @deprecated **Type only, does not exist at runtime!**
 	 */
@@ -29,11 +24,16 @@ export interface Context<T> {
  * trees without "prop drilling."
  * @see {@link context}
  */
-export function createContext<T>(name?: string): Context<T> {
-	return {
-		$symbol: Symbol(),
-		name,
-	};
+export function createContext<T>(): Context<T>;
+
+export function createContext<T>(devId?: string): Context<T> {
+	let $symbol = Symbol();
+	if (__DEV__) {
+		$symbol = globalThis.__PYXIS_HMR__.state.restore(createContext, devId) ?? $symbol;
+		globalThis.__PYXIS_HMR__.state.preserve(createContext, devId, $symbol);
+	}
+
+	return { $symbol };
 }
 
 
@@ -64,7 +64,11 @@ interface ContextAtom<T> extends Atom<T> {
 	$value?: T;
 }
 
-function getReadOnlyContext<T>(context: Context<T>) {
+/**
+ * Gets a consumer Atom for the given Context. This atom will be read-only.
+ * @see {@link providerOf}
+ */
+export function consumerOf<T>(context: Context<T>) {
 	const { $symbol } = context;
 	let ptr: Nil<ContextContainer> = currentContainer;
 	let atom;
@@ -79,8 +83,14 @@ function getReadOnlyContext<T>(context: Context<T>) {
 	return atom;
 }
 
-function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
+/**
+ * Gets a provider Atom for the given Context. Any descendant components will be
+ * able to consume the value and react to its updates.
+ * @see {@link consumerOf}
+ */
+export function providerOf<T>(context: Context<T>, defaultValue?: T, devId?: string) {
 	if (!isNewContainer || !currentContainer) {
+		// split context, current component becomes a provider
 		isNewContainer = true;
 		currentContainer = {
 			$parent: currentContainer,
@@ -88,6 +98,12 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 	}
 
 	const lifecycle = getLifecycle();
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
+			defaultValue = value;
+		});
+	}
+
 	const localAtom: ContextAtom<T> = {
 		[S_ATOM]: true,
 		$lifecycle: lifecycle,
@@ -98,7 +114,7 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 	};
 
 	if (defaultValue === undefined) {
-		const ancestorAtom = getReadOnlyContext(context);
+		const ancestorAtom = consumerOf(context);
 		if (ancestorAtom) {
 			localAtom.$get = getAncestorValue;
 			localAtom.$ancestor = ancestorAtom;
@@ -107,6 +123,10 @@ function getMutableContext<T>(context: Context<T>, defaultValue?: T) {
 				$a0: localAtom,
 			});
 		}
+	}
+
+	if (__DEV__) {
+		localAtom.$devId = devId;
 	}
 
 	currentContainer[context.$symbol] = localAtom;
@@ -132,25 +152,10 @@ function setValue<T>(this: ContextAtom<T>, value: T) {
 	}
 
 	this.$value = value;
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.preserve(this.$lifecycle, this.$devId, value);
+	}
+
 	return oldValue !== value;
 }
 
-export interface ContextAccess {
-	/**
-	 * Gets a **read-only** Atom from the current Component's context.
-	 * @see {@link createContext}
-	 */
-	<T>(context: Context<T>): Atom<T> | undefined;
-
-	/**
-	 * Creates a **mutable** Atom bound to the current Component's context. The current Component
-	 * will automatically act as a provider for the given Context. Any descendants will be able to
-	 * read the Atom and react to its updates.
-	 * @see {@link createContext}
-	 */
-	readonly mutable: <T>(context: Context<T>, defaultValue?: T) => Atom<T>;
-}
-
-getReadOnlyContext.mutable = getMutableContext;
-
-export const context: ContextAccess = getReadOnlyContext;

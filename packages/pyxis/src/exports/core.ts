@@ -3,14 +3,14 @@ export { Iterator, type ProxyIteratorProps, type RemountIteratorProps } from "~/
 export { Native } from "~/component/Native";
 export { Show, type ShowProps } from "~/component/Show";
 
-export { atom, isAtom, peek, read, update, write, type Atom, type MaybeAtom, type S_ATOM } from "~/data/Atom";
-export { context, createContext, type Context, type ContextAccess } from "~/data/Context";
-export { derivation, type Derivation } from "~/data/Derivation";
+export { atomOf, isAtom, peek, read, update, write, type Atom, type MaybeAtom, type S_ATOM } from "~/data/Atom";
+export { consumerOf, createContext, providerOf, type Context } from "~/data/Context";
+export { derived, type Derivation } from "~/data/Derivation";
+export { effect, type EffectBlock } from "~/data/Effect";
 export { getLifecycle, mounted, unmounted, withLifecycle, type Lifecycle, type MountBlock, type UnmountBlock } from "~/data/Lifecycle";
-export { list, sync, type List } from "~/data/List";
+export { listOf, sync, type List, type ReadonlyList } from "~/data/List";
 export type { Equals } from "~/data/ListDelta";
-export { reaction, type ReactionBlock } from "~/data/Reaction";
-export { proxy, type ProxyAtom } from "~/data/ProxyAtom";
+export { proxyOf, type ProxyAtom } from "~/data/ProxyAtom";
 export type { TickFn } from "~/data/Scheduler";
 
 export { RefExtension, type RefExtensionType } from "~/extension/RefExtension";
@@ -21,4 +21,4 @@ export type { Adapter, Extension, ExtensionProps, ExtensionsType } from "~/Adapt
 export { pyxis, type PyxisBuilder } from "~/Builder";
 export { component, type Component, type DataTemplate, type JsxChildren, type JsxChildrenProp, type JsxProps, type JsxResult, type PropsOf, type Template, type WithChildren } from "~/Component";
 export { jsx, jsxs } from "~/jsx";
-export { getAnchor, insert, mount, mountJsx, S_COMPONENT, split, track, unmount, untrack, type ElementsOf, type Hierarchy, type HierarchyNode, type MountingGroup, type NativeNode, type Renderer } from "~/Renderer";
+export { getAnchor, insert, mount, mountJsx, split, track, unmount, untrack, type ElementsOf, type Hierarchy, type HierarchyNode, type MountingGroup, type NativeNode, type Renderer } from "~/Renderer";

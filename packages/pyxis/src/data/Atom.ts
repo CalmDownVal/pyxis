@@ -2,7 +2,7 @@ import { invoke } from "~/support/common";
 
 import { getLifecycle, type Lifecycle } from "./Lifecycle";
 import type { DependencyList } from "./Dependency";
-import { reportAccess } from "./Reaction";
+import { reportAccess } from "./Effect";
 import { schedule, type UpdateCallback } from "./Scheduler";
 import type { Nil } from "~/support/types";
 
@@ -42,6 +42,12 @@ export interface Atom<T = unknown> extends DependencyList {
 	$notify?: UpdateCallback<[ self: Atom<T> ]>;
 
 	/**
+	 * The ID of this Atom, used in development mode.
+	 * @internal
+	 */
+	$devId?: string;
+
+	/**
 	 * Gets the value of this Atom.
 	 * @internal
 	 */
@@ -71,27 +77,38 @@ export type MaybeAtom<T> = Atom<T> | T;
 /**
  * Creates an empty Atom; i.e. value set to `undefined`.
  */
-export function atom<T>(): Atom<T | undefined>;
+export function atomOf<T>(): Atom<T | undefined>;
 
 /**
  * Creates an Atom initialized to the provided value. If the provided value is already an Atom, it
  * is returned as-is.
  * @see {@link isAtom}
  */
-export function atom<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T>;
+export function atomOf<T>(initialValue: MaybeAtom<T>, lifecycle?: Lifecycle): Atom<T>;
 
-export function atom<T>(initialValue?: MaybeAtom<T>, lifecycle = getLifecycle()) {
-	return isAtom(initialValue)
-		? initialValue
-		: {
-			[S_ATOM]: true,
-			$value: initialValue as T,
-			$tracksValue: true,
-			$lifecycle: lifecycle,
-			$lastValue: initialValue,
-			$get: getValue,
-			$set: setValue,
-		} satisfies DirectAtom<T>;
+export function atomOf<T>(initialValue?: MaybeAtom<T>, lifecycle = getLifecycle(), devId?: string) {
+	if (isAtom(initialValue)) {
+		return initialValue;
+	}
+
+	const atom: DirectAtom<T> = {
+		[S_ATOM]: true,
+		$value: initialValue as T,
+		$tracksValue: true,
+		$lifecycle: lifecycle,
+		$lastValue: initialValue,
+		$get: getValue,
+		$set: setValue,
+	};
+
+	if (__DEV__) {
+		atom.$devId = devId;
+		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
+			atom.$value = value;
+		});
+	}
+
+	return atom;
 }
 
 function getValue<T>(this: DirectAtom<T>) {
@@ -104,6 +121,10 @@ function setValue<T>(this: DirectAtom<T>, value: T) {
 	}
 
 	this.$value = value;
+	if (__DEV__) {
+		globalThis.__PYXIS_HMR__.state.preserve(this.$lifecycle, this.$devId, value);
+	}
+
 	return true;
 }
 
@@ -120,7 +141,7 @@ export function isAtom<T = unknown>(input: Nil<MaybeAtom<T>>): input is Atom<T> 
 
 /**
  * Checks if the provided input is an Atom and reads its value. Non-atom inputs are returned as-is.
- * Reports read access when inside a reaction.
+ * Reports read access when inside an effect.
  * @see {@link isAtom}
  * @see {@link write}
  * @see {@link peek}
@@ -141,7 +162,7 @@ export function read<T>(input: MaybeAtom<T>) {
 
 /**
  * Checks if the provided input is an Atom and reads its value. Non-atom inputs are returned as-is.
- * Does NOT report read access when inside a reaction.
+ * Does NOT report read access when inside an effect.
  * @see {@link isAtom}
  * @see {@link read}
  * @see {@link write}

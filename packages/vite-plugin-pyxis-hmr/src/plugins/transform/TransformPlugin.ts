@@ -1,39 +1,55 @@
-import type { Plugin } from "vite";
+import * as path from "node:path";
+
+import { normalizePath, type Plugin } from "vite";
 
 import type { PyxisHmrPluginOptions } from "~/types";
 
-import { applyTransforms, generatePostamble, generatePreamble } from "./analysis/codegen";
-import { findExportedComponents } from "./analysis/findExportedComponents";
-import { findExportedSymbols } from "./analysis/findExportedSymbols";
-import { generateCodeTransforms } from "./analysis/generateCodeTransforms";
+import { Transpiler } from "./transpiler/Transpiler";
+import { transpileExportedSymbols } from "./transpiler/transpileExportedSymbols";
+import { transpileFactoryCalls } from "./transpiler/transpileFactoryCalls";
 
-export function pyxisHmrTransformPlugin(options: Required<PyxisHmrPluginOptions>): Plugin {
+
+export function pyxisHmrTransformPlugin(pluginOptions: Required<PyxisHmrPluginOptions>): Plugin {
+	let root: string;
 	return {
 		name: `${__THIS_MODULE__}:transform`,
+		configResolved(config) {
+			root = config.root;
+		},
 		transform: {
 			filter: {
 				id: {
 					include: /\.m?[jt]sx?$/i,
-					exclude: options.exclude,
+					exclude: pluginOptions.exclude,
 				},
 			},
-			async handler(code, moduleId) {
-				const ast = this.parse(code, { astType: "js" });
-
-				const exportedSymbols = findExportedSymbols(ast);
-				const exportedComponents = findExportedComponents(ast, exportedSymbols, options, moduleId);
-				if (exportedSymbols.length === 0 || exportedComponents.length === 0) {
+			handler(code, moduleId) {
+				if (!(root && moduleId.startsWith(root))) {
 					return null;
 				}
 
-				const transforms = generateCodeTransforms(exportedSymbols, exportedComponents);
-				const newCode = (
-					generatePreamble(options) +
-					applyTransforms(code, transforms) +
-					generatePostamble(exportedSymbols)
-				);
+				if (!moduleId.endsWith("TestApp.tsx")) {
+					return null;
+				}
 
-				return newCode;
+				const ast = this.parse(code, { astType: "js" });
+				const transpiler = new Transpiler();
+				const shortModuleId = normalizePath(path.relative(root, moduleId));
+
+				transpileExportedSymbols(transpiler, ast);
+				transpileFactoryCalls(transpiler, ast, pluginOptions, shortModuleId);
+
+				const result = transpiler.transpile(code);
+				return {
+					code: result.transpiledCode,
+					map: {
+						version: 3,
+						sources: [ shortModuleId ],
+						sourcesContent: [ code ],
+						names: [],
+						mappings: result.sourcemap,
+					},
+				};
 			},
 		},
 	};

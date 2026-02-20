@@ -67,6 +67,7 @@ try {
 		build: {
 			outDir: "./dist",
 			target: "esnext",
+			sourcemap: true,
 			rolldownOptions: {
 				...target.input,
 				output: target.outputs,

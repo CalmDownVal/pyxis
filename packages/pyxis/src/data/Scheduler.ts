@@ -70,7 +70,7 @@ export function createScheduler(tick: TickFn) {
 export function schedule({ $scheduler }: Lifecycle, callback: UpdateCallback) {
 	if (callback.$epoch === $scheduler.$epoch) {
 		if (__DEV__ && $scheduler.$isUpdating) {
-			throw new Error("Refusing to reschedule an update as it may cause an infinite loop. Are you mutating an Atom inside a reaction that depends on it?");
+			throw new Error("Refusing to reschedule an update as it may cause an infinite loop. Are you mutating an Atom inside an effect that observes it?");
 		}
 
 		// if the epoch matches but scheduler is not yet updating, it simply means the same update

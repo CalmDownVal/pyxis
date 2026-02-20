@@ -1,5 +1,5 @@
 import { isAtom, read, type MaybeAtom } from "~/data/Atom";
-import { reaction } from "~/data/Reaction";
+import { effect } from "~/data/Effect";
 import type { Nil } from "~/support/types";
 import type { DataTemplate, JsxProps, JsxResult, Template } from "~/Component";
 import { mount, mountJsx, split, unmount, type HierarchyNode } from "~/Renderer";
@@ -50,10 +50,10 @@ export function Show<TNode>(
 		return;
 	}
 
-	// setup re-render reaction
+	// setup re-render effect
 	const group = split(parent);
 	let isShown: boolean | undefined;
-	reaction(() => {
+	effect(() => {
 		const shouldShow = read(when) ?? true;
 		if (shouldShow && isShown !== true) {
 			mount(group, read(template) ?? EMPTY_TEMPLATE, read(data));

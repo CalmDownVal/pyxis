@@ -14,13 +14,3 @@ export const Delete = definePlugin(
 	"Delete",
 	async () => (await import("@calmdown/rollup-plugin-delete")).default,
 );
-
-export const ImportFile = definePlugin(
-	"ImportFile",
-	async () => (await import("rollup-plugin-import-file")).default,
-);
-
-export const LoadText = definePlugin(
-	"LoadText",
-	async () => (await import("@calmdown/rollup-plugin-text-loader")).default,
-);

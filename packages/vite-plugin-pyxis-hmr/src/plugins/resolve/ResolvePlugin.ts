@@ -1,18 +1,19 @@
-import * as path from "node:path";
-
 import type { Plugin } from "vite";
 
-export function pyxisHmrResolvePlugin(): Plugin {
-	// we're running inside of ./dist/index.js
-	// so we can simply get the path to the adjacent registry.js
-	const registryPath = path.join(import.meta.dirname, "./registry.js");
+import type { PyxisHmrPluginOptions } from "~/types";
+
+export function pyxisHmrResolvePlugin(options: Required<PyxisHmrPluginOptions>): Plugin {
 	return {
 		name: `${__THIS_MODULE__}:resolve`,
-		resolveId: {
-			handler: () => registryPath,
-			filter: {
-				id: new RegExp(`^${__REGISTRY_MODULE__}$`),
+		config: () => ({
+			resolve: {
+				alias: [
+					{
+						find: `${options.pyxisModule}/core`,
+						replacement: `${options.pyxisModule}/core-dev`,
+					},
+				]
 			},
-		},
+		}),
 	};
 }

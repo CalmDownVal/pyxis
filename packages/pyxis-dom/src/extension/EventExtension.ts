@@ -1,4 +1,4 @@
-import { getLifecycle, isAtom, reaction, read, unmounted, withLifecycle, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
+import { effect, getLifecycle, isAtom, read, unmounted, withLifecycle, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
 
 export interface EventExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -50,7 +50,7 @@ export const EventExtension = {
 		let callback: (e: unknown) => unknown;
 		const lifecycle = getLifecycle();
 		if (isAtom(listenerAtom)) {
-			reaction(() => {
+			effect(() => {
 				callback = read(listenerAtom);
 			}, lifecycle);
 		}

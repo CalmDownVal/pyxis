@@ -66,7 +66,7 @@ export function jsxs(
 	props: any,
 	key?: any,
 ) {
-	// the `jsxs` (statuc) variant is called with a wrapping array around
+	// the `jsxs` (static) variant is called with a wrapping array around
 	// children, so we don't have to check it.
 
 	// put back the `key` prop

@@ -1,26 +1,29 @@
+import type { ComponentBlock } from "~/Component";
+
 declare global {
-	var __pyxisRegistry: PyxisComponentRegistry | undefined;
+	// we expect this global to exist in ~all environments
+	function queueMicrotask(callback: () => void): void;
 }
 
-interface HotComponentEntry {
-	component: unknown;
+export interface HotComponentEntry {
+	component: ComponentBlock;
 	dirty: boolean;
 	lh?: HotComponentListener | null;
 	lt?: HotComponentListener | null;
 }
 
-interface HotComponentListener {
+export interface HotComponentListener {
 	readonly fn: HotComponentListenerFn;
 	readonly entry: HotComponentEntry;
 	lp?: HotComponentListener | null;
 	ln?: HotComponentListener | null;
 }
 
-interface HotComponentListenerFn {
-	(component: unknown): void;
+export interface HotComponentListenerFn {
+	(component: ComponentBlock): void;
 }
 
-export default class PyxisComponentRegistry {
+export class ComponentRegistry {
 	private readonly components = new Map<string, HotComponentEntry>();
 	private isPendingUpdate = false;
 
@@ -70,7 +73,7 @@ export default class PyxisComponentRegistry {
 		return () => this.off(listener);
 	}
 
-	public upsert(id: string, component: unknown) {
+	public upsert(id: string, component: ComponentBlock) {
 		const entry = this.components.get(id);
 		if (!entry) {
 			this.components.set(id, {
@@ -104,9 +107,4 @@ export default class PyxisComponentRegistry {
 			entry.dirty = false;
 		});
 	};
-
-
-	public static get current() {
-		return (globalThis.__pyxisRegistry ??= new PyxisComponentRegistry());
-	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@calmdown/pyxis",
-	"version": "1.0.0",
+	"version": "1.0.0-rc.1",
 	"license": "ISC",
 	"type": "module",
 	"exports": {
@@ -11,6 +11,10 @@
 		"./core": {
 			"import": "./dist/core.js",
 			"types": "./dist/core.d.ts"
+		},
+		"./core-dev": {
+			"import": "./dist/core-dev.js",
+			"types": "./dist/core-dev.d.ts"
 		},
 		"./jsx-runtime": {
 			"import": "./dist/jsx-runtime.js",

@@ -1,4 +1,4 @@
-import { isAtom, reaction, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
+import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
 
 import type { ARIAProps } from "~/jsx/baked";
 
@@ -17,7 +17,7 @@ export interface AriaExtensionType {
 export const AriaExtension = {
 	set: (node, key, value) => {
 		if (isAtom(value)) {
-			reaction(() => {
+			effect(() => {
 				node[key] = read(value);
 			});
 		}
