@@ -17,7 +17,7 @@ Target.TypeScriptLibrary.build(target => {
 		.configure({
 			targets: [
 				{
-					destination: "./dist",
+					dstDir: "./dist",
 					include: "./src/exports/*.{js,d.ts}",
 				},
 			],

@@ -8,7 +8,7 @@ Target.PyxisApplication.build(target => {
 		.configure({
 			targets: [
 				{
-					destination: "./dist",
+					dstDir: "./dist",
 					include: "./static/**",
 				},
 			],

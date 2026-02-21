@@ -12,7 +12,7 @@ Target.TypeScriptLibrary.build(target => {
 		.configure({
 			targets: [
 				{
-					destination: "./dist",
+					dstDir: "./dist",
 					include: "./src/jsx.d.ts",
 				},
 			],
