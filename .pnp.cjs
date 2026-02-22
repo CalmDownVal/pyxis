@@ -31,8 +31,8 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/pyxis-dom"\
     },\
     {\
-      "name": "@calmdown/vite-plugin-pyxis-hmr",\
-      "reference": "workspace:packages/vite-plugin-pyxis-hmr"\
+      "name": "@calmdown/rollup-plugin-pyxis",\
+      "reference": "workspace:packages/rollup-plugin-pyxis"\
     }\
   ],\
   "enableTopLevelFallback": true,\
@@ -43,7 +43,7 @@ const RAW_RUNTIME_STATE =
     ["@calmdown/pyxis-demo-app", ["workspace:packages/demo-app"]],\
     ["@calmdown/pyxis-dom", ["virtual:1f62ac333ea38288ad7bfdc4001d7c2d19c462e86d2ec656a9b444e944a05ac2982619007938f2a67c26c0409c529d60b54870ac795802beb97264d96db63ed5#workspace:packages/pyxis-dom", "workspace:packages/pyxis-dom"]],\
     ["@calmdown/pyxis-monorepo", ["workspace:."]],\
-    ["@calmdown/vite-plugin-pyxis-hmr", ["workspace:packages/vite-plugin-pyxis-hmr"]],\
+    ["@calmdown/rollup-plugin-pyxis", ["virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#workspace:packages/rollup-plugin-pyxis", "workspace:packages/rollup-plugin-pyxis"]],\
     ["build-logic", ["workspace:build-logic"]]\
   ],\
   "fallbackPool": [\
@@ -177,17 +177,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@calmdown/rolldown-workspace", [\
-      ["file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=220717&locator=build-logic%40workspace%3Abuild-logic", {\
-        "packageLocation": "./.yarn/cache/@calmdown-rolldown-workspace-file-f5b4f7034b-94528dcb5a.zip/node_modules/@calmdown/rolldown-workspace/",\
+      ["file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=f062cc&locator=build-logic%40workspace%3Abuild-logic", {\
+        "packageLocation": "./.yarn/cache/@calmdown-rolldown-workspace-file-6afd868c3f-4c20cc0680.zip/node_modules/@calmdown/rolldown-workspace/",\
         "packageDependencies": [\
-          ["@calmdown/rolldown-workspace", "file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=220717&locator=build-logic%40workspace%3Abuild-logic"]\
+          ["@calmdown/rolldown-workspace", "file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=f062cc&locator=build-logic%40workspace%3Abuild-logic"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=220717&locator=build-logic%40workspace%3Abuild-logic", {\
-        "packageLocation": "./.yarn/__virtual__/@calmdown-rolldown-workspace-virtual-3fcb077ff6/0/cache/@calmdown-rolldown-workspace-file-f5b4f7034b-94528dcb5a.zip/node_modules/@calmdown/rolldown-workspace/",\
+      ["virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=f062cc&locator=build-logic%40workspace%3Abuild-logic", {\
+        "packageLocation": "./.yarn/__virtual__/@calmdown-rolldown-workspace-virtual-93607e50af/0/cache/@calmdown-rolldown-workspace-file-6afd868c3f-4c20cc0680.zip/node_modules/@calmdown/rolldown-workspace/",\
         "packageDependencies": [\
-          ["@calmdown/rolldown-workspace", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=220717&locator=build-logic%40workspace%3Abuild-logic"],\
+          ["@calmdown/rolldown-workspace", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=f062cc&locator=build-logic%40workspace%3Abuild-logic"],\
           ["@types/rolldown", null],\
           ["rolldown", "npm:1.0.0-rc.5"]\
         ],\
@@ -216,16 +216,36 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@calmdown/vite-plugin-pyxis-hmr", [\
-      ["workspace:packages/vite-plugin-pyxis-hmr", {\
-        "packageLocation": "./packages/vite-plugin-pyxis-hmr/",\
+    ["@calmdown/rollup-plugin-pyxis", [\
+      ["virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#workspace:packages/rollup-plugin-pyxis", {\
+        "packageLocation": "./.yarn/__virtual__/@calmdown-rollup-plugin-pyxis-virtual-1ffcbd300e/1/packages/rollup-plugin-pyxis/",\
         "packageDependencies": [\
-          ["@calmdown/vite-plugin-pyxis-hmr", "workspace:packages/vite-plugin-pyxis-hmr"],\
+          ["@calmdown/rollup-plugin-pyxis", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#workspace:packages/rollup-plugin-pyxis"],\
+          ["@oxc-project/types", "npm:0.114.0"],\
+          ["@types/lightningcss", null],\
+          ["@types/node", "npm:25.2.3"],\
+          ["build-logic", "workspace:build-logic"],\
+          ["lightningcss", "npm:1.31.1"],\
+          ["rolldown", "npm:1.0.0-rc.5"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
+          ["vite", "virtual:1ffcbd300e440f3654f6d2cd99612be7389ba1e2af5a1b39454c64e4a45785555b3272b31e81e3ea1bcb718c8c070f5f2e1e7399db99b5f5f20e553d4f567deb#npm:8.0.0-beta.14"]\
+        ],\
+        "packagePeers": [\
+          "@types/lightningcss"\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["workspace:packages/rollup-plugin-pyxis", {\
+        "packageLocation": "./packages/rollup-plugin-pyxis/",\
+        "packageDependencies": [\
+          ["@calmdown/rollup-plugin-pyxis", "workspace:packages/rollup-plugin-pyxis"],\
           ["@oxc-project/types", "npm:0.114.0"],\
           ["@types/node", "npm:25.2.3"],\
           ["build-logic", "workspace:build-logic"],\
+          ["lightningcss", "npm:1.31.1"],\
+          ["rolldown", "npm:1.0.0-rc.5"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
-          ["vite", "virtual:8d1266544c4c1e6d4aba2310719e2ff29e897e923d875eed56ed82663789607a2a23004d45fb47a6453511c53ea1c7e476f2123b299107824c02e92e10222f25#npm:8.0.0-beta.14"]\
+          ["vite", "virtual:1ffcbd300e440f3654f6d2cd99612be7389ba1e2af5a1b39454c64e4a45785555b3272b31e81e3ea1bcb718c8c070f5f2e1e7399db99b5f5f20e553d4f567deb#npm:8.0.0-beta.14"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -714,10 +734,10 @@ const RAW_RUNTIME_STATE =
       ["workspace:build-logic", {\
         "packageLocation": "./build-logic/",\
         "packageDependencies": [\
-          ["@calmdown/rolldown-workspace", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=220717&locator=build-logic%40workspace%3Abuild-logic"],\
+          ["@calmdown/rolldown-workspace", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=f062cc&locator=build-logic%40workspace%3Abuild-logic"],\
           ["@calmdown/rollup-plugin-copy", "file:../../rolldown-workspace/packages/rollup-plugin-copy#../../rolldown-workspace/packages/rollup-plugin-copy::hash=9c5929&locator=build-logic%40workspace%3Abuild-logic"],\
           ["@calmdown/rollup-plugin-delete", "file:../../rolldown-workspace/packages/rollup-plugin-delete#../../rolldown-workspace/packages/rollup-plugin-delete::hash=8c8718&locator=build-logic%40workspace%3Abuild-logic"],\
-          ["@calmdown/vite-plugin-pyxis-hmr", "workspace:packages/vite-plugin-pyxis-hmr"],\
+          ["@calmdown/rollup-plugin-pyxis", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#workspace:packages/rollup-plugin-pyxis"],\
           ["build-logic", "workspace:build-logic"],\
           ["rolldown", "npm:1.0.0-rc.5"],\
           ["rolldown-plugin-dts", "virtual:b992d4f4d8a546a46d11d4f2e94e372c5091a7f79d2b9d76b67d58ee8a861fcba1f411d948301d09a34685c9a7d4fdcadb682a467db70b0e19fec6166f121411#npm:0.22.1"],\
@@ -1682,8 +1702,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:8d1266544c4c1e6d4aba2310719e2ff29e897e923d875eed56ed82663789607a2a23004d45fb47a6453511c53ea1c7e476f2123b299107824c02e92e10222f25#npm:8.0.0-beta.14", {\
-        "packageLocation": "./.yarn/__virtual__/vite-virtual-b5e0c80bbf/0/cache/vite-npm-8.0.0-beta.14-35e4426c22-ee97ef7b33.zip/node_modules/vite/",\
+      ["virtual:1ffcbd300e440f3654f6d2cd99612be7389ba1e2af5a1b39454c64e4a45785555b3272b31e81e3ea1bcb718c8c070f5f2e1e7399db99b5f5f20e553d4f567deb#npm:8.0.0-beta.14", {\
+        "packageLocation": "./.yarn/__virtual__/vite-virtual-d40e91209d/0/cache/vite-npm-8.0.0-beta.14-35e4426c22-ee97ef7b33.zip/node_modules/vite/",\
         "packageDependencies": [\
           ["@oxc-project/runtime", "npm:0.113.0"],\
           ["@types/esbuild", null],\
@@ -1715,7 +1735,7 @@ const RAW_RUNTIME_STATE =
           ["terser", null],\
           ["tinyglobby", "npm:0.2.15"],\
           ["tsx", null],\
-          ["vite", "virtual:8d1266544c4c1e6d4aba2310719e2ff29e897e923d875eed56ed82663789607a2a23004d45fb47a6453511c53ea1c7e476f2123b299107824c02e92e10222f25#npm:8.0.0-beta.14"],\
+          ["vite", "virtual:1ffcbd300e440f3654f6d2cd99612be7389ba1e2af5a1b39454c64e4a45785555b3272b31e81e3ea1bcb718c8c070f5f2e1e7399db99b5f5f20e553d4f567deb#npm:8.0.0-beta.14"],\
           ["yaml", null]\
         ],\
         "packagePeers": [\

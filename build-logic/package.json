@@ -19,7 +19,7 @@
 		"@calmdown/rolldown-workspace": "file:../../rolldown-workspace/packages/rolldown-workspace",
 		"@calmdown/rollup-plugin-copy": "file:../../rolldown-workspace/packages/rollup-plugin-copy",
 		"@calmdown/rollup-plugin-delete": "file:../../rolldown-workspace/packages/rollup-plugin-delete",
-		"@calmdown/vite-plugin-pyxis-hmr": "workspace:*",
+		"@calmdown/rollup-plugin-pyxis": "workspace:*",
 		"rolldown": "1.0.0-rc.5",
 		"rolldown-plugin-dts": "0.22.1",
 		"typescript": "5.9.3",

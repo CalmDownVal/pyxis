@@ -14,6 +14,14 @@ export interface AriaExtensionType {
 	set: (node: Element, key: keyof ARIAProps, value: MaybeAtom<any>) => void;
 }
 
+/**
+ * Extension adding ARIA attributes to any Element. Recommended prefix: `"aria"`
+ *
+ * Example usage:
+ * ```tsx
+ * <div aria:role="button" />
+ * ```
+ */
 export const AriaExtension = {
 	set: (node, key, value) => {
 		if (isAtom(value)) {

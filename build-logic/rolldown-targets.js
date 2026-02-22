@@ -1,4 +1,4 @@
-import { defineTarget, inWatchMode, Env } from "@calmdown/rolldown-workspace";
+import { defineTarget, inDevelopment, inProduction, inWatchMode } from "@calmdown/rolldown-workspace";
 
 import * as Plugin from "./rolldown-plugins.js";
 
@@ -39,12 +39,21 @@ export const PyxisApplication = defineTarget("PyxisApplication", target => targe
 				targets: "./dist/**/*",
 			})
 		)
+		.plugin(Plugin.Pyxis
+			.configure((_, context) => ({
+				cssModules: {
+					lightningcss: {
+						minify: inProduction(context),
+					},
+				},
+			}))
+		)
 		.output("Main", out => out
 			.configure((_, context) => ({
 				dir: "./dist",
 				format: "iife",
-				minify: context.env === Env.Production,
-				sourcemap: context.env === Env.Development,
+				minify: inProduction(context),
+				sourcemap: inDevelopment(context),
 			}))
 		)
 	)

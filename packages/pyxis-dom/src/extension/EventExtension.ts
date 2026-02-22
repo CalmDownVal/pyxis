@@ -14,8 +14,11 @@ export interface EventExtensionType {
 
 export type EventListenerType<TEvent, TNode = EventTarget, TEventName = string> =
 	| MaybeAtom<(e: ExtendedEvent<TEvent, TNode, TEventName>) => void>
-	| (AddEventListenerOptions & {
+	| (AddEventListenerOptions & { capture?: false } & {
 		readonly listener: MaybeAtom<(e: ExtendedEvent<TEvent, TNode, TEventName>) => void>;
+	})
+	| (AddEventListenerOptions & { capture: true } & {
+		readonly listener: MaybeAtom<(e: ExtendedEvent<TEvent, EventTarget | null, TEventName>) => void>;
 	});
 
 export type ExtendedEvent<TEvent, TNode = EventTarget, TEventName = string> =
@@ -25,6 +28,31 @@ export type ExtendedEvent<TEvent, TNode = EventTarget, TEventName = string> =
 		readonly type: TEventName;
 	};
 
+/**
+ * Extension adding EventListener access to any Element. Recommended prefix:
+ * `"on"`
+ *
+ * All standard DOM events can be subscribed using this extension. You can pass
+ * a function directly to add a simple listener, or pass an object to
+ * additionally specify listener options. In both cases the listener can be an
+ * atom, allowing to dynamically change the listener callback. Listener options
+ * cannot be dynamically changed.
+ *
+ * Example usage:
+ * ```tsx
+ * <div
+ *   on:contextmenu={e => {
+ *     // ...
+ *   }}
+ *   on:scroll={{
+ *     passive: true,
+ *     listener: e => {
+ *       // ...
+ *     },
+ *   }}
+ * />
+ * ```
+ */
 export const EventExtension = {
 	set: (
 		node: HTMLElement,

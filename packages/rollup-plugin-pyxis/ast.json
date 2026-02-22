@@ -1,0 +1,356 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "imported": {
+            "type": "Identifier",
+            "name": "component",
+            "start": 9,
+            "end": 18
+          },
+          "local": {
+            "type": "Identifier",
+            "name": "component",
+            "start": 9,
+            "end": 18
+          },
+          "start": 9,
+          "end": 18
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "@calmdown/pyxis",
+        "raw": "\"@calmdown/pyxis\"",
+        "start": 26,
+        "end": 43
+      },
+      "phase": null,
+      "attributes": [],
+      "start": 0,
+      "end": 44
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "imported": {
+            "type": "Identifier",
+            "name": "ExtendedProps",
+            "start": 60,
+            "end": 73
+          },
+          "local": {
+            "type": "Identifier",
+            "name": "ExtendedProps",
+            "start": 60,
+            "end": 73
+          },
+          "start": 60,
+          "end": 73
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "~/support/types",
+        "raw": "\"~/support/types\"",
+        "start": 81,
+        "end": 98
+      },
+      "phase": null,
+      "attributes": [],
+      "start": 46,
+      "end": 99
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [],
+      "source": {
+        "type": "Literal",
+        "value": "./Button.module.css",
+        "raw": "\"./Button.module.css\"",
+        "start": 108,
+        "end": 129
+      },
+      "phase": null,
+      "attributes": [],
+      "start": 101,
+      "end": 130
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "TSTypeAliasDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "ButtonProps",
+          "start": 144,
+          "end": 155
+        },
+        "typeParameters": null,
+        "typeAnnotation": {
+          "type": "TSTypeReference",
+          "typeName": {
+            "type": "Identifier",
+            "name": "ExtendedProps",
+            "start": 158,
+            "end": 171
+          },
+          "typeArguments": {
+            "type": "TSTypeParameterInstantiation",
+            "params": [
+              {
+                "type": "TSLiteralType",
+                "literal": {
+                  "type": "Literal",
+                  "value": "button",
+                  "raw": "\"button\"",
+                  "start": 172,
+                  "end": 180
+                },
+                "start": 172,
+                "end": 180
+              },
+              {
+                "type": "TSTypeLiteral",
+                "members": [
+                  {
+                    "type": "TSPropertySignature",
+                    "computed": false,
+                    "optional": false,
+                    "readonly": false,
+                    "key": {
+                      "type": "Identifier",
+                      "name": "class",
+                      "start": 185,
+                      "end": 190
+                    },
+                    "typeAnnotation": {
+                      "type": "TSTypeAnnotation",
+                      "typeAnnotation": {
+                        "type": "TSNeverKeyword",
+                        "start": 192,
+                        "end": 197
+                      },
+                      "start": 190,
+                      "end": 197
+                    },
+                    "accessibility": null,
+                    "static": false,
+                    "start": 185,
+                    "end": 198
+                  }
+                ],
+                "start": 182,
+                "end": 200
+              }
+            ],
+            "start": 171,
+            "end": 201
+          },
+          "start": 158,
+          "end": 201
+        },
+        "declare": false,
+        "start": 139,
+        "end": 202
+      },
+      "specifiers": [],
+      "source": null,
+      "attributes": [],
+      "start": 132,
+      "end": 202
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "VariableDeclaration",
+        "kind": "const",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "Button",
+              "start": 217,
+              "end": 223
+            },
+            "init": {
+              "type": "CallExpression",
+              "callee": {
+                "type": "Identifier",
+                "name": "component",
+                "start": 226,
+                "end": 235
+              },
+              "arguments": [
+                {
+                  "type": "ArrowFunctionExpression",
+                  "expression": true,
+                  "async": false,
+                  "params": [
+                    {
+                      "type": "ObjectPattern",
+                      "properties": [
+                        {
+                          "type": "Property",
+                          "kind": "init",
+                          "key": {
+                            "type": "Identifier",
+                            "name": "children",
+                            "start": 239,
+                            "end": 247
+                          },
+                          "value": {
+                            "type": "Identifier",
+                            "name": "children",
+                            "start": 239,
+                            "end": 247
+                          },
+                          "method": false,
+                          "shorthand": true,
+                          "computed": false,
+                          "start": 239,
+                          "end": 247
+                        },
+                        {
+                          "type": "RestElement",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "forwardProps",
+                            "start": 252,
+                            "end": 264
+                          },
+                          "start": 249,
+                          "end": 264
+                        }
+                      ],
+                      "start": 237,
+                      "end": 266
+                    }
+                  ],
+                  "body": {
+                    "type": "JSXElement",
+                    "openingElement": {
+                      "type": "JSXOpeningElement",
+                      "name": {
+                        "type": "JSXIdentifier",
+                        "name": "button",
+                        "start": 288,
+                        "end": 294
+                      },
+                      "attributes": [
+                        {
+                          "type": "JSXSpreadAttribute",
+                          "argument": {
+                            "type": "Identifier",
+                            "name": "forwardProps",
+                            "start": 301,
+                            "end": 313
+                          },
+                          "start": 297,
+                          "end": 314
+                        },
+                        {
+                          "type": "JSXAttribute",
+                          "name": {
+                            "type": "JSXNamespacedName",
+                            "namespace": {
+                              "type": "JSXIdentifier",
+                              "name": "cl",
+                              "start": 317,
+                              "end": 319
+                            },
+                            "name": {
+                              "type": "JSXIdentifier",
+                              "name": "button",
+                              "start": 320,
+                              "end": 326
+                            },
+                            "start": 317,
+                            "end": 326
+                          },
+                          "value": null,
+                          "start": 317,
+                          "end": 326
+                        }
+                      ],
+                      "selfClosing": false,
+                      "start": 287,
+                      "end": 329
+                    },
+                    "children": [
+                      {
+                        "type": "JSXText",
+                        "value": "\n\t\t",
+                        "raw": "\n\t\t",
+                        "start": 329,
+                        "end": 332
+                      },
+                      {
+                        "type": "JSXExpressionContainer",
+                        "expression": {
+                          "type": "Identifier",
+                          "name": "children",
+                          "start": 333,
+                          "end": 341
+                        },
+                        "start": 332,
+                        "end": 342
+                      },
+                      {
+                        "type": "JSXText",
+                        "value": "\n\t",
+                        "raw": "\n\t",
+                        "start": 342,
+                        "end": 344
+                      }
+                    ],
+                    "closingElement": {
+                      "type": "JSXClosingElement",
+                      "name": {
+                        "type": "JSXIdentifier",
+                        "name": "button",
+                        "start": 346,
+                        "end": 352
+                      },
+                      "start": 344,
+                      "end": 353
+                    },
+                    "start": 287,
+                    "end": 353
+                  },
+                  "id": null,
+                  "generator": false,
+                  "start": 236,
+                  "end": 355
+                }
+              ],
+              "optional": false,
+              "start": 226,
+              "end": 356
+            },
+            "start": 217,
+            "end": 356
+          }
+        ],
+        "start": 211,
+        "end": 357
+      },
+      "specifiers": [],
+      "source": null,
+      "attributes": [],
+      "start": 204,
+      "end": 357
+    }
+  ],
+  "sourceType": "module",
+  "hashbang": null,
+  "start": 0,
+  "end": 358
+}

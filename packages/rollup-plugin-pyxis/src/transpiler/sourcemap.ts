@@ -3,10 +3,36 @@ export interface Edit {
 	readonly delta: number;
 }
 
+const VLQ_ENCODE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const VLQ_DECODE = (Array.prototype.reduce<Record<string, number>>).call(
+	VLQ_ENCODE,
+	(map, char, id) => (map[char] = id, map),
+	{},
+);
+
 const NO_EDIT: Edit = {
 	at: Infinity,
 	delta: 0,
 };
+
+function encodeVLQ(value: number): string {
+	let remainder = value < 0 ? ((-value << 1) | 1) : (value << 1); // zig-zag
+	let digit;
+	let vlq = "";
+
+	do {
+		digit = remainder & 0b11111;
+		remainder >>>= 5;
+		if (remainder > 0) {
+			digit |= 0b100000;
+		}
+
+		vlq += VLQ_ENCODE[digit];
+	}
+	while (remainder > 0);
+
+	return vlq;
+}
 
 export function buildSourcemap(
 	originalCode: string,
@@ -115,6 +141,56 @@ export function buildSourcemap(
 	return mapping;
 }
 
+export function replaceSourceIndex(mapping: string, newSourceIndex: number) {
+	const newSourceIndexVLQ = encodeVLQ(newSourceIndex);
+	const { length } = mapping;
+	let result = "";
+	let index = 0;
+
+	const endOfSegmentOrLine = () => {
+		const char = mapping[index];
+		if (char !== "," && char !== ";") {
+			return false;
+		}
+
+		result += char;
+		index += 1;
+		return true;
+	};
+
+	const nextValue = () => {
+		const anchor = index;
+		while (index < length && ((VLQ_DECODE[mapping[index++]] ?? 0) & 0b100000) > 0) ;
+
+		return mapping.slice(anchor, index);
+	};
+
+	while (index < length) {
+		if (endOfSegmentOrLine()) {
+			continue; // empty line
+		}
+
+		result += nextValue(); // transpiled column
+		if (endOfSegmentOrLine()) {
+			continue; // single field segment
+		}
+
+		nextValue();
+		result += newSourceIndexVLQ; // replaced source index
+		result += nextValue(); // original line
+		result += nextValue(); // original column
+
+		if (endOfSegmentOrLine()) {
+			continue; // four fields segment
+		}
+
+		result += nextValue(); // name index
+		endOfSegmentOrLine();
+	}
+
+	return result;
+}
+
 interface CodePtr {
 	readonly code: string;
 	at: number;
@@ -185,25 +261,4 @@ function advanceNewLine(ptr: CodePtr) {
 
 	ptr.line += 1;
 	ptr.column = 0;
-}
-
-const VLQ_BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-function encodeVLQ(value: number): string {
-	let remainder = value < 0 ? ((-value << 1) | 1) : (value << 1); // zig-zag
-	let digit;
-	let vlq = "";
-
-	do {
-		digit = remainder & 0b11111;
-		remainder >>>= 5;
-		if (remainder > 0) {
-			digit |= 0b100000;
-		}
-
-		vlq += VLQ_BASE64[digit];
-	}
-	while (remainder > 0);
-
-	return vlq;
 }

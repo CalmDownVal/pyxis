@@ -1,5 +1,7 @@
 import type * as AST from "@oxc-project/types";
 
+export type { AST };
+
 export interface WalkCallbacks {
 	enter?: (node: AST.Node) => void;
 	leave?: (node: AST.Node) => void;

@@ -12,6 +12,21 @@ export interface CssVariableExtensionType {
 	set: (node: ElementCSSInlineStyle, varName: string, value: MaybeAtom<Nil<string | number>>) => void;
 }
 
+/**
+ * Extension adding CSS variable access to any Element. Recommended prefix:
+ * `"var"`
+ *
+ * Any CSS variable can be set using this extension. The mandatory "--" prefix
+ * is pre-applied by this extension and thus shouldn't be included in the
+ * attribute name. When given an Atom for the value, it will be dynamically
+ * updated. Strings are set as-is, while numbers are converted with 3 decimal
+ * digit precision. Other types are not allowed.
+ *
+ * Example usage:
+ * ```tsx
+ * <div var:max-size="5rem" /> // sets --max-size: 5rem;
+ * ```
+ */
 export const CssVariableExtension = {
 	set: (node, varName, value) => {
 		if (isAtom(value)) {

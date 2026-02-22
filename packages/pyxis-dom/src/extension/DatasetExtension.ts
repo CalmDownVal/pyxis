@@ -12,6 +12,19 @@ export interface DatasetExtensionType {
 	set: (node: HTMLOrSVGElement, key: string, value: MaybeAtom<string | undefined>) => void;
 }
 
+/**
+ * Extension adding dataset access to any HTML or SVG element. Recommended
+ * prefix: `"data"`
+ *
+ * Any arbitrary dataset value can be set using this extension. Values must
+ * always be strings. When given an Atom for the value, it will be dynamically
+ * updated.
+ *
+ * Example usage:
+ * ```tsx
+ * <div data:testId="test-wrapper" />
+ * ```
+ */
 export const DatasetExtension = {
 	set: (node, key, value) => {
 		if (isAtom(value)) {

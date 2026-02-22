@@ -13,6 +13,23 @@ export interface RefExtensionType {
 	set: (node: any, prop: string, value: any) => void;
 }
 
+/**
+ * Extension adding direct reference access to any element. Recommended prefix:
+ * `"ref"`
+ *
+ * References can be stored into atoms:
+ * ```tsx
+ * const wrapperRef = atomOf<HTMLDivElement>();
+ * // ...
+ * <div ref:atom={wrapperRef} />
+ * ```
+ * or handled with a custom callback:
+ * ```tsx
+ * <div ref:call={ref => {
+ *   // ...
+ * }} />
+ * ```
+ */
 export const RefExtension = {
 	set: (node: any, kind: string, value: any) => {
 		switch (kind) {

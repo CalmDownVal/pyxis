@@ -1,9 +1,6 @@
-import type * as AST from "@oxc-project/types";
-
-import type { PyxisHmrPluginOptions } from "~/types";
-
-import { walkDown, walkUp } from "./ast";
-import type { TransformBlock, Transpiler } from "./Transpiler";
+import type { ResolvedPyxisPluginOptions } from "~/options";
+import { walkDown, walkUp, type AST, type TransformBlock, type TranspileCall } from "~/transpiler";
+import { getPackageChecker } from "~/utils";
 
 interface SymbolInfo {
 	readonly kind: FactoryKind | "namespace";
@@ -34,19 +31,18 @@ const factoryArgCount: { [K in FactoryKind]: number } = {
 };
 
 export function transpileFactoryCalls(
-	transpiler: Transpiler,
-	ast: AST.Program,
-	{ pyxisModule }: Required<PyxisHmrPluginOptions>,
-	moduleId: string,
+	{ ast, shortModuleId, transpiler }: TranspileCall,
+	{ pyxisModule }: ResolvedPyxisPluginOptions,
 ) {
 	// find pyxis imports within the program
 	const imported: { [N in string]?: SymbolInfo } = {};
+	const isPyxisPackage = getPackageChecker(pyxisModule);
 	let hasPyxisImports = false;
 
 	for (const node of ast.body) {
 		if (node.type !== "ImportDeclaration" ||
 			node.importKind === "type" ||
-			!node.source.value.startsWith(pyxisModule)
+			!isPyxisPackage(node.source.value)
 		) {
 			continue;
 		}
@@ -91,7 +87,7 @@ export function transpileFactoryCalls(
 		const name = findNameFor(factory);
 		const extraArgCount = factoryArgCount[kind] - factory.arguments.length;
 		if (name && extraArgCount >= 0) {
-			const devId = `${moduleId}:${name}`;
+			const devId = `${shortModuleId}:${name}`;
 			transpiler.addTransform(factory, appendDevIdArgument(devId, extraArgCount));
 		}
 	};

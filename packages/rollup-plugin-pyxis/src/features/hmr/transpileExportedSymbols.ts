@@ -1,6 +1,4 @@
-import type * as AST from "@oxc-project/types";
-
-import type { TransformBlock, Transpiler } from "./Transpiler";
+import type { AST, TransformBlock, TranspileCall } from "~/transpiler";
 
 interface ExportInfo {
 	readonly localName: string;
@@ -15,7 +13,7 @@ interface ExportInfo {
  * - HMR logic is appended
  * - finally a common export is added re-exporting all the original symbols
  */
-export function transpileExportedSymbols(transpiler: Transpiler, ast: AST.Program) {
+export function transpileExportedSymbols({ ast, transpiler }: TranspileCall) {
 	// nodes keyed under their local names
 	const topScopeNodes: { [N in string]?: AST.VariableDeclaration | AST.Function | AST.Class } = {};
 	const exportedNodes = new Set<AST.VariableDeclaration | AST.Function | AST.Class | AST.Expression>();

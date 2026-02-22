@@ -2,7 +2,7 @@ import { EOL } from "node:os";
 import * as path from "node:path";
 
 import { buildCommand, Builder, Dispatcher, Env, NoOpReporter, parseArgs, Workspace } from "@calmdown/rolldown-workspace";
-import { pyxisHotReload } from "@calmdown/vite-plugin-pyxis-hmr";
+import pyxis from "@calmdown/rollup-plugin-pyxis";
 import { createServer } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -74,7 +74,10 @@ try {
 		},
 		plugins: [
 			tsconfigPaths(),
-			pyxisHotReload(),
+			pyxis({
+				cssModules: true,
+				hmr: true,
+			}),
 		],
 	});
 

@@ -97,10 +97,10 @@ __metadata:
 
 "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace::locator=build-logic%40workspace%3Abuild-logic":
   version: 1.0.0-rc.1
-  resolution: "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=220717&locator=build-logic%40workspace%3Abuild-logic"
+  resolution: "@calmdown/rolldown-workspace@file:../../rolldown-workspace/packages/rolldown-workspace#../../rolldown-workspace/packages/rolldown-workspace::hash=f062cc&locator=build-logic%40workspace%3Abuild-logic"
   peerDependencies:
     rolldown: 1.0.0-rc.5
-  checksum: 10/94528dcb5a67ef9bf050717a667dadaf8e810614b2a3e10a1727d372cf035ed6159ddd88b957f1409b38ce661cffb79d7ce65ddea7cb62250dc2b2531c2a1b93
+  checksum: 10/4c20cc0680be9b2b754fd88c99c49131f9b066b45e9d7fd2511d23456d87beb58e4d063734beb1bd14efed118d200ca09b018047a34abd42eced7904972ec333
   languageName: node
   linkType: hard
 
@@ -118,15 +118,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@calmdown/vite-plugin-pyxis-hmr@workspace:*, @calmdown/vite-plugin-pyxis-hmr@workspace:packages/vite-plugin-pyxis-hmr":
+"@calmdown/rollup-plugin-pyxis@workspace:*, @calmdown/rollup-plugin-pyxis@workspace:packages/rollup-plugin-pyxis":
   version: 0.0.0-use.local
-  resolution: "@calmdown/vite-plugin-pyxis-hmr@workspace:packages/vite-plugin-pyxis-hmr"
+  resolution: "@calmdown/rollup-plugin-pyxis@workspace:packages/rollup-plugin-pyxis"
   dependencies:
     "@oxc-project/types": "npm:0.114.0"
     "@types/node": "npm:25.2.3"
     build-logic: "workspace:*"
+    lightningcss: "npm:1.31.1"
+    rolldown: "npm:1.0.0-rc.5"
     typescript: "npm:5.9.3"
     vite: "npm:8.0.0-beta.14"
+  peerDependencies:
+    lightningcss: ^1.31.1
+  peerDependenciesMeta:
+    lightningcss:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -559,7 +566,7 @@ __metadata:
     "@calmdown/rolldown-workspace": "file:../../rolldown-workspace/packages/rolldown-workspace"
     "@calmdown/rollup-plugin-copy": "file:../../rolldown-workspace/packages/rollup-plugin-copy"
     "@calmdown/rollup-plugin-delete": "file:../../rolldown-workspace/packages/rollup-plugin-delete"
-    "@calmdown/vite-plugin-pyxis-hmr": "workspace:*"
+    "@calmdown/rollup-plugin-pyxis": "workspace:*"
     rolldown: "npm:1.0.0-rc.5"
     rolldown-plugin-dts: "npm:0.22.1"
     typescript: "npm:5.9.3"
@@ -885,7 +892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss@npm:^1.31.1":
+"lightningcss@npm:1.31.1, lightningcss@npm:^1.31.1":
   version: 1.31.1
   resolution: "lightningcss@npm:1.31.1"
   dependencies:

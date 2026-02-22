@@ -10,6 +10,11 @@ export const Delete = definePlugin(
 	async () => (await import("@calmdown/rollup-plugin-delete")).default,
 );
 
+export const Pyxis = definePlugin(
+	"Pyxis",
+	async () => (await import("@calmdown/rollup-plugin-pyxis")).default,
+);
+
 export const Declarations = definePlugin(
 	"Declarations",
 	async () => (await import("rolldown-plugin-dts")).dts,

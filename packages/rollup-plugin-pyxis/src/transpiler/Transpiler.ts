@@ -1,5 +1,4 @@
-import type * as AST from "@oxc-project/types";
-
+import type { AST } from "./ast";
 import { buildSourcemap, type Edit } from "./sourcemap";
 
 export interface Transform {
