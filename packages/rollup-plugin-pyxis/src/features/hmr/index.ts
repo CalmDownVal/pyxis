@@ -19,15 +19,16 @@ export function pyxisHMR(options: ResolvedPyxisPluginOptions) {
 			order: "pre",
 			async init(): Promise<TranspileFactoryCallsContext> {
 				return {
-					isPyxisModule: await createModuleChecker.call(this, options.pyxisModule, [
-						"core",
-						"core-dev",
+					isPyxisModule: await createModuleChecker(this, [
+						options.pyxisModule,
+						`${options.pyxisModule}/core`,
+						`${options.pyxisModule}/core-dev`,
 					]),
 				};
 			},
 			async process(call) {
-				transpileExportedSymbols(call);
-				transpileFactoryCalls(call);
+				await transpileExportedSymbols(call);
+				await transpileFactoryCalls(call);
 			},
 		}),
 	];

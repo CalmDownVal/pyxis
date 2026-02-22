@@ -33,8 +33,9 @@ export interface TranspileFactoryCallsContext {
 	isPyxisModule: ModuleChecker;
 }
 
-export function transpileFactoryCalls({
+export async function transpileFactoryCalls({
 	ast,
+	moduleId,
 	shortModuleId,
 	transpiler,
 	context: { isPyxisModule },
@@ -46,7 +47,7 @@ export function transpileFactoryCalls({
 	for (const node of ast.body) {
 		if (node.type !== "ImportDeclaration" ||
 			node.importKind === "type" ||
-			!isPyxisModule(node.source.value)
+			!(await isPyxisModule(node.source.value, moduleId))
 		) {
 			continue;
 		}

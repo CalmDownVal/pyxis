@@ -1,4 +1,5 @@
-import type { Plugin, ResolvedId } from "rolldown";
+import type { ResolvedId } from "rolldown";
+import type { Plugin } from "vite";
 
 import type { ResolvedPyxisPluginOptions } from "~/options";
 
@@ -6,9 +7,20 @@ export function resolveDevCore(options: ResolvedPyxisPluginOptions): Plugin {
 	const coreProd = `${options.pyxisModule}/core`;
 	const coreDev = `${options.pyxisModule}/core-dev`;
 
-	let devCoreId: ResolvedId | null = null;
+	let coreDevId: ResolvedId | null = null;
 	return {
 		name: `${__THIS_MODULE__}:DevResolver`,
+		enforce: "pre",
+		config() {
+			// mix in resolution alias (Vite only)
+			return {
+				resolve: {
+					alias: {
+						[coreProd]: coreDev,
+					},
+				},
+			};
+		},
 		resolveId: {
 			filter: {
 				id: /\/core$/,
@@ -19,13 +31,13 @@ export function resolveDevCore(options: ResolvedPyxisPluginOptions): Plugin {
 					return null;
 				}
 
-				devCoreId ??= await this.resolve(coreDev, importer, {
+				coreDevId ??= await this.resolve(coreDev, importer, {
 					isEntry: extraOptions.isEntry,
 					kind: extraOptions.kind,
 					skipSelf: true,
 				});
 
-				return devCoreId;
+				return coreDevId;
 			},
 		},
 	};

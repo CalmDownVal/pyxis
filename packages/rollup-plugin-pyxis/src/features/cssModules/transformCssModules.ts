@@ -25,11 +25,12 @@ export function transformCssModules(options: ResolvedPyxisPluginOptions): Plugin
 	};
 
 	let LightningCss!: typeof import("lightningcss");
-	let isVite = false;
 	let root!: string;
+	let isVite = false;
 
 	return {
 		name: `${__THIS_MODULE__}:CssModules`,
+		enforce: "pre",
 		config(config) {
 			// when running in Vite, it is necessary to disable its own CSS modules feature, as it
 			// would otherwise process modules twice
@@ -110,12 +111,14 @@ export function transformCssModules(options: ResolvedPyxisPluginOptions): Plugin
 				}
 
 				// get source mappings
-				let sourcemap;
+				let mappings;
 				try {
-					sourcemap = JSON.parse((result.map as Buffer).toString("utf8"));
+					const sourcemap = JSON.parse((result.map as Buffer).toString("utf8"));
 					if (sourcemap?.version !== 3) {
 						throw new Error("expected sourcemap version 3");
 					}
+
+					mappings = sourcemap.mappings ?? "";
 				}
 				catch (ex) {
 					this.warn({
@@ -129,9 +132,15 @@ export function transformCssModules(options: ResolvedPyxisPluginOptions): Plugin
 				if (isVite) {
 					return {
 						code: transformedCode,
-						map: sourcemap,
 						meta: {
 							[CLASS_NAME_MAP_KEY]: classNameMap,
+						},
+						map: {
+							version: 3,
+							sources: [ moduleId ],
+							sourcesContent: [ originalCode ],
+							names: [],
+							mappings,
 						},
 					};
 				}
@@ -140,7 +149,7 @@ export function transformCssModules(options: ResolvedPyxisPluginOptions): Plugin
 				// a JS chunk with mappings
 				bundleCssChunks.set(moduleId, {
 					moduleId,
-					mappings: sourcemap.mappings,
+					mappings,
 					originalCode,
 					transformedCode,
 				});

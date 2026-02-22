@@ -49,7 +49,7 @@ export async function transpileClassNames(
 			continue;
 		}
 
-		if (!isPyxisModule(node.source.value)) {
+		if (!(await isPyxisModule(node.source.value, moduleId))) {
 			continue;
 		}
 

@@ -1,6 +1,7 @@
 import * as path from "node:path";
 
-import type { Plugin, PluginContext, TransformPluginContext } from "rolldown";
+import type { PluginContext, TransformPluginContext } from "rolldown";
+import type { Plugin } from "vite";
 
 import { getShortModuleId, isPathWithin } from "~/utils";
 
@@ -26,13 +27,22 @@ export interface TranspileCall<TContext = {}> {
 export type MaybeArray<T> = T[] | T;
 
 export function transpile<TInit = void>(routine: TranspileRoutine<TInit>): Plugin {
-	let root: string;
 	let init!: TInit;
+	let root!: string;
+	let isVite = false;
+
 	return {
 		name: `${__THIS_MODULE__}:Transpiler`,
+		enforce: routine.order,
+		configResolved(config) {
+			// Vite only
+			root = config.root;
+			isVite = true;
+		},
 		async buildStart(inputOptions) {
-			root = inputOptions.cwd ?? process.cwd();
-			init = await routine.init?.call(this)!;
+			// Rollup/Rolldown or Vite
+			root ??= inputOptions.cwd ?? process.cwd();
+			init = await routine.init?.call(this as unknown as PluginContext)!;
 		},
 		transform: {
 			filter: {
@@ -54,7 +64,7 @@ export function transpile<TInit = void>(routine: TranspileRoutine<TInit>): Plugi
 
 				const transpiler = new Transpiler();
 				const shortModuleId = getShortModuleId(root, moduleId);
-				await routine.process.call(this, {
+				await routine.process.call(this as unknown as TransformPluginContext, {
 					context: init,
 					ast: this.parse(code, {
 						astType: "js",
@@ -74,7 +84,7 @@ export function transpile<TInit = void>(routine: TranspileRoutine<TInit>): Plugi
 					code: result.transpiledCode,
 					map: {
 						version: 3,
-						sources: [ shortModuleId ],
+						sources: [ isVite ? moduleId : shortModuleId ],
 						sourcesContent: [ code ],
 						names: [],
 						mappings: result.sourcemap,

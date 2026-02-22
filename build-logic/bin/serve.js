@@ -73,6 +73,7 @@ try {
 			},
 		},
 		css: {
+			devSourcemap: true,
 			transformer: "lightningcss",
 		},
 		plugins: [

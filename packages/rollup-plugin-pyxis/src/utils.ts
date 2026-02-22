@@ -17,24 +17,52 @@ export function isPathWithin(root: string, moduleId: string) {
 }
 
 export interface ModuleChecker {
-	(source: string): boolean;
+	(source: string, importer?: string): Promise<boolean>;
 }
 
-export async function createModuleChecker(this: PluginContext, moduleName: string, subImports?: string[]): Promise<ModuleChecker> {
-	const sources = [ moduleName ];
-	if (subImports) {
-		sources.push(...subImports.map(it => `${moduleName}/${it}`));
-	}
+export async function createModuleChecker(context: PluginContext, moduleNames: string[]): Promise<ModuleChecker> {
+	const relevantIds = new Set(moduleNames);
+	await Promise.all(moduleNames.map(async source => {
+		const id = await resolveId(context, source);
+		id && relevantIds.add(id);
+	}));
 
-	const resolved = (
-		await Promise.all(
-			sources.map(async it => (await this.resolve(it))?.id!),
-		)
-	)
-	.filter(Boolean);
+	const cachedResults = new Map<string, boolean>();
+	return async (source, importer) => {
+		const trimmed = trimQuery(source);
 
-	return source => (
-		sources.includes(source) ||
-		(/^\/@fs\/|^file:\/\//.test(source) && resolved.some(it => source.includes(it)))
-	);
+		let result = cachedResults.get(trimmed);
+		if (result !== undefined) {
+			return result;
+		}
+
+		if (relevantIds.has(trimmed)) {
+			result = true;
+		}
+		else {
+			const id = await resolveId(context, source, importer);
+			result = id
+				? relevantIds.has(id)
+				: false;
+		}
+
+		cachedResults.set(trimmed, result);
+		return result;
+	};
+}
+
+const resolveOptions = {
+	isEntry: false,
+	kind: "import-statement" as const,
+};
+
+async function resolveId(context: PluginContext, source: string, importer?: string) {
+	const resolved = await context.resolve(source, importer, resolveOptions);
+	return resolved
+		? trimQuery(resolved.id)
+		: null;
+}
+
+function trimQuery(url: string) {
+	return url.replace(/\?.*$/, "");
 }

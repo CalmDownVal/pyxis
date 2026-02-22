@@ -19,11 +19,12 @@ export function pyxisCssModules(options: ResolvedPyxisPluginOptions) {
 			order: "post",
 			async init(): Promise<TranspileClassNamesContext> {
 				return {
-					isPyxisModule: await createModuleChecker.call(this, options.pyxisModule, [
-						"core",
-						"core-dev",
-						"jsx-runtime",
-						"jsx-dev-runtime",
+					isPyxisModule: await createModuleChecker(this, [
+						options.pyxisModule,
+						`${options.pyxisModule}/core`,
+						`${options.pyxisModule}/core-dev`,
+						`${options.pyxisModule}/jsx-runtime`,
+						`${options.pyxisModule}/jsx-dev-runtime`,
 					]),
 					resolveCssExports: async (source, moduleId) => {
 						const resolved = await this.resolve(source, moduleId, {
@@ -35,7 +36,11 @@ export function pyxisCssModules(options: ResolvedPyxisPluginOptions) {
 							return {};
 						}
 
-						const module = await this.load({ id: resolved.id });
+						const module = await this.load({
+							id: resolved.id,
+							resolveDependencies: false,
+						});
+
 						return module.meta[CLASS_NAME_MAP_KEY] ?? {};
 					},
 				};
