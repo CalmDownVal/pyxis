@@ -1,10 +1,9 @@
-import { Native, split, type HierarchyNode, type JsxObject, type JsxProps, type JsxResult } from "@calmdown/pyxis/core";
+import { Native, split, type HierarchyNode, type JsxObject, type JsxResult } from "@calmdown/pyxis/core";
 
 import { MathMLAdapter } from "~/adapter/MathMLAdapter";
-import type { MathMLMathElementProps } from "~/jsx/baked";
 
 // @ts-expect-error fake overload to allow use with JSX
-export function MathML(props: JsxProps<MathMLMathElementProps>): JsxResult;
+export function MathML(props: JSX.IntrinsicElements["MathML"]): JsxResult;
 
 /** @internal */
 export function MathML(

@@ -5,7 +5,7 @@ import { createScheduler } from "~/data/Scheduler";
 import type { ElementsType, Mutable, Nil } from "~/support/types";
 
 import type { Adapter, ExtensionsType } from "./Adapter";
-import type { DataTemplate, JsxChildren, JsxObject, JsxResult, JsxText, Template } from "./Component";
+import type { JsxResult } from "./Component";
 import { isAtom } from './data/Atom';
 
 /** @internal */
@@ -19,7 +19,7 @@ export interface Renderer<TNode, TIntrinsicElements extends ElementsType = Eleme
 	 */
 	readonly __elements?: TIntrinsicElements;
 
-	mount: (root: TNode, template: Template) => void;
+	mount: (root: TNode, jsx: JsxResult) => void;
 	unmount: () => void;
 }
 
@@ -137,9 +137,9 @@ export function createRenderer<TNode, TIntrinsicElements extends ElementsType>(
 		$ng: null!,
 		$nn: null!,
 		unmount: () => unmount(group),
-		mount: (root, template) => {
+		mount: (root, jsx) => {
 			group.$nn = root;
-			mount(group, template, null);
+			mount(group, jsx, null);
 		},
 	};
 
@@ -322,22 +322,7 @@ export function getAnchor<TNode>(group: MountingGroup<TNode>): TNode | null {
  */
 export function mount<TNode>(
 	group: MountingGroup<TNode>,
-	template: Template,
-	data: null,
-	before?: Nil<TNode>,
-): void;
-
-export function mount<TNode, TData>(
-	group: MountingGroup<TNode>,
-	template: DataTemplate<TData>,
-	data: TData,
-	before?: Nil<TNode>,
-): void;
-
-export function mount<TNode>(
-	group: MountingGroup<TNode>,
-	template: DataTemplate<any>,
-	data: any,
+	jsx: any,
 	before?: Nil<TNode>,
 ) {
 	if (group.mounted) {
@@ -347,7 +332,6 @@ export function mount<TNode>(
 	}
 
 	// new render
-	const jsx = template(data);
 	setCurrentContainer(group.$context);
 	withLifecycle(group, mountJsx, jsx, group, before ?? getAnchor(group));
 

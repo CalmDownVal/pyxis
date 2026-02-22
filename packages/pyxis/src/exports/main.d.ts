@@ -44,7 +44,6 @@ export {
 	type RefExtensionType,
 	type RemountIteratorProps,
 	type ShowProps,
-	type Template,
 	type UnmountBlock,
 	type WithChildren,
 } from "@calmdown/pyxis/core";

@@ -19,6 +19,6 @@ export type { ArgsMax5, ElementsType, Intersection, Nil, NodeType, PropsType, S_
 
 export type { Adapter, Extension, ExtensionProps, ExtensionsType } from "~/Adapter";
 export { pyxis, type PyxisBuilder } from "~/Builder";
-export { component, type Component, type DataTemplate, type JsxChildren, type JsxChildrenProp, type JsxObject, type JsxProps, type JsxResult, type JsxText, type PropsOf, type Template, type WithChildren } from "~/Component";
+export { component, type Component, type DataTemplate, type JsxChildren, type JsxChildrenProp, type JsxObject, type JsxProps, type JsxResult, type JsxText, type PropsOf, type WithChildren } from "~/Component";
 export { jsx, jsxs } from "~/jsx";
 export { getAnchor, insert, mount, mountJsx, split, track, unmount, untrack, type ElementsOf, type Hierarchy, type HierarchyNode, type MountingGroup, type NativeNode, type Renderer } from "~/Renderer";

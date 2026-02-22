@@ -1,12 +1,13 @@
-import { isAtom, read, type MaybeAtom } from "~/data/Atom";
+import { isAtom, peek, read, type MaybeAtom } from "~/data/Atom";
 import { effect } from "~/data/Effect";
+import { withLifecycle } from "~/data/Lifecycle";
 import type { Nil } from "~/support/types";
-import type { DataTemplate, JsxObject, JsxProps, JsxResult, Template } from "~/Component";
+import type { DataTemplate, JsxChildren, JsxObject, JsxProps, JsxResult } from "~/Component";
 import { mount, mountJsx, split, unmount, type HierarchyNode } from "~/Renderer";
 
 export interface ShowProps {
 	when?: MaybeAtom<boolean>;
-	children: [ MaybeAtom<Nil<Template>> ];
+	children: JsxChildren;
 }
 
 export interface ShowDataProps<T> {
@@ -14,8 +15,6 @@ export interface ShowDataProps<T> {
 	data: MaybeAtom<T>;
 	children: [ MaybeAtom<Nil<DataTemplate<T>>> ];
 }
-
-const EMPTY_TEMPLATE: Template = () => null;
 
 /**
  * The built-in Show Component dynamically mounting and unmounting a Template
@@ -39,12 +38,18 @@ export function Show<TNode>(
 ) {
 	const when = jsx.when as MaybeAtom<boolean> | undefined;
 	const data = jsx.data;
-	const template = jsx.children[0] as MaybeAtom<Nil<DataTemplate<unknown>>>;
-	if (!isAtom(when) && !isAtom(template) && !isAtom(data)) {
+	const { children } = jsx;
+	const isTemplate = children.length === 1 && typeof children[0] === "function";
+
+	if (!isAtom(when) && !isAtom(data)) {
 		// static values were given and thus we have nothing to react to
 		// -> render synchronously without a sub-group
 		if (when !== false) {
-			mountJsx(template?.(data), parent, before);
+			const jsx = isTemplate
+				? withLifecycle(parent.$ng, children[0] as DataTemplate<any>, peek(data))
+				: children;
+
+			mountJsx(jsx, parent, before);
 		}
 
 		return;
@@ -52,16 +57,14 @@ export function Show<TNode>(
 
 	// setup re-render effect
 	const group = split(parent);
-	let isShown: boolean | undefined;
 	effect(() => {
-		const shouldShow = read(when) ?? true;
-		if (shouldShow && isShown !== true) {
-			mount(group, read(template) ?? EMPTY_TEMPLATE, read(data));
-		}
-		else if (!shouldShow && isShown !== false) {
-			unmount(group);
-		}
+		if (read(when) ?? true) {
+			const jsx = isTemplate
+				? withLifecycle(parent.$ng, children[0] as DataTemplate<any>, read(data))
+				: children;
 
-		isShown = shouldShow;
+			mount(group, jsx);
+			return () => unmount(group);
+		}
 	});
 }

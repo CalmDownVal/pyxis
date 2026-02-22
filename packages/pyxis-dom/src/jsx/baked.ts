@@ -2494,7 +2494,6 @@ export interface SVGIntrinsicElements {
 	set: SVGSetElementProps;
 	stop: SVGStopElementProps;
 	// style: SVGStyleElementProps;
-	// svg: SVGSVGBaseProps;
 	switch: SVGSwitchElementProps;
 	symbol: SVGSymbolElementProps;
 	text: SVGTextElementProps;
@@ -2503,6 +2502,9 @@ export interface SVGIntrinsicElements {
 	tspan: SVGTSpanElementProps;
 	use: SVGUseElementProps;
 	view: SVGViewElementProps;
+
+	// intentionally uppercase, handled by the Svg component
+	Svg: SVGSVGElementProps;
 }
 
 export interface MathMLGlobalProps {
@@ -2608,7 +2610,6 @@ export interface MatMLUnderOverElementProps extends MathMLGlobalProps {
 }
 
 export interface MathMLIntrinsicElements {
-	math: MathMLMathElementProps;
 	merror: MathMLElementProps;
 	mfrac: MatMLFracElementProps;
 	mi: MatMLIElementProps;
@@ -2634,6 +2635,9 @@ export interface MathMLIntrinsicElements {
 	mtr: MathMLElementProps;
 	munder: MatMLUnderElementProps;
 	munderover: MatMLUnderOverElementProps;
+
+	// intentionally uppercase, handled by the MathML component
+	MathML: MathMLMathElementProps;
 
 	// difficult to support due to the inclusion of extra XML namespaces:
 	// - semantics

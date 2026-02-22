@@ -15,4 +15,4 @@ declare global {
 	}
 }
 
-renderer.mount(document.body, () => <TestApp />);
+renderer.mount(document.body, <TestApp />);

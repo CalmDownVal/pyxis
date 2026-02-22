@@ -1,10 +1,9 @@
-import { Native, split, type HierarchyNode, type JsxObject, type JsxProps, type JsxResult } from "@calmdown/pyxis/core";
+import { Native, split, type HierarchyNode, type JsxObject, type JsxResult } from "@calmdown/pyxis/core";
 
 import { SvgAdapter } from "~/adapter/SvgAdapter";
-import type { SVGSVGElementProps } from "~/jsx/baked";
 
 // @ts-expect-error fake overload to allow use with JSX
-export function Svg(props: JsxProps<SVGSVGElementProps>): JsxResult;
+export function Svg(props: JSX.IntrinsicElements["Svg"]): JsxResult;
 
 /** @internal */
 export function Svg(

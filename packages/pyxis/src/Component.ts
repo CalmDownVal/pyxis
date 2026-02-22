@@ -17,20 +17,10 @@ export interface Component<TProps extends PropsType = {}> {
 export type PropsOf<T> = T extends Component<infer TProps> ? TProps : unknown;
 
 /**
- * Represents a Template function returning a chunk of JSX to be rendered. Templates receive no
- * props and have no lifecycle. As such Templates cannot create any atoms, reactions etc.
- */
-export interface Template {
-	(): JsxChildren;
-}
-
-/**
- * Represents a DataTemplate function returning a chunk of JSX to be rendered with specific input
- * data. DataTemplates only receive the data, but no props and have no lifecycle. As such
- * DataTemplates cannot create any atoms, reactions etc.
+ * Represents a template function returning a chunk of JSX to be rendered with specific input data.
  */
 export interface DataTemplate<TData> {
-	(data: TData): JsxChildren;
+	(data: TData): JsxResult;
 }
 
 export interface ComponentBlock {
@@ -59,15 +49,13 @@ export function component(
 				}
 
 				const group = split(parent);
-				const template = (impl: ComponentBlock) => ({
-					...jsx,
-					[S_COMPONENT]: () => mountJsx(impl(jsx), group, null),
-				});
-
 				unmounted(
 					globalThis.__PYXIS_HMR__.component.subscribe(devId, impl => {
 						unmount(group);
-						mount(group, template, impl);
+						mount(group, {
+							...jsx,
+							[S_COMPONENT]: () => mountJsx(impl(jsx), group, null),
+						});
 					})
 				);
 			}

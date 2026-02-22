@@ -1,5 +1,5 @@
 import type { MaybeAtom } from "~/data/Atom";
-import type { Lifecycle } from "~/data/Lifecycle";
+import { withLifecycle, type Lifecycle } from "~/data/Lifecycle";
 import { link } from "~/data/Dependency";
 import type { ReadonlyList } from "~/data/List";
 import { K_CHANGE, K_CLEAR, K_INSERT, K_REMOVE } from "~/data/ListDelta";
@@ -93,7 +93,7 @@ export function Iterator<TNode, T>(
 					else {
 						// no need to untrack and re-track, position doesn't change
 						unmount(item);
-						mount(item, template, change.$item);
+						mount(item, withLifecycle(item, template, change.$item));
 					}
 
 					break;
@@ -115,7 +115,7 @@ export function Iterator<TNode, T>(
 						break;
 					}
 
-					mount(item, template, item.$data);
+					mount(item, withLifecycle(item, template, change.$item));
 					break;
 
 				case K_REMOVE:
@@ -156,7 +156,7 @@ export function Iterator<TNode, T>(
 			item = (newItems[tmp.$index] = recycled[ri--]);
 			updateProxy(item.$data, tmp.$item, proxy!);
 			track(item, group, newItems[tmp.$index + 1]);
-			mount(item, template, item.$data);
+			mount(item, withLifecycle(item, template, item.$data));
 		}
 
 		// unmount unused
@@ -175,7 +175,7 @@ export function Iterator<TNode, T>(
 	items = source.$items.map(data => {
 		const item = split(group) as IteratorItemGroup<TNode>;
 		item.$data = isProxy ? createProxy(item, data, proxy) : data;
-		mount(item, template, item.$data, before);
+		mount(item, withLifecycle(item, template, item.$data), before);
 		return item;
 	});
 }
