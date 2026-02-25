@@ -34,6 +34,7 @@ export interface Atom<T = unknown> extends DependencyList {
 	readonly $lifecycle: Lifecycle;
 	readonly $tracksValue?: boolean;
 	$lastValue?: T;
+	$force?: boolean;
 
 	/**
 	 * The notify callback of this Atom.
@@ -192,13 +193,14 @@ export function peek<T>(input: MaybeAtom<T>): T {
  * @see {@link write}
  * @see {@link update}
  */
-export function write<T>(input: MaybeAtom<T>, value: T): T;
-export function write<T>(input: MaybeAtom<T> | undefined, value: T): T | undefined;
-export function write<T>(input: MaybeAtom<T> | null, value: T): T | null;
-export function write<T>(input: Nil<MaybeAtom<T>>, value: T): Nil<T>;
-export function write<T>(input: MaybeAtom<T>, value: T): T {
+export function write<T>(input: MaybeAtom<T>, value: T, force?: boolean): T;
+export function write<T>(input: MaybeAtom<T> | undefined, value: T, force?: boolean): T | undefined;
+export function write<T>(input: MaybeAtom<T> | null, value: T, force?: boolean): T | null;
+export function write<T>(input: Nil<MaybeAtom<T>>, value: T, force?: boolean): Nil<T>;
+export function write<T>(input: MaybeAtom<T>, value: T, force = false): T {
 	if (isAtom(input)) {
-		if (input.$set(value)) {
+		if (input.$set(value) || force) {
+			input.$force ||= force;
 			schedule(input.$lifecycle, input.$notify ??= {
 				$fn: notify,
 				$a0: input,
@@ -221,13 +223,14 @@ export function write<T>(input: MaybeAtom<T>, value: T): T {
  * @see {@link peek}
  * @see {@link write}
  */
-export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T;
-export function update<T>(input: MaybeAtom<T> | undefined, transform: (value: T) => T): T | undefined;
-export function update<T>(input: MaybeAtom<T> | null, transform: (value: T) => T): T | null;
-export function update<T>(input: Nil<MaybeAtom<T>>, transform: (value: T) => T): Nil<T>;
-export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T): T {
+export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T, force?: boolean): T;
+export function update<T>(input: MaybeAtom<T> | undefined, transform: (value: T) => T, force?: boolean): T | undefined;
+export function update<T>(input: MaybeAtom<T> | null, transform: (value: T) => T, force?: boolean): T | null;
+export function update<T>(input: Nil<MaybeAtom<T>>, transform: (value: T) => T, force?: boolean): Nil<T>;
+export function update<T>(input: MaybeAtom<T>, transform: (value: T) => T, force = false): T {
 	if (isAtom(input)) {
-		if (input.$set(transform(input.$get()))) {
+		if (input.$set(transform(input.$get())) || force) {
+			input.$force ||= force;
 			schedule(input.$lifecycle, input.$notify ??= {
 				$fn: notify,
 				$a0: input,
@@ -249,11 +252,12 @@ export function notify<T>(input: Atom<T>) {
 	// same value it started with, the notification is skipped
 	if (input.$tracksValue) {
 		const newValue = input.$get();
-		if (input.$lastValue === newValue) {
+		if (input.$lastValue === newValue && !input.$force) {
 			return;
 		}
 
 		input.$lastValue = newValue;
+		input.$force = false;
 	}
 
 	let current = input.$dh;
