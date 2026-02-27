@@ -162,7 +162,7 @@ export function transpileExportedSymbols({ ast, transpiler }: TranspileCall) {
 if (import.meta.hot) {
 	const setter = {${setters}\t};
 	import.meta.hot.accept(hmrExports => {
-		Object.keys(hmrExports).forEach(key => {
+		hmrExports && Object.keys(hmrExports).forEach(key => {
 			setter[key]?.(hmrExports[key]);
 		});
 	});
