@@ -51,6 +51,11 @@ export interface DependencyList<TArgs extends ArgsMax2 = ArgsMax2> {
 	$dt?: Nil<Dependency<TArgs>>;
 }
 
+export function bind(lifecycle: Lifecycle, target: DependencyList, block: () => void) {
+	link(lifecycle, target, { $fn: block });
+	block();
+}
+
 /**
  * Links a Dependency to an Atom and Lifecycle.
  * @internal

@@ -143,6 +143,13 @@ export function isAtom(input: unknown): input is Atom<any> {
 }
 
 /**
+ * Directly reads the value of an Atom without any additional checks.
+ */
+export function get<T>(input: Atom<T>): T {
+	return input.$get();
+}
+
+/**
  * Checks if the provided input is an Atom and reads its value. Non-atom inputs are returned as-is.
  * Reports read access when inside an effect.
  * @see {@link isAtom}

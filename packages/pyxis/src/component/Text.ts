@@ -1,7 +1,7 @@
-import { isAtom, read } from "~/data/Atom";
-import { effect } from "~/data/Effect";
+import { isAtom } from "~/data/Atom";
 import type { JsxText } from "~/Component";
 import { insert, type HierarchyNode } from "~/Renderer";
+import { bind } from "~/data/Dependency";
 
 export function Text<TNode>(
 	jsx: NonNullable<JsxText>,
@@ -13,9 +13,9 @@ export function Text<TNode>(
 
 	if (isAtom(jsx)) {
 		node = adapter.text("", null);
-		effect(() => {
-			adapter.text(read(jsx)?.toString() ?? "", node);
-		}, parent.$ng);
+		bind(parent.$ng, jsx, () => (
+			adapter.text(jsx.$get()?.toString() ?? "", node)
+		));
 	}
 	else {
 		node = adapter.text(jsx.toString(), null);

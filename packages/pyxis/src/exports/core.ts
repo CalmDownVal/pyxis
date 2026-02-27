@@ -3,9 +3,10 @@ export { Iterator, type ProxyIteratorProps, type RemountIteratorProps } from "~/
 export { Native } from "~/component/Native";
 export { Show, type ShowProps } from "~/component/Show";
 
-export { atomOf, isAtom, peek, read, update, write, type Atom, type MaybeAtom, type S_ATOM } from "~/data/Atom";
+export { atomOf, get, isAtom, peek, read, update, write, type Atom, type MaybeAtom, type S_ATOM } from "~/data/Atom";
 export { consumerOf, createContext, providerOf, type Context } from "~/data/Context";
 export { derived, type Derivation } from "~/data/Derivation";
+export { bind } from "~/data/Dependency";
 export { effect, type EffectBlock } from "~/data/Effect";
 export { getLifecycle, mounted, unmounted, withLifecycle, type Lifecycle, type MountBlock, type UnmountBlock } from "~/data/Lifecycle";
 export { listOf, sync, type List, type ReadonlyList } from "~/data/List";

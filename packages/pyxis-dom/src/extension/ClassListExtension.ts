@@ -1,4 +1,4 @@
-import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom } from "@calmdown/pyxis/core";
+import { bind, get, isAtom, type ElementsType, type ExtensionProps, type MaybeAtom, type MountingGroup } from "@calmdown/pyxis/core";
 
 export interface ClassListExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -7,7 +7,7 @@ export interface ClassListExtensionType {
 		);
 	};
 
-	set: (node: Element, className: string, toggle: MaybeAtom<boolean>) => void;
+	set: (node: Element, className: string, toggle: MaybeAtom<boolean>, group: MountingGroup<Node>) => void;
 }
 
 /**
@@ -26,11 +26,11 @@ export interface ClassListExtensionType {
  * plugin to automatically rewrite class names when using CSS modules.
  */
 export const ClassListExtension = {
-	set: (node, className, toggle) => {
+	set: (node, className, toggle, group) => {
 		if (isAtom(toggle)) {
-			effect(() => {
-				node.classList.toggle(className, read(toggle));
-			});
+			bind(group, toggle, () => (
+				node.classList.toggle(className, get(toggle))
+			));
 		}
 		else if (toggle) {
 			node.classList.add(className);

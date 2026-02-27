@@ -1,4 +1,4 @@
-import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
+import { bind, get, isAtom, type ElementsType, type ExtensionProps, type MaybeAtom, type MountingGroup, type NodeType } from "@calmdown/pyxis/core";
 
 export interface DatasetExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -9,7 +9,7 @@ export interface DatasetExtensionType {
 		);
 	};
 
-	set: (node: HTMLOrSVGElement, key: string, value: MaybeAtom<string | undefined>) => void;
+	set: (node: HTMLOrSVGElement, key: string, value: MaybeAtom<string | undefined>, group: MountingGroup<Node>) => void;
 }
 
 /**
@@ -26,11 +26,11 @@ export interface DatasetExtensionType {
  * ```
  */
 export const DatasetExtension = {
-	set: (node, key, value) => {
+	set: (node, key, value, group) => {
 		if (isAtom(value)) {
-			effect(() => {
-				node.dataset[key] = read(value);
-			});
+			bind(group, value, () => (
+				node.dataset[key] = get(value)
+			));
 		}
 		else {
 			node.dataset[key] = value;

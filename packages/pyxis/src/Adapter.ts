@@ -1,6 +1,8 @@
 import type { TickFn } from "~/data/Scheduler";
 import type { ElementsType, Intersection, PropsType } from "~/support/types";
 
+import type { MountingGroup } from "./Renderer";
+
 export interface Adapter<TNode, TIntrinsicElements extends ElementsType = ElementsType> {
 	/**
 	 * Carries information about the available intrinsic elements when using this Adapter.
@@ -70,6 +72,7 @@ export interface Extension<TNode, TExtensionKey extends string = string, TIntrin
 		node: TNode,
 		prop: string,
 		value: any,
+		group: MountingGroup<TNode>,
 	) => void;
 }
 

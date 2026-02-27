@@ -1,4 +1,4 @@
-import { isAtom, peek, read, type MaybeAtom } from "~/data/Atom";
+import { isAtom, read, type Atom, type MaybeAtom } from "~/data/Atom";
 import { effect } from "~/data/Effect";
 import { withLifecycle } from "~/data/Lifecycle";
 import type { Nil } from "~/support/types";
@@ -13,8 +13,10 @@ export interface ShowProps {
 export interface ShowDataProps<T> {
 	when?: MaybeAtom<boolean>;
 	data: MaybeAtom<T>;
-	children: [ MaybeAtom<Nil<DataTemplate<T>>> ];
+	children: [ DataTemplate<T> | Atom<Nil<DataTemplate<T>>> ];
 }
+
+const EMPTY_TEMPLATE = () => null;
 
 /**
  * The built-in Show Component dynamically mounting and unmounting a Template
@@ -37,19 +39,19 @@ export function Show<TNode>(
 	before: TNode | null,
 ) {
 	const when = jsx.when as MaybeAtom<boolean> | undefined;
-	const data = jsx.data;
-	const { children } = jsx;
-	const isTemplate = children.length === 1 && typeof children[0] === "function";
+	const hasTemplate = Object.hasOwn(jsx, "data");
+	const { children, data } = jsx;
+	const template = children[0] as DataTemplate<unknown> | Atom<Nil<DataTemplate<unknown>>>;
 
-	if (!isAtom(when) && !isAtom(data)) {
-		// static values were given and thus we have nothing to react to
+	if (!(isAtom(when) || (hasTemplate && (isAtom(data) || isAtom(template))))) {
+		// all props are static and thus we have nothing to react to
 		// -> render synchronously without a sub-group
 		if (when !== false) {
-			const jsx = isTemplate
-				? withLifecycle(parent.$ng, children[0] as DataTemplate<any>, peek(data))
+			const subJsx = hasTemplate
+				? withLifecycle(parent.$ng, template as DataTemplate<unknown>, data)
 				: children;
 
-			mountJsx(jsx, parent, before);
+			mountJsx(subJsx, parent, before);
 		}
 
 		return;
@@ -59,12 +61,14 @@ export function Show<TNode>(
 	const group = split(parent);
 	effect(() => {
 		if (read(when) ?? true) {
-			const jsx = isTemplate
-				? withLifecycle(parent.$ng, children[0] as DataTemplate<any>, read(data))
+			const subJsx = hasTemplate
+				? withLifecycle(parent.$ng, read(template) ?? EMPTY_TEMPLATE, read(data))
 				: children;
 
-			mount(group, jsx);
+			mount(group, subJsx);
 			return () => unmount(group);
 		}
+
+		// return undefined;
 	});
 }

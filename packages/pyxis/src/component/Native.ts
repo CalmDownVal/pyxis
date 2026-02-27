@@ -1,7 +1,7 @@
-import { isAtom, read } from "~/data/Atom";
-import { effect } from "~/data/Effect";
+import { isAtom } from "~/data/Atom";
 import type { JsxObject } from "~/Component";
 import { insert, type HierarchyNode } from "~/Renderer";
+import { bind } from "~/data/Dependency";
 
 const RE_EXT = /^([^:]+?):(.+)$/;
 
@@ -14,7 +14,8 @@ export function Native<TNode>(
 	parent: HierarchyNode<TNode>,
 	before: TNode | null,
 ) {
-	const { adapter, $extensions } = parent.$ng;
+	const group = parent.$ng;
+	const { adapter, $extensions } = group;
 	const node = adapter.native(jsx[S_TAG_NAME]!);
 
 	let name;
@@ -27,13 +28,15 @@ export function Native<TNode>(
 		match = RE_EXT.exec(name);
 		value = jsx[name];
 		if (match) {
-			$extensions[match[1]]?.set(node, match[2], value);
+			$extensions[match[1]]?.set(node, match[2], value, group);
 		}
 		else if (name !== "children") {
 			if (isAtom(value)) {
 				const prop = name;
 				const atom = value;
-				effect(() => adapter.set(node, prop, read(atom)), parent.$ng);
+				bind(group, atom, () => (
+					adapter.set(node, prop, atom.$get())
+				));
 			}
 			else {
 				adapter.set(node, name, value);

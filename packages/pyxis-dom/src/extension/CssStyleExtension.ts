@@ -1,4 +1,4 @@
-import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type NodeType } from "@calmdown/pyxis/core";
+import { bind, get, isAtom, type ElementsType, type ExtensionProps, type MaybeAtom, type MountingGroup, type NodeType } from "@calmdown/pyxis/core";
 
 import type { CSSStyleDeclarationProps } from "~/jsx/baked";
 
@@ -11,7 +11,7 @@ export interface CssStyleExtensionType {
 		);
 	};
 
-	set: (node: ElementCSSInlineStyle, ruleName: string, value: MaybeAtom<string>) => void;
+	set: (node: ElementCSSInlineStyle, ruleName: string, value: MaybeAtom<string>, group: MountingGroup<Node>) => void;
 }
 
 /**
@@ -26,14 +26,14 @@ export interface CssStyleExtensionType {
  * ```
  */
 export const CssStyleExtension = {
-	set: (node, ruleName, value) => {
+	set: (node, ruleName: any, value, group) => {
 		if (isAtom(value)) {
-			effect(() => {
-				node.style[ruleName as never] = read(value);
-			});
+			bind(group, value, () => (
+				node.style[ruleName] = get(value)
+			));
 		}
 		else if (value) {
-			node.style[ruleName as never] = value;
+			node.style[ruleName] = value;
 		}
 	},
 } as CssStyleExtensionType;

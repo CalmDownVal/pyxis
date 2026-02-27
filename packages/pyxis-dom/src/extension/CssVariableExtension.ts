@@ -1,4 +1,4 @@
-import { effect, isAtom, read, type ElementsType, type ExtensionProps, type MaybeAtom, type Nil, type NodeType } from "@calmdown/pyxis/core";
+import { bind, get, isAtom, type ElementsType, type ExtensionProps, type MaybeAtom, type MountingGroup, type Nil, type NodeType } from "@calmdown/pyxis/core";
 
 export interface CssVariableExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -9,7 +9,7 @@ export interface CssVariableExtensionType {
 		);
 	};
 
-	set: (node: ElementCSSInlineStyle, varName: string, value: MaybeAtom<Nil<string | number>>) => void;
+	set: (node: ElementCSSInlineStyle, varName: string, value: MaybeAtom<Nil<string | number>>, group: MountingGroup<Node>) => void;
 }
 
 /**
@@ -28,9 +28,11 @@ export interface CssVariableExtensionType {
  * ```
  */
 export const CssVariableExtension = {
-	set: (node, varName, value) => {
+	set: (node, varName, value, group) => {
 		if (isAtom(value)) {
-			effect(() => setProp(node.style, varName, read(value)));
+			bind(group, value, () => (
+				setProp(node.style, varName, get(value))
+			));
 		}
 		else if (value) {
 			setProp(node.style, varName, value);

@@ -1,6 +1,7 @@
 import { write, type Atom } from "~/data/Atom";
 import type { ElementsType, Nil, NodeType } from "~/support/types";
 import type { ExtensionProps } from "~/Adapter";
+import type { MountingGroup } from "~/Renderer";
 
 export interface RefExtensionType {
 	<TExtensionKey extends string, TElements extends ElementsType>(extensionKey: TExtensionKey, elements: TElements): {
@@ -10,7 +11,7 @@ export interface RefExtensionType {
 		}>;
 	};
 
-	set: (node: any, prop: string, value: any) => void;
+	set: (node: any, prop: string, value: any, group?: MountingGroup<any>) => void;
 }
 
 /**
