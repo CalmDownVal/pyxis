@@ -1,4 +1,4 @@
-import { walkDown, walkUp, type AST, type TransformBlock, type TranspileCall } from "~/transpiler";
+import { positionAt, walkDown, walkUp, type AST, type TransformBlock, type TranspileCall } from "~/transpiler";
 import type { ModuleChecker } from "~/utils";
 
 interface SymbolInfo {
@@ -35,6 +35,7 @@ export interface TranspileFactoryCallsContext {
 
 export async function transpileFactoryCalls({
 	ast,
+	code,
 	moduleId,
 	shortModuleId,
 	transpiler,
@@ -92,7 +93,21 @@ export async function transpileFactoryCalls({
 		const name = findNameFor(factory);
 		const extraArgCount = factoryArgCount[kind] - factory.arguments.length;
 		if (name && extraArgCount >= 0) {
-			const devId = `${shortModuleId}:${name}`;
+			let devId;
+			switch (kind) {
+				case "atom":
+				case "list":
+				case "provider": {
+					const pos = positionAt(code, factory.start);
+					devId = `${shortModuleId}:${pos.line} ${name}`;
+					break;
+				}
+
+				default:
+					devId = `${shortModuleId} ${name}`;
+					break;
+			}
+
 			transpiler.addTransform(factory, appendDevIdArgument(devId, extraArgCount));
 		}
 	};

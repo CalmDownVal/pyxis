@@ -17,6 +17,7 @@ export interface TranspileRoutine<TContext> {
 }
 
 export interface TranspileCall<TContext = {}> {
+	readonly code: string;
 	readonly context: TContext;
 	readonly ast: AST.Program;
 	readonly transpiler: Transpiler;
@@ -65,6 +66,7 @@ export function transpile<TInit = void>(routine: TranspileRoutine<TInit>): Plugi
 				const transpiler = new Transpiler();
 				const shortModuleId = getShortModuleId(root, moduleId);
 				await routine.process.call(this as unknown as TransformPluginContext, {
+					code,
 					context: init,
 					ast: this.parse(code, {
 						astType: "js",

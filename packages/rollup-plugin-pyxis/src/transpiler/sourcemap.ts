@@ -1,3 +1,5 @@
+import { advanceNewLine, advanceTo, createPosition } from "./position";
+
 export interface Edit {
 	readonly at: number;
 	readonly delta: number;
@@ -44,19 +46,8 @@ export function buildSourcemap(
 		.filter(it => it.delta !== 0)
 		.sort((a, b) => a.at - b.at);
 
-	const original: CodePtr = {
-		code: originalCode,
-		at: 0,
-		line: 0,
-		column: 0,
-	};
-
-	const transpiled: CodePtr = {
-		code: transpiledCode,
-		at: 0,
-		line: 0,
-		column: 0,
-	};
+	const original = createPosition(originalCode);
+	const transpiled = createPosition(transpiledCode);
 
 	let mapping = "";
 	let needsSeparator = false;
@@ -189,76 +180,4 @@ export function replaceSourceIndex(mapping: string, newSourceIndex: number) {
 	}
 
 	return result;
-}
-
-interface CodePtr {
-	readonly code: string;
-	at: number;
-	line: number;
-	column: number;
-}
-
-const RE_NEWLINE = /\r?\n/g;
-
-function advanceTo(ptr: CodePtr, to: number, stopAtEol = false) {
-	const { at: startAt, code } = ptr;
-	const { length } = code;
-	let { at, line, column } = ptr;
-	let match;
-
-	while (at < to && at < length) {
-		RE_NEWLINE.lastIndex = at;
-		if (match = RE_NEWLINE.exec(code)) {
-			if (match.index < to) {
-				if (stopAtEol) {
-					column += match.index - at;
-					at = match.index;
-					break;
-				}
-				else {
-					line += 1;
-					column = 0;
-					at = match.index + match[0].length;
-				}
-			}
-			else {
-				column += to - at;
-				at = to;
-				break;
-			}
-		}
-		else {
-			const stop = Math.min(to, length);
-			column += stop - at;
-			at = stop;
-		}
-	}
-
-	ptr.at = at;
-	ptr.line = line;
-	ptr.column = column;
-	return at - startAt;
-}
-
-function advanceNewLine(ptr: CodePtr) {
-	const { at, code } = ptr;
-	switch (code[at]) {
-		case "\n":
-			ptr.at += 1;
-			break;
-
-		case "\r":
-			if (code[at + 1] === "\n") {
-				ptr.at += 2;
-				break;
-			}
-
-			// fall through
-
-		default:
-			throw new Error("invalid state: not at a newline");
-	}
-
-	ptr.line += 1;
-	ptr.column = 0;
 }
