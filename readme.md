@@ -172,7 +172,7 @@ reactive conditional content, a builtin `<Show>` component is used.
 ```tsx
 return (
   <Show when={derived(() => read(counter) >= 10)}>
-    {() => "That's too many!</Text>"}
+    That's too many!
   </Show>
 );
 ```
