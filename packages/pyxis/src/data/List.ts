@@ -7,9 +7,10 @@ import { reportAccess } from "./Effect";
 import { createDelta, itemChanged, itemInserted, itemRemoved, listCleared, listSynced, type Equals, type ListDelta } from "./ListDelta";
 import { schedule, type UpdateCallback } from "./Scheduler";
 
-export interface ReadonlyList<T> extends DependencyList {
+export interface ReadonlyList<T> extends Iterable<T>, DependencyList {
 	readonly size: () => number;
 	readonly get: (index: number) => T;
+	readonly forEach: (callback: (item: T, index: number) => void, thisArg?: any) => void;
 
 	/** @internal */
 	readonly $lifecycle: Lifecycle;
@@ -63,7 +64,9 @@ export function listOf<T>(source: Iterable<T>, lifecycle?: Lifecycle): List<T>;
 export function listOf<T>(source?: Nil<Iterable<T>>, lifecycle = getLifecycle(), devId?: string): List<T> {
 	if (__DEV__) {
 		globalThis.__PYXIS_HMR__.state.restore(lifecycle, devId, value => {
-			source = value;
+			if (Array.isArray(value)) {
+				source = value;
+			}
 		});
 	}
 
@@ -71,8 +74,10 @@ export function listOf<T>(source?: Nil<Iterable<T>>, lifecycle = getLifecycle(),
 	const list: List<T> = {
 		$lifecycle: lifecycle,
 		$items: items,
+		[Symbol.iterator]: getIterator,
 		size,
 		get,
+		forEach,
 		set,
 		clear,
 		insertAt,
@@ -115,6 +120,15 @@ function get(this: List<any>, index: number) {
 	assertIndex(this, index);
 	reportAccess(this);
 	return this.$items[index];
+}
+
+function forEach<T>(this: List<T>, callback: (item: T, index: number) => void, thisArg?: any) {
+	this.$items.forEach(callback, thisArg);
+	this.$items[Symbol.iterator]()
+}
+
+function getIterator<T>(this: List<T>) {
+	return this.$items[Symbol.iterator]();
 }
 
 function set<T>(this: List<T>, index: number, item: T) {
